@@ -262,7 +262,16 @@
 </ul>
 </li>
 </ol>
-<h4 id="整体代码逻辑解析"><a href="#整体代码逻辑解析" class="headerlink" title="整体代码逻辑解析"></a>整体代码逻辑解析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">  A[开始循环] --&gt; B[获取上下文]</span><br><span class="line">  B --&gt; C[创建相册文件]</span><br><span class="line">  C --&gt; D[读取沙箱资源]</span><br><span class="line">  D --&gt; E[写入相册]</span><br><span class="line">  E --&gt; F[关闭文件]</span><br><span class="line">  F --&gt; G&#123;是否全部完成?&#125;</span><br><span class="line">  G -- 否 --&gt; B</span><br><span class="line">  G -- 是 --&gt; H[显示成功提示]</span><br></pre></td></tr></table></figure>
+<h4 id="整体代码逻辑解析"><a href="#整体代码逻辑解析" class="headerlink" title="整体代码逻辑解析"></a>整体代码逻辑解析</h4><pre class="mermaid">graph TD
+  A[开始循环] --> B[获取上下文]
+  B --> C[创建相册文件]
+  C --> D[读取沙箱资源]
+  D --> E[写入相册]
+  E --> F[关闭文件]
+  F --> G{是否全部完成?}
+  G -- 否 --> B
+  G -- 是 --> H[显示成功提示]</pre>
+
 <p>上面的就是整个函数的流程图。</p>
 <p>接下来我们将对整个流程详细解析。</p>
 <ol>
