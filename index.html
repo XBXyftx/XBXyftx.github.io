@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>XBXyftx - XBXyftx的博客</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="博安千古情如此，璇玉如华自醉从">
+<meta property="og:type" content="website">
+<meta property="og:title" content="XBXyftx">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="博安千古情如此，璇玉如华自醉从">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="鸿蒙开发">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="技术向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="https://github.com/XBXyftx/HexoImg/blob/main/Settings/48431edade01f1fbd58a48265a0df32.jpg?raw=true"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'XBXyftx',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/topImg86.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://raw.githubusercontent.com/XBXyftx/hexoimgs/main/48431edade01f1fbd58a48265a0df32.jpg" alt="Logo"><span class="site-name">XBXyftx</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">XBXyftx</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2025/02/04/V2/" title="浅谈鸿蒙状态管理V1——&gt;V2"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250204011404.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅谈鸿蒙状态管理V1——&gt;V2"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/02/04/V2/" title="浅谈鸿蒙状态管理V1——&gt;V2"><i class="fas fa-thumbtack sticky"></i>浅谈鸿蒙状态管理V1——&gt;V2</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-02-03T17:02:36.000Z" title="发表于 2025-02-04 01:02:36">2025-02-04</time></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/27/%E9%B8%BF%E8%92%99%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="鸿蒙网络请求学习笔记"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoimgs/main/20250127014253.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙网络请求学习笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/27/%E9%B8%BF%E8%92%99%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="鸿蒙网络请求学习笔记"><i class="fas fa-thumbtack sticky"></i>鸿蒙网络请求学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-27T09:26:07.000Z" title="发表于 2025-01-27 17:26:07">2025-01-27</time></span></div><div class="content">核心概念服务器在网络上提供服务器的一台电脑，比如提供数据服务 http模块鸿蒙内置的模块，专门用于处理http网络请求，用http协议与服务器进行交流 可以用 import http from &#39;@ohos.net.http&#39;来进行调用。 由于需要进行网络请求，所以我们还需要在配置文件 module.json5下添加如下代码 12345&quot;requestPermissions&quot;: [   &#123;      &quot;name&quot;: &quot;ohos.permission.INTERNET&quot;    &#125; ], 完整代码如下 12345678910111213141516171819202122232425262728293031323334353637383940414243&#123;  &quot;module&quot;: &#123;    &quot;name&quot;: &quot;entry&quot;,    &quot;type&quot;: &quot;entry&quot;,   ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/02/19/%E9%B8%BF%E8%92%99%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/" title="鸿蒙图片上传下载"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250220015806.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙图片上传下载"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/02/19/%E9%B8%BF%E8%92%99%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/" title="鸿蒙图片上传下载">鸿蒙图片上传下载</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-02-19T05:42:14.000Z" title="发表于 2025-02-19 13:42:14">2025-02-19</time></span></div><div class="content">下载沙箱图片123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778import &#123; fileIo &#125; from &#x27;@kit.CoreFileKit&#x27;import &#123; photoAccessHelper &#125; from &#x27;@kit.MediaLibraryKit&#x27;;import &#123; promptAction &#125; from &#x27;@kit.ArkUI&#x27;;@Entry@ComponentV2struct FileCopy &#123;  @Local  list: Resource[] = [    $r(&quot;app.media.001&quot;),    $r(&quot;app.media.002&quot;),   ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/02/16/%E8%BF%9E%E8%BF%9E%E7%9C%8B/" title="连连看"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250216160843.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="连连看"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/02/16/%E8%BF%9E%E8%BF%9E%E7%9C%8B/" title="连连看">连连看</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-02-16T08:06:18.000Z" title="发表于 2025-02-16 16:06:18">2025-02-16</time></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/02/08/%E6%88%91%E7%9A%84%E4%B9%A6%E6%9E%B6%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="我的书架项目笔记"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250208160923.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的书架项目笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/02/08/%E6%88%91%E7%9A%84%E4%B9%A6%E6%9E%B6%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="我的书架项目笔记">我的书架项目笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-02-08T08:04:54.000Z" title="发表于 2025-02-08 16:04:54">2025-02-08</time></span></div><div class="content">项目简介我的书架是一个基于鸿蒙开发的图书管理应用，用户可以通过该应用实现图书的添加、删除、借阅、归还等功能。开源地址：我的书架 本项目旨在练习鸿蒙开发中的网络请求模块，实现对后端数据的增删改查，同时熟悉V2版本的状态管理。 功能实现本项目主要实现的功能有以下几项：  获取图书 新增图书 删除图书 全部删除 修改图书  获取图书开启网络权限在module.json5中开启网络请求权限 12345&quot;requestPermissions&quot;: [  &#123;    &quot;name&quot;: &quot;ohos.permission.INTERNET&quot;  &#125;], 随后创建网络请求对象 1req: http.HttpRequest =...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/30/%E5%BC%80%E5%BF%83%E4%B8%80%E7%AC%91%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="开心一笑项目笔记"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/01d66fb92d12560cab59744fa04090f.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="开心一笑项目笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/30/%E5%BC%80%E5%BF%83%E4%B8%80%E7%AC%91%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="开心一笑项目笔记">开心一笑项目笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-30T15:32:04.000Z" title="发表于 2025-01-30 23:32:04">2025-01-30</time></span></div><div class="content">项目概述UI骨架1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495/** * 1. 默认加载 * 2. 下拉刷新 * 3. 触底加载更多 * 4. 点击返回顶部 * */@Entry@Componentstruct Day01_07_Jokes &#123;  @State jokes: string [] = [&#x27;笑话 1&#x27;]  jokeNum: number = 5  @State refreshing: boolean = false  listScroller: Scroller = new Scroller()  build() &#123;    Refresh(&#123; refreshing: $$this.refreshing...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/01/30/%E6%95%B0%E7%BB%84/" title="常用数组内置函数"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/c454fcfac0c456cba49f72ce39c8699.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用数组内置函数"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/30/%E6%95%B0%E7%BB%84/" title="常用数组内置函数">常用数组内置函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-30T13:26:47.000Z" title="发表于 2025-01-30 21:26:47">2025-01-30</time></span></div><div class="content">遍历（map）Array.prototype.map() - JavaScript | MDN 1234567891011121314151617181920212223数组.map&lt;返回值类型&gt;((数组项,索引)=&gt;&#123; return xxx &#125;)// 如果返回值的类型编译器无法推断，就需要自行设置const numArr: number[] = [1, 2, 3, 4, 5]const numArr2: number[] = numArr.map((v =&gt; &#123;  return v * 2&#125;))const strArr: string[] = numArr.map((v =&gt; &#123;  return (v * 2).toString()&#125;))interface FoodInfo &#123;  name: string  price: number&#125;const foodArr: string[] = [&#x27;西兰花&#x27;, &#x27;西葫芦&#x27;,...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/30/%E9%B8%BF%E8%92%99%E4%B8%AD%E6%96%87%E5%8C%85/" title="手动添加鸿蒙中文包"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoimgs/main/8a639fc584cf1fe0b50a0222f3ca921.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手动添加鸿蒙中文包"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/30/%E9%B8%BF%E8%92%99%E4%B8%AD%E6%96%87%E5%8C%85/" title="手动添加鸿蒙中文包">手动添加鸿蒙中文包</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-30T06:56:10.000Z" title="发表于 2025-01-30 14:56:10">2025-01-30</time></span></div><div class="content">手动添加鸿蒙中文包DevEcoStudio作为华为官方的IDE，本应会自动创建中文包，但是我发现并没有，我也不太清楚是我的设置问题还是更新后就是这样，所以我在这里简单记录一下如何手动添加中文包。 DevEcoStudio在某些情况下不会自动创建中文地区的配置文件，需要手动配置。在resources文件夹下右键,新建资源目录选择中文，地区选中国。创建成功后直接在element文件下创建string.json文件，内容字段配置如下。 12345678910111213141516&#123;  &quot;string&quot;: [    &#123;      &quot;name&quot;: &quot;module_desc&quot;,      &quot;value&quot;: &quot;模块描述&quot;    &#125;,    &#123;      &quot;name&quot;: &quot;EntryAbility_desc&quot;,      &quot;value&quot;: &quot;描述&quot;    &#125;,   ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/01/26/butterfly%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="Hexo+butterfly个人博客搭建与美化"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoimgs/main/20250127013446.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo+butterfly个人博客搭建与美化"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/26/butterfly%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="Hexo+butterfly个人博客搭建与美化">Hexo+butterfly个人博客搭建与美化</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-26T09:07:22.000Z" title="发表于 2025-01-26 17:07:22">2025-01-26</time></span></div><div class="content">Hexo+butterfly个人博客搭建在用了一周左右的时间搭建博客，沉浸于试效果，改bug，试效果，改bug……的先循环后我还是决定写一篇文章来记录一下，省的未来的自己再走一遍这痛苦的过程。  Hexo静态网页生成nodejs安装首先我们需要下载nodejs，官网：Node.js — 在任何地方运行 JavaScript 安装好之后我们可以输入以下指令如果都能正常输出版本号则安装成功。 12node -vnpm -v  git安装git可是个好东西，程序员必备，官网在这里：Git - Downloading Package 1git --version 正常显示版本即可 Hexo安装在自己心仪的文件夹下，如E:/hexo，鼠标右击选择 Git bash here，依次执行以下命令： 12npm install hexo-cli -gnpm install hexo --save 如果已经安装过hexo，或者不确定装没装过也没关系，装过的执行完显示的是update。 1hexo...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/25/%E9%B8%BF%E8%92%99%E8%AE%B0%E8%B4%A6%E6%9C%AC%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="鸿蒙记账本项目笔记"><img class="post-bg" src="https://raw.githubusercontent.com/XBXyftx/hexoimgs/main/20250125212746.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙记账本项目笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/25/%E9%B8%BF%E8%92%99%E8%AE%B0%E8%B4%A6%E6%9C%AC%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="鸿蒙记账本项目笔记">鸿蒙记账本项目笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-25T13:06:51.000Z" title="发表于 2025-01-25 21:06:51">2025-01-25</time></span></div><div class="content">记账本项目简介项目名称：BH_NoteBook(记账本) 项目作者：薛博璇 项目开源地址：https://github.com/XBXyftx/BH\_NoteBook 项目简介：一款界面清新可爱的记账本软件，支持分事件类型的支出收入记账。 开发笔记基本结构：整体分为两个页面，首页和记账页。 工程结构在原有stagestage模型上新增components和data文件夹。  components该文件夹存储的是各个核心页面组件，利于进行数据解耦。 data该文件夹中存储的是工具接口和数据。在BillData文件中定义了每个账单事件的工具接口BillItem，其中包括了四个属性。 1234567891011121314151617181920// 订单export interface BillItem &#123;  id: number  type: BillType  money: number  useFor: UseForItem&#125;// 账单项export interface UseForItem &#123;  id: number  icon:...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/19/%E9%B8%BF%E8%92%99%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/" title="鸿蒙图片上传下载"><img src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250220015806.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙图片上传下载"/></a><div class="content"><a class="title" href="/2025/02/19/%E9%B8%BF%E8%92%99%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/" title="鸿蒙图片上传下载">鸿蒙图片上传下载</a><time datetime="2025-02-19T05:42:14.000Z" title="发表于 2025-02-19 13:42:14">2025-02-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/16/%E8%BF%9E%E8%BF%9E%E7%9C%8B/" title="连连看"><img src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250216160843.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="连连看"/></a><div class="content"><a class="title" href="/2025/02/16/%E8%BF%9E%E8%BF%9E%E7%9C%8B/" title="连连看">连连看</a><time datetime="2025-02-16T08:06:18.000Z" title="发表于 2025-02-16 16:06:18">2025-02-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/08/%E6%88%91%E7%9A%84%E4%B9%A6%E6%9E%B6%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="我的书架项目笔记"><img src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250208160923.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的书架项目笔记"/></a><div class="content"><a class="title" href="/2025/02/08/%E6%88%91%E7%9A%84%E4%B9%A6%E6%9E%B6%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="我的书架项目笔记">我的书架项目笔记</a><time datetime="2025-02-08T08:04:54.000Z" title="发表于 2025-02-08 16:04:54">2025-02-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/04/V2/" title="浅谈鸿蒙状态管理V1——&gt;V2"><img src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/20250204011404.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅谈鸿蒙状态管理V1——&gt;V2"/></a><div class="content"><a class="title" href="/2025/02/04/V2/" title="浅谈鸿蒙状态管理V1——&gt;V2">浅谈鸿蒙状态管理V1——&gt;V2</a><time datetime="2025-02-03T17:02:36.000Z" title="发表于 2025-02-04 01:02:36">2025-02-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/30/%E5%BC%80%E5%BF%83%E4%B8%80%E7%AC%91%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="开心一笑项目笔记"><img src="https://raw.githubusercontent.com/XBXyftx/hexoImgs3/main/01d66fb92d12560cab59744fa04090f.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="开心一笑项目笔记"/></a><div class="content"><a class="title" href="/2025/01/30/%E5%BC%80%E5%BF%83%E4%B8%80%E7%AC%91%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="开心一笑项目笔记">开心一笑项目笔记</a><time datetime="2025-01-30T15:32:04.000Z" title="发表于 2025-01-30 23:32:04">2025-01-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/V2/" style="font-size: 1.2em; color: #999da3">V2</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.2em; color: #999da3">主题美化</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.3em; color: #99a1ac">项目</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.2em; color: #999da3">网络请求</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.3em; color: #99a1ac">hexo博客搭建</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/JS/" style="font-size: 1.2em; color: #999da3">JS</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.4em; color: #99a5b6">鸿蒙</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.1em; color: #999">独白</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              二月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">10</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">14</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">38.8k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-02-27T02:08:22.657Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://raw.githubusercontent.com/XBXyftx/hexoimgs/main/20250125232339.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("1/24/2025 02:23"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["开学了，开学了，干活干活~","蛇年快乐","敲代码敲代码~","C,Java,Python,JavaScript,ArkTS,CJ...","鸿蒙生态星河璀璨","快乐至上！","愿你拥有一个美好的未来！"])
+  } else {
+    document.getElementById("subtitle").textContent = "开学了，开学了，干活干活~"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="/%5Bobject%20Object%5D"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="99" count="99" mobile="true" src="/%5Bobject%20Object%5D"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
