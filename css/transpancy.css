@@ -19,3 +19,6 @@
 	background: rgba(0, 13, 194, 0.4);
 }
  
+[data-theme="dark"] #recent-posts>.recent-post-item {
+    background: rgba(0, 0, 0, 0.4); /* 黑色背景，透明度70% */
+}
