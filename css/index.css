@@ -4366,7 +4366,7 @@ figure.highlight pre .javascript .function {
   margin: 0 3px;
   padding: 3px 5px;
   border: 1px solid #b4b4b4;
-  background-color: #f8f8f8;
+  background-color: rgba(248,248,248,0.4);
   -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 2px 1px 0 rgba(255,255,255,0.6) inset;
   box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 2px 1px 0 rgba(255,255,255,0.6) inset;
   color: #34495e;
@@ -6255,7 +6255,7 @@ blockquote.pullquote.right {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.6);
   content: '';
 }
 [data-theme='dark'] .container code {
@@ -6276,7 +6276,7 @@ blockquote.pullquote.right {
 }
 [data-theme='dark'] .container kbd {
   border-color: #696969;
-  background-color: #525252;
+  background-color: rgba(82,82,82,0.5);
   color: #e2f1ff;
 }
 [data-theme='dark'] #page-header.nav-fixed > #nav,
