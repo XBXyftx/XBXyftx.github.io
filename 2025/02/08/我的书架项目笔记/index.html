@@ -104,7 +104,7 @@
       const theme = saveToLocal.get('theme')
     
           const hour = new Date().getHours()
-          const isNight = hour <= 6 || hour >= 18
+          const isNight = hour <= 3 || hour >= 4
           if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
           else theme === 'light' ? activateLightMode() : activateDarkMode()
         
