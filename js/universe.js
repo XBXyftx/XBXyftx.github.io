@@ -109,7 +109,7 @@ function dark() {
   
     ;(function t() {
       (document.getElementsByTagName('html')[0].getAttribute('data-theme') == 'dark' 
-        || document.getElementsByTagName('html')[0].getAttribute('data-theme') == 'black') 
+        || document.getElementsByTagName('html')[0].getAttribute('data-theme') == 'light') 
         && u()
       window.requestAnimationFrame(t)
     })()
