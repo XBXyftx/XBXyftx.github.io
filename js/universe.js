@@ -9,7 +9,7 @@ function dark() {
       o = !0,
       a = "180,184,240",
       r = "226,225,142",
-      d = "226,225,224",
+      d = "255,255,255",
       c = []
   
     function f() {
@@ -60,10 +60,10 @@ function dark() {
           h.fillStyle = "rgba(" + a + "," + this.opacity + ")"
           h.arc(this.x, this.y, 2, 0, 2 * Math.PI, !1)
         } else if (this.comet) {
-          h.fillStyle = "rgba(" + d + "," + this.opacity + ")"
+          h.fillStyle = "rgba(" + d + "," + Math.min(this.opacity * 1.5, 1) + ")"
           h.arc(this.x, this.y, 1.5, 0, 2 * Math.PI, !1)
           for (var t = 0; t < 30; t++) {
-            h.fillStyle = "rgba(" + d + "," + (this.opacity - this.opacity / 20 * t) + ")"
+            h.fillStyle = "rgba(" + d + "," + (this.opacity - this.opacity/30*t) + ")"
             h.rect(this.x - this.dx / 4 * t, this.y - this.dy / 4 * t - 2, 2, 2)
             h.fill()
           }
