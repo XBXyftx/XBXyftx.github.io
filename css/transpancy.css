@@ -1,7 +1,7 @@
 /* 文章页背景 */
 .layout_post>#post {
     /* 以下代表透明度为0.7 可以自行修改*/
-    background: rgba(0, 4, 62, 0.4);
+    background: rgba(77, 113, 176, 0.4);
 }
  
 /* 所有页面背景 */
