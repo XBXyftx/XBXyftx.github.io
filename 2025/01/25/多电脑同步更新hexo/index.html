@@ -1,0 +1,304 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>多电脑同步更新hexo | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="同步原理hexo框架整体可以理解为一个自动帮你生成静态网页的软件，你想要什么样的网页就去配置文件里进行修改即可。而hexo在部署到GitHub时只会将其生成的符合你期望的静态网页文件上传，也就是public文件夹，并不包含你的博客md源文件以及相关配置文件，所以我们并不能直接将 用户名.github.io这个仓库克隆到新电脑上，我们真正需要的是hexo框架以及你的主题的配置文件，这些是关键。 网上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多电脑同步更新hexo">
+<meta property="og:url" content="https://xbxyftx.top/2025/01/25/%E5%A4%9A%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0hexo/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="同步原理hexo框架整体可以理解为一个自动帮你生成静态网页的软件，你想要什么样的网页就去配置文件里进行修改即可。而hexo在部署到GitHub时只会将其生成的符合你期望的静态网页文件上传，也就是public文件夹，并不包含你的博客md源文件以及相关配置文件，所以我们并不能直接将 用户名.github.io这个仓库克隆到新电脑上，我们真正需要的是hexo框架以及你的主题的配置文件，这些是关键。 网上">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/img/ArticleTopImgs/DuoDianNaoTopImg.png">
+<meta property="article:published_time" content="2025-01-24T17:27:06.000Z">
+<meta property="article:modified_time" content="2025-03-19T07:55:06.414Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="技术向">
+<meta property="article:tag" content="hexo博客搭建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/img/ArticleTopImgs/DuoDianNaoTopImg.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "多电脑同步更新hexo",
+  "url": "https://xbxyftx.top/2025/01/25/%E5%A4%9A%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0hexo/",
+  "image": "https://xbxyftx.top/img/ArticleTopImgs/DuoDianNaoTopImg.png",
+  "datePublished": "2025-01-24T17:27:06.000Z",
+  "dateModified": "2025-03-19T07:55:06.414Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://xbxyftx.top/2025/01/25/%E5%A4%9A%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0hexo/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":20,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '多电脑同步更新hexo',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script>localStorage.setItem('theme','dark')</script><script>document.documentElement.setAttribute('data-theme', 'dark');</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/transpancy.css"><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="triangles-wrap"><div class="triangles-eiz"></div><div class="triangles-seiz"></div><div class="triangles-sei"></div><div class="triangles-fei"></div><div class="triangles-feir"></div><div class="triangles-trei"></div><div class="triangles-dvai"></div><div class="triangles-ein"></div><div class="triangles-zero"></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/ArticleTopImgs/DuoDianNaoTopImg.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/avatar.jpg" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">多电脑同步更新hexo</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">多电脑同步更新hexo</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-24T17:27:06.000Z" title="发表于 2025-01-25 01:27:06">2025-01-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-19T07:55:06.414Z" title="更新于 2025-03-19 15:55:06">2025-03-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">828</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="同步原理"><a href="#同步原理" class="headerlink" title="同步原理"></a>同步原理</h2><p>hexo框架整体可以理解为一个自动帮你生成静态网页的软件，你想要什么样的网页就去配置文件里进行修改即可。而hexo在部署到GitHub时只会将其生成的符合你期望的静态网页文件上传，也就是public文件夹，并不包含你的博客md源文件以及相关配置文件，所以我们并不能直接将 <code>用户名.github.io</code>这个仓库克隆到新电脑上，我们真正需要的是hexo框架以及你的主题的配置文件，这些是关键。<br><img src="/2025/01/25/%E5%A4%9A%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0hexo/1.png" alt="1"></p>
+<p>网上的教程大多是利用原仓库的分支功能来存储你的框架，其实新建一个仓库专门用来存储框架也是一样的效果，而且对新手更加友善，所以我选择先建一个仓库来存储。</p>
+<h2 id="原电脑准备"><a href="#原电脑准备" class="headerlink" title="原电脑准备"></a>原电脑准备</h2><p>把主题文件夹中的所有主题的.git文件夹删除，因为git不能嵌套上传，如果一个仓库里包含了另一个仓库则不会上传内部仓库的内容。去除.git文件后就变成了普通文件夹。</p>
+<p>hexo框架下的各个文件夹作用以及是否需要上传至GitHub如下表所示。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>文件夹</th>
+<th>说明</th>
+<th>是否需要上传github</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node_modules</td>
+<td>hexo需要的模块，就是一些基础的npm安装模块，比如一些美化插件，在执行<code>npm install</code>的时候会重新生成</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>themes</td>
+<td>主题文件</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>public</td>
+<td>hexo g命令执行后生成的静态页面文件</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>packages.json</td>
+<td>记录了hexo需要的包的信息，之后换电脑了npm根据这个信息来安装hexo环境</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>_config.yml</td>
+<td>全局配置文件，这个不用多说了吧</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>.gitignore</td>
+<td>hexo生成的默认的.gitignore模块</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>scaffolds</td>
+<td>文章的模板</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>.deploy_git</td>
+<td>hexo g自动生成的</td>
+<td>不需要</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>随后将该仓库上传至GitHub即可</p>
+<h2 id="新电脑准备"><a href="#新电脑准备" class="headerlink" title="新电脑准备"></a>新电脑准备</h2><p>首先安装nodejs：<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">Node.js — 在任何地方运行 JavaScript</a></p>
+<p>安装好后在cdm执行命令安装hexo并检查版本确认安装完成。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+<p>之后安装butterfly主题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+<p>butterfly主题源文件地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+<p>为了減少升级主题带来的不便，我们可以把主题文件夹中的 _config.yml 重命名为 _config.butterfly.yml，复制到 Hexo 根目录下与_config.yml同级。</p>
+<p>Hexo会自动合并主题中的_config.yml和 _config.butterfly.yml ，如果存在同名配置，会使用_config.butterfly.yml的配置，其优先度较高。所以像和博客网址相关联的固定资料可以设置在_config.yml中，比如博客的标题、作者信息和邮箱等等资料，而和主题样式相关的配置放在 _config.butterfly.yml 中，那么在将来你想换一个主题是很方便的。</p>
+<p>然后把仓库克隆下来即可。可以用 <code>hexo s</code>来尝试跑一下，先确保本地没问题在开始写博客。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>多把文件放云端，github、wps、百度网盘等都是很好的工具。</p>
+<p>hexo三连！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">hexo博客搭建</a></div><div class="post-share"><div class="social-share" data-image="/img/ArticleTopImgs/DuoDianNaoTopImg.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/01/24/%E5%85%B3%E4%BA%8E%E4%BC%A0%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" title="关于传图片的一些坑"><img class="cover" src="/img/ArticleTopImgs/ImageTopImg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">关于传图片的一些坑</div></div><div class="info-2"><div class="info-item-1">文章中的图片显示问题在成功创建了hexo博客并顺利地发布了第一篇文章后，我用域名访问的方式查看我的博客文章，却发现我的图片无法正常显示，我怀疑是VScode的Md Editor插件自动生成的路径有问题，但在尝试几次修改后发现并没有变化依旧无法显示，相对路径也没有用。于是我上网查询资料，看到了hexo搭建博客后图片无法显示的完美解决_hexo博客图片不显示-CSDN博客这篇文章，按照其中的方式进行了配置文件的修改。 1npm install https://github.com/CodeFalling/hexo-asset-image --save 首先下载所需依赖，然后把_config.yml中的post_asset_folder设为true 1post_asset_folder: true 这样每次新建文章都会创建一个同名文件夹，直接用 文章名/图片.xxx的格式来获取即可 用 hexo...</div></div></div></a><a class="pagination-related" href="/2025/01/25/%E9%B8%BF%E8%92%99%E8%AE%B0%E4%BA%8B%E6%9C%AC%E9%A1%B9%E7%9B%AE/" title="鸿蒙记事本项目"><img class="cover" src="/img/ArticleTopImgs/NotePadeTopImg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">鸿蒙记事本项目</div></div><div class="info-2"><div class="info-item-1">备忘录作品简介项目名称：Memorandum_XBXyftx（备忘录） 项目作者：薛博璇 项目开源地址：https://github.com/XBXyftx/Memorandum_XBXyftx.git 项目简介Memorandum_XBXyftx是一款基于HarmonyOS（鸿蒙操作系统）开发的应用程序，旨在为用户提供一个便捷、高效的日常任务管理和提醒工具。通过简洁直观的用户界面和强大的功能，备忘录帮助用户记录、跟踪和完成日常生活中的各种任务和事件。 主要功能事件记录与管理：用户可以创建、编辑和删除事件，包括作业、会议、提醒等。支持为每个事件添加详细的描述和指定时间戳，如图一所示。  图 1 事件详情页 任务完成状态跟踪：用户可以标记事件为完成或未完成，方便跟踪任务进度，如图2所示。应用提供快速切换任务完成状态的功能，如图三所示。  图 2 事件管理页面  图 3 事件快速切换状态功能 时间管理：内置日期选择器，允许用户为事件指定具体的时间，如图4所示。支持将选择的时间转换为时间戳字符串，便于持久化存储和排序。  图 4...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/01/24/%E5%85%B3%E4%BA%8E%E4%BC%A0%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" title="关于传图片的一些坑"><img class="cover" src="/img/ArticleTopImgs/ImageTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-24</div><div class="info-item-2">关于传图片的一些坑</div></div><div class="info-2"><div class="info-item-1">文章中的图片显示问题在成功创建了hexo博客并顺利地发布了第一篇文章后，我用域名访问的方式查看我的博客文章，却发现我的图片无法正常显示，我怀疑是VScode的Md Editor插件自动生成的路径有问题，但在尝试几次修改后发现并没有变化依旧无法显示，相对路径也没有用。于是我上网查询资料，看到了hexo搭建博客后图片无法显示的完美解决_hexo博客图片不显示-CSDN博客这篇文章，按照其中的方式进行了配置文件的修改。 1npm install https://github.com/CodeFalling/hexo-asset-image --save 首先下载所需依赖，然后把_config.yml中的post_asset_folder设为true 1post_asset_folder: true 这样每次新建文章都会创建一个同名文件夹，直接用 文章名/图片.xxx的格式来获取即可 用 hexo...</div></div></div></a><a class="pagination-related" href="/2025/02/27/MianShiTong/" title="面试通项目开发笔记"><img class="cover" src="/img/ArticleTopImgs/MSTTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-27</div><div class="info-item-2">面试通项目开发笔记</div></div><div class="info-2"><div class="info-item-1">前言面试通这个项目是我的第一个完整的鸿蒙项目。将会从零开始搭建项目结构，组织UI框架，编写业务逻辑，最终实现一个完整的项目。 项目简介面试通项目是一个基于 HarmonyOS NEXT 开发的鸿蒙应用，主要包含鸿蒙和前端的企业面试题以及真实的面试经验，还有一些面试辅助类的工具如常用开发单词和面试录音。  以上是该项目的概念设计图，接下来我将会记录整个项目的开发过程。 准备阶段新建项目与项目结构搭建项目结构搭建本次我们采用API14来进行开发，API14是当前的最新版本，对于各项性能的调教也是当下最好的选择。 本项目的项目结构如下所示： 12345678910111213ets├── commons│   ├── components              // - 通用组件│   ├── constants               // - 全局常量数据│   └── utils                   // - 通用工具类├── entryability│   └── EntryAbility.ts├── models                   ...</div></div></div></a><a class="pagination-related" href="/2025/03/11/MianShiTong2/" title="面试通项目开发笔记2"><img class="cover" src="/img/ArticleTopImgs/MSTTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-11</div><div class="info-item-2">面试通项目开发笔记2</div></div><div class="info-2"><div class="info-item-1">前言Hello world!我又回来开发面试通项目啦~ 还没看过第一篇的建议先回头去补一补面试通项目开发笔记 上一篇中我们费劲千辛万苦完成了准备阶段的工具类封装：  基于hilog封装了日志工具类Logger 封装了利用应用上下文对象获取当前窗口并设置窗口沉浸式效果的工具类FullScreen 准备好了修改深浅色模式时所需要的状态栏文字颜色切换工具StatusBar  随后进入正式阶段，我们完成了首页的组件划分与封装，以及首页的布局设计与实现：  首先是整体应用最外层Tabs组件的构建，在其中拆分出了首页、项目、面经、我的四个页面的组件。 然后是首页组件的构建，我们由上到下封装了搜索、打卡、轮播图、题目难度标签等公共组件，还封装了独属于首页的专属组件，分类题目列表以及分类筛选按钮。 随后我们对原有的Axios请求对象封装进行了重构，填写了项目后端API的基地址，编写了获取请求对象的泛型函数将所需输入的泛型进行化简，并设置了拦截器用于简化返回的数据。  </div></div></div></a><a class="pagination-related" href="/2025/02/04/V2/" title="浅谈鸿蒙状态管理V1——&gt;V2"><img class="cover" src="/img/ArticleTopImgs/V2TopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-04</div><div class="info-item-2">浅谈鸿蒙状态管理V1——&gt;V2</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2025/01/27/%E9%B8%BF%E8%92%99%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="鸿蒙网络请求学习笔记"><img class="cover" src="/img/ArticleTopImgs/HttpTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-27</div><div class="info-item-2">鸿蒙网络请求学习笔记</div></div><div class="info-2"><div class="info-item-1">核心概念服务器在网络上提供服务器的一台电脑，比如提供数据服务 http模块鸿蒙内置的模块，专门用于处理http网络请求，用http协议与服务器进行交流 可以用 import http from &#39;@ohos.net.http&#39;来进行调用。 由于需要进行网络请求，所以我们还需要在配置文件 module.json5下添加如下代码 12345&quot;requestPermissions&quot;: [   &#123;      &quot;name&quot;: &quot;ohos.permission.INTERNET&quot;    &#125; ], 完整代码如下 12345678910111213141516171819202122232425262728293031323334353637383940414243&#123;  &quot;module&quot;: &#123;    &quot;name&quot;: &quot;entry&quot;,    &quot;type&quot;: &quot;entry&quot;,   ...</div></div></div></a><a class="pagination-related" href="/2025/03/16/yiDuo/" title="关于鸿蒙的一多能力"><img class="cover" src="/img/ArticleTopImgs/yiduoTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-16</div><div class="info-item-2">关于鸿蒙的一多能力</div></div><div class="info-2"><div class="info-item-1">前言一次开发多端部署是鸿蒙系统作为一款分布式架构操作系统的重要能力，他可以让一套业务代码在平板，直板机，折叠屏等各种设备上部署并进行UI界面的自动适配，从而实现一套代码多端部署的目标。他可以完美的取代安卓应用需要为平板单独开发一个应用版本的难题，极大的简化开发流程并为开发者节省大量的开发时间。   一多要解决的核心问题相比于当下全球市场份额最大的安卓系统，鸿蒙系统想要凭借一多能力去解决安卓开发的核心痛点，就需要作为开发者的我们先去了解当下的痛点是什么。 对于安卓开发的设备适配痛点 ​设备碎片化严重：超过24种屏幕比例，折叠屏展开/折叠状态切换带来布局断层 ​响应式布局成本高：需要维护多个XML布局文件，MediaQuery逻辑复杂 ​状态保持困难：横竖屏切换时ViewModel保存/恢复需要手动干预 ​多端协同缺失：手机与平板间无法实现服务无缝流转，协同开发困难  我们在应用商店中可以看到，安卓应用会有一个独立于手机应用的“HD版本”（High Definition...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">25年的计划开始执行了吗？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">同步原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%94%B5%E8%84%91%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">原电脑准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E7%94%B5%E8%84%91%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">新电脑准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/16/yiDuo/" title="关于鸿蒙的一多能力"><img src="/img/ArticleTopImgs/yiduoTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于鸿蒙的一多能力"/></a><div class="content"><a class="title" href="/2025/03/16/yiDuo/" title="关于鸿蒙的一多能力">关于鸿蒙的一多能力</a><time datetime="2025-03-16T10:32:27.000Z" title="发表于 2025-03-16 18:32:27">2025-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/13/Navigation/" title="Navigation与NavDestination"><img src="/img/ArticleTopImgs/NavTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Navigation与NavDestination"/></a><div class="content"><a class="title" href="/2025/03/13/Navigation/" title="Navigation与NavDestination">Navigation与NavDestination</a><time datetime="2025-03-13T12:06:11.000Z" title="发表于 2025-03-13 20:06:11">2025-03-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/11/MianShiTong2/" title="面试通项目开发笔记2"><img src="/img/ArticleTopImgs/MSTTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试通项目开发笔记2"/></a><div class="content"><a class="title" href="/2025/03/11/MianShiTong2/" title="面试通项目开发笔记2">面试通项目开发笔记2</a><time datetime="2025-03-11T09:01:28.000Z" title="发表于 2025-03-11 17:01:28">2025-03-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/27/MianShiTong/" title="面试通项目开发笔记"><img src="/img/ArticleTopImgs/MSTTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试通项目开发笔记"/></a><div class="content"><a class="title" href="/2025/02/27/MianShiTong/" title="面试通项目开发笔记">面试通项目开发笔记</a><time datetime="2025-02-27T15:03:16.000Z" title="发表于 2025-02-27 23:03:16">2025-02-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/19/%E9%B8%BF%E8%92%99%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/" title="鸿蒙图片上传下载"><img src="/img/ArticleTopImgs/ImgTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙图片上传下载"/></a><div class="content"><a class="title" href="/2025/02/19/%E9%B8%BF%E8%92%99%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD/" title="鸿蒙图片上传下载">鸿蒙图片上传下载</a><time datetime="2025-02-19T05:42:14.000Z" title="发表于 2025-02-19 13:42:14">2025-02-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script>localStorage.setItem('theme','dark')</script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="/%5Bobject%20Object%5D"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="99" count="99" mobile="true" src="/%5Bobject%20Object%5D"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = 'da54ed7504284b8d97ecdbf93f821cdf';
+  var gaud_map_key = 'c25dd516b6a1aa4c5269e50077fac6f4';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '115.982279,40.19409';
+  var clock_default_rectangle_enable = 'true';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>
