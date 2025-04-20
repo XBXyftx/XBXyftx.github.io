@@ -7,3 +7,7 @@
     max-height: calc(100vh - 380px);
     width: calc(100% + 48px);
 }
+
+.post-list{
+    background-color: #ffffff7c;
+}
