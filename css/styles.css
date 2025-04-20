@@ -8,9 +8,8 @@
     width: calc(100% + 48px);
 }
 
-.post-body{
-    background-color: #ffffff7c;
-    color: white;
+.post-message-container .post-message p {
+    color: white !important;
 }
 
 /* p{
