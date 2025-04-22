@@ -41,6 +41,36 @@ body{
         rgba(102, 51, 153, 0.6)  /* 极光紫 */
     )!important;
 }
-/* p{
-    color: white !important;
-} */
+#aside-content .card-widget{
+    background: linear-gradient(
+        to bottom right,
+        rgba(15, 30, 64, 0.6),  /* 夜空蓝 */
+        rgba(0, 0, 0, 0.6),     /* 黑色 */
+        rgba(102, 51, 153, 0.6)  /* 极光紫 */
+    )!important;
+}
+
+#aside-content .card-info.card-widget {
+    position: relative;
+    overflow: hidden;
+}
+
+#aside-content .card-info.card-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/loadImg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: 0;
+}
+
+#aside-content .card-info.card-widget > * {
+    position: relative;
+    z-index: 1;
+}
