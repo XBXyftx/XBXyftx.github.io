@@ -4066,17 +4066,41 @@ figure.highlight pre .javascript .function {
   position: fixed;
   z-index: 1001;
   display: -webkit-box;
-  display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: box;
   display: flex;
+  width: 100%;
+  height: 100%;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
 }
 .wizard {
   position: relative;
   width: 190px;
   height: 240px;
+}
+@media screen and (max-width: 768px) {
+  .wizard {
+    width: 142.5px;
+    height: 180px;
+    -webkit-transform: scale(0.75);
+    -moz-transform: scale(0.75);
+    -o-transform: scale(0.75);
+    -ms-transform: scale(0.75);
+    transform: scale(0.75);
+  }
 }
 .wizard-body {
   position: absolute;
@@ -4085,6 +4109,13 @@ figure.highlight pre .javascript .function {
   height: 100px;
   width: 60px;
   background: #3f64ce;
+}
+@media screen and (max-width: 768px) {
+  .wizard-body {
+    left: 51px;
+    height: 75px;
+    width: 45px;
+  }
 }
 .wizard-body::after {
   content: "";
@@ -4100,6 +4131,13 @@ figure.highlight pre .javascript .function {
   -o-transform: skewX(14deg);
   -ms-transform: skewX(14deg);
   transform: skewX(14deg);
+}
+@media screen and (max-width: 768px) {
+  .wizard-body::after {
+    left: 15px;
+    height: 75px;
+    width: 45px;
+  }
 }
 .wizard-right-arm {
   position: absolute;
@@ -4127,6 +4165,21 @@ figure.highlight pre .javascript .function {
   -o-animation: right_arm 5s ease-in-out infinite;
   -ms-animation: right_arm 5s ease-in-out infinite;
   animation: right_arm 5s ease-in-out infinite;
+}
+@media screen and (max-width: 768px) {
+  .wizard-right-arm {
+    bottom: 55.5px;
+    left: 82.5px;
+    height: 33px;
+    width: 67.5px;
+    border-radius: 16.5px;
+    -webkit-transform-origin: 12px 16.5px;
+    -webkit-transform-origin: 12px 16.5px;
+    -moz-transform-origin: 12px 16.5px;
+    -o-transform-origin: 12px 16.5px;
+    -ms-transform-origin: 12px 16.5px;
+    transform-origin: 12px 16.5px;
+  }
 }
 .wizard-right-arm .right-hand {
   position: absolute;
@@ -4204,6 +4257,20 @@ figure.highlight pre .javascript .function {
   -ms-animation: left_arm 5s ease-in-out infinite;
   animation: left_arm 5s ease-in-out infinite;
 }
+@media screen and (max-width: 768px) {
+  .wizard-left-arm {
+    bottom: 55.5px;
+    left: 19.5px;
+    height: 33px;
+    width: 52.5px;
+    -webkit-transform-origin: 45px 19.5px;
+    -webkit-transform-origin: 45px 19.5px;
+    -moz-transform-origin: 45px 19.5px;
+    -o-transform-origin: 45px 19.5px;
+    -ms-transform-origin: 45px 19.5px;
+    transform-origin: 45px 19.5px;
+  }
+}
 .wizard-left-arm .wizard-left-hand {
   position: absolute;
   left: -18px;
@@ -4266,6 +4333,13 @@ figure.highlight pre .javascript .function {
   -o-animation: head 5s ease-in-out infinite;
   -ms-animation: head 5s ease-in-out infinite;
   animation: head 5s ease-in-out infinite;
+}
+@media screen and (max-width: 768px) {
+  .wizard-head {
+    left: 10.5px;
+    width: 120px;
+    height: 157.5px;
+  }
 }
 .wizard-head .wizard-beard {
   position: absolute;
@@ -4447,6 +4521,12 @@ figure.highlight pre .javascript .function {
   width: 200px;
   height: 240px;
 }
+@media screen and (max-width: 768px) {
+  .wizard-objects {
+    width: 150px;
+    height: 180px;
+  }
+}
 .wizard-square {
   position: absolute;
   bottom: -60px;
@@ -4466,6 +4546,14 @@ figure.highlight pre .javascript .function {
   -o-animation: path_square 5s ease-in-out infinite;
   -ms-animation: path_square 5s ease-in-out infinite;
   animation: path_square 5s ease-in-out infinite;
+}
+@media screen and (max-width: 768px) {
+  .wizard-square {
+    bottom: -45px;
+    left: -3.75px;
+    width: 90px;
+    height: 90px;
+  }
 }
 .wizard-square::after {
   content: "";
@@ -4496,6 +4584,13 @@ figure.highlight pre .javascript .function {
   -ms-animation: path_circle 5s ease-in-out infinite;
   animation: path_circle 5s ease-in-out infinite;
 }
+@media screen and (max-width: 768px) {
+  .wizard-circle {
+    bottom: 7.5px;
+    width: 75px;
+    height: 75px;
+  }
+}
 .wizard-circle::after {
   content: "";
   position: absolute;
@@ -4525,6 +4620,14 @@ figure.highlight pre .javascript .function {
   -o-animation: path_triangle 5s ease-in-out infinite;
   -ms-animation: path_triangle 5s ease-in-out infinite;
   animation: path_triangle 5s ease-in-out infinite;
+}
+@media screen and (max-width: 768px) {
+  .wizard-triangle {
+    bottom: -46.5px;
+    left: -7.5px;
+    width: 82.5px;
+    height: 82.5px;
+  }
 }
 .wizard-triangle::after {
   content: "";
