@@ -6,6 +6,21 @@
     margin: 0 -24px;
     max-height: calc(100vh - 380px);
     width: calc(100% + 48px);
+    color: white!important;
+}
+#aside-content #card-toc .toc-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/scrollImg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: -1;
 }
 
 .post-message-container .post-message p {
@@ -121,4 +136,18 @@ body{
 #subtitle-box {
     z-index: 3;
     position: relative;
+}
+#aside-content .card-info.card-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/loadImg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: 0;
 }
