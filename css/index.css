@@ -4017,51 +4017,6 @@ figure.highlight pre .javascript .function {
 #loading-box.loaded .wizard-scene {
   display: none;
 }
-#loading-box {
-  position: fixed;
-  z-index: 1000;
-  display: -webkit-box;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: box;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-box-align: center;
-  -moz-box-align: center;
-  -o-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-  -o-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  -o-box-orient: vertical;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-lines: multiple;
-  -moz-box-lines: multiple;
-  -o-box-lines: multiple;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-#loading-box.loaded .wizard-scene {
-  display: none;
-}
 .wizard-scene {
   position: fixed;
   z-index: 1001;
@@ -4110,13 +4065,6 @@ figure.highlight pre .javascript .function {
   width: 60px;
   background: #3f64ce;
 }
-@media screen and (max-width: 768px) {
-  .wizard-body {
-    left: 51px;
-    height: 75px;
-    width: 45px;
-  }
-}
 .wizard-body::after {
   content: "";
   position: absolute;
@@ -4131,13 +4079,6 @@ figure.highlight pre .javascript .function {
   -o-transform: skewX(14deg);
   -ms-transform: skewX(14deg);
   transform: skewX(14deg);
-}
-@media screen and (max-width: 768px) {
-  .wizard-body::after {
-    left: 15px;
-    height: 75px;
-    width: 45px;
-  }
 }
 .wizard-right-arm {
   position: absolute;
