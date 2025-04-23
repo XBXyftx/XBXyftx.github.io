@@ -56,8 +56,8 @@ body{
     background: linear-gradient(
         to bottom right,
         rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
-        rgba(96, 26, 91, 0.6),     /* 黑色 */
-        rgba(30, 30, 30, 0.6),     /* 黑色 */
+        /* rgba(96, 26, 91, 0.6),     黑色 */
+        /* rgba(30, 30, 30, 0.6),     黑色 */
         rgba(107, 36, 179, 0.6)  /* 极光紫 */
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
@@ -69,6 +69,18 @@ body{
         rgba(96, 26, 91, 0.6),     /* 黑色 */
         rgba(30, 30, 30, 0.6),     /* 黑色 */
         rgba(107, 36, 179, 0.6)  /* 极光紫 */
+    )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+#content-inner #archive,
+#content-inner #page{
+    background: linear-gradient(
+        to bottom right,
+        rgba(1, 40, 131, 0.6), 
+        rgba(96, 26, 91, 0.6), 
+        rgba(30, 30, 30, 0.6), 
+        rgba(107, 36, 179, 0.6)
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
