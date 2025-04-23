@@ -17,7 +17,7 @@
     bottom: 0;
     background-image: url('/img/scrollImg.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     opacity: 0.5;
     z-index: -1;
@@ -28,41 +28,49 @@
 }
 
 body{
-    color: #c3ffff !important;
+    color: #dfffff !important;
 }
 #swiper_container{
     background: linear-gradient(
         to bottom right,
-        rgba(15, 30, 64, 0.6),  /* 夜空蓝 */
-        rgba(0, 0, 0, 0.6),     /* 黑色 */
-        rgba(102, 51, 153, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
+        rgba(96, 26, 91, 0.6),     /* 黑色 */
+        rgba(30, 30, 30, 0.6),     /* 黑色 */
+        rgba(107, 36, 179, 0.6)  /* 极光紫 */
     )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 #post{
     background: linear-gradient(
         to bottom right,
-        rgba(15, 30, 64, 0.6),  /* 夜空蓝 */
-        rgba(0, 0, 0, 0.6),     /* 黑色 */
-        rgba(102, 51, 153, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
+        rgba(96, 26, 91, 0.6),     /* 黑色 */
+        rgba(30, 30, 30, 0.6),      /* 黑色 */
+        rgba(107, 36, 179, 0.6)  /* 极光紫 */
     )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 .recent-post-item{
     background: linear-gradient(
         to bottom right,
-        rgba(15, 30, 64, 0.6),  /* 夜空蓝 */
-        rgba(0, 0, 0, 0.6),     /* 黑色 */
-        rgba(102, 51, 153, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
+        rgba(96, 26, 91, 0.6),     /* 黑色 */
+        rgba(30, 30, 30, 0.6),     /* 黑色 */
+        rgba(107, 36, 179, 0.6)  /* 极光紫 */
     )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 #aside-content .card-widget{
     background: linear-gradient(
         to bottom right,
-        rgba(15, 30, 64, 0.6),  /* 夜空蓝 */
-        rgba(0, 0, 0, 0.6),     /* 黑色 */
-        rgba(102, 51, 153, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
+        rgba(96, 26, 91, 0.6),     /* 黑色 */
+        rgba(30, 30, 30, 0.6),     /* 黑色 */
+        rgba(107, 36, 179, 0.6)  /* 极光紫 */
     )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 #aside-content .card-info.card-widget {
@@ -70,20 +78,6 @@ body{
     overflow: hidden;
 }
 
-#aside-content .card-info.card-widget::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('/img/loadImg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.5;
-    z-index: 0;
-}
 
 #aside-content .card-info.card-widget > * {
     position: relative;
@@ -148,6 +142,10 @@ body{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.5;
+    opacity: 0.45;
     z-index: 0;
+}
+
+.recent-post-items .recent-post-item{
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
