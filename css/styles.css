@@ -57,7 +57,7 @@ body{
         to bottom right,
         rgba(0, 35, 117, 0.6),  /* 夜空蓝 */
         /* rgba(96, 26, 91, 0.6),     黑色 */
-        /* rgba(30, 30, 30, 0.6),     黑色 */
+        rgba(0, 0, 0, 0.6),     黑色
         rgba(151, 0, 174, 0.6)  /* 极光紫 */
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
