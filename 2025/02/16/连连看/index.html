@@ -182,7 +182,16 @@
   }
 
   preloader.initLoading()
-  window.addEventListener('load', preloader.endLoading)
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
 
   if (false) {
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
