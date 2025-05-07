@@ -30,60 +30,73 @@
 body{
     color: #dfffff !important;
 }
-#swiper_container{
+/* #swiper_container{
     background: linear-gradient(
         to bottom right,
-        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
-        rgba(96, 26, 91, 0.6),     /* 黑色 */
-        rgba(30, 30, 30, 0.6),     /* 黑色 */
-        rgba(107, 36, 179, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  
+        rgba(255, 255, 255, 0.6),
+        rgba(96, 26, 91, 0.6),  
+        rgba(30, 30, 30, 0.6),  
+        rgba(255, 255, 255, 0.6),
+        rgba(107, 36, 179, 0.6) 
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-}
+} */
 
-#post{
+/* #post{
     background: linear-gradient(
         to bottom right,
-        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
-        rgba(96, 26, 91, 0.6),     /* 黑色 */
-        rgba(30, 30, 30, 0.6),      /* 黑色 */
-        rgba(107, 36, 179, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  
+        rgba(255, 255, 255, 0.6),
+        rgba(96, 26, 91, 0.6),  
+        rgba(30, 30, 30, 0.6), 
+        rgba(255, 255, 255, 0.6), 
+        rgba(107, 36, 179, 0.6) 
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-}
+} */
 
 .recent-post-item{
     background: linear-gradient(
         to bottom right,
-        rgba(0, 35, 117, 0.6),  /* 夜空蓝 */
-        /* rgba(96, 26, 91, 0.6),     黑色 */
-        rgba(0, 0, 0, 0.6),     /* 黑色 */
-        rgba(151, 0, 174, 0.6)  /* 极光紫 */
+        rgba(0, 35, 117, 0.6),  
+        rgba(36, 85, 246, 0.6),
+        rgba(0, 0, 0, 0.6),    
+        rgba(255, 44, 44, 0.6), 
+        rgba(255, 0, 183, 0.6)  
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
-#aside-content .card-widget{
+#aside-content .card-widget,
+#content-inner #archive,
+#content-inner #page,
+#post,
+#swiper_container{
     background: linear-gradient(
         to bottom right,
-        rgba(1, 40, 131, 0.6),  /* 夜空蓝 */
-        rgba(96, 26, 91, 0.6),     /* 黑色 */
-        rgba(30, 30, 30, 0.6),     /* 黑色 */
-        rgba(107, 36, 179, 0.6)  /* 极光紫 */
+        rgba(1, 40, 131, 0.6),  
+        rgba(36, 85, 246, 0.6),
+        rgba(96, 26, 91, 0.6),  
+        rgba(30, 30, 30, 0.6),  
+        rgba(255, 44, 44, 0.6), 
+        rgba(255, 3, 230, 0.6) 
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
-#content-inner #archive,
+/* #content-inner #archive,
 #content-inner #page{
     background: linear-gradient(
         to bottom right,
         rgba(1, 40, 131, 0.6), 
+        rgba(255, 255, 255, 0.6),
         rgba(96, 26, 91, 0.6), 
         rgba(30, 30, 30, 0.6), 
+        rgba(255, 255, 255, 0.6),
         rgba(107, 36, 179, 0.6)
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-}
+} */
 
 #aside-content .card-info.card-widget {
     position: relative;
