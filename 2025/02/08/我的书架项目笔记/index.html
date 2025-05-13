@@ -183,10 +183,10 @@
 
   preloader.initLoading()
   
-  // 设置10秒超时
+  // 设置20秒超时
   const loadingTimeout = setTimeout(() => {
     preloader.endLoading()
-  }, 10000)
+  }, 20000)
   
   window.addEventListener('load', () => {
     clearTimeout(loadingTimeout)
