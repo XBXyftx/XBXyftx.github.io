@@ -3944,10 +3944,10 @@ figure.highlight pre .javascript .function {
   filter: none;
 }
 #loading-box.loaded {
-  opacity: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
-  z-index: -1000;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  z-index: 9999;
 }
 #loading-box .sprite,
 #loading-box .body,

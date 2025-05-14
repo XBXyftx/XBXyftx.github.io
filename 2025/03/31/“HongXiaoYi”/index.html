@@ -173,10 +173,8 @@
     initLoading: () => {
         document.body.style.overflow = '';
         document.getElementById('loading-box').classList.remove("loaded")
-
     }
 }
-window.addEventListener('load',()=> { preloader.endLoading() })
 
 if (false) {
     document.addEventListener('pjax:send', () => { preloader.initLoading() })
