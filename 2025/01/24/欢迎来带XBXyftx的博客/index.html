@@ -1,0 +1,320 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>欢迎来到XBXyftx的博客! | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="欢迎来到XBXyftx的博客!Hello World!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="欢迎来到XBXyftx的博客!">
+<meta property="og:url" content="https://xbxyftx.top/2025/01/24/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%B8%A6XBXyftx%E7%9A%84%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="欢迎来到XBXyftx的博客!Hello World!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/img/ArticleTopImgs/HelloWorld.png">
+<meta property="article:published_time" content="2025-01-23T18:07:03.000Z">
+<meta property="article:modified_time" content="2025-04-19T18:03:23.605Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="hexo博客搭建">
+<meta property="article:tag" content="独白">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/img/ArticleTopImgs/HelloWorld.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "欢迎来到XBXyftx的博客!",
+  "url": "https://xbxyftx.top/2025/01/24/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%B8%A6XBXyftx%E7%9A%84%E5%8D%9A%E5%AE%A2/",
+  "image": "https://xbxyftx.top/img/ArticleTopImgs/HelloWorld.png",
+  "datePublished": "2025-01-23T18:07:03.000Z",
+  "dateModified": "2025-04-19T18:03:23.605Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.png"><link rel="canonical" href="https://xbxyftx.top/2025/01/24/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%B8%A6XBXyftx%E7%9A%84%E5%8D%9A%E5%AE%A2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '欢迎来到XBXyftx的博客!',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script src="/js/nyan.js"></script><script>localStorage.setItem('theme','dark')</script><script>document.documentElement.setAttribute('data-theme', 'dark');</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/transpancy.css"><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><link rel="stylesheet" href="/css/styles.css"><script> document.querySelectorAll('#post-comment').forEach(el => { el.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'; }); </script><link rel="twikoo" href="/css/twikoo.css"><link rel="stylesheet" href="/css/rightmenu.css"><script src="/js/cache-manager.js"></script><script src="/js/nyan.js"></script><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本--><script src="/js/cache-manager.js"></script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="sparks-combo"><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div></div><div class="rainbow"><span></span></div><div class="nyan-cat"><div class="feet"></div><div class="tail"><span></span></div><div class="body"></div><div class="head"></div></div><script src="/js/nyan.js"></script></div><script>const preloader = {
+    endLoading: () => {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loading-box').classList.add("loaded")
+    },
+    initLoading: () => {
+        document.body.style.overflow = '';
+        document.getElementById('loading-box').classList.remove("loaded")
+
+    }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg" style="background-image: url(/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/ArticleTopImgs/HelloWorld.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.png" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">欢迎来到XBXyftx的博客!</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">欢迎来到XBXyftx的博客!</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-23T18:07:03.000Z" title="发表于 2025-01-24 02:07:03">2025-01-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-19T18:03:23.605Z" title="更新于 2025-04-20 02:03:23">2025-04-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">535</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="欢迎来到XBXyftx的博客。当你看到这句话说明我的个人博客网站就已经搭建成功了！！！"><a href="#欢迎来到XBXyftx的博客。当你看到这句话说明我的个人博客网站就已经搭建成功了！！！" class="headerlink" title="欢迎来到XBXyftx的博客。当你看到这句话说明我的个人博客网站就已经搭建成功了！！！"></a>欢迎来到XBXyftx的博客。当你看到这句话说明我的个人博客网站就已经搭建成功了！！！</h2><p><img src="/2025/01/24/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%B8%A6XBXyftx%E7%9A%84%E5%8D%9A%E5%AE%A2/image.png" alt="image.png"></p>
+<p>让我们记住这个令人激动的时刻，毕竟前几天晚上都被各种奇怪的bug所折磨，每天晚上哪怕是在床上抱着手机也没心思刷视频，CSDN倒是成了我的小说阅读器一样，天天有空都在看。</p>
+<p>我总是觉得人生总是得留下一些痕迹，毕竟谁也不知道如今眼前稀松平常的安稳生活会不会在哪一天的夜晚打湿自己的眼眶。我也尝试了用语雀、飞书等平台写知识库，但那也只不过是更多的局限在了技术方面的笔记，WPS的云文档功能确实成为了我不可或缺的神器，但那也只是留下了论文和一些实验报告的痕迹，记录着我在键盘上挥洒过的汗水。</p>
+<p>但这些绝对不是我大学生涯的全部，还有更多更多的事情值得被留下痕迹。github+hexo给了我这个机会，我后续会把我值得记录一些报告，文章，笔记等内容都整理到我的博客网站中，相信在未来我的网站一定会十分精彩。</p>
+<p>以下是曾经的一些痕迹：<br>GitHub：<a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a><br>飞书：<a target="_blank" rel="noopener" href="https://zcn0ok42bsl9.feishu.cn/wiki/Sz8rwVDq2i0gJxk0BmRcH41Gn8c?from=from_copylink">飞书鸿蒙笔记</a>    <a target="_blank" rel="noopener" href="https://zcn0ok42bsl9.feishu.cn/wiki/MHQTw4M7yiKFeGkTilqcOs5WnCd?from=from_copylink">飞书鸿蒙项目合集</a><br>创客空间：<a target="_blank" rel="noopener" href="http://bistumaker.cn/">创客空间</a></p>
+<p>好啦今天就到这吧，已经很晚了困了困了，算是能睡个好觉了。</p>
+<p>为了显示图片我又多干了一个小时……</p>
+<p>最终解决方式是将图片传到GitHub的仓库里然后直接网络请求要图片，gitee不行，还好解决了要不真的崩溃了。</p>
+<p>至于网站底部的建站时长，我是为了纪念大一下时婷姐带的hexo博客搭建活动，虽然当时没有成功，但那确实是我建站想法的起源。所以我决定把这个时间留下来，纪念我的博客搭建历程。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">hexo博客搭建</a><a class="post-meta__tags" href="/tags/%E7%8B%AC%E7%99%BD/">独白</a></div><div class="post-share"><div class="social-share" data-image="/img/ArticleTopImgs/HelloWorld.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/01/24/%E5%85%B3%E4%BA%8E%E4%BC%A0%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" title="关于传图片的一些坑"><img class="cover" src="/img/ArticleTopImgs/ImageTopImg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">关于传图片的一些坑</div></div><div class="info-2"><div class="info-item-1">Butterfly主题传图片所存在的一些bug</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/20/DirectConnection/" title="Hexo+Netlify+github的国内直连解决方案"><img class="cover" src="/img/ArticleTopImgs/DirectTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-20</div><div class="info-item-2">Hexo+Netlify+github的国内直连解决方案</div></div><div class="info-2"><div class="info-item-1">本文将介绍如何利用hexo+netlify+github搭建一个国内直连的博客，并且解决国内访问速度问题。</div></div></div></a><a class="pagination-related" href="/2025/01/26/butterfly%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="Hexo+butterfly个人博客搭建与美化"><img class="cover" src="/img/ArticleTopImgs/ButterTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-26</div><div class="info-item-2">Hexo+butterfly个人博客搭建与美化</div></div><div class="info-2"><div class="info-item-1">博客搭建教程</div></div></div></a><a class="pagination-related" href="/2025/01/25/%E5%A4%9A%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0hexo/" title="多电脑同步更新hexo"><img class="cover" src="/img/ArticleTopImgs/DuoDianNaoTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-25</div><div class="info-item-2">多电脑同步更新hexo</div></div><div class="info-2"><div class="info-item-1">多电脑同步更新hexo的方式</div></div></div></a><a class="pagination-related" href="/2025/01/24/%E5%85%B3%E4%BA%8E%E4%BC%A0%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" title="关于传图片的一些坑"><img class="cover" src="/img/ArticleTopImgs/ImageTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-24</div><div class="info-item-2">关于传图片的一些坑</div></div><div class="info-2"><div class="info-item-1">Butterfly主题传图片所存在的一些bug</div></div></div></a><a class="pagination-related" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img class="cover" src="/img/ArticleTopImgs/AprilTopImg.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-30</div><div class="info-item-2">致2025那个繁忙的4月</div></div><div class="info-2"><div class="info-item-1">人们总是匆匆向前，殊不知时光易逝啊……</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">25年的计划开始执行了吗？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0XBXyftx%E7%9A%84%E5%8D%9A%E5%AE%A2%E3%80%82%E5%BD%93%E4%BD%A0%E7%9C%8B%E5%88%B0%E8%BF%99%E5%8F%A5%E8%AF%9D%E8%AF%B4%E6%98%8E%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E5%B0%B1%E5%B7%B2%E7%BB%8F%E6%90%AD%E5%BB%BA%E6%88%90%E5%8A%9F%E4%BA%86%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-number">1.</span> <span class="toc-text">欢迎来到XBXyftx的博客。当你看到这句话说明我的个人博客网站就已经搭建成功了！！！</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img src="/img/ArticleTopImgs/AprilTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="致2025那个繁忙的4月"/></a><div class="content"><a class="title" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月">致2025那个繁忙的4月</a><time datetime="2025-04-30T00:15:30.000Z" title="发表于 2025-04-30 08:15:30">2025-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/RemoteCommunication/" title="远场通信服务"><img src="/img/ArticleTopImgs/RCPTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="远场通信服务"/></a><div class="content"><a class="title" href="/2025/04/20/RemoteCommunication/" title="远场通信服务">远场通信服务</a><time datetime="2025-04-19T17:06:44.000Z" title="发表于 2025-04-20 01:06:44">2025-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/31/%E2%80%9CHongXiaoYi%E2%80%9D/" title="鸿小易项目开发笔记"><img src="/img/ArticleTopImgs/hxyTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿小易项目开发笔记"/></a><div class="content"><a class="title" href="/2025/03/31/%E2%80%9CHongXiaoYi%E2%80%9D/" title="鸿小易项目开发笔记">鸿小易项目开发笔记</a><time datetime="2025-03-31T07:34:18.000Z" title="发表于 2025-03-31 15:34:18">2025-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/20/DirectConnection/" title="Hexo+Netlify+github的国内直连解决方案"><img src="/img/ArticleTopImgs/DirectTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo+Netlify+github的国内直连解决方案"/></a><div class="content"><a class="title" href="/2025/03/20/DirectConnection/" title="Hexo+Netlify+github的国内直连解决方案">Hexo+Netlify+github的国内直连解决方案</a><time datetime="2025-03-20T13:02:50.000Z" title="发表于 2025-03-20 21:02:50">2025-03-20</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script>localStorage.setItem('theme','dark')</script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><link rel="stylesheet" href="/css/styles.css"><script> document.querySelectorAll('#post-comment).forEach(el => { el.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'; }); </script><script src="/js/jquery-3.6.0.min.js"></script><script src="/js/rightmenu.js"></script><link rel="twikoo" href="/css/twikoo.css"><script src="/js/happy-title.js" async></script><script src="/js/cache-manager.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="/%5Bobject%20Object%5D"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="99" count="99" mobile="true" src="/%5Bobject%20Object%5D"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = 'da54ed7504284b8d97ecdbf93f821cdf';
+  var gaud_map_key = 'c25dd516b6a1aa4c5269e50077fac6f4';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '115.982279,40.19409';
+  var clock_default_rectangle_enable = 'true';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/27/MianShiTong/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/MSTTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-27</span><a class="blog-slider__title" href="2025/02/27/MianShiTong/" alt="">面试通项目开发笔记</a><div class="blog-slider__text">面试通项目开发笔记</div><a class="blog-slider__button" href="2025/02/27/MianShiTong/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/AprilTopImg.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/yiduoTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/04/V2/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/V2TopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-04</span><a class="blog-slider__title" href="2025/02/04/V2/" alt="">浅谈鸿蒙状态管理V1——&gt;V2</a><div class="blog-slider__text">用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。</div><a class="blog-slider__button" href="2025/02/04/V2/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/RCPTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/05/14/AccountKitTest/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/AccountTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-14</span><a class="blog-slider__title" href="2025/05/14/AccountKitTest/" alt="">华为账户一键登录功能测试</a><div class="blog-slider__text">Account Kit的官方demo测试与华为账户登录的功能实现分析。</div><a class="blog-slider__button" href="2025/05/14/AccountKitTest/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/31/“HongXiaoYi”/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/hxyTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-31</span><a class="blog-slider__title" href="2025/03/31/“HongXiaoYi”/" alt="">鸿小易项目开发笔记</a><div class="blog-slider__text">鸿小易，你的鸿蒙开发好帮手。</div><a class="blog-slider__button" href="2025/03/31/“HongXiaoYi”/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
