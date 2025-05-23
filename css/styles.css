@@ -1,0 +1,176 @@
+/* 调整目录栏最大高度并启用滚动条 */
+
+#aside-content #card-toc .toc-content {
+    overflow-y: scroll;
+    overflow-y: overlay;
+    margin: 0 -24px;
+    max-height: calc(100vh - 380px);
+    width: calc(100% + 48px);
+    color: white!important;
+}
+#aside-content #card-toc .toc-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/scrollImg.jpg');
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.post-message-container .post-message p {
+    color: white !important;
+}
+
+body{
+    color: #dfffff !important;
+}
+/* #swiper_container{
+    background: linear-gradient(
+        to bottom right,
+        rgba(1, 40, 131, 0.6),  
+        rgba(255, 255, 255, 0.6),
+        rgba(96, 26, 91, 0.6),  
+        rgba(30, 30, 30, 0.6),  
+        rgba(255, 255, 255, 0.6),
+        rgba(107, 36, 179, 0.6) 
+    )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+} */
+
+/* #post{
+    background: linear-gradient(
+        to bottom right,
+        rgba(1, 40, 131, 0.6),  
+        rgba(255, 255, 255, 0.6),
+        rgba(96, 26, 91, 0.6),  
+        rgba(30, 30, 30, 0.6), 
+        rgba(255, 255, 255, 0.6), 
+        rgba(107, 36, 179, 0.6) 
+    )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+} */
+
+.recent-post-item{
+    background: linear-gradient(
+        to bottom right,
+        rgba(0, 35, 117, 0.6),  
+        rgba(36, 85, 246, 0.6),
+        rgba(0, 0, 0, 0.6),    
+        rgba(255, 44, 44, 0.6), 
+        rgba(255, 0, 183, 0.6)  
+    )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+#aside-content .card-widget,
+#content-inner #archive,
+#content-inner #page,
+#post,
+#swiper_container{
+    background: linear-gradient(
+        to bottom right,
+        rgba(1, 40, 131, 0.6),  
+        rgba(36, 85, 246, 0.6),
+        rgba(96, 26, 91, 0.6),  
+        rgba(30, 30, 30, 0.6),  
+        rgba(255, 44, 44, 0.6), 
+        rgba(255, 3, 230, 0.6) 
+    )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* #content-inner #archive,
+#content-inner #page{
+    background: linear-gradient(
+        to bottom right,
+        rgba(1, 40, 131, 0.6), 
+        rgba(255, 255, 255, 0.6),
+        rgba(96, 26, 91, 0.6), 
+        rgba(30, 30, 30, 0.6), 
+        rgba(255, 255, 255, 0.6),
+        rgba(107, 36, 179, 0.6)
+    )!important;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+} */
+
+#aside-content .card-info.card-widget {
+    position: relative;
+    overflow: hidden;
+}
+
+
+#aside-content .card-info.card-widget > * {
+    position: relative;
+    z-index: 1;
+}
+
+.full_page#page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.full_page#page-header::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+}
+
+/* 调整星空canvas容器 */
+.full_page#page-header .universe-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.7; /* 降低星空效果的不透明度 */
+    mix-blend-mode: screen; /* 使用混合模式让星星更好地融入背景 */
+}
+
+/* 确保标题和打字效果可见 */
+.full_page#page-header .site-info {
+    position: relative;
+    z-index: 3;
+}
+
+#site-title,
+#site-subtitle,
+#site-info #scroll-down {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 添加文字阴影提高可读性 */
+    position: relative;
+    z-index: 3;
+}
+
+/* 确保打字效果可见 */
+#subtitle-box {
+    z-index: 3;
+    position: relative;
+}
+#aside-content .card-info.card-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/loadImg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.45;
+    z-index: 0;
+}
+
+.recent-post-items .recent-post-item{
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
