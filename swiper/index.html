@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xbxyftx.top/img/logo.png">
 <meta property="article:published_time" content="2025-05-26T08:03:13.000Z">
-<meta property="article:modified_time" content="2025-05-27T02:57:29.578Z">
+<meta property="article:modified_time" content="2025-05-27T03:06:40.539Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="鸿蒙开发">
 <meta property="article:tag" content="hexo">
@@ -214,18 +214,7 @@
     visibility: hidden; /* 初始隐藏，防止未定位时显示 */
   }
 
-  /* 备用显示机制：如果JavaScript失效，5秒后自动显示所有图片 */
-  .waterfall-item {
-    animation: autoShow 0.1s ease-in-out 5s forwards;
-  }
 
-  @keyframes autoShow {
-    to {
-      visibility: visible;
-      opacity: 0.8;
-      transform: translateY(0) scale(1);
-    }
-  }
 
   .waterfall-item.visible {
     opacity: 1;
@@ -443,6 +432,33 @@
   .waterfall-container {
     -webkit-overflow-scrolling: touch; /* iOS 滚动优化 */
     overscroll-behavior: auto; /* 允许原生滚动行为 */
+    contain: layout style paint; /* CSS containment 优化 */
+  }
+
+  /* 图片加载优化 */
+  .waterfall-item img {
+    will-change: transform; /* 提示浏览器优化变换 */
+    content-visibility: auto; /* 内容可见性优化 */
+    contain: layout style paint; /* CSS containment */
+  }
+
+  /* 预加载提示 */
+  .preload-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .preload-indicator.visible {
+    opacity: 1;
   }
 
 
@@ -470,14 +486,19 @@
 
 
 
-  <!-- 进度指示器 -->
-  <div class="progress-indicator" id="progressIndicator" style="display: none;">
+<pre><code>&lt;!-- 进度指示器 --&gt;
+</code></pre>  <div class="progress-indicator" id="progressIndicator" style="display: none;">
     <div class="progress-text">已加载 <span id="loadedCount">0</span> / <span id="totalCount">0</span> 张图片</div>
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill"></div>
     </div>
   </div>
-</div>
+
+  <!-- 预加载指示器 -->
+  <div class="preload-indicator" id="preloadIndicator">
+    🚀 预加载中...
+  </div>
+    </div>
 
 <script>
   // 配置参数
@@ -486,7 +507,9 @@
     imageFolderPath: '/swiper/images/',
     // 支持的图片格式
     supportedFormats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'],
-    loadDelay: 150, // 每张图片加载间隔（优化为150ms）
+    loadDelay: 50, // 减少加载间隔到50ms
+    concurrentLoads: 6, // 并发加载数量
+    preloadCount: 10, // 预加载图片数量
     observerOptions: {
       threshold: 0.1,
       rootMargin: '50px'
@@ -505,7 +528,10 @@
     let currentBatch = 0; // 当前批次
     let isLoading = false; // 是否正在加载
     let columnHeights = [0, 0]; // 两列的高度
-    const BATCH_SIZE = 30; // 每批加载的图片数量
+    const BATCH_SIZE = 20; // 减少每批数量，增加并发
+    let activeLoads = 0; // 当前活跃的加载任务数
+    let loadQueue = []; // 加载队列
+    let preloadedImages = new Map(); // 预加载的图片缓存
     const getGap = () => window.innerWidth <= 480 ? 10 : (window.innerWidth <= 768 ? 12 : 15);
     const columnWidth = () => (grid.offsetWidth - getGap()) / 2; // 计算列宽
 
@@ -574,15 +600,51 @@
       return validImages.length > 0 ? validImages : null;
     }
 
-        // 创建图片元素
+    // 预加载图片
+    function preloadImage(src) {
+      return new Promise((resolve, reject) => {
+        if (preloadedImages.has(src)) {
+          resolve(preloadedImages.get(src));
+          return;
+        }
+
+        const img = new Image();
+        img.onload = () => {
+          preloadedImages.set(src, img);
+          resolve(img);
+        };
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    // 并发加载管理器
+    function processLoadQueue() {
+      while (loadQueue.length > 0 && activeLoads < config.concurrentLoads) {
+        const task = loadQueue.shift();
+        activeLoads++;
+
+        task().finally(() => {
+          activeLoads--;
+          processLoadQueue(); // 继续处理队列
+        });
+      }
+    }
+
+    // 添加加载任务到队列
+    function addToLoadQueue(loadTask) {
+      loadQueue.push(loadTask);
+      processLoadQueue();
+    }
+
+        // 创建图片元素（使用预加载）
     function createImageItem(src, index, filename = '', onLoadCallback = null) {
       const item = document.createElement('div');
       item.className = 'waterfall-item';
 
       const img = document.createElement('img');
-      img.src = src;
       img.alt = filename || `图片 ${index + 1}`;
-      img.loading = 'lazy'; // 懒加载
+      img.loading = 'eager'; // 改为eager加载，因为我们有并发控制
 
       item.appendChild(img);
 
@@ -610,76 +672,109 @@
         }
       };
 
-      // 图片加载完成后的处理
-      img.onload = () => {
-        // 确保容器有宽度再进行定位
-        if (grid.offsetWidth > 0) {
-          positionItem(item, img);
-        } else {
-          // 如果容器宽度为0，等待一下再重试
-          setTimeout(() => {
-            if (grid.offsetWidth > 0) {
-              positionItem(item, img);
-            } else {
-              console.warn(`容器宽度为0，无法定位图片: ${src}`);
-              // 强制显示，使用默认布局
-              item.style.position = 'relative';
-              item.style.width = '100%';
-              item.style.marginBottom = '15px';
-              item.classList.add('positioned');
-              item.classList.add('visible'); // 直接显示
-            }
-          }, 100);
-        }
-        handleLoadComplete(true);
-      };
+      // 使用预加载的图片或直接加载
+      const loadImage = async () => {
+        try {
+          let preloadedImg;
 
-      // 图片加载失败的处理
-      img.onerror = () => {
-        console.warn(`图片加载失败: ${src}`);
-        item.style.display = 'none';
-        handleLoadComplete(false);
-      };
+          // 尝试使用预加载的图片
+          if (preloadedImages.has(src)) {
+            preloadedImg = preloadedImages.get(src);
+            console.log(`🚀 使用预加载图片 ${index + 1}`);
+          } else {
+            // 如果没有预加载，直接加载
+            preloadedImg = await preloadImage(src);
+            console.log(`📥 直接加载图片 ${index + 1}`);
+          }
 
-      // 设置超时处理（6秒后强制完成）
-      loadTimeout = setTimeout(() => {
-        if (!hasLoaded) {
-          console.warn(`⏰ 图片加载超时(4s): ${src}`);
+          // 设置图片源
+          img.src = src;
+
+          // 确保容器有宽度再进行定位
+          if (grid.offsetWidth > 0) {
+            positionItem(item, preloadedImg);
+          } else {
+            // 如果容器宽度为0，等待一下再重试
+            setTimeout(() => {
+              if (grid.offsetWidth > 0) {
+                positionItem(item, preloadedImg);
+              } else {
+                console.warn(`容器宽度为0，无法定位图片: ${src}`);
+                // 使用默认布局，但仍然等待滚动显示
+                item.style.position = 'relative';
+                item.style.width = '100%';
+                item.style.marginBottom = '15px';
+                item.classList.add('positioned');
+                // 不直接添加visible类，让Observer来控制显示
+              }
+            }, 100);
+          }
+
+          handleLoadComplete(true);
+        } catch (error) {
+          console.warn(`图片加载失败: ${src}`, error);
           item.style.display = 'none';
           handleLoadComplete(false);
         }
-      }, 4000);
+      };
+
+      // 设置超时处理（减少到3秒）
+      loadTimeout = setTimeout(() => {
+        if (!hasLoaded) {
+          console.warn(`⏰ 图片加载超时(3s): ${src}`);
+          item.style.display = 'none';
+          handleLoadComplete(false);
+        }
+      }, 3000);
 
       // 添加点击事件
       item.addEventListener('click', () => {
         openImageModal(src, index, filename);
       });
 
+      // 开始加载
+      loadImage();
+
       return item;
     }
 
-    // 定位图片到瀑布流中
-    function positionItem(item, img) {
+    // 修改定位函数，支持预加载的图片对象
+    function positionItem(item, imgElement) {
       const width = columnWidth();
       const gap = getGap();
-      const aspectRatio = img.naturalHeight / img.naturalWidth;
-      const height = width * aspectRatio;
 
-      // 找到较短的列
-      const shortestColumn = columnHeights[0] <= columnHeights[1] ? 0 : 1;
+      // 如果传入的是预加载的图片对象，使用其尺寸
+      const naturalWidth = imgElement.naturalWidth || imgElement.width;
+      const naturalHeight = imgElement.naturalHeight || imgElement.height;
 
-      // 设置图片位置和大小
-      item.style.width = width + 'px';
-      item.style.height = height + 'px';
-      item.style.left = shortestColumn * (width + gap) + 'px';
-      item.style.top = columnHeights[shortestColumn] + 'px';
+      if (naturalWidth && naturalHeight) {
+        const aspectRatio = naturalHeight / naturalWidth;
+        const height = width * aspectRatio;
 
-      // 标记为已定位，可以显示
-      item.classList.add('positioned');
+        // 找到较短的列
+        const shortestColumn = columnHeights[0] <= columnHeights[1] ? 0 : 1;
 
-      // 更新列高度
-      columnHeights[shortestColumn] += height + gap;
+        // 设置图片位置和大小
+        item.style.width = width + 'px';
+        item.style.height = height + 'px';
+        item.style.left = shortestColumn * (width + gap) + 'px';
+        item.style.top = columnHeights[shortestColumn] + 'px';
+
+        // 标记为已定位，可以显示
+        item.classList.add('positioned');
+
+        // 更新列高度
+        columnHeights[shortestColumn] += height + gap;
+      } else {
+        console.warn('无法获取图片尺寸，使用默认布局');
+        item.style.position = 'relative';
+        item.style.width = '100%';
+        item.style.marginBottom = '15px';
+        item.classList.add('positioned');
+      }
     }
+
+
 
     // 更新网格容器高度
     function updateGridHeight() {
@@ -696,7 +791,7 @@
     // 触发所有图片的可见性动画
     function triggerVisibilityAnimation() {
       const items = grid.querySelectorAll('.waterfall-item.positioned');
-      console.log(`🎬 触发可见性动画，共 ${items.length} 个已定位的图片`);
+      console.log(`🎬 设置可见性监听，共 ${items.length} 个已定位的图片`);
 
       items.forEach((item, index) => {
         // 检查图片是否已经可见
@@ -704,28 +799,10 @@
           return; // 已经可见，跳过
         }
 
-        // 使用Intersection Observer监听元素
+        // 使用Intersection Observer监听元素，等待滚动到时才显示
         setTimeout(() => {
-          // 双重保险：如果Observer失效，直接显示
-          const fallbackTimeout = setTimeout(() => {
-            if (!item.classList.contains('visible')) {
-              console.log(`🔧 Observer失效，直接显示图片 ${index + 1}`);
-              item.classList.add('visible');
-            }
-          }, 1000); // 1秒后强制显示
-
           observer.observe(item);
-
-          // 清理超时定时器
-          const originalObserver = observer;
-          const originalUnobserve = originalObserver.unobserve.bind(originalObserver);
-          originalObserver.unobserve = function(target) {
-            if (target === item) {
-              clearTimeout(fallbackTimeout);
-            }
-            return originalUnobserve(target);
-          };
-        }, index * 50); // 错开动画时间
+        }, index * 50); // 错开监听设置时间
       });
     }
 
@@ -734,7 +811,7 @@
       const allItems = grid.querySelectorAll('.waterfall-item.positioned');
       const newItems = Array.from(allItems).slice(startIndex);
 
-      console.log(`🎬 触发新图片动画，从索引 ${startIndex} 开始，共 ${newItems.length} 个新图片`);
+      console.log(`🎬 设置新图片监听，从索引 ${startIndex} 开始，共 ${newItems.length} 个新图片`);
 
       newItems.forEach((item, index) => {
         // 检查图片是否已经可见
@@ -742,32 +819,22 @@
           return; // 已经可见，跳过
         }
 
+        // 只设置Observer监听，等待用户滚动到时才显示
         setTimeout(() => {
-          // 双重保险：如果Observer失效，直接显示
-          const fallbackTimeout = setTimeout(() => {
-            if (!item.classList.contains('visible')) {
-              console.log(`🔧 新图片Observer失效，直接显示图片 ${startIndex + index + 1}`);
-              item.classList.add('visible');
-            }
-          }, 1000); // 1秒后强制显示
-
           observer.observe(item);
-
-          // 清理超时定时器的逻辑（简化版）
-          item.addEventListener('animationend', () => {
-            clearTimeout(fallbackTimeout);
-          }, { once: true });
         }, index * 50);
       });
     }
 
 
 
-    // 分批加载图片
+    // 分批加载图片（优化版）
     function loadImages(imageList) {
       allImages = imageList;
       currentBatch = 0;
       loadedCount = 0;
+      activeLoads = 0;
+      loadQueue = [];
       grid.innerHTML = ''; // 清空现有内容
       resetLayout(); // 重置布局
 
@@ -777,17 +844,60 @@
         return;
       }
 
+      console.log(`🚀 开始加载 ${imageList.length} 张图片，并发数: ${config.concurrentLoads}`);
+
       // 显示进度指示器（当图片数量大于1批时）
       if (imageList.length > BATCH_SIZE) {
         showProgressIndicator();
         updateProgress();
       }
 
+      // 预加载前几张图片
+      preloadInitialImages(imageList);
+
       // 加载第一批图片
       loadNextBatch();
     }
 
-    // 加载下一批图片
+    // 预加载初始图片
+    async function preloadInitialImages(imageList) {
+      const preloadList = imageList.slice(0, config.preloadCount);
+      console.log(`🔄 开始预加载前 ${preloadList.length} 张图片`);
+
+      // 显示预加载指示器
+      const preloadIndicator = document.getElementById('preloadIndicator');
+      if (preloadIndicator) {
+        preloadIndicator.classList.add('visible');
+      }
+
+      const preloadPromises = preloadList.map(async (src, index) => {
+        try {
+          await preloadImage(src);
+          console.log(`✅ 预加载完成: 图片 ${index + 1}`);
+
+          // 更新预加载指示器
+          if (preloadIndicator) {
+            preloadIndicator.textContent = `🚀 预加载中... ${index + 1}/${preloadList.length}`;
+          }
+        } catch (error) {
+          console.warn(`❌ 预加载失败: 图片 ${index + 1}`, error);
+        }
+      });
+
+      // 并发预加载，但不等待全部完成
+      Promise.allSettled(preloadPromises).then(() => {
+        console.log(`🎉 预加载阶段完成`);
+
+        // 隐藏预加载指示器
+        if (preloadIndicator) {
+          setTimeout(() => {
+            preloadIndicator.classList.remove('visible');
+          }, 1000);
+        }
+      });
+    }
+
+    // 加载下一批图片（并发优化版）
     function loadNextBatch() {
       if (isLoading || currentBatch * BATCH_SIZE >= allImages.length) {
         return;
@@ -798,24 +908,22 @@
       const endIndex = Math.min(startIndex + BATCH_SIZE, allImages.length);
       const batchImages = allImages.slice(startIndex, endIndex);
 
-      console.log(`🚀 开始加载第 ${currentBatch + 1} 批图片: ${startIndex + 1}-${endIndex} (共 ${allImages.length} 张)`);
+      console.log(`🚀 开始并发加载第 ${currentBatch + 1} 批图片: ${startIndex + 1}-${endIndex} (共 ${allImages.length} 张)`);
 
       // 更新加载提示（仅在第一批时显示主加载指示器）
       if (currentBatch === 0) {
-        // 第一批使用主加载指示器
         const loadingText = loadingIndicator.querySelector('div:last-child');
         if (loadingText) {
-          loadingText.textContent = `正在加载第 ${currentBatch + 1} 批图片 (${startIndex + 1}-${endIndex}/${allImages.length})...`;
+          loadingText.textContent = `正在并发加载第 ${currentBatch + 1} 批图片 (${startIndex + 1}-${endIndex}/${allImages.length})...`;
         }
       }
-      // 后续批次不显示底部加载指示器，只通过右上角进度条显示进度
 
       let batchLoadedCount = 0;
 
-      // 设置批次超时机制（10秒后强制完成当前批次）
+      // 设置批次超时机制（减少到6秒，因为并发加载更快）
       const batchTimeout = setTimeout(() => {
         if (batchLoadedCount < batchImages.length) {
-          console.warn(`⚠️ 批次 ${currentBatch + 1} 加载超时(10s)，强制完成。已加载 ${batchLoadedCount}/${batchImages.length} 张`);
+          console.warn(`⚠️ 批次 ${currentBatch + 1} 加载超时(6s)，强制完成。已加载 ${batchLoadedCount}/${batchImages.length} 张`);
 
           // 强制完成当前批次
           currentBatch++;
@@ -825,66 +933,88 @@
           if (currentBatch * BATCH_SIZE < allImages.length) {
             setTimeout(() => {
               loadNextBatch();
-            }, 300);
+            }, 200);
           } else {
             console.log('🎉 所有图片加载完成（部分可能超时）！');
           }
         }
-      }, 10000);
+      }, 6000);
 
+      // 预加载下一批图片
+      if (currentBatch * BATCH_SIZE + BATCH_SIZE < allImages.length) {
+        const nextBatchStart = (currentBatch + 1) * BATCH_SIZE;
+        const nextBatchEnd = Math.min(nextBatchStart + config.preloadCount, allImages.length);
+        const nextBatchImages = allImages.slice(nextBatchStart, nextBatchEnd);
+
+        console.log(`🔄 预加载下一批的前 ${nextBatchImages.length} 张图片`);
+        nextBatchImages.forEach(src => {
+          preloadImage(src).catch(() => {}); // 静默处理预加载错误
+        });
+      }
+
+      // 使用并发队列加载当前批次
       batchImages.forEach((src, batchIndex) => {
-        setTimeout(() => {
-          const globalIndex = startIndex + batchIndex;
-          const filename = src.split('/').pop();
-          const item = createImageItem(src, globalIndex, filename, () => {
-            batchLoadedCount++;
-            loadedCount++;
+        const globalIndex = startIndex + batchIndex;
+        const filename = src.split('/').pop();
 
-            console.log(`批次 ${currentBatch + 1}: 已加载 ${batchLoadedCount}/${batchImages.length} 张，总计 ${loadedCount}/${allImages.length} 张`);
+        // 添加到并发加载队列
+        addToLoadQueue(async () => {
+          return new Promise((resolve) => {
+            // 延迟创建，避免同时创建太多DOM元素
+            setTimeout(() => {
+              const item = createImageItem(src, globalIndex, filename, () => {
+                batchLoadedCount++;
+                loadedCount++;
 
-            // 更新进度
-            updateProgress();
+                console.log(`批次 ${currentBatch + 1}: 已加载 ${batchLoadedCount}/${batchImages.length} 张，总计 ${loadedCount}/${allImages.length} 张`);
 
-            // 当前批次加载完成
-            if (batchLoadedCount === batchImages.length) {
-              // 清除批次超时定时器
-              clearTimeout(batchTimeout);
+                // 更新进度
+                updateProgress();
 
-              currentBatch++;
-              isLoading = false;
+                // 当前批次加载完成
+                if (batchLoadedCount === batchImages.length) {
+                  // 清除批次超时定时器
+                  clearTimeout(batchTimeout);
 
-              console.log(`✅ 第 ${currentBatch} 批图片加载完成！(${batchImages.length}张)`);
+                  currentBatch++;
+                  isLoading = false;
 
-              // 如果是第一批，隐藏加载指示器并显示内容
-              if (currentBatch === 1) {
-                hideLoadingIndicator();
-                updateGridHeight();
-                // 延迟触发动画，确保布局完成
-                setTimeout(() => {
-                  triggerVisibilityAnimation();
-                }, 100);
-              } else {
-                updateGridHeight();
-                // 为新加载的图片添加动画
-                setTimeout(() => {
-                  triggerNewItemsAnimation(startIndex);
-                }, 100);
-              }
+                  console.log(`✅ 第 ${currentBatch} 批图片加载完成！(${batchImages.length}张)`);
 
-              // 检查是否还有更多图片需要加载，如果有则自动继续加载
-              if (currentBatch * BATCH_SIZE < allImages.length) {
-                console.log(`🔄 还有 ${allImages.length - currentBatch * BATCH_SIZE} 张图片待加载，继续自动加载...`);
-                // 短暂延迟后自动加载下一批，确保当前批次的动画效果完成
-                setTimeout(() => {
-                  loadNextBatch();
-                }, 300);
-              } else {
-                console.log('🎉 所有图片加载完成！');
-              }
-            }
+                  // 如果是第一批，隐藏加载指示器并显示内容
+                  if (currentBatch === 1) {
+                    hideLoadingIndicator();
+                    updateGridHeight();
+                    // 延迟触发动画，确保布局完成
+                    setTimeout(() => {
+                      triggerVisibilityAnimation();
+                    }, 100);
+                  } else {
+                    updateGridHeight();
+                    // 为新加载的图片添加动画
+                    setTimeout(() => {
+                      triggerNewItemsAnimation(startIndex);
+                    }, 100);
+                  }
+
+                  // 检查是否还有更多图片需要加载，如果有则自动继续加载
+                  if (currentBatch * BATCH_SIZE < allImages.length) {
+                    console.log(`🔄 还有 ${allImages.length - currentBatch * BATCH_SIZE} 张图片待加载，继续自动加载...`);
+                    // 短暂延迟后自动加载下一批
+                    setTimeout(() => {
+                      loadNextBatch();
+                    }, 200);
+                  } else {
+                    console.log('🎉 所有图片加载完成！');
+                  }
+                }
+
+                resolve();
+              });
+              grid.appendChild(item);
+            }, batchIndex * config.loadDelay);
           });
-          grid.appendChild(item);
-        }, batchIndex * config.loadDelay);
+        });
       });
     }
 
@@ -1195,41 +1325,77 @@
             console.log(`📋 当前批次详情: 第${currentBatch}批 (${currentBatchStart + 1}-${currentBatchEnd})`);
           }
 
-          // 检查是否有已定位但未显示的图片
+          // 检查Observer是否正常工作
           const positionedItems = grid.querySelectorAll('.waterfall-item.positioned');
           const visibleItems = grid.querySelectorAll('.waterfall-item.visible');
           const hiddenCount = positionedItems.length - visibleItems.length;
 
           if (hiddenCount > 0) {
-            console.warn(`⚠️ 发现 ${hiddenCount} 个已定位但未显示的图片，尝试强制显示`);
+            console.log(`📊 状态检查: ${positionedItems.length} 个已定位图片，${visibleItems.length} 个已显示，${hiddenCount} 个等待滚动显示`);
+
+            // 检查是否有图片在视口内但未显示（可能是Observer失效）
+            let needsObserverReset = false;
             positionedItems.forEach(item => {
               if (!item.classList.contains('visible')) {
-                console.log(`🔧 强制显示隐藏的图片`);
-                item.classList.add('visible');
+                const rect = item.getBoundingClientRect();
+                const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isInViewport) {
+                  console.warn(`⚠️ 发现视口内未显示的图片，Observer可能失效`);
+                  needsObserverReset = true;
+                }
               }
             });
+
+            // 如果Observer失效，重新设置监听
+            if (needsObserverReset) {
+              console.log(`🔄 重新设置Observer监听`);
+              positionedItems.forEach(item => {
+                if (!item.classList.contains('visible')) {
+                  observer.unobserve(item);
+                  observer.observe(item);
+                }
+              });
+            }
           }
 
           // 如果加载完成，停止监控
           if (loadedCount >= allImages.length) {
             console.log('✅ 加载监控: 所有图片已加载完成');
 
-            // 最终检查：确保所有图片都显示
+            // 最终检查：确保Observer正常工作
             setTimeout(() => {
               const finalPositionedItems = grid.querySelectorAll('.waterfall-item.positioned');
               const finalVisibleItems = grid.querySelectorAll('.waterfall-item.visible');
               const finalHiddenCount = finalPositionedItems.length - finalVisibleItems.length;
 
+              console.log(`🎉 加载完成状态：${finalPositionedItems.length} 个图片已定位，${finalVisibleItems.length} 个已显示，${finalHiddenCount} 个等待滚动显示`);
+
+              // 检查Observer是否正常工作
               if (finalHiddenCount > 0) {
-                console.warn(`🚨 最终检查：仍有 ${finalHiddenCount} 个图片未显示，强制显示所有图片`);
+                let inViewportCount = 0;
                 finalPositionedItems.forEach(item => {
                   if (!item.classList.contains('visible')) {
-                    item.classList.add('visible');
+                    const rect = item.getBoundingClientRect();
+                    const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+                    if (isInViewport) {
+                      inViewportCount++;
+                    }
                   }
                 });
-              }
 
-              console.log(`🎉 最终状态：${finalVisibleItems.length} 个图片已显示`);
+                if (inViewportCount > 0) {
+                  console.warn(`⚠️ 最终检查：有 ${inViewportCount} 个图片在视口内但未显示，Observer可能有问题`);
+                  // 重新设置Observer
+                  finalPositionedItems.forEach(item => {
+                    if (!item.classList.contains('visible')) {
+                      observer.unobserve(item);
+                      observer.observe(item);
+                    }
+                  });
+                } else {
+                  console.log(`✅ Observer工作正常，图片将在滚动到时显示`);
+                }
+              }
             }, 3000);
 
             clearInterval(monitorInterval);
@@ -1279,22 +1445,39 @@
       }
     });
 
-    // 页面焦点恢复时检查图片显示状态
+    // 页面焦点恢复时检查Observer状态
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && allImages.length > 0) {
-        console.log('🔍 页面重新获得焦点，检查图片显示状态');
+        console.log('🔍 页面重新获得焦点，检查Observer状态');
         setTimeout(() => {
           const positionedItems = grid.querySelectorAll('.waterfall-item.positioned');
           const visibleItems = grid.querySelectorAll('.waterfall-item.visible');
           const hiddenCount = positionedItems.length - visibleItems.length;
 
           if (hiddenCount > 0) {
-            console.warn(`🔧 页面焦点恢复检查：发现 ${hiddenCount} 个未显示的图片，强制显示`);
+            console.log(`📊 焦点恢复检查：${hiddenCount} 个图片等待滚动显示`);
+
+            // 检查是否有图片在视口内但未显示
+            let needsReset = false;
             positionedItems.forEach(item => {
               if (!item.classList.contains('visible')) {
-                item.classList.add('visible');
+                const rect = item.getBoundingClientRect();
+                const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isInViewport) {
+                  needsReset = true;
+                }
               }
             });
+
+            if (needsReset) {
+              console.log(`🔄 重新设置Observer（页面焦点恢复）`);
+              positionedItems.forEach(item => {
+                if (!item.classList.contains('visible')) {
+                  observer.unobserve(item);
+                  observer.observe(item);
+                }
+              });
+            }
           }
         }, 500);
       }
@@ -1303,19 +1486,36 @@
     // 窗口焦点恢复时也进行检查
     window.addEventListener('focus', () => {
       if (allImages.length > 0) {
-        console.log('🔍 窗口重新获得焦点，检查图片显示状态');
+        console.log('🔍 窗口重新获得焦点，检查Observer状态');
         setTimeout(() => {
           const positionedItems = grid.querySelectorAll('.waterfall-item.positioned');
           const visibleItems = grid.querySelectorAll('.waterfall-item.visible');
           const hiddenCount = positionedItems.length - visibleItems.length;
 
           if (hiddenCount > 0) {
-            console.warn(`🔧 窗口焦点恢复检查：发现 ${hiddenCount} 个未显示的图片，强制显示`);
+            console.log(`📊 窗口焦点检查：${hiddenCount} 个图片等待滚动显示`);
+
+            // 检查是否有图片在视口内但未显示
+            let needsReset = false;
             positionedItems.forEach(item => {
               if (!item.classList.contains('visible')) {
-                item.classList.add('visible');
+                const rect = item.getBoundingClientRect();
+                const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isInViewport) {
+                  needsReset = true;
+                }
               }
             });
+
+            if (needsReset) {
+              console.log(`🔄 重新设置Observer（窗口焦点恢复）`);
+              positionedItems.forEach(item => {
+                if (!item.classList.contains('visible')) {
+                  observer.unobserve(item);
+                  observer.observe(item);
+                }
+              });
+            }
           }
         }, 500);
       }
@@ -1324,7 +1524,7 @@
     // 保持原生滚动体验，不添加任何滚动干预
   });
 </script>
-</div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">ICP备案完成！xbxyftx.top正式恢复运营！！！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img src="/img/ArticleTopImgs/AprilTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="致2025那个繁忙的4月"/></a><div class="content"><a class="title" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月">致2025那个繁忙的4月</a><time datetime="2025-04-30T00:15:30.000Z" title="发表于 2025-04-30 08:15:30">2025-04-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/JS/" style="font-size: 1.17em; color: #999c9f">JS</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.23em; color: #999ea6">hexo博客搭建</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.17em; color: #999c9f">独白</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.3em; color: #99a1ac">项目</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.17em; color: #999c9f">主题美化</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.17em; color: #999c9f">网络请求</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.43em; color: #99a6b9">鸿蒙</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a></div></div><div class="card-widget card-archives">
+</div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">ICP备案完成！xbxyftx.top正式恢复运营！！！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img src="/img/ArticleTopImgs/AprilTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="致2025那个繁忙的4月"/></a><div class="content"><a class="title" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月">致2025那个繁忙的4月</a><time datetime="2025-04-30T00:15:30.000Z" title="发表于 2025-04-30 08:15:30">2025-04-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.17em; color: #999c9f">主题美化</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.23em; color: #999ea6">hexo博客搭建</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.43em; color: #99a6b9">鸿蒙</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.17em; color: #999c9f">独白</a> <a href="/tags/JS/" style="font-size: 1.17em; color: #999c9f">JS</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.3em; color: #99a1ac">项目</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.17em; color: #999c9f">网络请求</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -1379,7 +1579,7 @@
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">127.1k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-05-27T02:58:02.821Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">127.1k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-05-27T03:07:01.318Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const element = mutation.target;
