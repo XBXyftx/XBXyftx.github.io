@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xbxyftx.top/img/logo.png">
 <meta property="article:published_time" content="2025-05-26T08:03:13.000Z">
-<meta property="article:modified_time" content="2025-05-27T03:28:14.162Z">
+<meta property="article:modified_time" content="2025-05-27T03:31:28.107Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="鸿蒙开发">
 <meta property="article:tag" content="hexo">
@@ -184,84 +184,319 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="page type-about" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/swiperTopImg.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.png" alt="Logo"><span class="site-name">XBXyftx</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">昨日重现</h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><p><style><br>  /<em> 瀑布流样式 </em>/<br>  .waterfall-container {<br>    width: 100%;<br>    max-width: 1200px;<br>    margin: 0 auto;<br>    padding: 20px;<br>    box-sizing: border-box;<br>  }</p>
-<p>  .waterfall-grid {<br>    position: relative;<br>    width: 100%;<br>  }</p>
-<pre><code>.waterfall-item &#123;
-background: rgba(255, 255, 255, 0.1);
-border-radius: 12px;
-overflow: hidden;
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(10px);
-border: 2px solid transparent;
-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-opacity: 0;
-transform: translateY(50px) scale(0.9);
-position: absolute;
-cursor: pointer;
-visibility: hidden; /* 初始隐藏，防止未定位时显示 */
-</code></pre><p>  }</p>
-<p>  .waterfall-item.visible {<br>    opacity: 1;<br>    transform: translateY(0) scale(1);<br>    visibility: visible; /<em> 定位完成后显示 </em>/<br>    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),<br>                0 0 0 2px rgba(135, 206, 250, 0.5),<br>                0 0 0 4px rgba(0, 255, 127, 0.4);<br>    animation: colorfulGlow 0.8s ease-out;<br>  }</p>
-<p>  @keyframes colorfulGlow {<br>    0% {<br>      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),<br>                  0 0 0 0px rgba(135, 206, 250, 0),<br>                  0 0 0 0px rgba(0, 255, 127, 0);<br>    }<br>    50% {<br>      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),<br>                  0 0 0 3px rgba(135, 206, 250, 0.8),<br>                  0 0 0 6px rgba(0, 255, 127, 0.7);<br>    }<br>    100% {<br>      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),<br>                  0 0 0 2px rgba(135, 206, 250, 0.5),<br>                  0 0 0 4px rgba(0, 255, 127, 0.4);<br>    }<br>  }</p>
-<p>  .waterfall-item.positioned {<br>    visibility: visible; /<em> 定位完成后立即显示 </em>/<br>  }</p>
-<p>  .waterfall-item:hover {<br>    transform: translateY(-5px) scale(1.05);<br>    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),<br>                0 0 0 3px rgba(135, 206, 250, 0.8),<br>                0 0 0 6px rgba(0, 255, 127, 0.7);<br>    border: 2px solid transparent;<br>    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,<br>                linear-gradient(135deg, #87ceeb, #00ff7f, #87ceeb) border-box;<br>  }</p>
-<p>  .waterfall-item img {<br>    width: 100%;<br>    height: auto;<br>    display: block;<br>    transition: transform 0.3s ease;<br>  }</p>
-<p>  .waterfall-item:hover img {<br>    transform: scale(1.08);<br>  }</p>
-<pre><code>/* 移除文字遮罩层，只保留图片放大效果 */
-</code></pre><p>  /<em> 加载动画 </em>/<br>  .loading-indicator, .load-more-indicator {<br>    text-align: center;<br>    padding: 40px;<br>    color: rgba(255, 255, 255, 0.7);<br>    font-size: 16px;<br>  }</p>
-<p>  .loading-spinner {<br>    display: inline-block;<br>    width: 40px;<br>    height: 40px;<br>    border: 3px solid rgba(255, 255, 255, 0.3);<br>    border-radius: 50%;<br>    border-top-color: rgba(255, 255, 255, 0.8);<br>    animation: spin 1s ease-in-out infinite;<br>    margin-bottom: 10px;<br>  }</p>
-<p>  /<em> 进度指示器样式 </em>/<br>  .progress-indicator {<br>    position: fixed;<br>    top: 20px;<br>    right: 20px;<br>    background: rgba(0, 0, 0, 0.8);<br>    border-radius: 12px;<br>    padding: 15px 20px;<br>    backdrop-filter: blur(10px);<br>    border: 1px solid rgba(255, 255, 255, 0.1);<br>    z-index: 1000;<br>    transition: all 0.3s ease;<br>    opacity: 0;<br>    font-size: 14px;<br>    color: rgba(255, 255, 255, 0.9);<br>    min-width: 200px;<br>  }</p>
-<p>  .progress-text {<br>    margin-bottom: 8px;<br>    text-align: center;<br>  }</p>
-<p>  .progress-bar {<br>    width: 100%;<br>    height: 4px;<br>    background: rgba(255, 255, 255, 0.2);<br>    border-radius: 2px;<br>    overflow: hidden;<br>  }</p>
-<p>  .progress-fill {<br>    height: 100%;<br>    background: linear-gradient(90deg, #00f5ff, #0080ff);<br>    border-radius: 2px;<br>    transition: width 0.3s ease;<br>    width: 0%;<br>  }</p>
-<p>  @keyframes spin {<br>    to {<br>      transform: rotate(360deg);<br>    }<br>  }</p>
-<p>  /<em> 浮现动画变体 </em>/<br>  .waterfall-item:nth-child(odd) {<br>    animation-delay: 0.1s;<br>  }</p>
-<p>  .waterfall-item:nth-child(even) {<br>    animation-delay: 0.2s;<br>  }</p>
-<p>  .waterfall-item:nth-child(3n) {<br>    animation-delay: 0.3s;<br>  }</p>
-<p>  /<em> 空状态提示样式 </em>/<br>  .empty-state {<br>    text-align: center;<br>    padding: 60px 20px;<br>    color: rgba(255, 255, 255, 0.7);<br>    font-size: 16px;<br>    background: rgba(255, 255, 255, 0.05);<br>    border: 1px solid rgba(255, 255, 255, 0.1);<br>    border-radius: 12px;<br>    margin: 20px 0;<br>  }</p>
-<p>  .empty-state-icon {<br>    font-size: 48px;<br>    margin-bottom: 20px;<br>    opacity: 0.5;<br>  }</p>
-<p>  .upload-area {<br>    border: 2px dashed rgba(255, 255, 255, 0.3);<br>    border-radius: 12px;<br>    padding: 40px;<br>    text-align: center;<br>    margin: 20px 0;<br>    transition: all 0.3s ease;<br>    cursor: pointer;<br>  }</p>
-<p>  .upload-area:hover {<br>    border-color: rgba(255, 255, 255, 0.5);<br>    background: rgba(255, 255, 255, 0.05);<br>  }</p>
-<p>  .upload-area.dragover {<br>    border-color: rgba(255, 255, 255, 0.8);<br>    background: rgba(255, 255, 255, 0.1);<br>  }</p>
-<p>  /<em> 移动端适配 - 保持两列布局 </em>/<br>  @media (max-width: 768px) {<br>    .waterfall-container {<br>      padding: 15px;<br>    }</p>
-<pre><code>.waterfall-item &#123;
-  border-radius: 8px;
-&#125;
+})()</script><div id="web_bg" style="background-image: url(/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="page type-about" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/swiperTopImg.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.png" alt="Logo"><span class="site-name">XBXyftx</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">昨日重现</h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><style>
+  /* 瀑布流样式 */
+  .waterfall-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
 
-.waterfall-item:hover &#123;
-  transform: translateY(-3px) scale(1.04);
-&#125;
+  .waterfall-grid {
+    position: relative;
+    width: 100%;
+  }
 
-.progress-indicator &#123;
-  top: 10px;
-  right: 10px;
-  left: 10px;
-  min-width: auto;
-  font-size: 12px;
-  padding: 12px 15px;
-&#125;
-</code></pre><p>  }</p>
-<p>  @media (max-width: 480px) {<br>    .waterfall-container {<br>      padding: 10px;<br>    }</p>
-<pre><code>.waterfall-item &#123;
-  border-radius: 6px;
-&#125;
+    .waterfall-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid transparent;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+    position: absolute;
+    cursor: pointer;
+    visibility: hidden; /* 初始隐藏，防止未定位时显示 */
+  }
 
-.waterfall-item:hover &#123;
-  transform: translateY(-2px) scale(1.03);
-&#125;
-</code></pre><p>  }</p>
-<p>  /<em> 滚动条美化 </em>/<br>  ::-webkit-scrollbar {<br>    width: 8px;<br>  }</p>
-<p>  ::-webkit-scrollbar-track {<br>    background: rgba(255, 255, 255, 0.1);<br>    border-radius: 4px;<br>  }</p>
-<p>  ::-webkit-scrollbar-thumb {<br>    background: rgba(255, 255, 255, 0.3);<br>    border-radius: 4px;<br>  }</p>
-<p>  ::-webkit-scrollbar-thumb:hover {<br>    background: rgba(255, 255, 255, 0.5);<br>  }</p>
-<p>  /<em> 优化滚动性能 </em>/<br>  html {<br>    scroll-behavior: auto; /<em> 确保不会有意外的平滑滚动 </em>/<br>  }</p>
-<p>  body {<br>    -webkit-overflow-scrolling: touch; /<em> iOS 滚动优化 </em>/<br>    overscroll-behavior: auto; /<em> 允许原生滚动行为 </em>/<br>  }</p>
-<p>  .waterfall-container {<br>    -webkit-overflow-scrolling: touch; /<em> iOS 滚动优化 </em>/<br>    overscroll-behavior: auto; /<em> 允许原生滚动行为 </em>/<br>    contain: layout style paint; /<em> CSS containment 优化 </em>/<br>  }</p>
-<p>  /<em> 图片加载优化 </em>/<br>  .waterfall-item img {<br>    will-change: transform; /<em> 提示浏览器优化变换 </em>/<br>    content-visibility: auto; /<em> 内容可见性优化 </em>/<br>    contain: layout style paint; /<em> CSS containment </em>/<br>  }</p>
-<p>  /<em> 预加载提示 </em>/<br>  .preload-indicator {<br>    position: fixed;<br>    bottom: 20px;<br>    left: 20px;<br>    background: rgba(0, 0, 0, 0.8);<br>    color: white;<br>    padding: 8px 12px;<br>    border-radius: 6px;<br>    font-size: 12px;<br>    z-index: 1000;<br>    opacity: 0;<br>    visibility: hidden;<br>    transition: all 0.3s ease;<br>    backdrop-filter: blur(10px);<br>    border: 1px solid rgba(255, 255, 255, 0.1);<br>  }</p>
-<p>  .preload-indicator.visible {<br>    opacity: 1;<br>    visibility: visible;<br>  }</p>
-<p>&lt;/style&gt;</p>
+
+
+  .waterfall-item.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible; /* 定位完成后显示 */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 2px rgba(135, 206, 250, 0.5),
+                0 0 0 4px rgba(0, 255, 127, 0.4);
+    animation: colorfulGlow 0.8s ease-out;
+  }
+
+  @keyframes colorfulGlow {
+    0% {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+                  0 0 0 0px rgba(135, 206, 250, 0),
+                  0 0 0 0px rgba(0, 255, 127, 0);
+    }
+    50% {
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
+                  0 0 0 3px rgba(135, 206, 250, 0.8),
+                  0 0 0 6px rgba(0, 255, 127, 0.7);
+    }
+    100% {
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
+                  0 0 0 2px rgba(135, 206, 250, 0.5),
+                  0 0 0 4px rgba(0, 255, 127, 0.4);
+    }
+  }
+
+  .waterfall-item.positioned {
+    visibility: visible; /* 定位完成后立即显示 */
+  }
+
+  .waterfall-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 3px rgba(135, 206, 250, 0.8),
+                0 0 0 6px rgba(0, 255, 127, 0.7);
+    border: 2px solid transparent;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) padding-box,
+                linear-gradient(135deg, #87ceeb, #00ff7f, #87ceeb) border-box;
+  }
+
+  .waterfall-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .waterfall-item:hover img {
+    transform: scale(1.08);
+  }
+
+    /* 移除文字遮罩层，只保留图片放大效果 */
+
+  /* 加载动画 */
+  .loading-indicator, .load-more-indicator {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+  }
+
+  .loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: rgba(255, 255, 255, 0.8);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+  }
+
+  /* 进度指示器样式 */
+  .progress-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    padding: 15px 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    min-width: 200px;
+  }
+
+  .progress-text {
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00f5ff, #0080ff);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* 浮现动画变体 */
+  .waterfall-item:nth-child(odd) {
+    animation-delay: 0.1s;
+  }
+
+  .waterfall-item:nth-child(even) {
+    animation-delay: 0.2s;
+  }
+
+  .waterfall-item:nth-child(3n) {
+    animation-delay: 0.3s;
+  }
+
+  /* 空状态提示样式 */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin: 20px 0;
+  }
+
+  .empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  .upload-area {
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .upload-area:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .upload-area.dragover {
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* 移动端适配 - 保持两列布局 */
+  @media (max-width: 768px) {
+    .waterfall-container {
+      padding: 15px;
+    }
+
+    .waterfall-item {
+      border-radius: 8px;
+    }
+
+    .waterfall-item:hover {
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    .progress-indicator {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      min-width: auto;
+      font-size: 12px;
+      padding: 12px 15px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .waterfall-container {
+      padding: 10px;
+    }
+
+    .waterfall-item {
+      border-radius: 6px;
+    }
+
+    .waterfall-item:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+  }
+
+  /* 滚动条美化 */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* 优化滚动性能 */
+  html {
+    scroll-behavior: auto; /* 确保不会有意外的平滑滚动 */
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch; /* iOS 滚动优化 */
+    overscroll-behavior: auto; /* 允许原生滚动行为 */
+  }
+
+  .waterfall-container {
+    -webkit-overflow-scrolling: touch; /* iOS 滚动优化 */
+    overscroll-behavior: auto; /* 允许原生滚动行为 */
+    contain: layout style paint; /* CSS containment 优化 */
+  }
+
+  /* 图片加载优化 */
+  .waterfall-item img {
+    will-change: transform; /* 提示浏览器优化变换 */
+    content-visibility: auto; /* 内容可见性优化 */
+    contain: layout style paint; /* CSS containment */
+  }
+
+  /* 预加载提示 */
+  .preload-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .preload-indicator.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+
+  </style>
+
 <div class="waterfall-container">
-  <h2>本功能仍为beta测试版欢迎大家在评论区提意见</h2>
+  <div style="text-align: center; margin-bottom: 20px; color: rgba(255, 255, 255, 0.8); font-size: 18px; font-weight: 500;">
+    📸 本功能仍为beta测试版，欢迎大家在评论区提意见
+  </div>
+
   <div class="upload-area" id="uploadArea" style="display: none;">
     <div style="color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">
       📁 将图片拖拽到这里或点击选择图片
@@ -1334,7 +1569,7 @@ visibility: hidden; /* 初始隐藏，防止未定位时显示 */
     // 保持原生滚动体验，不添加任何滚动干预
   });
 </script>
-</style></p></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">ICP备案完成！xbxyftx.top正式恢复运营！！！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img src="/img/ArticleTopImgs/AprilTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="致2025那个繁忙的4月"/></a><div class="content"><a class="title" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月">致2025那个繁忙的4月</a><time datetime="2025-04-30T00:15:30.000Z" title="发表于 2025-04-30 08:15:30">2025-04-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.17em; color: #999c9f">独白</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.17em; color: #999c9f">网络请求</a> <a href="/tags/JS/" style="font-size: 1.17em; color: #999c9f">JS</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.3em; color: #99a1ac">项目</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.23em; color: #999ea6">hexo博客搭建</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.17em; color: #999c9f">主题美化</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.43em; color: #99a6b9">鸿蒙</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a></div></div><div class="card-widget card-archives">
+</div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">ICP备案完成！xbxyftx.top正式恢复运营！！！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img src="/img/ArticleTopImgs/AprilTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="致2025那个繁忙的4月"/></a><div class="content"><a class="title" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月">致2025那个繁忙的4月</a><time datetime="2025-04-30T00:15:30.000Z" title="发表于 2025-04-30 08:15:30">2025-04-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.17em; color: #999c9f">独白</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/JS/" style="font-size: 1.17em; color: #999c9f">JS</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.17em; color: #999c9f">主题美化</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.43em; color: #99a6b9">鸿蒙</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.17em; color: #999c9f">网络请求</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.23em; color: #999ea6">hexo博客搭建</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.3em; color: #99a1ac">项目</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -1389,7 +1624,7 @@ visibility: hidden; /* 初始隐藏，防止未定位时显示 */
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">127.1k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-05-27T03:28:24.501Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">127.1k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-05-27T03:31:48.435Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const element = mutation.target;
