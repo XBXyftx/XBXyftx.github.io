@@ -1,0 +1,934 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>XBXyftx | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="私密文章 - XBXyftx的博客                 &#x2F;* 整体容器样式 *&#x2F;     .coffer-container {       width: 100%;       max-width: 1200px;       margin: 0 auto;       padding: 20px;       box-sizing: border-box;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="XBXyftx">
+<meta property="og:url" content="https://xbxyftx.top/coffer/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="私密文章 - XBXyftx的博客                 &#x2F;* 整体容器样式 *&#x2F;     .coffer-container {       width: 100%;       max-width: 1200px;       margin: 0 auto;       padding: 20px;       box-sizing: border-box;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/img/logo.png">
+<meta property="article:published_time" content="2025-05-28T04:13:35.143Z">
+<meta property="article:modified_time" content="2025-05-28T04:13:35.143Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="鸿蒙开发">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="技术向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/img/logo.png"><link rel="shortcut icon" href="/img/logo.png"><link rel="canonical" href="https://xbxyftx.top/coffer/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'XBXyftx',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><script src="/js/nyan.js"></script><script>localStorage.setItem('theme','dark')</script><script>document.documentElement.setAttribute('data-theme', 'dark');</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/transpancy.css"><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><link rel="stylesheet" href="/css/styles.css"><script> document.querySelectorAll('#post-comment').forEach(el => { el.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'; }); </script><link rel="twikoo" href="/css/twikoo.css"><link rel="stylesheet" href="/css/rightmenu.css"><script src="/js/cache-manager.js"></script><script src="/js/nyan.js"></script><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本--><script src="/js/cache-manager.js"></script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></div><div class="menus_item"><a class="site-page" href="/coffer/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 秘密基地</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/topImg86.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.png" alt="Logo"><span class="site-name">XBXyftx</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></div><div class="menus_item"><a class="site-page" href="/coffer/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 秘密基地</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title"></h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私密文章 - XBXyftx的博客</title>
+  <meta name="description" content="私密文章导航页面">
+  <meta name="keywords" content="鸿蒙开发, hexo, 技术向">
+  
+  <style>
+    /* 整体容器样式 */
+    .coffer-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+      min-height: 80vh;
+      transition: all 0.6s ease;
+    }
+
+    .coffer-container.authenticated {
+      padding-top: 40px;
+    }
+
+    /* 密码验证区域 */
+    .password-section {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 60px 40px;
+      margin: 40px auto;
+      max-width: 500px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.5s ease;
+      overflow: hidden;
+    }
+
+    .password-section.hidden {
+      opacity: 0;
+      transform: translateY(-30px);
+      max-height: 0;
+      padding: 0;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .lock-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+
+    .password-title {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 32px;
+      margin-bottom: 15px;
+      font-weight: 300;
+    }
+
+    .password-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 16px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .password-input-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .password-input {
+      flex: 1;
+      padding: 15px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .password-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .password-input:focus {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .unlock-btn {
+      padding: 15px 25px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-top: 15px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .error-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 文章列表区域 */
+    .posts-section {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+      pointer-events: none;
+      margin-top: 0;
+    }
+
+    .posts-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .posts-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .posts-title {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 36px;
+      margin-bottom: 10px;
+      font-weight: 300;
+    }
+
+    .posts-count {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 16px;
+    }
+
+    /* 搜索和筛选区域 */
+    .search-filter-section {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 300px;
+      padding: 12px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-box::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .search-box:focus {
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* 加载状态 */
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 文章网格 */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    /* 文章卡片 */
+    .post-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .post-cover {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      display: block;
+    }
+
+    .post-cover-placeholder {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 48px;
+      opacity: 0.6;
+    }
+
+    .post-title {
+      color: white;
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .post-date {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .post-excerpt {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .post-tag {
+      background: rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .read-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .read-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .post-info {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 15px;
+      font-weight: 300;
+    }
+
+    .empty-state p {
+      line-height: 1.6;
+    }
+
+    .empty-state code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .coffer-container {
+        padding: 15px;
+      }
+
+      .password-section {
+        padding: 40px 25px;
+        margin: 20px auto;
+      }
+
+      .password-input-group {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .password-input,
+      .unlock-btn {
+        width: 100%;
+      }
+
+      .posts-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .search-filter-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        min-width: auto;
+        width: 100%;
+      }
+
+      .filter-buttons {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .post-card {
+        padding: 20px;
+      }
+
+      .posts-title {
+        font-size: 28px;
+      }
+
+      .lock-icon {
+        font-size: 48px;
+      }
+    }
+
+    /* 动画效果 */
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* 页面背景 */
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="coffer-container">
+    <!-- 密码验证区域 -->
+    <div class="password-section" id="passwordSection">
+      <div class="lock-icon">🔒</div>
+      <h2 class="password-title">私密文章库</h2>
+      <p class="password-subtitle">
+        这里存放着我的私人文章和想法<br>
+        请输入正确的密码来访问内容
+      </p>
+
+      <div class="password-input-group">
+        <input type="password" class="password-input" id="passwordInput" placeholder="请输入访问密码" autocomplete="off">
+        <button class="unlock-btn" id="unlockBtn">🔓 解锁</button>
+      </div>
+      
+      <div class="error-message" id="errorMessage">密码错误，请重试</div>
+    </div>
+
+    <!-- 文章列表区域 -->
+    <div class="posts-section" id="postsSection">
+      <div class="posts-header">
+        <h1 class="posts-title">私密文章</h1>
+        <p class="posts-count" id="postsCount">共 0 篇文章</p>
+      </div>
+
+      <div class="search-filter-section">
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索文章标题、内容或标签...">
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="recent">最近</button>
+          <button class="filter-btn" data-filter="tags">按标签</button>
+        </div>
+      </div>
+
+      <div class="loading-state" id="loadingState">
+        <div class="loading-spinner"></div>
+        <div>正在加载私密文章...</div>
+      </div>
+
+      <div class="posts-grid" id="postsGrid">
+        <!-- 文章卡片将通过JavaScript动态生成 -->
+      </div>
+
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-icon">📝</div>
+        <h3>暂无私密文章</h3>
+        <p>还没有添加任何私密文章，请在 <code>source/coffer/private-posts/</code> 目录中添加 Markdown 文件</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/coffer.js"></script>
+<!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = 'da54ed7504284b8d97ecdbf93f821cdf';
+  var gaud_map_key = 'c25dd516b6a1aa4c5269e50077fac6f4';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '115.982279,40.19409';
+  var clock_default_rectangle_enable = 'true';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/AprilTopImg.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/yiduoTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/04/V2/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/V2TopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-04</span><a class="blog-slider__title" href="2025/02/04/V2/" alt="">浅谈鸿蒙状态管理V1——&gt;V2</a><div class="blog-slider__text">用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。</div><a class="blog-slider__button" href="2025/02/04/V2/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/RCPTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/05/14/AccountKitTest/" alt=""><img width="48" height="48" src="/img/ArticleTopImgs/AccountTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-14</span><a class="blog-slider__title" href="2025/05/14/AccountKitTest/" alt="">华为账户一键登录功能测试</a><div class="blog-slider__text">Account Kit的官方demo测试与华为账户登录的功能实现分析。</div><a class="blog-slider__button" href="2025/05/14/AccountKitTest/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body>
+</html> </div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此，璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">ICP备案完成！xbxyftx.top正式恢复运营！！！</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月"><img src="/img/ArticleTopImgs/AprilTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="致2025那个繁忙的4月"/></a><div class="content"><a class="title" href="/2025/04/30/ToTheApril2025/" title="致2025那个繁忙的4月">致2025那个繁忙的4月</a><time datetime="2025-04-30T00:15:30.000Z" title="发表于 2025-04-30 08:15:30">2025-04-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.43em; color: #99a6b9">鸿蒙</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.3em; color: #99a1ac">项目</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/JS/" style="font-size: 1.17em; color: #999c9f">JS</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.17em; color: #999c9f">主题美化</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.17em; color: #999c9f">独白</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.23em; color: #999ea6">hexo博客搭建</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.17em; color: #999c9f">网络请求</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/05/">
+            <span class="card-archive-list-date">
+              五月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              二月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">10</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">127.6k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-05-28T04:24:13.165Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            const element = mutation.target;
+            const currentValue = parseInt(element.textContent);
+            if (!isNaN(currentValue)) {
+                element.textContent = currentValue + parseInt(10000); 
+                observer.disconnect();
+            }
+        });
+    });
+
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+        observer.observe(targetElement, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+    }
+}
+
+// 初始化访问量统计
+initCounter('busuanzi_value_site_pv');
+// 初始化访客量统计 
+initCounter('busuanzi_value_site_uv');</script><script>checkUv()</script></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script>localStorage.setItem('theme','dark')</script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><link rel="stylesheet" href="/css/styles.css"><script> document.querySelectorAll('#post-comment).forEach(el => { el.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'; }); </script><script src="/js/jquery-3.6.0.min.js"></script><script src="/js/rightmenu.js"></script><link rel="twikoo" href="/css/twikoo.css"><script src="/js/happy-title.js" async></script><script src="/js/cache-manager.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="/%5Bobject%20Object%5D"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="99" count="99" mobile="true" src="/%5Bobject%20Object%5D"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
