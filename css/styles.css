@@ -175,22 +175,25 @@ body{
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* 瀑布流首页样式 */
+/* 瀑布流布局样式 */
 #recent-posts.waterfall-masonry {
-    /* 轮播图样式重置 */
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible;
+    box-sizing: border-box;
+    clear: both;
 }
 
 #recent-posts.waterfall-masonry .blog-slider {
     width: 100% !important;
-    max-width: none !important;
-    margin-bottom: 20px !important;
+    margin: 0 0 30px 0 !important;
+    overflow: visible !important;
 }
 
 #recent-posts.waterfall-masonry .waterfall-container {
     position: relative;
     width: 100%;
-    margin-bottom: 150px !important;
-    padding-bottom: 100px !important;
+    min-height: 400px;
     overflow: visible;
     box-sizing: border-box;
     clear: both;
@@ -235,6 +238,7 @@ body{
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* 卡片样式 - 匹配私密文章库效果 */
 #recent-posts.waterfall-masonry .waterfall-item .post-card-wrapper {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
@@ -246,18 +250,25 @@ body{
     height: 100%;
     display: flex;
     flex-direction: column;
+    padding: 25px;
+    cursor: pointer;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .post-card-wrapper:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* 封面图片样式 */
 #recent-posts.waterfall-masonry .waterfall-item .post_cover {
     position: relative;
     overflow: hidden;
-    border-radius: 16px 16px 0 0;
+    border-radius: 12px;
     height: 200px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .post_cover .post-bg {
@@ -266,32 +277,35 @@ body{
     object-fit: cover;
     object-position: center;
     transition: transform 0.3s ease;
-    border-radius: 16px 16px 0 0;
+    border-radius: 12px;
+    display: block;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .post_cover:hover .post-bg {
     transform: scale(1.05);
 }
 
+/* 文章信息区域 */
 #recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
-    padding: 20px;
+    padding: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+/* 文章标题样式 - 匹配私密文章库 */
 #recent-posts.waterfall-masonry .waterfall-item .article-title {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-    color: var(--font-color);
-    font-size: 1.1em;
-    font-weight: 600;
-    line-height: 1.4;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease !important;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -299,52 +313,60 @@ body{
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title a:hover {
-    color: var(--theme-color);
+    color: rgba(255, 255, 255, 0.8) !important;
 }
 
+/* 文章元信息样式 */
 #recent-posts.waterfall-masonry .waterfall-item .article-meta-wrap {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-meta {
-    color: var(--font-color);
-    opacity: 0.7;
-    font-size: 0.85em;
-    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1 !important;
+    font-size: 14px !important;
+    margin-bottom: 15px !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-meta i {
-    margin-right: 6px;
+    margin-right: 5px;
+    opacity: 0.8;
 }
 
+/* 标签样式 - 匹配私密文章库效果 */
 #recent-posts.waterfall-masonry .waterfall-item .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-meta__tags {
-    background: rgba(var(--theme-color-rgb), 0.1);
-    color: var(--theme-color);
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.75em;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(var(--theme-color-rgb), 0.2);
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 4px 10px !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-meta__tags:hover {
-    background: rgba(var(--theme-color-rgb), 0.2);
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
     transform: translateY(-1px);
 }
 
+/* 文章摘要样式 */
 #recent-posts.waterfall-masonry .waterfall-item .content {
-    color: var(--font-color);
-    opacity: 0.8;
-    font-size: 0.9em;
-    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8) !important;
+    opacity: 1 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -364,12 +386,16 @@ body{
         width: 100%;
     }
     
-    #recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
-        padding: 16px;
+    #recent-posts.waterfall-masonry .waterfall-item .post-card-wrapper {
+        padding: 20px;
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .post_cover {
         height: 180px;
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .article-title a {
+        font-size: 18px !important;
     }
 }
 
@@ -388,6 +414,7 @@ body{
 #recent-posts.waterfall-masonry .waterfall-item.fade-in {
     animation: waterfallFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
+
 .waterfall-item{
     border-radius: 20px !important;
 }
