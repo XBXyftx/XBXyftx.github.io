@@ -66,10 +66,10 @@ body{
         rgba(255, 0, 183, 0.4)  
     )!important;
     /* box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); */
-    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
 }
 .post-card-wrapper{
-   border: 2px solid rgba(255, 255, 255, 0.8) !important; 
+   border: 2px solid rgba(255, 255, 255, 0.5) !important; 
 }
 #aside-content .card-widget,
 #content-inner #archive,
@@ -193,6 +193,7 @@ body{
     width: 100% !important;
     margin: 0 0 30px 0 !important;
     overflow: visible !important;
+    border-radius: 10px;
 }
 
 #recent-posts.waterfall-masonry .waterfall-container {
