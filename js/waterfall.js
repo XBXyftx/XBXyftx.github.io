@@ -1,6 +1,7 @@
 /**
  * 瀑布流布局实现
  * 使用简单直接的方法，支持分页
+ * 修复标签折行导致的高度计算问题
  */
 
 // 瀑布流布局初始化
@@ -52,9 +53,65 @@ function initWaterfall() {
     container.style.height = 'auto';
     container.style.overflow = 'visible';
     
-    // 先让所有卡片可见以获取正确高度，并完全重置样式
+    // 精确的高度计算函数
+    function getAccurateHeight(item) {
+        // 临时设置为静态定位以获取准确高度
+        const originalStyles = {
+            position: item.style.position,
+            width: item.style.width,
+            left: item.style.left,
+            top: item.style.top,
+            transform: item.style.transform,
+            opacity: item.style.opacity
+        };
+        
+        // 设置为静态定位并指定宽度
+        item.style.position = 'static';
+        item.style.width = itemWidth + 'px';
+        item.style.left = 'auto';
+        item.style.top = 'auto';
+        item.style.transform = 'none';
+        item.style.opacity = '1';
+        item.style.visibility = 'visible';
+        item.style.display = 'block';
+        
+        // 强制重排以确保标签等元素正确折行
+        item.offsetHeight;
+        
+        // 等待一帧确保所有样式生效
+        return new Promise(resolve => {
+            requestAnimationFrame(() => {
+                // 获取包含所有子元素的完整高度
+                const rect = item.getBoundingClientRect();
+                const computedStyle = window.getComputedStyle(item);
+                const marginTop = parseFloat(computedStyle.marginTop) || 0;
+                const marginBottom = parseFloat(computedStyle.marginBottom) || 0;
+                
+                // 计算实际高度（包含边距）
+                const actualHeight = rect.height + marginTop + marginBottom;
+                
+                console.log(`卡片高度详情:`, {
+                    offsetHeight: item.offsetHeight,
+                    clientHeight: item.clientHeight,
+                    scrollHeight: item.scrollHeight,
+                    rectHeight: rect.height,
+                    marginTop,
+                    marginBottom,
+                    actualHeight
+                });
+                
+                // 恢复原始样式
+                Object.keys(originalStyles).forEach(key => {
+                    item.style[key] = originalStyles[key];
+                });
+                
+                resolve(Math.ceil(actualHeight)); // 向上取整确保不会重叠
+            });
+        });
+    }
+    
+    // 先重置所有卡片样式
     items.forEach((item, index) => {
-        // 完全重置样式
         item.style.cssText = '';
         item.style.position = 'static';
         item.style.opacity = '1';
@@ -73,20 +130,21 @@ function initWaterfall() {
     // 强制重排
     container.offsetHeight;
     
-    // 等待两帧后重新计算布局，确保DOM完全更新
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            // 布局每个卡片
-            items.forEach((item, index) => {
-                // 获取实际高度
-                const itemHeight = item.offsetHeight;
+    // 异步布局每个卡片
+    async function layoutItems() {
+        for (let index = 0; index < items.length; index++) {
+            const item = items[index];
+            
+            try {
+                // 获取精确高度
+                const itemHeight = await getAccurateHeight(item);
                 
                 if (itemHeight <= 0) {
                     console.warn(`卡片 ${index} 高度为0，跳过定位`);
-                    return;
+                    continue;
                 }
                 
-                console.log(`卡片 ${index} 原始高度: ${itemHeight}px`);
+                console.log(`卡片 ${index} 精确高度: ${itemHeight}px`);
                 
                 // 找到最短的列
                 const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
@@ -112,42 +170,108 @@ function initWaterfall() {
                 // 添加positioned类
                 item.classList.add('positioned');
                 
-                // 更新列高度 - 确保精确计算
+                // 更新列高度 - 使用精确高度并添加额外间距
                 columnHeights[shortestColumnIndex] = y + itemHeight + gap;
                 
                 console.log(`卡片 ${index}: 位置(${x}, ${y}), 高度: ${itemHeight}, 列: ${shortestColumnIndex}, 新列高: ${columnHeights[shortestColumnIndex]}`);
-            });
-            
-            // 计算最大高度并设置容器高度
-            const maxHeight = Math.max(...columnHeights);
-            const finalHeight = maxHeight + 50; // 适当的底部边距
-            container.style.height = finalHeight + 'px';
-            container.style.minHeight = finalHeight + 'px';
-            
-            console.log('瀑布流布局完成，最大列高度:', maxHeight, '容器最终高度:', finalHeight);
-            console.log('各列最终高度:', columnHeights);
-            
-            // 添加渐入动画
-            items.forEach((item, index) => {
-                if (item.classList.contains('positioned')) {
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0) scale(1)';
-                    }, index * 80); // 稍微加快动画速度
-                }
-            });
-            
-            // 确保分页组件在瀑布流下方正确显示
-            const pagination = document.querySelector('#pagination');
-            if (pagination) {
-                pagination.style.position = 'relative';
-                pagination.style.zIndex = '10';
-                pagination.style.marginTop = '40px';
-                pagination.style.clear = 'both';
-                console.log('分页组件样式已设置');
+                
+            } catch (error) {
+                console.error(`卡片 ${index} 高度计算失败:`, error);
+                // 使用默认高度作为后备
+                const fallbackHeight = 400;
+                const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+                const x = shortestColumnIndex * (itemWidth + gap);
+                const y = columnHeights[shortestColumnIndex];
+                
+                item.style.position = 'absolute';
+                item.style.width = itemWidth + 'px';
+                item.style.left = x + 'px';
+                item.style.top = y + 'px';
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(50px) scale(0.9)';
+                item.classList.add('positioned');
+                
+                columnHeights[shortestColumnIndex] = y + fallbackHeight + gap;
+            }
+        }
+        
+        // 计算最大高度并设置容器高度
+        const maxHeight = Math.max(...columnHeights);
+        const finalHeight = maxHeight + 50; // 适当的底部边距
+        container.style.height = finalHeight + 'px';
+        container.style.minHeight = finalHeight + 'px';
+        
+        console.log('瀑布流布局完成，最大列高度:', maxHeight, '容器最终高度:', finalHeight);
+        console.log('各列最终高度:', columnHeights);
+        
+        // 添加渐入动画
+        items.forEach((item, index) => {
+            if (item.classList.contains('positioned')) {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0) scale(1)';
+                }, index * 80);
             }
         });
+        
+        // 确保分页组件在瀑布流下方正确显示
+        const pagination = document.querySelector('#pagination');
+        if (pagination) {
+            pagination.style.position = 'relative';
+            pagination.style.zIndex = '10';
+            pagination.style.marginTop = '40px';
+            pagination.style.clear = 'both';
+            console.log('分页组件样式已设置');
+        }
+    }
+    
+    // 开始布局
+    layoutItems().catch(error => {
+        console.error('瀑布流布局失败:', error);
+        // 降级到简单布局
+        initSimpleWaterfall();
     });
+}
+
+// 简单的降级布局方案
+function initSimpleWaterfall() {
+    console.log('使用简单瀑布流布局');
+    const container = document.querySelector('.waterfall-container');
+    const items = container.querySelectorAll('.waterfall-item');
+    
+    const containerWidth = container.offsetWidth;
+    const gap = 25;
+    let columns = window.innerWidth >= 1400 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+    const itemWidth = Math.floor((containerWidth - gap * (columns - 1)) / columns);
+    
+    const columnHeights = new Array(columns).fill(0);
+    
+    items.forEach((item, index) => {
+        item.style.width = itemWidth + 'px';
+        item.style.position = 'static';
+        item.style.opacity = '1';
+        item.style.transform = 'none';
+        
+        // 强制重排获取高度
+        const itemHeight = item.offsetHeight;
+        
+        // 找到最短列
+        const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+        const x = shortestColumnIndex * (itemWidth + gap);
+        const y = columnHeights[shortestColumnIndex];
+        
+        // 设置位置
+        item.style.position = 'absolute';
+        item.style.left = x + 'px';
+        item.style.top = y + 'px';
+        
+        // 更新列高度
+        columnHeights[shortestColumnIndex] = y + itemHeight + gap;
+    });
+    
+    // 设置容器高度
+    const maxHeight = Math.max(...columnHeights);
+    container.style.height = (maxHeight + 50) + 'px';
 }
 
 // 响应式调整
@@ -183,7 +307,7 @@ function handleImageLoad() {
                 console.log(`图片 ${index} 加载完成 (${loadedCount}/${totalImages})`);
                 if (loadedCount === totalImages) {
                     console.log('所有图片加载完成，初始化瀑布流');
-                    setTimeout(initWaterfall, 100);
+                    setTimeout(initWaterfall, 200); // 增加延迟确保渲染完成
                 }
             });
             img.addEventListener('error', () => {
@@ -191,7 +315,7 @@ function handleImageLoad() {
                 console.warn(`图片 ${index} 加载失败 (${loadedCount}/${totalImages})`);
                 if (loadedCount === totalImages) {
                     console.log('所有图片处理完成（包含失败），初始化瀑布流');
-                    setTimeout(initWaterfall, 100);
+                    setTimeout(initWaterfall, 200);
                 }
             });
         }
@@ -199,10 +323,10 @@ function handleImageLoad() {
     
     if (loadedCount === totalImages) {
         console.log('所有图片已预加载，初始化瀑布流');
-        setTimeout(initWaterfall, 100);
+        setTimeout(initWaterfall, 200);
     }
     
-    // 设置超时保护，防止某些图片一直不加载
+    // 设置超时保护，防止某些图片永远不触发事件
     setTimeout(() => {
         if (loadedCount < totalImages) {
             console.warn(`图片加载超时，已加载 ${loadedCount}/${totalImages}，强制初始化瀑布流`);
@@ -211,33 +335,43 @@ function handleImageLoad() {
     }, 5000);
 }
 
-// 页面加载完成后初始化
+// 初始化函数
 function initWaterfallOnReady() {
-    if (document.querySelector('.waterfall-container')) {
-        console.log('发现瀑布流容器，开始初始化');
-        handleImageLoad();
-        window.addEventListener('resize', handleResize);
-        
-        // 监听页面可见性变化
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                console.log('页面重新可见，检查瀑布流状态');
-                setTimeout(() => {
-                    const container = document.querySelector('.waterfall-container');
-                    const items = container ? container.querySelectorAll('.waterfall-item') : [];
-                    if (items.length > 0 && !items[0].classList.contains('positioned')) {
-                        console.log('检测到未定位的项目，重新初始化');
-                        initWaterfall();
-                    }
-                }, 500);
-            }
+    console.log('DOM加载完成，开始初始化瀑布流');
+    
+    // 检查是否为瀑布流布局
+    const recentPosts = document.querySelector('#recent-posts');
+    if (!recentPosts || !recentPosts.classList.contains('waterfall-masonry')) {
+        console.log('非瀑布流布局，跳过初始化');
+        return;
+    }
+    
+    // 等待字体和样式加载完成
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+            console.log('字体加载完成');
+            handleImageLoad();
         });
     } else {
-        console.log('未发现瀑布流容器');
+        // 降级方案
+        setTimeout(() => {
+            handleImageLoad();
+        }, 500);
+    }
+    
+    // 添加窗口大小变化监听
+    window.addEventListener('resize', handleResize);
+    
+    // 添加字体加载监听
+    if (document.fonts) {
+        document.fonts.addEventListener('loadingdone', () => {
+            console.log('字体加载事件触发，重新布局');
+            setTimeout(initWaterfall, 100);
+        });
     }
 }
 
-// 确保在DOM加载完成后初始化
+// 页面加载完成后初始化
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initWaterfallOnReady);
 } else {
