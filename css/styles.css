@@ -238,7 +238,7 @@ body{
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* 卡片样式 - 匹配私密文章库效果 */
+/* 卡片样式 - 匹配coffer的磨砂玻璃效果 */
 #recent-posts.waterfall-masonry .waterfall-item .post-card-wrapper {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
