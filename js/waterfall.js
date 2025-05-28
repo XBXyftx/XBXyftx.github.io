@@ -1,561 +1,434 @@
 /**
- * 瀑布流布局实现
- * 使用简单直接的方法，支持分页
- * 修复标签折行导致的高度计算问题
- * 优化刷新后的布局稳定性
- * 增强页面刷新后的初始化检测
+ * 瀑布流布局实现 - 优化版
+ * 修复间隔粘连和刷新后位置不同的问题
  */
 
-// 全局变量
-let waterfallInitialized = false;
-let layoutRetryCount = 0;
-const MAX_RETRY_COUNT = 5;
-let initializationTimer = null;
-let resizeObserver = null;
+class WaterfallLayout {
+    constructor() {
+        this.container = null;
+        this.items = [];
+        this.columnHeights = [];
+        this.columns = 2;
+        this.gap = 20; // 统一间隔
+        this.itemWidth = 0;
+        this.isInitialized = false;
+        this.isLayouting = false;
+        this.resizeTimer = null;
+        this.imageLoadPromises = [];
+        
+        // 绑定方法
+        this.init = this.init.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    }
 
-// 检测页面是否完全加载
-function isPageFullyLoaded() {
-    return document.readyState === 'complete' && 
-           document.fonts && 
-           document.fonts.ready;
-}
+    // 初始化瀑布流
+    async init() {
+        if (this.isLayouting) {
+            console.log('瀑布流正在布局中，跳过重复初始化');
+            return;
+        }
 
-// 等待页面完全加载
-async function waitForPageReady() {
-    return new Promise((resolve) => {
-        if (isPageFullyLoaded()) {
-            resolve();
+        this.container = document.querySelector('.waterfall-container');
+        if (!this.container) {
+            console.log('瀑布流容器未找到');
+            return;
+        }
+
+        this.items = Array.from(this.container.querySelectorAll('.waterfall-item'));
+        if (this.items.length === 0) {
+            console.log('瀑布流项目未找到');
+            return;
+        }
+
+        console.log(`开始初始化瀑布流，共 ${this.items.length} 个项目`);
+        
+        // 等待容器完全渲染
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // 检查容器宽度
+        let containerWidth = this.container.offsetWidth;
+        let retryCount = 0;
+        while (containerWidth <= 0 && retryCount < 10) {
+            console.log(`容器宽度为0，等待渲染... (尝试 ${retryCount + 1}/10)`);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            containerWidth = this.container.offsetWidth;
+            retryCount++;
+        }
+        
+        if (containerWidth <= 0) {
+            console.error('容器宽度仍为0，无法初始化瀑布流');
             return;
         }
         
-        const checkReady = () => {
-            if (isPageFullyLoaded()) {
-                resolve();
-            } else {
-                setTimeout(checkReady, 100);
-            }
-        };
-        
-        // 监听各种加载事件
-        if (document.readyState !== 'complete') {
-            window.addEventListener('load', checkReady, { once: true });
-        }
-        
-        if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(checkReady);
-        }
-        
-        // 超时保护
-        setTimeout(resolve, 5000);
-        
-        checkReady();
-    });
-}
+        console.log('容器宽度检查通过:', containerWidth);
+        this.isLayouting = true;
 
-// 瀑布流布局初始化
-async function initWaterfall() {
-    // 防止重复初始化
-    if (waterfallInitialized) {
-        console.log('瀑布流已初始化，跳过');
-        return;
-    }
-    
-    const container = document.querySelector('.waterfall-container');
-    if (!container) {
-        console.log('瀑布流容器未找到');
-        if (layoutRetryCount < MAX_RETRY_COUNT) {
-            layoutRetryCount++;
-            console.log(`重试初始化 (${layoutRetryCount}/${MAX_RETRY_COUNT})`);
-            setTimeout(initWaterfall, 500);
+        try {
+            // 1. 计算布局参数
+            this.calculateLayoutParams();
+            
+            // 2. 重置所有项目样式
+            this.resetItemStyles();
+            
+            // 3. 等待所有图片加载完成
+            await this.waitForImages();
+            
+            // 4. 执行布局
+            this.performLayout();
+            
+            // 5. 添加动画效果
+            this.addAnimations();
+            
+            // 6. 设置分页样式
+            this.setupPagination();
+            
+            this.isInitialized = true;
+            console.log('瀑布流初始化完成');
+            
+        } catch (error) {
+            console.error('瀑布流初始化失败:', error);
+        } finally {
+            this.isLayouting = false;
         }
-        return;
     }
-    
-    const items = container.querySelectorAll('.waterfall-item');
-    if (items.length === 0) {
-        console.log('瀑布流项目未找到');
-        if (layoutRetryCount < MAX_RETRY_COUNT) {
-            layoutRetryCount++;
-            console.log(`重试初始化 (${layoutRetryCount}/${MAX_RETRY_COUNT})`);
-            setTimeout(initWaterfall, 500);
-        }
-        return;
-    }
-    
-    console.log('瀑布流初始化开始，文章数量:', items.length);
-    
-    // 等待页面完全加载
-    await waitForPageReady();
-    
-    // 额外等待确保所有资源都已加载
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
+
     // 计算布局参数
-    const containerWidth = container.offsetWidth;
-    if (containerWidth <= 0) {
-        console.warn('容器宽度为0，延迟初始化');
-        if (layoutRetryCount < MAX_RETRY_COUNT) {
-            layoutRetryCount++;
-            setTimeout(initWaterfall, 500);
+    calculateLayoutParams() {
+        const containerWidth = this.container.offsetWidth;
+        if (containerWidth <= 0) {
+            throw new Error('容器宽度为0');
         }
-        return;
-    }
-    
-    const gap = 25; // 统一间距
-    let columns, itemWidth;
-    
-    if (window.innerWidth >= 1400) {
-        columns = 3;
-        itemWidth = Math.floor((containerWidth - gap * (columns - 1)) / columns);
-    } else if (window.innerWidth >= 768) {
-        columns = 2;
-        itemWidth = Math.floor((containerWidth - gap * (columns - 1)) / columns);
-    } else {
-        columns = 1;
-        itemWidth = containerWidth;
-    }
-    
-    console.log('布局参数:', { containerWidth, columns, itemWidth, gap });
-    
-    // 初始化列高度数组
-    const columnHeights = new Array(columns).fill(0);
-    
-    // 设置容器样式
-    container.style.position = 'relative';
-    container.style.width = '100%';
-    container.style.height = 'auto';
-    container.style.overflow = 'visible';
-    
-    // 等待所有内容完全加载
-    async function waitForContentReady() {
-        return new Promise((resolve) => {
-            // 等待图片加载
-            const images = container.querySelectorAll('img');
-            let loadedImages = 0;
-            const totalImages = images.length;
-            
-            console.log(`等待 ${totalImages} 张图片加载...`);
-            
-            if (totalImages === 0) {
-                console.log('没有图片需要加载');
-                setTimeout(resolve, 500); // 即使没有图片也等待一段时间
-                return;
-            }
-            
-            const checkImageLoad = () => {
-                loadedImages++;
-                console.log(`图片加载进度: ${loadedImages}/${totalImages}`);
-                if (loadedImages >= totalImages) {
-                    console.log('所有图片加载完成，等待渲染...');
-                    // 额外等待确保渲染完成
-                    setTimeout(resolve, 800);
-                }
-            };
-            
-            images.forEach((img, index) => {
-                if (img.complete && img.naturalHeight > 0) {
-                    console.log(`图片 ${index} 已缓存`);
-                    checkImageLoad();
-                } else {
-                    img.addEventListener('load', () => {
-                        console.log(`图片 ${index} 加载完成`);
-                        checkImageLoad();
-                    });
-                    img.addEventListener('error', () => {
-                        console.log(`图片 ${index} 加载失败`);
-                        checkImageLoad();
-                    });
-                }
-            });
-            
-            // 超时保护
-            setTimeout(() => {
-                console.log('图片加载超时，继续布局');
-                resolve();
-            }, 8000);
+
+        // 根据屏幕宽度确定列数 - 修复列数计算逻辑
+        const screenWidth = window.innerWidth;
+        console.log('屏幕宽度:', screenWidth, '容器宽度:', containerWidth);
+        
+        if (screenWidth >= 1400) {
+            this.columns = 3;
+        } else if (screenWidth >= 900) {
+            this.columns = 2;
+        } else {
+            this.columns = 1;
+            this.gap = 15; // 移动端使用较小间隔
+        }
+
+        // 强制最小列数为1，最大列数为3
+        this.columns = Math.max(1, Math.min(3, this.columns));
+
+        // 计算项目宽度 - 确保有足够空间
+        const totalGapWidth = this.gap * (this.columns - 1);
+        const availableWidth = containerWidth - totalGapWidth;
+        this.itemWidth = Math.floor(availableWidth / this.columns);
+        
+        // 确保项目宽度不会太小
+        if (this.itemWidth < 200 && this.columns > 1) {
+            this.columns = Math.max(1, this.columns - 1);
+            const newTotalGapWidth = this.gap * (this.columns - 1);
+            const newAvailableWidth = containerWidth - newTotalGapWidth;
+            this.itemWidth = Math.floor(newAvailableWidth / this.columns);
+        }
+        
+        // 初始化列高度
+        this.columnHeights = new Array(this.columns).fill(0);
+
+        console.log('布局参数:', {
+            screenWidth,
+            containerWidth,
+            columns: this.columns,
+            itemWidth: this.itemWidth,
+            gap: this.gap,
+            totalGapWidth,
+            availableWidth
         });
     }
-    
-    // 精确的高度计算函数
-    function getAccurateHeight(item) {
-        return new Promise(resolve => {
-            // 临时设置为静态定位以获取准确高度
-            const originalStyles = {
-                position: item.style.position,
-                width: item.style.width,
-                left: item.style.left,
-                top: item.style.top,
-                transform: item.style.transform,
-                opacity: item.style.opacity,
-                visibility: item.style.visibility
-            };
+
+    // 重置项目样式
+    resetItemStyles() {
+        // 设置容器样式
+        this.container.style.position = 'relative';
+        this.container.style.width = '100%';
+        this.container.style.overflow = 'visible';
+
+        // 重置所有项目样式
+        this.items.forEach((item, index) => {
+            // 移除所有定位相关的类和样式
+            item.classList.remove('positioned', 'fade-in');
             
-            // 设置为静态定位并指定宽度
+            // 重置为静态布局以获取真实高度
+            item.style.cssText = ''; // 清除所有内联样式
             item.style.position = 'static';
-            item.style.width = itemWidth + 'px';
+            item.style.width = this.itemWidth + 'px';
             item.style.left = 'auto';
             item.style.top = 'auto';
             item.style.transform = 'none';
             item.style.opacity = '1';
-            item.style.visibility = 'visible';
+            item.style.margin = '0';
+            item.style.padding = '0';
+            item.style.boxSizing = 'border-box';
             item.style.display = 'block';
-            
-            // 强制重排以确保标签等元素正确折行
-            item.offsetHeight;
-            
-            // 等待多帧确保所有样式和内容都已渲染
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            // 获取包含所有子元素的完整高度
-                            const rect = item.getBoundingClientRect();
-                            const computedStyle = window.getComputedStyle(item);
-                            const marginTop = parseFloat(computedStyle.marginTop) || 0;
-                            const marginBottom = parseFloat(computedStyle.marginBottom) || 0;
-                            
-                            // 计算实际高度（包含边距）
-                            const actualHeight = rect.height + marginTop + marginBottom;
-                            
-                            console.log(`卡片高度详情:`, {
-                                offsetHeight: item.offsetHeight,
-                                clientHeight: item.clientHeight,
-                                scrollHeight: item.scrollHeight,
-                                rectHeight: rect.height,
-                                marginTop,
-                                marginBottom,
-                                actualHeight
-                            });
-                            
-                            // 恢复原始样式
-                            Object.keys(originalStyles).forEach(key => {
-                                item.style[key] = originalStyles[key];
-                            });
-                            
-                            resolve(Math.ceil(actualHeight + 8)); // 向上取整并添加额外间距
-                        });
-                    });
-                });
-            });
+            item.style.visibility = 'visible';
+            item.style.zIndex = 'auto';
+            item.style.transition = 'none';
+            item.style.float = 'none';
+            item.style.clear = 'none';
         });
-    }
-    
-    // 先重置所有卡片样式
-    items.forEach((item, index) => {
-        item.style.cssText = '';
-        item.style.position = 'static';
-        item.style.opacity = '1';
-        item.style.transform = 'none';
-        item.style.width = itemWidth + 'px';
-        item.style.margin = '0';
-        item.style.padding = '0';
-        item.style.left = 'auto';
-        item.style.top = 'auto';
-        item.style.display = 'block';
-        item.style.visibility = 'visible';
-        item.style.zIndex = 'auto';
-        item.classList.remove('positioned');
-    });
-    
-    // 强制重排
-    container.offsetHeight;
-    
-    // 异步布局每个卡片
-    async function layoutItems() {
-        // 等待内容完全加载
-        await waitForContentReady();
-        
-        console.log('开始布局卡片...');
-        
-        for (let index = 0; index < items.length; index++) {
-            const item = items[index];
-            
-            try {
-                // 获取精确高度
-                const itemHeight = await getAccurateHeight(item);
-                
-                if (itemHeight <= 0) {
-                    console.warn(`卡片 ${index} 高度为0，跳过定位`);
-                    continue;
-                }
-                
-                console.log(`卡片 ${index} 精确高度: ${itemHeight}px`);
-                
-                // 找到最短的列
-                const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-                const x = shortestColumnIndex * (itemWidth + gap);
-                const y = columnHeights[shortestColumnIndex];
-                
-                // 设置卡片位置
-                item.style.position = 'absolute';
-                item.style.left = x + 'px';
-                item.style.top = y + 'px';
-                item.style.width = itemWidth + 'px';
-                item.style.opacity = '1';
-                item.style.transform = 'none';
-                item.style.zIndex = '1';
-                item.classList.add('positioned');
-                
-                // 更新列高度
-                columnHeights[shortestColumnIndex] += itemHeight + gap;
-                
-                console.log(`卡片 ${index} 定位: x=${x}, y=${y}, 高度=${itemHeight}, 列=${shortestColumnIndex}`);
-                
-                // 每布局几个卡片就暂停一下，避免阻塞UI
-                if (index % 3 === 0) {
-                    await new Promise(resolve => setTimeout(resolve, 10));
-                }
-                
-            } catch (error) {
-                console.error(`布局卡片 ${index} 时出错:`, error);
-            }
-        }
-        
-        // 设置容器高度
-        const maxHeight = Math.max(...columnHeights);
-        container.style.height = maxHeight + 'px';
-        
-        // 确保瀑布流不会越过页脚
-        const footer = document.querySelector('#footer');
-        if (footer) {
-            const footerRect = footer.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-            
-            // 如果瀑布流底部接近或超过页脚，添加额外的底部间距
-            if (containerRect.bottom > footerRect.top - 50) {
-                const additionalMargin = 80; // 额外的底部间距
-                container.style.marginBottom = additionalMargin + 'px';
-                console.log('添加底部间距以避免越过页脚');
-            }
-        }
-        
-        console.log('瀑布流布局完成，容器高度:', maxHeight);
-        console.log('各列高度:', columnHeights);
-        
-        // 标记为已初始化
-        waterfallInitialized = true;
-        layoutRetryCount = 0;
-        
-        // 验证布局
-        setTimeout(() => validateLayout(items), 1000);
-    }
-    
-    try {
-        await layoutItems();
-    } catch (error) {
-        console.error('瀑布流布局失败:', error);
-        waterfallInitialized = false;
-        
-        // 重试
-        if (layoutRetryCount < MAX_RETRY_COUNT) {
-            layoutRetryCount++;
-            console.log(`布局失败，重试 (${layoutRetryCount}/${MAX_RETRY_COUNT})`);
-            setTimeout(initWaterfall, 1000);
-        }
-    }
-}
 
-// 验证布局是否正确
-function validateLayout(items) {
-    console.log('验证瀑布流布局...');
-    
-    let hasOverlap = false;
-    const positions = [];
-    
-    items.forEach((item, index) => {
-        if (!item.classList.contains('positioned')) {
-            console.warn(`卡片 ${index} 未正确定位`);
+        // 强制重排，确保样式生效
+        this.container.offsetHeight;
+    }
+
+    // 等待所有图片加载完成
+    async waitForImages() {
+        const images = this.container.querySelectorAll('img');
+        if (images.length === 0) {
+            console.log('没有图片需要加载');
             return;
         }
-        
-        const rect = item.getBoundingClientRect();
-        const position = {
-            index,
-            left: rect.left,
-            top: rect.top,
-            right: rect.right,
-            bottom: rect.bottom,
-            width: rect.width,
-            height: rect.height
-        };
-        
-        positions.push(position);
-        
-        // 检查是否与其他卡片重叠
-        for (let i = 0; i < positions.length - 1; i++) {
-            const other = positions[i];
-            if (!(position.right <= other.left || 
-                  position.left >= other.right || 
-                  position.bottom <= other.top || 
-                  position.top >= other.bottom)) {
-                console.warn(`卡片 ${index} 与卡片 ${other.index} 重叠`);
-                hasOverlap = true;
-            }
-        }
-    });
-    
-    if (hasOverlap) {
-        console.error('检测到卡片重叠，尝试重新布局');
-        waterfallInitialized = false;
-        setTimeout(() => {
-            if (layoutRetryCount < MAX_RETRY_COUNT) {
-                layoutRetryCount++;
-                initWaterfall();
-            }
-        }, 1000);
-    } else {
-        console.log('瀑布流布局验证通过');
-    }
-}
 
-// 简化版瀑布流（备用方案）
-function initSimpleWaterfall() {
-    console.log('使用简化版瀑布流布局');
-    
-    const container = document.querySelector('.waterfall-container');
-    if (!container) return;
-    
-    const items = container.querySelectorAll('.waterfall-item');
-    if (items.length === 0) return;
-    
-    // 重置为普通流式布局
-    container.style.position = 'relative';
-    container.style.columns = window.innerWidth >= 1400 ? '3' : (window.innerWidth >= 768 ? '2' : '1');
-    container.style.columnGap = '25px';
-    container.style.height = 'auto';
-    
-    items.forEach(item => {
-        item.style.cssText = '';
-        item.style.breakInside = 'avoid';
-        item.style.marginBottom = '25px';
-        item.style.display = 'block';
-        item.style.width = '100%';
-    });
-    
-    // 确保不会越过页脚
-    const footer = document.querySelector('#footer');
-    if (footer) {
-        const footerRect = footer.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        
-        if (containerRect.bottom > footerRect.top - 50) {
-            container.style.marginBottom = '80px';
-            console.log('简化版瀑布流添加底部间距');
-        }
-    }
-    
-    waterfallInitialized = true;
-    console.log('简化版瀑布流布局完成');
-}
+        console.log(`等待 ${images.length} 张图片加载完成`);
 
-// 处理窗口大小变化
-function handleResize() {
-    if (!waterfallInitialized) return;
-    
-    console.log('窗口大小变化，重新布局');
-    waterfallInitialized = false;
-    layoutRetryCount = 0;
-    
-    clearTimeout(initializationTimer);
-    initializationTimer = setTimeout(initWaterfall, 300);
-}
+        const imagePromises = Array.from(images).map((img, index) => {
+            return new Promise((resolve) => {
+                if (img.complete && img.naturalHeight > 0) {
+                    console.log(`图片 ${index} 已加载`);
+                    resolve();
+                } else {
+                    const handleLoad = () => {
+                        console.log(`图片 ${index} 加载完成`);
+                        img.removeEventListener('load', handleLoad);
+                        img.removeEventListener('error', handleError);
+                        resolve();
+                    };
+                    
+                    const handleError = () => {
+                        console.warn(`图片 ${index} 加载失败`);
+                        img.removeEventListener('load', handleLoad);
+                        img.removeEventListener('error', handleError);
+                        resolve(); // 即使失败也要继续
+                    };
 
-// 强制重新布局
-function forceRelayout() {
-    console.log('强制重新布局');
-    waterfallInitialized = false;
-    layoutRetryCount = 0;
-    
-    clearTimeout(initializationTimer);
-    initializationTimer = setTimeout(initWaterfall, 100);
-}
-
-// 主初始化函数
-async function initWaterfallOnReady() {
-    console.log('开始瀑布流初始化检测...');
-    
-    // 清除之前的定时器
-    if (initializationTimer) {
-        clearTimeout(initializationTimer);
-    }
-    
-    // 等待DOM完全加载
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initWaterfallOnReady);
-        return;
-    }
-    
-    // 等待页面完全加载
-    await waitForPageReady();
-    
-    // 多重检测机制
-    const checkAndInit = async () => {
-        const container = document.querySelector('.waterfall-container');
-        const items = container ? container.querySelectorAll('.waterfall-item') : [];
-        
-        if (container && items.length > 0) {
-            console.log('检测到瀑布流容器和项目，开始初始化');
-            
-            // 延迟初始化，确保所有资源都已加载
-            initializationTimer = setTimeout(async () => {
-                try {
-                    await initWaterfall();
-                } catch (error) {
-                    console.error('瀑布流初始化失败，使用备用方案:', error);
-                    initSimpleWaterfall();
+                    img.addEventListener('load', handleLoad);
+                    img.addEventListener('error', handleError);
                 }
-            }, 1200); // 增加延迟时间
+            });
+        });
+
+        // 设置超时保护
+        const timeoutPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                console.warn('图片加载超时，强制继续布局');
+                resolve();
+            }, 3000);
+        });
+
+        await Promise.race([
+            Promise.all(imagePromises),
+            timeoutPromise
+        ]);
+
+        console.log('图片加载完成，开始布局');
+        
+        // 再次强制重排，确保图片尺寸正确
+        this.container.offsetHeight;
+    }
+
+    // 执行布局
+    performLayout() {
+        console.log('开始执行瀑布流布局');
+        console.log('当前列数:', this.columns, '项目宽度:', this.itemWidth, '间隔:', this.gap);
+
+        this.items.forEach((item, index) => {
+            // 获取项目的实际高度
+            const itemHeight = item.offsetHeight;
             
-        } else {
-            console.log('瀑布流容器或项目未找到，等待...');
-            if (layoutRetryCount < MAX_RETRY_COUNT) {
-                layoutRetryCount++;
-                setTimeout(checkAndInit, 800);
+            if (itemHeight <= 0) {
+                console.warn(`项目 ${index} 高度为0，跳过布局`);
+                return;
             }
+
+            // 找到最短的列
+            const shortestColumnIndex = this.columnHeights.indexOf(Math.min(...this.columnHeights));
+            
+            // 计算位置 - 修复x坐标计算
+            const x = shortestColumnIndex * (this.itemWidth + this.gap);
+            const y = this.columnHeights[shortestColumnIndex];
+
+            console.log(`项目 ${index}: 列${shortestColumnIndex}, x=${x}, y=${y}, 宽度=${this.itemWidth}, 高度=${itemHeight}`);
+
+            // 设置项目样式和位置 - 强制覆盖CSS
+            item.style.cssText = `
+                position: absolute !important;
+                left: ${x}px !important;
+                top: ${y}px !important;
+                width: ${this.itemWidth}px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 0 !important;
+                transform: translateY(20px) !important;
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+                z-index: 1 !important;
+                float: none !important;
+                clear: none !important;
+            `;
+
+            // 标记为已定位
+            item.classList.add('positioned');
+
+            // 更新列高度
+            this.columnHeights[shortestColumnIndex] = y + itemHeight + this.gap;
+
+            console.log(`项目 ${index} 布局完成: 位置(${x}, ${y}), 高度: ${itemHeight}, 列: ${shortestColumnIndex}`);
+        });
+
+        // 设置容器高度
+        const maxHeight = Math.max(...this.columnHeights);
+        const containerHeight = maxHeight + 30; // 添加底部间距
+        this.container.style.height = containerHeight + 'px';
+        this.container.style.minHeight = containerHeight + 'px';
+
+        console.log(`布局完成，容器高度: ${containerHeight}px`);
+        console.log('各列高度:', this.columnHeights);
+    }
+
+    // 添加动画效果
+    addAnimations() {
+        this.items.forEach((item, index) => {
+            if (item.classList.contains('positioned')) {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0) scale(1)';
+                }, index * 60); // 错开动画时间
+            }
+        });
+    }
+
+    // 设置分页样式
+    setupPagination() {
+        const pagination = document.querySelector('#pagination');
+        if (pagination) {
+            pagination.style.position = 'relative';
+            pagination.style.zIndex = '10';
+            pagination.style.marginTop = '40px';
+            pagination.style.clear = 'both';
+            console.log('分页组件样式已设置');
         }
-    };
-    
-    await checkAndInit();
+    }
+
+    // 处理窗口大小变化
+    handleResize() {
+        if (this.resizeTimer) {
+            clearTimeout(this.resizeTimer);
+        }
+        
+        this.resizeTimer = setTimeout(() => {
+            if (this.isInitialized && !this.isLayouting) {
+                console.log('窗口大小变化，重新布局');
+                this.init();
+            }
+        }, 300);
+    }
+
+    // 处理页面可见性变化
+    handleVisibilityChange() {
+        if (!document.hidden && this.isInitialized) {
+            // 检查是否需要重新布局
+            setTimeout(() => {
+                const positionedItems = this.container?.querySelectorAll('.waterfall-item.positioned');
+                if (this.items.length > 0 && (!positionedItems || positionedItems.length === 0)) {
+                    console.log('检测到布局丢失，重新初始化');
+                    this.init();
+                }
+            }, 500);
+        }
+    }
+
+    // 销毁实例
+    destroy() {
+        if (this.resizeTimer) {
+            clearTimeout(this.resizeTimer);
+        }
+        
+        window.removeEventListener('resize', this.handleResize);
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        
+        this.isInitialized = false;
+        this.isLayouting = false;
+    }
 }
 
-// 监听窗口大小变化
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(handleResize, 300);
-});
+// 创建全局实例
+let waterfallInstance = null;
 
-// 监听页面可见性变化
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && !waterfallInitialized) {
-        console.log('页面重新可见，检查瀑布流状态');
-        setTimeout(forceRelayout, 500);
+// 初始化函数
+function initWaterfall() {
+    if (waterfallInstance) {
+        waterfallInstance.destroy();
     }
-});
+    
+    waterfallInstance = new WaterfallLayout();
+    waterfallInstance.init();
+}
 
 // 页面加载完成后初始化
+function initWaterfallOnReady() {
+    const container = document.querySelector('.waterfall-container');
+    if (!container) {
+        console.log('未发现瀑布流容器');
+        return;
+    }
+
+    console.log('发现瀑布流容器，开始初始化');
+    
+    // 初始化瀑布流
+    initWaterfall();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', () => {
+        if (waterfallInstance) {
+            waterfallInstance.handleResize();
+        }
+    });
+    
+    // 监听页面可见性变化
+    document.addEventListener('visibilitychange', () => {
+        if (waterfallInstance) {
+            waterfallInstance.handleVisibilityChange();
+        }
+    });
+}
+
+// 确保在DOM加载完成后初始化
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initWaterfallOnReady);
 } else {
-    // 如果页面已经加载完成，立即初始化
+    // DOM已经加载完成，延迟一点时间确保所有资源就绪
     setTimeout(initWaterfallOnReady, 100);
 }
 
-// 额外的保险机制：页面完全加载后再次检查
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        if (!waterfallInitialized) {
-            console.log('页面load事件后检查瀑布流状态');
-            forceRelayout();
-        }
-    }, 1000);
-});
-
-// 暴露全局函数供调试使用
-window.waterfallDebug = {
-    forceRelayout,
-    initWaterfall,
-    initSimpleWaterfall,
-    isInitialized: () => waterfallInitialized,
-    getRetryCount: () => layoutRetryCount
-}; 
+// 添加必要的CSS样式
+const style = document.createElement('style');
+style.textContent = `
+  #recent-posts.waterfall-masonry .waterfall-container {
+    position: relative !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+    display: block !important;
+    visibility: visible !important;
+    box-sizing: border-box !important;
+  }
+  
+  #recent-posts.waterfall-masonry #pagination {
+    position: relative !important;
+    z-index: 10 !important;
+    margin-top: 40px !important;
+    clear: both !important;
+  }
+`;
+document.head.appendChild(style); 
