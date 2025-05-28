@@ -174,3 +174,220 @@ body{
 .recent-post-items .recent-post-item{
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
+
+/* 瀑布流首页样式 */
+#recent-posts.waterfall-masonry {
+    /* 轮播图样式重置 */
+}
+
+#recent-posts.waterfall-masonry .blog-slider {
+    width: 100% !important;
+    max-width: none !important;
+    margin-bottom: 20px !important;
+}
+
+#recent-posts.waterfall-masonry .waterfall-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 150px !important;
+    padding-bottom: 100px !important;
+    overflow: visible;
+    box-sizing: border-box;
+    clear: both;
+}
+
+#recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+    position: absolute !important;
+    width: calc(50% - 12.5px);
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    outline: none !important;
+    float: none !important;
+    clear: none !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+#recent-posts.waterfall-masonry .waterfall-container .waterfall-item * {
+    box-sizing: border-box !important;
+}
+
+#recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+#recent-posts.waterfall-masonry .waterfall-container .waterfall-item.positioned {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+#recent-posts.waterfall-masonry .waterfall-container .waterfall-item:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .post-card-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .post-card-wrapper:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .post_cover {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+    height: 200px;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .post_cover .post-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+    border-radius: 16px 16px 0 0;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .post_cover:hover .post-bg {
+    transform: scale(1.05);
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-title {
+    margin-bottom: 12px;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-title a {
+    color: var(--font-color);
+    font-size: 1.1em;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-title a:hover {
+    color: var(--theme-color);
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta-wrap {
+    margin-bottom: 12px;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta {
+    color: var(--font-color);
+    opacity: 0.7;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta i {
+    margin-right: 6px;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta__tags {
+    background: rgba(var(--theme-color-rgb), 0.1);
+    color: var(--theme-color);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(var(--theme-color-rgb), 0.2);
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta__tags:hover {
+    background: rgba(var(--theme-color-rgb), 0.2);
+    transform: translateY(-1px);
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .content {
+    color: var(--font-color);
+    opacity: 0.8;
+    font-size: 0.9em;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 1400px) {
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+        width: calc(50% - 12.5px);
+    }
+}
+
+@media (max-width: 768px) {
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+        width: 100%;
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
+        padding: 16px;
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .post_cover {
+        height: 180px;
+    }
+}
+
+/* 加载动画 */
+@keyframes waterfallFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#recent-posts.waterfall-masonry .waterfall-item.fade-in {
+    animation: waterfallFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+.waterfall-item{
+    border-radius: 20px !important;
+}
