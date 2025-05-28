@@ -205,6 +205,8 @@ body{
     box-sizing: border-box;
     clear: both;
     z-index: 1;
+    margin-bottom: 60px !important;
+    padding-bottom: 40px !important;
 }
 
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
@@ -380,83 +382,6 @@ body{
     margin-top: auto;
 }
 
-/* 分页组件样式 - 确保在瀑布流下方正确显示并居中 */
-#recent-posts.waterfall-masonry #pagination {
-    position: relative !important;
-    z-index: 10 !important;
-    margin: 40px auto 0 auto !important;
-    clear: both !important;
-    width: 100% !important;
-    display: block !important;
-    visibility: visible !important;
-    text-align: center !important;
-}
-
-#recent-posts.waterfall-masonry #pagination .pagination {
-    display: inline-flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 12px !important;
-    margin: 0 auto !important;
-    padding: 20px 0 !important;
-    flex-wrap: wrap !important;
-}
-
-#recent-posts.waterfall-masonry #pagination .pagination .page-number,
-#recent-posts.waterfall-masonry #pagination .pagination .extend {
-    display: inline-flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    padding: 10px 15px !important;
-    border-radius: 8px !important;
-    text-decoration: none !important;
-    transition: all 0.3s ease !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    min-width: 40px !important;
-    height: 40px !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    line-height: 1 !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-    box-sizing: border-box !important;
-}
-
-#recent-posts.waterfall-masonry #pagination .pagination .page-number:hover,
-#recent-posts.waterfall-masonry #pagination .pagination .extend:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-}
-
-#recent-posts.waterfall-masonry #pagination .pagination .current {
-    background: var(--theme-color) !important;
-    color: #fff !important;
-    border-color: var(--theme-color) !important;
-    font-weight: 600 !important;
-}
-
-#recent-posts.waterfall-masonry #pagination .pagination .current:hover {
-    background: var(--theme-color) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* 分页器图标样式 */
-#recent-posts.waterfall-masonry #pagination .pagination .extend i {
-    font-size: 12px !important;
-    line-height: 1 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: inline-block !important;
-    vertical-align: middle !important;
-}
-
 /* 响应式设计 */
 @media (max-width: 1400px) {
     #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
@@ -481,18 +406,10 @@ body{
         font-size: 18px !important;
     }
     
-    /* 移动端分页器优化 */
-    #recent-posts.waterfall-masonry #pagination .pagination {
-        gap: 8px !important;
-        padding: 15px 0 !important;
-    }
-    
-    #recent-posts.waterfall-masonry #pagination .pagination .page-number,
-    #recent-posts.waterfall-masonry #pagination .pagination .extend {
-        min-width: 36px !important;
-        height: 36px !important;
-        padding: 8px 12px !important;
-        font-size: 13px !important;
+    /* 移动端瀑布流容器底部间距 */
+    #recent-posts.waterfall-masonry .waterfall-container {
+        margin-bottom: 40px !important;
+        padding-bottom: 30px !important;
     }
 }
 
