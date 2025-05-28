@@ -57,20 +57,20 @@ body{
 } */
 
 .recent-post-item{
-    background: linear-gradient(
+    /* background: linear-gradient(
         to bottom right,
         rgba(0, 35, 117, 0.6),  
         rgba(36, 85, 246, 0.6),
         rgba(0, 0, 0, 0.6),    
         rgba(255, 44, 44, 0.6), 
         rgba(255, 0, 183, 0.6)  
-    )!important;
+    )!important; */
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 #aside-content .card-widget,
 #content-inner #archive,
 #content-inner #page,
-
+#post,
 #swiper_container{
     background: linear-gradient(
         to bottom right,
