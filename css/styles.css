@@ -179,9 +179,10 @@ body{
 #recent-posts.waterfall-masonry {
     padding: 0 !important;
     margin: 0 !important;
-    overflow: visible;
+    overflow: visible !important;
     box-sizing: border-box;
     clear: both;
+    position: relative;
 }
 
 #recent-posts.waterfall-masonry .blog-slider {
@@ -191,12 +192,13 @@ body{
 }
 
 #recent-posts.waterfall-masonry .waterfall-container {
-    position: relative;
-    width: 100%;
+    position: relative !important;
+    width: 100% !important;
     min-height: 400px;
-    overflow: visible;
+    overflow: visible !important;
     box-sizing: border-box;
     clear: both;
+    z-index: 1;
 }
 
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
@@ -215,6 +217,7 @@ body{
     clear: none !important;
     display: block !important;
     visibility: visible !important;
+    z-index: 2;
 }
 
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item * {
@@ -236,6 +239,7 @@ body{
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item:hover {
     transform: translateY(-8px) scale(1.02) !important;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 3;
 }
 
 /* 卡片样式 - 匹配coffer的磨砂玻璃效果 */
@@ -368,6 +372,53 @@ body{
     font-size: 14px !important;
     line-height: 1.6 !important;
     margin-top: auto;
+}
+
+/* 分页组件样式 - 确保在瀑布流下方正确显示 */
+#recent-posts.waterfall-masonry #pagination {
+    position: relative !important;
+    z-index: 10 !important;
+    margin-top: 40px !important;
+    clear: both !important;
+    width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+#recent-posts.waterfall-masonry #pagination .pagination {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 auto !important;
+    padding: 20px 0 !important;
+}
+
+#recent-posts.waterfall-masonry #pagination .pagination .page-number,
+#recent-posts.waterfall-masonry #pagination .pagination .extend {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+#recent-posts.waterfall-masonry #pagination .pagination .page-number:hover,
+#recent-posts.waterfall-masonry #pagination .pagination .extend:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+}
+
+#recent-posts.waterfall-masonry #pagination .pagination .current {
+    background: var(--theme-color) !important;
+    color: #fff !important;
+    border-color: var(--theme-color) !important;
 }
 
 /* 响应式设计 */
