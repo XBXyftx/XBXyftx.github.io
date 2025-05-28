@@ -59,15 +59,13 @@ body{
 .recent-post-item{
     background: linear-gradient(
         to bottom right,
-        rgba(0, 35, 117, 0.2),  
-        rgba(36, 85, 246, 0.2),
-        rgba(0, 0, 0, 0.2),    
-        rgba(255, 44, 44, 0.2), 
-        rgba(255, 0, 183, 0.2)  
+        rgba(0, 35, 117, 0.4),  
+        rgba(36, 85, 246, 0.4),
+        rgba(0, 0, 0, 0.4),    
+        rgba(255, 44, 44, 0.4), 
+        rgba(255, 0, 183, 0.4)  
     )!important;
-    /* background: rgba(255, 255, 255, 0.1); */
-    /* backdrop-filter: blur(20px); */
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); */
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 #aside-content .card-widget,
