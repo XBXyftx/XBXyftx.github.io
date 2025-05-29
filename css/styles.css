@@ -87,6 +87,7 @@ body{
         rgba(255, 3, 230, 0.6) 
     )!important;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
 }
 
 /* #content-inner #archive,
@@ -429,4 +430,60 @@ body{
 
 .waterfall-item{
     border-radius: 20px !important;
+}
+
+/* 首页文章标签样式 - coffer风格 - 增强优先级 */
+html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags .article-meta__tags {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 4px 10px !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    display: inline-block !important;
+}
+
+html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags .article-meta__tags:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 标签容器样式优化 - 增强优先级 */
+html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+/* 覆盖任何可能的默认标签样式 */
+#recent-posts .waterfall-item .article-meta__tags,
+#recent-posts .article-meta__tags,
+.article-meta__tags {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 6px 12px !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    display: inline-block !important;
+    margin: 2px !important;
+}
+
+#recent-posts .waterfall-item .article-meta__tags:hover,
+#recent-posts .article-meta__tags:hover,
+.article-meta__tags:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }

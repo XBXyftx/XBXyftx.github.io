@@ -2642,40 +2642,49 @@ figure.highlight pre .javascript .function {
   font-size: 11px;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-meta .tags {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: box;
-  display: flex;
+  display: -webkit-box !important;
+  display: -moz-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: box !important;
+  display: flex !important;
   -webkit-box-lines: multiple;
   -moz-box-lines: multiple;
   -o-box-lines: multiple;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  gap: 6px;
+  -webkit-flex-wrap: wrap !important;
+  -ms-flex-wrap: wrap !important;
+  flex-wrap: wrap !important;
+  gap: 15px !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-meta .tags .article-meta__tags {
-  background: rgba(74,144,226,0.1);
-  color: #4a90e2;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  text-decoration: none;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.2) !important;
+  color: rgba(255,255,255,0.8) !important;
+  padding: 6px 12px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+  text-decoration: none !important;
+  -webkit-transition: all 0.3s ease !important;
+  -moz-transition: all 0.3s ease !important;
+  -o-transition: all 0.3s ease !important;
+  -ms-transition: all 0.3s ease !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  display: inline-block !important;
+  margin: 2px !important;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-meta .tags .article-meta__tags:hover {
-  background: rgba(74,144,226,0.2);
-  -webkit-transform: scale(1.05);
-  -moz-transform: scale(1.05);
-  -o-transform: scale(1.05);
-  -ms-transform: scale(1.05);
-  transform: scale(1.05);
+  background: rgba(255,255,255,0.3) !important;
+  color: rgba(255,255,255,0.9) !important;
+  -webkit-transform: translateY(-1px) !important;
+  -moz-transform: translateY(-1px) !important;
+  -o-transform: translateY(-1px) !important;
+  -ms-transform: translateY(-1px) !important;
+  transform: translateY(-1px) !important;
+  -webkit-box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .content {
   color: var(--font-color);
