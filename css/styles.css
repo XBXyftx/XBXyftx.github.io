@@ -205,6 +205,8 @@ body{
     box-sizing: border-box;
     clear: both;
     z-index: 1;
+    margin-bottom: 60px !important;
+    padding-bottom: 40px !important;
 }
 
 /* 瀑布流项目基础样式 - 让JS完全控制定位 */
@@ -319,8 +321,10 @@ body{
     visibility: visible !important;
     position: relative !important;
     z-index: 10 !important;
-    margin-top: 40px !important;
+    margin-top: 60px !important;
     clear: both !important;
+    width: 100% !important;
+    background: transparent !important;
 }
 
 #recent-posts.waterfall-masonry #pagination .pagination {

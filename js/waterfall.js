@@ -289,9 +289,15 @@ class WaterfallLayout {
         const containerHeight = maxHeight + 30; // 添加底部间距
         this.container.style.height = containerHeight + 'px';
         this.container.style.minHeight = containerHeight + 'px';
+        
+        // 确保容器有足够的空间，避免分页器覆盖
+        this.container.style.marginBottom = '60px';
 
         console.log(`布局完成，容器高度: ${containerHeight}px`);
         console.log('各列高度:', this.columnHeights);
+        
+        // 强制重排，确保高度设置生效
+        this.container.offsetHeight;
     }
 
     // 添加动画效果
@@ -310,11 +316,29 @@ class WaterfallLayout {
     setupPagination() {
         const pagination = document.querySelector('#pagination');
         if (pagination) {
+            // 获取容器的实际高度
+            const containerHeight = this.container.offsetHeight;
+            const maxColumnHeight = Math.max(...this.columnHeights);
+            
+            // 计算分页器应该的位置
+            const paginationTop = Math.max(containerHeight, maxColumnHeight) + 40;
+            
+            // 设置分页器样式，确保它在文章列表下方
             pagination.style.position = 'relative';
             pagination.style.zIndex = '10';
             pagination.style.marginTop = '40px';
             pagination.style.clear = 'both';
-            console.log('分页组件样式已设置');
+            pagination.style.top = 'auto';
+            pagination.style.transform = 'none';
+            
+            // 确保分页器在容器外部，不被覆盖
+            const waterfallContainer = this.container.parentElement;
+            if (waterfallContainer) {
+                // 为瀑布流容器的父元素添加足够的下边距
+                waterfallContainer.style.paddingBottom = '80px';
+            }
+            
+            console.log('分页组件样式已设置，容器高度:', containerHeight, '最大列高度:', maxColumnHeight);
         }
     }
 
