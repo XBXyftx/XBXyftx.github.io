@@ -370,19 +370,26 @@ body{
     /* JS会控制宽度，这里不设置固定宽度 */
 }
 
+/* 手机端立即强制单列 - 避免闪烁 */
 @media (max-width: 768px) {
-    /* 手机端强制单列布局 */
-    #recent-posts.waterfall-masonry .waterfall-container {
-        width: 100% !important;
-    }
-    
-    #recent-posts.waterfall-masonry .waterfall-item {
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
         width: 100% !important;
         max-width: 100% !important;
         left: 0 !important;
-        position: relative !important;
+        position: static !important;
         display: block !important;
         margin-bottom: 20px !important;
+        transform: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+        float: none !important;
+        clear: none !important;
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-container {
+        width: 100% !important;
+        position: relative !important;
+        overflow: visible !important;
     }
     
     /* 轮播图层级修复 */

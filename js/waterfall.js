@@ -380,6 +380,36 @@ let waterfallInstance = null;
 
 // 初始化函数
 function initWaterfall() {
+    // 立即检查并应用手机端样式，避免闪烁
+    const container = document.querySelector('.waterfall-container');
+    if (container && window.innerWidth <= 768) {
+        // 手机端立即强制单列
+        const items = container.querySelectorAll('.waterfall-item');
+        items.forEach(item => {
+            item.style.cssText = `
+                width: 100% !important;
+                max-width: 100% !important;
+                left: 0 !important;
+                position: static !important;
+                display: block !important;
+                margin-bottom: 20px !important;
+                transform: none !important;
+                opacity: 1 !important;
+            `;
+        });
+        
+        container.style.cssText = `
+            position: relative !important;
+            width: 100% !important;
+            overflow: visible !important;
+        `;
+        
+        console.log('手机端单列样式已立即应用');
+        
+        // 手机端不需要复杂的瀑布流布局，直接返回
+        return;
+    }
+    
     if (waterfallInstance) {
         waterfallInstance.destroy();
     }
