@@ -298,14 +298,14 @@ body{
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title a {
     color: var(--font-color);
-    font-size: 16px !important;
+    font-size: 15px !important;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: 1.5;
     text-decoration: none;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -445,11 +445,36 @@ body{
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
-        padding: 15px;
+        padding: 18px; /* 小屏幕适当增加padding */
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .article-title {
+        margin-bottom: 14px; /* 小屏幕适当增加标题下边距 */
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-        font-size: 14px !important;
+        font-size: 18px !important;
+        line-height: 1.5; /* 保持较好的行高 */
+    }
+    
+    /* 小屏幕元信息间距 */
+    #recent-posts.waterfall-masonry .waterfall-item .article-meta {
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+    }
+    
+    /* 小屏幕标签间距 */
+    #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        gap: 10px !important;
+    }
+    
+    /* 小屏幕描述间距 */
+    #recent-posts.waterfall-masonry .waterfall-item .content {
+        margin-top: 10px;
+        line-height: 1.6;
+        padding-top: 6px;
     }
 }
 
@@ -564,4 +589,33 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     #recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
         padding: 20px;
     }
+}
+
+/* 手机端文章元信息间距优化 */
+#recent-posts.waterfall-masonry .waterfall-item .article-meta-wrap {
+    margin-bottom: 12px; /* 增加元信息区域下边距 */
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta {
+    margin-bottom: 12px; /* 增加时间区域下边距 */
+    padding-bottom: 8px; /* 增加底部内边距 */
+}
+
+/* 手机端标签区域间距优化 */
+#recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
+    margin-top: 12px !important;
+    margin-bottom: 12px !important;
+    gap: 12px !important; /* 增加标签间距 */
+}
+
+#recent-posts.waterfall-masonry .waterfall-item .article-meta .tags .article-meta__tags {
+    padding: 6px 12px !important;
+    margin: 3px !important; /* 增加标签外边距 */
+}
+
+/* 手机端文章描述间距优化 */
+#recent-posts.waterfall-masonry .waterfall-item .content {
+    margin-top: 12px; /* 增加描述上边距 */
+    line-height: 1.6; /* 增加行高 */
+    padding-top: 8px; /* 增加顶部内边距 */
 }
