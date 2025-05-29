@@ -100,47 +100,38 @@ class WaterfallLayout {
             throw new Error('容器宽度为0');
         }
 
-        // 根据屏幕宽度确定列数 - 修复列数计算逻辑
+        // 根据屏幕宽度确定列数 - 修复手机端强制单列
         const screenWidth = window.innerWidth;
         console.log('屏幕宽度:', screenWidth, '容器宽度:', containerWidth);
         
-        if (screenWidth >= 1400) {
-            this.columns = 3;
-        } else if (screenWidth >= 900) {
-            this.columns = 2;
-        } else {
+        // 手机端强制单列
+        if (screenWidth <= 768) {
             this.columns = 1;
             this.gap = 15; // 移动端使用较小间隔
+        } else if (screenWidth <= 1200) {
+            this.columns = 2;
+        } else {
+            this.columns = 3;
         }
 
-        // 强制最小列数为1，最大列数为3
-        this.columns = Math.max(1, Math.min(3, this.columns));
+        console.log('计算得出列数:', this.columns);
 
         // 计算项目宽度 - 确保有足够空间
         const totalGapWidth = this.gap * (this.columns - 1);
         const availableWidth = containerWidth - totalGapWidth;
         this.itemWidth = Math.floor(availableWidth / this.columns);
-        
-        // 确保项目宽度不会太小
-        if (this.itemWidth < 200 && this.columns > 1) {
-            this.columns = Math.max(1, this.columns - 1);
-            const newTotalGapWidth = this.gap * (this.columns - 1);
-            const newAvailableWidth = containerWidth - newTotalGapWidth;
-            this.itemWidth = Math.floor(newAvailableWidth / this.columns);
-        }
-        
-        // 初始化列高度
-        this.columnHeights = new Array(this.columns).fill(0);
 
-        console.log('布局参数:', {
-            screenWidth,
-            containerWidth,
-            columns: this.columns,
-            itemWidth: this.itemWidth,
-            gap: this.gap,
-            totalGapWidth,
-            availableWidth
-        });
+        // 确保最小宽度
+        if (this.itemWidth < 200) {
+            this.columns = 1;
+            this.itemWidth = containerWidth;
+            console.log('宽度不足，强制单列布局');
+        }
+
+        console.log(`布局参数: 列数=${this.columns}, 项目宽度=${this.itemWidth}px, 间隔=${this.gap}px`);
+
+        // 初始化列高度数组
+        this.columnHeights = new Array(this.columns).fill(0);
     }
 
     // 重置项目样式

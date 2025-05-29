@@ -371,6 +371,20 @@ body{
 }
 
 @media (max-width: 768px) {
+    /* 手机端强制单列布局 */
+    #recent-posts.waterfall-masonry .waterfall-container {
+        width: 100% !important;
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        left: 0 !important;
+        position: relative !important;
+        display: block !important;
+        margin-bottom: 20px !important;
+    }
+    
     /* 轮播图层级修复 */
     #recent-posts.waterfall-masonry .blog-slider {
         z-index: 1 !important;
@@ -417,11 +431,45 @@ body{
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .recent-post-info {
-        padding: 15px;
+        padding: 20px; /* 增加padding */
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .article-title {
+        margin-bottom: 16px; /* 增加标题下边距 */
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-        font-size: 15px !important;
+        font-size: 18px !important;
+        line-height: 1.5; /* 增加行高 */
+    }
+    
+    /* 手机端文章元信息间距优化 */
+    #recent-posts.waterfall-masonry .waterfall-item .article-meta-wrap {
+        margin-bottom: 12px; /* 增加元信息区域下边距 */
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .article-meta {
+        margin-bottom: 12px; /* 增加时间区域下边距 */
+        padding-bottom: 8px; /* 增加底部内边距 */
+    }
+    
+    /* 手机端标签区域间距优化 */
+    #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
+        margin-top: 12px !important;
+        margin-bottom: 12px !important;
+        gap: 12px !important; /* 增加标签间距 */
+    }
+    
+    #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags .article-meta__tags {
+        padding: 6px 12px !important;
+        margin: 3px !important; /* 增加标签外边距 */
+    }
+    
+    /* 手机端文章描述间距优化 */
+    #recent-posts.waterfall-masonry .waterfall-item .content {
+        margin-top: 12px; /* 增加描述上边距 */
+        line-height: 1.6; /* 增加行高 */
+        padding-top: 8px; /* 增加顶部内边距 */
     }
     
     /* 移动端分页器优化 */
