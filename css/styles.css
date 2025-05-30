@@ -674,3 +674,48 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     line-height: 1.6; /* 增加行高 */
     padding-top: 8px; /* 增加顶部内边距 */
 }
+
+/* 确保手机端侧边栏正常显示 - 重要修复 */
+@media (max-width: 900px) {
+    /* 确保layout在手机端是flex-direction: column */
+    .layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    /* 确保aside-content在手机端显示 */
+    #aside-content.aside-content {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+        margin-top: 20px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        position: relative !important;
+        z-index: 1 !important;
+        opacity: 1 !important;
+        order: 2 !important; /* 确保在主内容后面 */
+    }
+    
+    /* 确保aside内的组件显示 */
+    #aside-content .card-widget {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* 确保主内容区在手机端正确显示 */
+    .layout > div:first-child {
+        width: 100% !important;
+        order: 1 !important;
+    }
+}
+
+/* 平板端也确保侧边栏显示 */
+@media (max-width: 1024px) {
+    #aside-content.aside-content {
+        display: block !important;
+        visibility: visible !important;
+    }
+}
