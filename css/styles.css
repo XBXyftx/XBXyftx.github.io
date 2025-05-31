@@ -1,3 +1,235 @@
+/* 超级强力汉堡菜单修复 - 放在文件开头确保优先级 */
+
+/* 默认隐藏汉堡菜单按钮 - 所有设备 */
+#toggle-menu,
+#nav #toggle-menu,
+nav#nav #toggle-menu,
+html #toggle-menu,
+html #nav #toggle-menu,
+html nav#nav #toggle-menu {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* 移动端显示汉堡菜单按钮 */
+@media (max-width: 768px) {
+    #toggle-menu,
+    #nav #toggle-menu,
+    nav#nav #toggle-menu,
+    html #toggle-menu,
+    html #nav #toggle-menu,
+    html nav#nav #toggle-menu {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        z-index: 9999 !important;
+        position: static !important;
+        left: auto !important;
+        /* 调整位置让它看起来更自然 */
+        margin: 0 !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+        line-height: normal !important;
+    }
+    
+    #toggle-menu .site-page,
+    #nav #toggle-menu .site-page,
+    nav#nav #toggle-menu .site-page,
+    html #toggle-menu .site-page,
+    html #nav #toggle-menu .site-page,
+    html nav#nav #toggle-menu .site-page {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        color: var(--light-grey) !important;
+        font-size: 0.78em !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+        position: relative !important;
+        padding: 8px 12px !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+        vertical-align: middle !important;
+    }
+    
+    #toggle-menu .site-page i,
+    #nav #toggle-menu .site-page i,
+    nav#nav #toggle-menu .site-page i,
+    html #toggle-menu .site-page i,
+    html #nav #toggle-menu .site-page i,
+    html nav#nav #toggle-menu .site-page i {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-size: 18px !important;
+        color: inherit !important;
+        pointer-events: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+    }
+    
+    #toggle-menu .site-page:hover,
+    #nav #toggle-menu .site-page:hover,
+    nav#nav #toggle-menu .site-page:hover,
+    html #toggle-menu .site-page:hover,
+    html #nav #toggle-menu .site-page:hover,
+    html nav#nav #toggle-menu .site-page:hover {
+        color: var(--white) !important;
+    }
+    
+    /* 确保导航栏在移动端正确显示 */
+    #nav,
+    nav#nav,
+    html #nav,
+    html nav#nav {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* 强制隐藏菜单项 */
+    #nav .menus_items,
+    nav#nav .menus_items,
+    html #nav .menus_items,
+    html nav#nav .menus_items {
+        display: none !important;
+    }
+    
+    /* 确保侧边栏元素存在 */
+    #sidebar,
+    html #sidebar {
+        display: block !important;
+    }
+    
+    #menu-mask,
+    html #menu-mask {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 9998 !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+        display: none !important;
+    }
+    
+    #sidebar-menus,
+    html #sidebar-menus {
+        position: fixed !important;
+        top: 0 !important;
+        right: -300px !important;
+        width: 300px !important;
+        height: 100% !important;
+        z-index: 9999 !important;
+        background: var(--sidebar-bg, #fff) !important;
+        transition: transform 0.3s ease !important;
+        overflow-y: auto !important;
+    }
+    
+    #sidebar-menus.open,
+    html #sidebar-menus.open {
+        transform: translate3d(-100%, 0, 0) !important;
+    }
+}
+
+/* 平板端 769px - 1024px 也显示汉堡菜单 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #toggle-menu,
+    #nav #toggle-menu,
+    nav#nav #toggle-menu,
+    html #toggle-menu,
+    html #nav #toggle-menu,
+    html nav#nav #toggle-menu {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        z-index: 9999 !important;
+        position: static !important;
+        left: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+    }
+    
+    #toggle-menu .site-page,
+    #nav #toggle-menu .site-page,
+    nav#nav #toggle-menu .site-page,
+    html #toggle-menu .site-page,
+    html #nav #toggle-menu .site-page,
+    html nav#nav #toggle-menu .site-page {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        padding: 8px 12px !important;
+        margin: 0 !important;
+        vertical-align: middle !important;
+    }
+}
+
+/* 电脑端强制隐藏汉堡菜单按钮 - 最高优先级 */
+@media (min-width: 1025px) {
+    #toggle-menu,
+    #nav #toggle-menu,
+    nav#nav #toggle-menu,
+    html #toggle-menu,
+    html #nav #toggle-menu,
+    html nav#nav #toggle-menu,
+    body #toggle-menu,
+    body #nav #toggle-menu,
+    body nav#nav #toggle-menu {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+    }
+    
+    #toggle-menu .site-page,
+    #nav #toggle-menu .site-page,
+    nav#nav #toggle-menu .site-page,
+    html #toggle-menu .site-page,
+    html #nav #toggle-menu .site-page,
+    html nav#nav #toggle-menu .site-page,
+    body #toggle-menu .site-page,
+    body #nav #toggle-menu .site-page,
+    body nav#nav #toggle-menu .site-page {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    /* 确保电脑端正常显示菜单项 */
+    #nav .menus_items,
+    nav#nav .menus_items,
+    html #nav .menus_items,
+    html nav#nav .menus_items,
+    body #nav .menus_items,
+    body nav#nav .menus_items {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
 /* 调整目录栏最大高度并启用滚动条 */
 
 #aside-content #card-toc .toc-content {
@@ -492,6 +724,49 @@ body{
         padding: 8px 12px !important;
         font-size: 13px !important;
     }
+    
+    /* 确保手机端导航栏有hide-menu类 */
+    #nav {
+        /* 强制显示汉堡菜单按钮 */
+    }
+    
+    #nav #toggle-menu {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        cursor: pointer !important;
+        z-index: 100 !important;
+    }
+    
+    #nav #toggle-menu .site-page {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        cursor: pointer !important;
+        font-size: inherit !important;
+        padding: 8px 12px !important;
+        color: var(--font-color) !important;
+        transition: color 0.3s ease !important;
+    }
+    
+    #nav #toggle-menu .site-page:hover {
+        color: var(--white) !important;
+    }
+    
+    #nav #toggle-menu .site-page i {
+        font-size: 18px !important;
+        pointer-events: none !important;
+    }
+    
+    /* 确保菜单项在手机端隐藏 */
+    #nav .menus_items {
+        display: none !important;
+    }
+    
+    /* 确保导航栏在手机端正确显示 */
+    #nav.show {
+        opacity: 1 !important;
+    }
 }
 
 @media (max-width: 600px) {
@@ -718,4 +993,31 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
         display: block !important;
         visibility: visible !important;
     }
+    
+    #nav #toggle-menu {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        cursor: pointer !important;
+    }
+    
+    #nav #toggle-menu .site-page {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        cursor: pointer !important;
+    }
+}
+
+/* 确保JavaScript事件正确绑定 - 调试用 */
+#toggle-menu {
+    pointer-events: auto !important;
+}
+
+#toggle-menu .site-page {
+    pointer-events: auto !important;
+}
+
+#toggle-menu .site-page i {
+    pointer-events: none !important;
 }
