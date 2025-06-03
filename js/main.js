@@ -1,3 +1,177 @@
+// 独立的汉堡菜单修复 - 立即执行，不依赖其他代码
+(function() {
+  'use strict';
+  
+  const fixMobileMenu = () => {
+    console.log('=== 开始修复汉堡菜单 ===');
+    
+    // 强制显示汉堡菜单按钮
+    const forceShowToggleMenu = () => {
+      const nav = document.getElementById('nav');
+      const toggleMenu = document.getElementById('toggle-menu');
+      
+      if (!nav || !toggleMenu) {
+        console.warn('导航元素未找到:', { nav: !!nav, toggleMenu: !!toggleMenu });
+        return false;
+      }
+      
+      // 强制添加hide-menu类
+      nav.classList.add('hide-menu');
+      
+      // 强制显示汉堡菜单按钮
+      toggleMenu.style.cssText = `
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        z-index: 1000 !important;
+      `;
+      
+      const sitePageElement = toggleMenu.querySelector('.site-page');
+      if (sitePageElement) {
+        sitePageElement.style.cssText = `
+          display: inline-block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          pointer-events: auto !important;
+          cursor: pointer !important;
+          padding: 8px 12px !important;
+        `;
+      }
+      
+      console.log('汉堡菜单按钮强制显示完成');
+      return true;
+    };
+    
+    // 简化的sidebar函数
+    const simpleSidebar = {
+      open: () => {
+        console.log('打开侧边栏');
+        const menuMask = document.getElementById('menu-mask');
+        const sidebarMenus = document.getElementById('sidebar-menus');
+        
+        if (menuMask) {
+          menuMask.style.cssText = 'display: block !important; opacity: 1 !important;';
+        }
+        
+        if (sidebarMenus) {
+          sidebarMenus.classList.add('open');
+          sidebarMenus.style.cssText = 'transform: translate3d(-100%, 0, 0) !important;';
+        }
+        
+        // 阻止背景滚动
+        document.body.style.overflow = 'hidden';
+        
+        console.log('侧边栏打开完成');
+      },
+      
+      close: () => {
+        console.log('关闭侧边栏');
+        const menuMask = document.getElementById('menu-mask');
+        const sidebarMenus = document.getElementById('sidebar-menus');
+        
+        if (menuMask) {
+          menuMask.style.display = 'none';
+        }
+        
+        if (sidebarMenus) {
+          sidebarMenus.classList.remove('open');
+          sidebarMenus.style.transform = '';
+        }
+        
+        // 恢复背景滚动
+        document.body.style.overflow = '';
+        
+        console.log('侧边栏关闭完成');
+      }
+    };
+    
+    // 绑定点击事件
+    const bindClickEvents = () => {
+      const toggleMenu = document.getElementById('toggle-menu');
+      if (!toggleMenu) {
+        console.error('汉堡菜单按钮未找到');
+        return false;
+      }
+      
+      // 移除所有现有的监听器
+      const newToggleMenu = toggleMenu.cloneNode(true);
+      toggleMenu.parentNode.replaceChild(newToggleMenu, toggleMenu);
+      
+      // 添加点击事件
+      const clickHandler = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('汉堡菜单被点击！');
+        simpleSidebar.open();
+      };
+      
+      // 多种方式绑定事件
+      newToggleMenu.addEventListener('click', clickHandler, true);
+      newToggleMenu.addEventListener('touchstart', clickHandler, true);
+      
+      const sitePageElement = newToggleMenu.querySelector('.site-page');
+      if (sitePageElement) {
+        sitePageElement.addEventListener('click', clickHandler, true);
+        sitePageElement.addEventListener('touchstart', clickHandler, true);
+      }
+      
+      // 为关闭按钮绑定事件
+      const menuMask = document.getElementById('menu-mask');
+      if (menuMask) {
+        menuMask.addEventListener('click', () => {
+          console.log('遮罩被点击，关闭侧边栏');
+          simpleSidebar.close();
+        });
+      }
+      
+      console.log('汉堡菜单点击事件绑定完成');
+      return true;
+    };
+    
+    // 执行修复
+    if (forceShowToggleMenu() && bindClickEvents()) {
+      console.log('=== 汉堡菜单修复完成 ===');
+    } else {
+      console.error('=== 汉堡菜单修复失败 ===');
+    }
+  };
+  
+  // 立即执行 + 延迟执行 + DOM加载完成执行
+  fixMobileMenu();
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fixMobileMenu);
+  } else {
+    setTimeout(fixMobileMenu, 100);
+  }
+  
+  // 每秒检查一次，确保修复生效
+  let checkCount = 0;
+  const checkInterval = setInterval(() => {
+    checkCount++;
+    const toggleMenu = document.getElementById('toggle-menu');
+    
+    if (toggleMenu && window.innerWidth <= 768) {
+      const isVisible = window.getComputedStyle(toggleMenu).display !== 'none';
+      if (!isVisible) {
+        console.log(`第${checkCount}次检查：汉堡菜单不可见，重新修复`);
+        fixMobileMenu();
+      } else {
+        console.log(`第${checkCount}次检查：汉堡菜单正常`);
+      }
+    }
+    
+    // 10秒后停止检查
+    if (checkCount >= 10) {
+      clearInterval(checkInterval);
+      console.log('停止汉堡菜单检查');
+    }
+  }, 1000);
+  
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   let headerContentWidth, $nav
   let mobileSidebarOpen = false
@@ -12,8 +186,29 @@ document.addEventListener('DOMContentLoaded', () => {
       $nav = document.getElementById('nav')
     }
 
-    const hideMenuIndex = window.innerWidth <= 768 || headerContentWidth > $nav.offsetWidth - 120
+    // 增强的移动端检测
+    const isMobile = window.innerWidth <= 768
+    const isTablet = window.innerWidth <= 1024
+    const isContentOverflow = headerContentWidth > $nav.offsetWidth - 120
+    const hideMenuIndex = isMobile || isTablet || isContentOverflow
+    
+    // 设置hide-menu类
     $nav.classList.toggle('hide-menu', hideMenuIndex)
+    
+    // 强制确保移动端和平板端显示汉堡菜单
+    if (isMobile || isTablet) {
+      $nav.classList.add('hide-menu')
+      
+      // 确保汉堡菜单按钮可见
+      const toggleMenu = document.getElementById('toggle-menu')
+      if (toggleMenu) {
+        toggleMenu.style.display = 'inline-block'
+        toggleMenu.style.visibility = 'visible'
+        toggleMenu.style.opacity = '1'
+      }
+      
+      console.log(`Mobile/Tablet detected (width: ${window.innerWidth}px), hide-menu class added`)
+    }
   }
 
   // 初始化header
@@ -688,8 +883,64 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   const openMobileMenu = () => {
     const toggleMenu = document.getElementById('toggle-menu')
-    if (!toggleMenu) return
-    btf.addEventListenerPjax(toggleMenu, 'click', () => { sidebarFn.open() })
+    if (!toggleMenu) {
+      console.warn('Toggle menu element not found')
+      return
+    }
+    
+    // 确保元素可见和可点击
+    const ensureToggleMenuVisible = () => {
+      const nav = document.getElementById('nav')
+      if (window.innerWidth <= 768 || window.innerWidth <= 1024) {
+        // 强制显示汉堡菜单按钮
+        toggleMenu.style.display = 'inline-block'
+        toggleMenu.style.visibility = 'visible'
+        toggleMenu.style.opacity = '1'
+        toggleMenu.style.pointerEvents = 'auto'
+        
+        // 确保导航栏有正确的类
+        if (nav && !nav.classList.contains('hide-menu')) {
+          nav.classList.add('hide-menu')
+        }
+        
+        console.log('Toggle menu forced visible for mobile/tablet')
+      }
+    }
+    
+    // 立即执行一次
+    ensureToggleMenuVisible()
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', ensureToggleMenuVisible)
+    
+    // 使用多种方式绑定点击事件
+    const handleToggleClick = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      console.log('Toggle menu clicked, opening sidebar')
+      sidebarFn.open()
+    }
+    
+    // 方式1: 使用原有的btf.addEventListenerPjax
+    btf.addEventListenerPjax(toggleMenu, 'click', handleToggleClick)
+    
+    // 方式2: 直接添加事件监听器作为备用
+    toggleMenu.addEventListener('click', handleToggleClick)
+    
+    // 方式3: 为site-page元素也添加监听器
+    const sitePageElement = toggleMenu.querySelector('.site-page')
+    if (sitePageElement) {
+      btf.addEventListenerPjax(sitePageElement, 'click', handleToggleClick)
+      sitePageElement.addEventListener('click', handleToggleClick)
+    }
+    
+    // 方式4: 为图标元素添加监听器
+    const iconElement = toggleMenu.querySelector('i')
+    if (iconElement) {
+      iconElement.style.pointerEvents = 'none' // 确保点击穿透到父元素
+    }
+    
+    console.log('Mobile menu click handlers initialized')
   }
 
   /**
