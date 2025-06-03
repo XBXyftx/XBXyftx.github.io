@@ -1021,3 +1021,22 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
 #toggle-menu .site-page i {
     pointer-events: none !important;
 }
+
+.announcementImg{
+    width: 80% !important;
+    margin: auto !important;
+    justify-content: center;
+    display: flex;
+    border-radius: 2em;
+    box-shadow: 10px 8px 8px #000000;
+    transition: all 0.3s;
+}
+
+.announcementImg:hover{
+    width: 80% !important;
+    margin: auto !important;
+    justify-content: center;
+    display: flex;
+    border-radius: 2em;
+    box-shadow: 4px 4px 4px #00000c5e;
+}
