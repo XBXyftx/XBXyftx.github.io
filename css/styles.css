@@ -535,7 +535,7 @@ body{
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title a {
     color: var(--font-color);
-    font-size: 15px !important;
+    font-size: 18px !important;
     font-weight: 600;
     line-height: 1.5;
     text-decoration: none;
