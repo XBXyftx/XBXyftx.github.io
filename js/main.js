@@ -743,8 +743,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (!isExpand) {
             let parent = currentActive.parentNode
-            while (!parent.matches('.toc')) {
-              if (parent.matches('li')) parent.classList.add('active')
+            while (!parent.matches('.toc-content')) {
+              if (parent.matches('li')) {
+                parent.classList.add('active')
+              }
               parent = parent.parentNode
             }
           }
