@@ -731,7 +731,9 @@ document.addEventListener('DOMContentLoaded', () => {
       detectItem = currentIndex
 
       if (isToc) {
+        // 清除所有active类，包括toc-link和toc-item
         $cardToc.querySelectorAll('.active').forEach(i => i.classList.remove('active'))
+        $cardToc.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'))
 
         if (currentId) {
           const currentActive = $tocLink[currentIndex]
