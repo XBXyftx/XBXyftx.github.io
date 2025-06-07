@@ -68,7 +68,7 @@ html nav#nav #toggle-menu {
         display: inline-block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        font-size: 18px !important;
+        font-size: 16px !important;
         color: inherit !important;
         pointer-events: none !important;
         margin: 0 !important;
@@ -535,7 +535,7 @@ body{
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title a {
     color: var(--font-color);
-    font-size: 18px !important;
+    font-size: 16px !important;
     font-weight: 600;
     line-height: 1.5;
     text-decoration: none;
@@ -678,7 +678,7 @@ body{
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: 1.5; /* 增加行高 */
     }
     
@@ -754,7 +754,7 @@ body{
     }
     
     #nav #toggle-menu .site-page i {
-        font-size: 18px !important;
+        font-size: 16px !important;
         pointer-events: none !important;
     }
     
@@ -783,7 +783,7 @@ body{
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: 1.5; /* 保持较好的行高 */
     }
     

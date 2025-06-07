@@ -1324,7 +1324,7 @@ canvas:not(#ribbon-canvas),
   }
 }
 :root {
-  --global-font-size: 18px;
+  --global-font-size: 16px;
   --global-bg: #fff;
   --font-color: #4c4948;
   --hr-border: #a4d8fa;
@@ -1662,7 +1662,7 @@ figure.highlight pre .javascript .function {
 }
 .container pre,
 .container code {
-  font-size: 18px;
+  font-size: 16px;
   font-family: consolas, Menlo, monospace, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
   border-radius: 6px;
 }
@@ -1692,7 +1692,7 @@ figure.highlight pre .javascript .function {
 .container figure.highlight figcaption,
 .container figure.highlight .caption {
   padding: 6px 0 2px 14px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1em;
 }
 .container figure.highlight figcaption a,
@@ -1737,7 +1737,7 @@ figure.highlight pre .javascript .function {
   height: 2.15em;
   background: var(--hltools-bg);
   color: var(--hltools-color);
-  font-size: 18px;
+  font-size: 16px;
   overflow: hidden;
 }
 .container .highlight-tools > * {
