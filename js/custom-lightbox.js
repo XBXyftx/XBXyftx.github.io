@@ -140,8 +140,11 @@
         top: 20px;
         right: 20px;
         display: flex;
-        gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
         z-index: 10001;
+        max-width: 300px;
       }
 
       .lightbox-btn {
@@ -157,6 +160,7 @@
         justify-content: center;
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
+        flex-shrink: 0;
       }
 
       .lightbox-btn:hover {
@@ -176,6 +180,7 @@
         width: 60px;
         height: 60px;
         z-index: 10001;
+        background: rgba(255, 255, 255, 0.15);
       }
 
       .lightbox-prev {
@@ -210,10 +215,12 @@
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         user-select: none;
         -webkit-user-drag: none;
+        opacity: 0;
       }
 
       .lightbox-image.loaded {
         transform: scale(1);
+        opacity: 1;
       }
 
       .lightbox-loading {
@@ -424,9 +431,15 @@
       const loading = document.getElementById('lightboxLoading');
       const imageElement = document.getElementById('lightboxImage');
       
+      if (!loading || !imageElement) {
+        console.error('Loading or image element not found');
+        return;
+      }
+      
       // 显示加载状态
       loading.classList.remove('hidden');
       imageElement.classList.remove('loaded');
+      imageElement.style.opacity = '0';
       
       // 重置图片变换
       resetImageTransform();
@@ -437,18 +450,23 @@
       // 预加载图片
       const img = new Image();
       img.onload = function() {
+        console.log('Image loaded successfully:', this.src);
         imageElement.src = this.src;
+        imageElement.style.opacity = '1';
         loading.classList.add('hidden');
         setTimeout(() => {
           imageElement.classList.add('loaded');
-        }, 50);
+        }, 100);
       };
       
       img.onerror = function() {
+        console.error('Image failed to load:', this.src);
         loading.classList.add('hidden');
         imageElement.alt = '图片加载失败';
+        imageElement.style.opacity = '1';
       };
       
+      console.log('Loading image:', currentImage.src);
       img.src = currentImage.src;
     }
 
@@ -748,7 +766,9 @@
 
   // 打开图片查看器
   function openLightbox(imageSrc, title) {
+    console.log('Opening lightbox for:', imageSrc);
     imageList = collectImages();
+    console.log('Total images found:', imageList.length);
     
     // 找到当前图片的索引
     const currentIndex = imageList.findIndex(img => img.src === imageSrc);
@@ -760,6 +780,8 @@
       currentImageIndex = currentIndex;
     }
     
+    console.log('Current image index:', currentImageIndex);
+    
     if (!modal) {
       createModal();
       initializeEventListeners();
@@ -769,10 +791,22 @@
     document.body.style.overflow = 'hidden';
     modal.classList.add('active');
     
-    // 显示当前图片
+    // 确保modal元素存在后再显示图片
     setTimeout(() => {
-      showImage(currentImageIndex);
-    }, 100);
+      const lightboxImage = document.getElementById('lightboxImage');
+      const lightboxLoading = document.getElementById('lightboxLoading');
+      
+      if (lightboxImage && lightboxLoading) {
+        console.log('Modal elements found, showing image');
+        showImage(currentImageIndex);
+      } else {
+        console.error('Modal elements not found');
+        // 再次尝试
+        setTimeout(() => {
+          showImage(currentImageIndex);
+        }, 200);
+      }
+    }, 150);
   }
 
   // 为所有图片添加点击事件
