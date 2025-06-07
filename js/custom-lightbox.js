@@ -27,20 +27,7 @@
               </svg>
             </button>
             
-            <!-- 上一张按钮 -->
-            <button class="lightbox-btn lightbox-prev" id="lightboxPrev" title="上一张 (←)">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15,18 9,12 15,6"></polyline>
-              </svg>
-            </button>
-            
-            <!-- 下一张按钮 -->
-            <button class="lightbox-btn lightbox-next" id="lightboxNext" title="下一张 (→)">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9,18 15,12 9,6"></polyline>
-              </svg>
-            </button>
-            
+
             <!-- 放大按钮 -->
             <button class="lightbox-btn lightbox-zoom-in" id="lightboxZoomIn" title="放大 (+)">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -152,10 +139,10 @@
       /* 移动端适配 */
       @media (max-width: 768px) {
         .lightbox-controls {
-          width: 120px;
-          height: 180px;
-          top: 15px;
-          right: 15px;
+          gap: 8px;
+          padding: 8px;
+          top: 10px;
+          right: 10px;
         }
 
         .lightbox-btn {
@@ -165,46 +152,6 @@
           min-height: 44px;
           min-width: 44px;
           touch-action: manipulation;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(1) {
-          top: 0;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(2) {
-          top: 50px;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(3) {
-          top: 100px;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(4) {
-          top: 150px;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(5) {
-          top: 0;
-          right: 50px;
-        }
-
-        .lightbox-prev,
-        .lightbox-next {
-          width: 50px;
-          height: 50px;
-          background: rgba(255, 255, 255, 0.2);
-        }
-
-        .lightbox-prev {
-          left: 15px;
-        }
-
-        .lightbox-next {
-          right: 15px;
         }
 
         .lightbox-info-bar {
@@ -221,58 +168,19 @@
 
       @media (max-width: 480px) {
         .lightbox-controls {
-          width: 100px;
-          height: 200px;
-          top: 10px;
-          right: 10px;
+          gap: 6px;
+          padding: 6px;
+          top: 5px;
+          right: 5px;
         }
 
         .lightbox-btn {
-          width: 42px;
-          height: 42px;
+          width: 40px;
+          height: 40px;
           font-size: 12px;
-          min-height: 42px;
-          min-width: 42px;
+          min-height: 40px;
+          min-width: 40px;
           touch-action: manipulation;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(1) {
-          top: 0;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(2) {
-          top: 45px;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(3) {
-          top: 90px;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(4) {
-          top: 135px;
-          right: 0;
-        }
-
-        .lightbox-controls .lightbox-btn:nth-child(5) {
-          top: 180px;
-          right: 0;
-        }
-
-        .lightbox-prev,
-        .lightbox-next {
-          width: 45px;
-          height: 45px;
-        }
-
-        .lightbox-prev {
-          left: 10px;
-        }
-
-        .lightbox-next {
-          right: 10px;
         }
 
         .lightbox-info-bar {
@@ -282,8 +190,8 @@
         }
 
         .action-btn {
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
         }
 
         .lightbox-image {
@@ -317,40 +225,7 @@
         transform: scale(0.95);
       }
 
-      .lightbox-prev,
-      .lightbox-next {
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 60px;
-        height: 60px;
-        z-index: 10002;
-        background: rgba(255, 255, 255, 0.15);
-        border: none;
-        border-radius: 50%;
-        color: white;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        font-size: 24px;
-      }
 
-      .lightbox-prev {
-        left: 30px;
-      }
-
-      .lightbox-next {
-        right: 30px;
-      }
-
-      .lightbox-prev:hover,
-      .lightbox-next:hover {
-        background: rgba(255, 255, 255, 0.25);
-        transform: translateY(-50%) scale(1.1);
-      }
 
       .lightbox-image-container {
         flex: 1;
@@ -557,8 +432,7 @@
     if (!modal) return;
 
     const closeBtn = document.getElementById('lightboxClose');
-    const prevBtn = document.getElementById('lightboxPrev');
-    const nextBtn = document.getElementById('lightboxNext');
+
     const zoomInBtn = document.getElementById('lightboxZoomIn');
     const zoomOutBtn = document.getElementById('lightboxZoomOut');
     const resetBtn = document.getElementById('lightboxReset');
@@ -645,16 +519,7 @@
         counterElement.textContent = `${currentImageIndex + 1} / ${imageList.length}`;
       }
 
-      // 更新按钮状态
-      if (prevBtn) {
-        prevBtn.style.opacity = currentImageIndex > 0 ? '1' : '0.3';
-        prevBtn.disabled = currentImageIndex === 0;
-      }
-      
-      if (nextBtn) {
-        nextBtn.style.opacity = currentImageIndex < imageList.length - 1 ? '1' : '0.3';
-        nextBtn.disabled = currentImageIndex === imageList.length - 1;
-      }
+
     }
 
     // 重置图片变换
@@ -703,21 +568,7 @@
       closeBtn.addEventListener('click', closeModal);
     }
 
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        if (currentImageIndex > 0) {
-          showImage(currentImageIndex - 1);
-        }
-      });
-    }
 
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        if (currentImageIndex < imageList.length - 1) {
-          showImage(currentImageIndex + 1);
-        }
-      });
-    }
 
     if (zoomInBtn) {
       zoomInBtn.addEventListener('click', () => zoomImage(1.5));
