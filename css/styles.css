@@ -253,6 +253,29 @@ html nav#nav #toggle-menu {
     background-repeat: no-repeat;
     opacity: 0.5;
     z-index: -1;
+    pointer-events: none; /* 确保不阻挡点击事件 */
+}
+
+/* 确保TOC内容区域的点击事件正常工作 */
+#aside-content #card-toc .toc-content .toc {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-link {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
+    display: block;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-item {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
 }
 
 .post-message-container .post-message p {
