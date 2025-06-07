@@ -427,12 +427,15 @@
     return modal;
   }
 
+  // 全局函数定义
+  let showImageFunction = null;
+  let closeModalFunction = null;
+
   // 初始化事件监听器
   function initializeEventListeners() {
     if (!modal) return;
 
     const closeBtn = document.getElementById('lightboxClose');
-
     const zoomInBtn = document.getElementById('lightboxZoomIn');
     const zoomOutBtn = document.getElementById('lightboxZoomOut');
     const resetBtn = document.getElementById('lightboxReset');
@@ -442,7 +445,7 @@
     const image = document.getElementById('lightboxImage');
 
     // 关闭模态窗口
-    function closeModal() {
+    closeModalFunction = function closeModal() {
       if (!isModalOpen) return;
       isModalOpen = false;
       modal.classList.remove('active');
@@ -458,7 +461,7 @@
     }
 
     // 切换图片
-    function showImage(index) {
+    showImageFunction = function showImage(index) {
       if (index < 0 || index >= imageList.length) return;
       
       currentImageIndex = index;
@@ -583,7 +586,7 @@
 
     // 事件监听器
     if (closeBtn) {
-      closeBtn.addEventListener('click', closeModal);
+      closeBtn.addEventListener('click', closeModalFunction);
     }
 
 
@@ -625,7 +628,7 @@
     // 点击遮罩关闭
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
-        closeModal();
+        closeModalFunction();
       }
     });
 
@@ -635,16 +638,16 @@
       
       switch (e.key) {
         case 'Escape':
-          closeModal();
+          closeModalFunction();
           break;
         case 'ArrowLeft':
           if (currentImageIndex > 0) {
-            showImage(currentImageIndex - 1);
+            showImageFunction(currentImageIndex - 1);
           }
           break;
         case 'ArrowRight':
           if (currentImageIndex < imageList.length - 1) {
-            showImage(currentImageIndex + 1);
+            showImageFunction(currentImageIndex + 1);
           }
           break;
         case '=':
@@ -797,12 +800,12 @@
           if (deltaX > 0) {
             // 右滑 - 上一张
             if (currentImageIndex > 0) {
-              showImage(currentImageIndex - 1);
+              showImageFunction(currentImageIndex - 1);
             }
           } else {
             // 左滑 - 下一张
             if (currentImageIndex < imageList.length - 1) {
-              showImage(currentImageIndex + 1);
+              showImageFunction(currentImageIndex + 1);
             }
           }
         }
@@ -868,12 +871,12 @@
       
       if (lightboxImage && lightboxLoading) {
         console.log('Modal elements found, showing image');
-        showImage(currentImageIndex);
+        showImageFunction(currentImageIndex);
       } else {
         console.error('Modal elements not found');
         // 再次尝试
         setTimeout(() => {
-          showImage(currentImageIndex);
+          showImageFunction(currentImageIndex);
         }, 200);
       }
     }, 150);
