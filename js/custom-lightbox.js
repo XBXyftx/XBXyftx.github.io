@@ -482,27 +482,45 @@
       // 更新信息
       updateImageInfo();
       
-      // 预加载图片
-      const img = new Image();
-      img.onload = function() {
-        console.log('Image loaded successfully:', this.src);
-        imageElement.src = this.src;
-        imageElement.style.opacity = '1';
+      // 直接设置图片源，无需预加载
+      console.log('Loading image:', currentImage.src);
+      imageElement.src = currentImage.src;
+      
+      // 添加超时保护
+      const loadingTimeout = setTimeout(() => {
+        console.warn('Image loading timeout for:', currentImage.src);
         loading.classList.add('hidden');
+        imageElement.style.opacity = '1';
+        imageElement.alt = '图片加载超时';
+      }, 5000);
+      
+      // 设置加载和错误处理
+      imageElement.onload = function() {
+        console.log('Image loaded successfully:', this.src);
+        clearTimeout(loadingTimeout);
+        loading.classList.add('hidden');
+        imageElement.style.opacity = '1';
         setTimeout(() => {
           imageElement.classList.add('loaded');
         }, 100);
       };
       
-      img.onerror = function() {
+      imageElement.onerror = function() {
         console.error('Image failed to load:', this.src);
+        clearTimeout(loadingTimeout);
         loading.classList.add('hidden');
         imageElement.alt = '图片加载失败';
         imageElement.style.opacity = '1';
+        
+        // 尝试修复路径
+        const originalSrc = this.src;
+        if (originalSrc.includes('//')) {
+          // 如果是相对路径，尝试添加域名
+          const fixedSrc = window.location.origin + originalSrc.replace(/.*?\/\//, '/');
+          console.log('Trying fixed path:', fixedSrc);
+          this.src = fixedSrc;
+        }
       };
-      
-      console.log('Loading image:', currentImage.src);
-      img.src = currentImage.src;
     }
 
     // 更新图片信息
