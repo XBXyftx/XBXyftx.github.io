@@ -139,12 +139,182 @@
         position: absolute;
         top: 20px;
         right: 20px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 12px;
         z-index: 10001;
-        max-width: 300px;
+        width: 180px;
+        height: 120px;
+      }
+
+      .lightbox-controls .lightbox-btn:nth-child(1) {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      .lightbox-controls .lightbox-btn:nth-child(2) {
+        position: absolute;
+        top: 0;
+        right: 65px;
+      }
+
+      .lightbox-controls .lightbox-btn:nth-child(3) {
+        position: absolute;
+        top: 0;
+        right: 130px;
+      }
+
+      .lightbox-controls .lightbox-btn:nth-child(4) {
+        position: absolute;
+        top: 65px;
+        right: 0;
+      }
+
+      .lightbox-controls .lightbox-btn:nth-child(5) {
+        position: absolute;
+        top: 65px;
+        right: 65px;
+      }
+
+      /* 移动端适配 */
+      @media (max-width: 768px) {
+        .lightbox-controls {
+          width: 120px;
+          height: 180px;
+          top: 15px;
+          right: 15px;
+        }
+
+        .lightbox-btn {
+          width: 44px;
+          height: 44px;
+          font-size: 14px;
+          min-height: 44px;
+          min-width: 44px;
+          touch-action: manipulation;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(1) {
+          top: 0;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(2) {
+          top: 50px;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(3) {
+          top: 100px;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(4) {
+          top: 150px;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(5) {
+          top: 0;
+          right: 50px;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+          width: 50px;
+          height: 50px;
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lightbox-prev {
+          left: 15px;
+        }
+
+        .lightbox-next {
+          right: 15px;
+        }
+
+        .lightbox-info-bar {
+          bottom: 15px;
+          padding: 8px 12px;
+          font-size: 14px;
+        }
+
+        .lightbox-image {
+          max-width: 95%;
+          max-height: 85%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .lightbox-controls {
+          width: 100px;
+          height: 200px;
+          top: 10px;
+          right: 10px;
+        }
+
+        .lightbox-btn {
+          width: 42px;
+          height: 42px;
+          font-size: 12px;
+          min-height: 42px;
+          min-width: 42px;
+          touch-action: manipulation;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(1) {
+          top: 0;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(2) {
+          top: 45px;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(3) {
+          top: 90px;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(4) {
+          top: 135px;
+          right: 0;
+        }
+
+        .lightbox-controls .lightbox-btn:nth-child(5) {
+          top: 180px;
+          right: 0;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+          width: 45px;
+          height: 45px;
+        }
+
+        .lightbox-prev {
+          left: 10px;
+        }
+
+        .lightbox-next {
+          right: 10px;
+        }
+
+        .lightbox-info-bar {
+          bottom: 10px;
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+
+        .action-btn {
+          width: 30px;
+          height: 30px;
+        }
+
+        .lightbox-image {
+          max-width: 98%;
+          max-height: 80%;
+        }
       }
 
       .lightbox-btn {
@@ -160,7 +330,7 @@
         justify-content: center;
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
-        flex-shrink: 0;
+        position: relative;
       }
 
       .lightbox-btn:hover {
@@ -737,6 +907,46 @@
     imageContainer.addEventListener('touchend', () => {
       isDragging = false;
       touchStartDistance = 0;
+    });
+
+    // 滑动切换图片手势
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipeStartTime = 0;
+
+    modal.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        swipeStartX = e.touches[0].clientX;
+        swipeStartY = e.touches[0].clientY;
+        swipeStartTime = Date.now();
+      }
+    });
+
+    modal.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 1) {
+        const swipeEndX = e.changedTouches[0].clientX;
+        const swipeEndY = e.changedTouches[0].clientY;
+        const swipeEndTime = Date.now();
+        
+        const deltaX = swipeEndX - swipeStartX;
+        const deltaY = swipeEndY - swipeStartY;
+        const deltaTime = swipeEndTime - swipeStartTime;
+        
+        // 只有快速滑动且主要是水平方向才触发切换
+        if (deltaTime < 300 && Math.abs(deltaX) > 80 && Math.abs(deltaX) > Math.abs(deltaY) * 2) {
+          if (deltaX > 0) {
+            // 右滑 - 上一张
+            if (currentImageIndex > 0) {
+              showImage(currentImageIndex - 1);
+            }
+          } else {
+            // 左滑 - 下一张
+            if (currentImageIndex < imageList.length - 1) {
+              showImage(currentImageIndex + 1);
+            }
+          }
+        }
+      }
     });
   }
 
