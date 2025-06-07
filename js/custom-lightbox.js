@@ -136,42 +136,17 @@
       }
 
       .lightbox-controls {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
         z-index: 10001;
-        width: 180px;
-        height: 120px;
-      }
-
-      .lightbox-controls .lightbox-btn:nth-child(1) {
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
-
-      .lightbox-controls .lightbox-btn:nth-child(2) {
-        position: absolute;
-        top: 0;
-        right: 65px;
-      }
-
-      .lightbox-controls .lightbox-btn:nth-child(3) {
-        position: absolute;
-        top: 0;
-        right: 130px;
-      }
-
-      .lightbox-controls .lightbox-btn:nth-child(4) {
-        position: absolute;
-        top: 65px;
-        right: 0;
-      }
-
-      .lightbox-controls .lightbox-btn:nth-child(5) {
-        position: absolute;
-        top: 65px;
-        right: 65px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
       }
 
       /* 移动端适配 */
