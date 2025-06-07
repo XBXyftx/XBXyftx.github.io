@@ -741,15 +741,11 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => autoScrollToc(currentActive), 0)
 
           if (!isExpand) {
-            console.log('TOC: Setting active states for collapsed mode')
-            console.log('Current active element:', currentActive)
             // 向上遍历DOM，为父级li元素添加active类
             let parent = currentActive.parentElement
             while (parent && !parent.matches('.toc-content')) {
-              console.log('Checking parent:', parent.tagName, parent.classList.toString())
               if (parent.tagName === 'LI') {
                 parent.classList.add('active')
-                console.log('Added active to:', parent)
               }
               parent = parent.parentElement
             }
