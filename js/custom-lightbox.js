@@ -319,21 +319,37 @@
 
       .lightbox-prev,
       .lightbox-next {
-        position: absolute;
+        position: fixed;
         top: 50%;
         transform: translateY(-50%);
         width: 60px;
         height: 60px;
-        z-index: 10001;
+        z-index: 10002;
         background: rgba(255, 255, 255, 0.15);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 24px;
       }
 
       .lightbox-prev {
-        left: 20px;
+        left: 30px;
       }
 
       .lightbox-next {
-        right: 20px;
+        right: 30px;
+      }
+
+      .lightbox-prev:hover,
+      .lightbox-next:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-50%) scale(1.1);
       }
 
       .lightbox-image-container {
