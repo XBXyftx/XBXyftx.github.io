@@ -731,9 +731,8 @@ document.addEventListener('DOMContentLoaded', () => {
       detectItem = currentIndex
 
       if (isToc) {
-        // 清除所有active类，包括toc-link和toc-item
+        // 清除所有active类
         $cardToc.querySelectorAll('.active').forEach(i => i.classList.remove('active'))
-        $cardToc.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'))
 
         if (currentId) {
           const currentActive = $tocLink[currentIndex]
@@ -742,12 +741,17 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => autoScrollToc(currentActive), 0)
 
           if (!isExpand) {
-            let parent = currentActive.parentNode
-            while (!parent.matches('.toc-content')) {
-              if (parent.matches('li')) {
+            console.log('TOC: Setting active states for collapsed mode')
+            console.log('Current active element:', currentActive)
+            // 向上遍历DOM，为父级li元素添加active类
+            let parent = currentActive.parentElement
+            while (parent && !parent.matches('.toc-content')) {
+              console.log('Checking parent:', parent.tagName, parent.classList.toString())
+              if (parent.tagName === 'LI') {
                 parent.classList.add('active')
+                console.log('Added active to:', parent)
               }
-              parent = parent.parentNode
+              parent = parent.parentElement
             }
           }
         }
