@@ -896,6 +896,17 @@
         return;
       }
       
+      // 检查是否在文章页面或文章内容区域内
+      const isInPostContent = img.closest('#article-container') || 
+                             img.closest('.post-content') || 
+                             img.closest('#post') ||
+                             document.body.classList.contains('post');
+      
+      // 如果不在文章内容区域，则不触发灯箱
+      if (!isInPostContent) {
+        return;
+      }
+      
       e.preventDefault();
       e.stopPropagation();
       
