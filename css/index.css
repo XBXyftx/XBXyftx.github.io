@@ -3271,6 +3271,75 @@ figure.highlight pre .javascript .function {
   -ms-flex-direction: column;
   flex-direction: column;
 }
+.visitor-info {
+  text-align: center;
+}
+.visitor-info .card-content {
+  padding: 5px 0;
+}
+.visitor-info .visitor-welcome {
+  margin-bottom: 12px;
+}
+.visitor-info .visitor-welcome i {
+  color: #ff6b9d;
+  margin-right: 6px;
+}
+.visitor-info .visitor-welcome span {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--font-color);
+}
+.visitor-info .visitor-details .visitor-location,
+.visitor-info .visitor-details .visitor-ip,
+.visitor-info .visitor-details .visitor-distance,
+.visitor-info .visitor-details .visitor-tip {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin: 8px 0;
+  font-size: 0.9em;
+  color: var(--font-color);
+}
+.visitor-info .visitor-details .visitor-location i,
+.visitor-info .visitor-details .visitor-ip i,
+.visitor-info .visitor-details .visitor-distance i,
+.visitor-info .visitor-details .visitor-tip i {
+  margin-right: 6px;
+  width: 14px;
+}
+.visitor-info .visitor-details .visitor-location span,
+.visitor-info .visitor-details .visitor-ip span,
+.visitor-info .visitor-details .visitor-distance span,
+.visitor-info .visitor-details .visitor-tip span {
+  line-height: 1.4;
+}
+.visitor-info .visitor-details .visitor-location i {
+  color: #42b883;
+}
+.visitor-info .visitor-details .visitor-ip i {
+  color: #1677ff;
+}
+.visitor-info .visitor-details .visitor-distance i {
+  color: #f56565;
+}
+.visitor-info .visitor-details .visitor-tip i {
+  color: #ffd93d;
+}
 @-moz-keyframes more-btn-move {
   0%, 100% {
     -webkit-transform: translateX(0);
