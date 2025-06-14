@@ -731,6 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detectItem = currentIndex
 
       if (isToc) {
+        // 清除所有active类
         $cardToc.querySelectorAll('.active').forEach(i => i.classList.remove('active'))
 
         if (currentId) {
@@ -740,10 +741,13 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => autoScrollToc(currentActive), 0)
 
           if (!isExpand) {
-            let parent = currentActive.parentNode
-            while (!parent.matches('.toc')) {
-              if (parent.matches('li')) parent.classList.add('active')
-              parent = parent.parentNode
+            // 向上遍历DOM，为父级li元素添加active类
+            let parent = currentActive.parentElement
+            while (parent && !parent.matches('.toc-content')) {
+              if (parent.tagName === 'LI') {
+                parent.classList.add('active')
+              }
+              parent = parent.parentElement
             }
           }
         }

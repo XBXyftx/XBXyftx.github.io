@@ -68,7 +68,7 @@ html nav#nav #toggle-menu {
         display: inline-block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        font-size: 18px !important;
+        font-size: 16px !important;
         color: inherit !important;
         pointer-events: none !important;
         margin: 0 !important;
@@ -253,6 +253,29 @@ html nav#nav #toggle-menu {
     background-repeat: no-repeat;
     opacity: 0.5;
     z-index: -1;
+    pointer-events: none; /* 确保不阻挡点击事件 */
+}
+
+/* 确保TOC内容区域的点击事件正常工作 */
+#aside-content #card-toc .toc-content .toc {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-link {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
+    display: block;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-item {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
 }
 
 .post-message-container .post-message p {
@@ -298,7 +321,7 @@ body{
         rgba(255, 0, 183, 0.4)  
     )!important;
     /* box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5); */
-    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+    /* border: 2px solid rgba(255, 255, 255, 0.5) !important; */
     border-radius: 10px;
 }
 .post-card-wrapper{
@@ -535,7 +558,7 @@ body{
 
 #recent-posts.waterfall-masonry .waterfall-item .article-title a {
     color: var(--font-color);
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 600;
     line-height: 1.5;
     text-decoration: none;
@@ -678,7 +701,7 @@ body{
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: 1.5; /* 增加行高 */
     }
     
@@ -754,7 +777,7 @@ body{
     }
     
     #nav #toggle-menu .site-page i {
-        font-size: 18px !important;
+        font-size: 16px !important;
         pointer-events: none !important;
     }
     
@@ -783,7 +806,7 @@ body{
     }
     
     #recent-posts.waterfall-masonry .waterfall-item .article-title a {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: 1.5; /* 保持较好的行高 */
     }
     
