@@ -627,24 +627,57 @@ body{
 
 /* 手机端立即强制单列 - 避免闪烁 */
 @media (max-width: 768px) {
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+    /* 移动端瀑布流项目 - 最强保护 */
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item,
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style],
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item.positioned,
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="position"],
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="left"],
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="top"] {
         width: 100% !important;
         max-width: 100% !important;
-        left: 0 !important;
         position: static !important;
         display: block !important;
-        margin-bottom: 20px !important;
-        transform: none !important;
+        margin: 0 0 20px 0 !important;
+        padding: 0 !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
         opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
         transition: none !important;
         float: none !important;
         clear: none !important;
+        z-index: auto !important;
+    }
+    
+    /* 移动端容器样式 - 最强保护 */
+    #recent-posts.waterfall-masonry .waterfall-container,
+    #recent-posts.waterfall-masonry .waterfall-container[style] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* 禁用所有可能的动画和过渡 */
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    /* 仅禁用瀑布流相关的动画效果 */
+    #recent-posts.waterfall-masonry .waterfall-item {
+        animation: none !important;
     }
     
     #recent-posts.waterfall-masonry .waterfall-container {
-        width: 100% !important;
-        position: relative !important;
-        overflow: visible !important;
+        animation: none !important;
     }
     
     /* 轮播图层级修复 */
@@ -973,62 +1006,36 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     padding-top: 8px; /* 增加顶部内边距 */
 }
 
-/* 确保手机端侧边栏正常显示 - 重要修复 */
-@media (max-width: 900px) {
-    /* 确保layout在手机端是flex-direction: column */
-    .layout {
-        display: flex !important;
-        flex-direction: column !important;
+/* 移动端侧边栏优化 - 仅在必要时调整 */
+@media (max-width: 768px) {
+    /* 只确保侧边栏在移动端可见，不强制修改布局 */
+    #aside-content {
+        display: block;
+        visibility: visible;
+        opacity: 1;
     }
     
-    /* 确保aside-content在手机端显示 */
-    #aside-content.aside-content {
-        display: block !important;
-        visibility: visible !important;
-        width: 100% !important;
-        margin-top: 20px !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        position: relative !important;
-        z-index: 1 !important;
-        opacity: 1 !important;
-        order: 2 !important; /* 确保在主内容后面 */
-    }
-    
-    /* 确保aside内的组件显示 */
     #aside-content .card-widget {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        margin-bottom: 20px !important;
-    }
-    
-    /* 确保主内容区在手机端正确显示 */
-    .layout > div:first-child {
-        width: 100% !important;
-        order: 1 !important;
+        display: block;
+        visibility: visible;
+        opacity: 1;
     }
 }
 
-/* 平板端也确保侧边栏显示 */
+/* 平板端导航优化 */
 @media (max-width: 1024px) {
-    #aside-content.aside-content {
-        display: block !important;
-        visibility: visible !important;
-    }
-    
     #nav #toggle-menu {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        cursor: pointer !important;
+        display: inline-block;
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
     }
     
     #nav #toggle-menu .site-page {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        cursor: pointer !important;
+        display: inline-block;
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
     }
 }
 
