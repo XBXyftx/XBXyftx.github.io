@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xbxyftx.top/img/logo.png">
 <meta property="article:published_time" content="2025-06-04T02:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-16T12:23:50.899Z">
+<meta property="article:modified_time" content="2025-06-16T12:52:57.015Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="鸿蒙开发">
 <meta property="article:tag" content="hexo">
@@ -435,6 +435,43 @@
 .markdown-preview::-webkit-scrollbar-thumb:hover {
     background: #777;
 }
+
+.fullscreen-mode {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background: #1e1e1e !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+.fullscreen-mode .editor-content {
+    height: calc(100vh - 120px) !important;
+}
+
+.save-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #569cd6;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.save-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 
 <h1 id="🚀-Markdown编辑器"><a href="#🚀-Markdown编辑器" class="headerlink" title="🚀 Markdown编辑器"></a>🚀 Markdown编辑器</h1><p>体验实时的Markdown编辑与预览功能！在左边输入Markdown源码，右边即时查看渲染效果。</p>
@@ -443,17 +480,19 @@
         🖊️ Markdown在线编辑器
     </div>
     <div class="editor-toolbar">
-        <button class="toolbar-btn" onclick="insertText('**', '**')" title="粗体">B</button>
-        <button class="toolbar-btn" onclick="insertText('*', '*')" title="斜体">I</button>
-        <button class="toolbar-btn" onclick="insertText('~~', '~~')" title="删除线">S</button>
-        <button class="toolbar-btn" onclick="insertText('`', '`')" title="行内代码">&lt;/&gt;</button>
-        <button class="toolbar-btn" onclick="insertText('[', '](url)')" title="链接">🔗</button>
-        <button class="toolbar-btn" onclick="insertText('![', '](url)')" title="图片">🖼️</button>
-        <button class="toolbar-btn" onclick="insertHeading()" title="标题"># H</button>
-        <button class="toolbar-btn" onclick="insertList()" title="列表">📝</button>
-        <button class="toolbar-btn" onclick="insertQuote()" title="引用">💬</button>
-        <button class="toolbar-btn" onclick="insertTable()" title="表格">📊</button>
-        <button class="toolbar-btn" onclick="clearEditor()" title="清空">🗑️</button>
+        <button class="toolbar-btn" onclick="insertText('**', '**')" title="粗体 (Ctrl+B)">**B** 粗体</button>
+        <button class="toolbar-btn" onclick="insertText('*', '*')" title="斜体 (Ctrl+I)">*I* 斜体</button>
+        <button class="toolbar-btn" onclick="insertText('~~', '~~')" title="删除线">~~S~~ 删除线</button>
+        <button class="toolbar-btn" onclick="insertText('`', '`')" title="行内代码">&lt;/&gt; 代码</button>
+        <button class="toolbar-btn" onclick="insertText('[', '](url)')" title="链接 (Ctrl+K)">🔗 链接</button>
+        <button class="toolbar-btn" onclick="insertText('![', '](url)')" title="图片">🖼️ 图片</button>
+        <button class="toolbar-btn" onclick="insertHeading()" title="标题"># 标题</button>
+        <button class="toolbar-btn" onclick="insertList()" title="列表">📝 列表</button>
+        <button class="toolbar-btn" onclick="insertQuote()" title="引用">💬 引用</button>
+        <button class="toolbar-btn" onclick="insertTable()" title="表格">📊 表格</button>
+        <button class="toolbar-btn" onclick="toggleFullscreen()" title="全屏模式 (ESC退出)">⛶ 全屏</button>
+        <button class="toolbar-btn" onclick="saveMarkdown()" title="保存为文件">💾 保存</button>
+        <button class="toolbar-btn" onclick="clearEditor()" title="清空编辑器">🗑️ 清空</button>
     </div>
     <div class="editor-content">
         <div class="editor-pane">
@@ -520,6 +559,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 保存编辑器状态的函数
+    function saveEditorState() {
+        return {
+            scrollTop: input.scrollTop,
+            selectionStart: input.selectionStart,
+            selectionEnd: input.selectionEnd
+        };
+    }
+
+    // 恢复编辑器状态的函数
+    function restoreEditorState(state) {
+        input.scrollTop = state.scrollTop;
+        input.setSelectionRange(state.selectionStart, state.selectionEnd);
+    }
+
     if (input) {
         input.addEventListener('input', updatePreview);
         input.addEventListener('scroll', function() {
@@ -533,6 +587,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.insertText = function(before, after = '') {
         if (!input) return;
 
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const selectedText = input.value.substring(start, end);
@@ -541,36 +598,162 @@ document.addEventListener('DOMContentLoaded', function() {
         input.value = input.value.substring(0, start) + newText + input.value.substring(end);
         input.focus();
         input.setSelectionRange(start + before.length, start + before.length + selectedText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
         updatePreview();
     };
 
     window.insertHeading = function() {
         if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
         const start = input.selectionStart;
+        const end = input.selectionEnd;
         const lineStart = input.value.lastIndexOf('\n', start - 1) + 1;
-        input.setSelectionRange(lineStart, lineStart);
-        insertText('## ');
+        const lineEnd = input.value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? input.value.length : lineEnd;
+
+        // 获取当前行内容
+        const currentLine = input.value.substring(lineStart, actualLineEnd);
+
+        // 检查是否已经是标题格式
+        const headingMatch = currentLine.match(/^(#+)\s*/);
+        let newText;
+
+        if (headingMatch) {
+            // 如果已经是标题，增加标题级别或移除
+            const currentLevel = headingMatch[1].length;
+            if (currentLevel >= 6) {
+                // 移除标题格式
+                newText = currentLine.replace(/^#+\s*/, '');
+            } else {
+                // 增加一个#
+                newText = '#' + currentLine;
+            }
+        } else {
+            // 添加二级标题
+            newText = '## ' + currentLine;
+        }
+
+        input.value = input.value.substring(0, lineStart) + newText + input.value.substring(actualLineEnd);
+        input.focus();
+        input.setSelectionRange(lineStart + newText.length, lineStart + newText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
     };
 
     window.insertList = function() {
         if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
         const start = input.selectionStart;
+        const end = input.selectionEnd;
         const lineStart = input.value.lastIndexOf('\n', start - 1) + 1;
-        input.setSelectionRange(lineStart, lineStart);
-        insertText('- ');
+        const lineEnd = input.value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? input.value.length : lineEnd;
+
+        // 获取当前行内容
+        const currentLine = input.value.substring(lineStart, actualLineEnd);
+
+        // 检查是否已经是列表格式
+        const listMatch = currentLine.match(/^(\s*)-\s*/);
+        let newText;
+
+        if (listMatch) {
+            // 如果已经是列表，移除列表格式
+            newText = currentLine.replace(/^(\s*)-\s*/, '$1');
+        } else {
+            // 添加列表格式
+            newText = '- ' + currentLine;
+        }
+
+        input.value = input.value.substring(0, lineStart) + newText + input.value.substring(actualLineEnd);
+        input.focus();
+        input.setSelectionRange(lineStart + newText.length, lineStart + newText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
     };
 
     window.insertQuote = function() {
         if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
         const start = input.selectionStart;
+        const end = input.selectionEnd;
         const lineStart = input.value.lastIndexOf('\n', start - 1) + 1;
-        input.setSelectionRange(lineStart, lineStart);
-        insertText('> ');
+        const lineEnd = input.value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? input.value.length : lineEnd;
+
+        // 获取当前行内容
+        const currentLine = input.value.substring(lineStart, actualLineEnd);
+
+        // 检查是否已经是引用格式
+        const quoteMatch = currentLine.match(/^(\s*)>\s*/);
+        let newText;
+
+        if (quoteMatch) {
+            // 如果已经是引用，移除引用格式
+            newText = currentLine.replace(/^(\s*)>\s*/, '$1');
+        } else {
+            // 添加引用格式
+            newText = '> ' + currentLine;
+        }
+
+        input.value = input.value.substring(0, lineStart) + newText + input.value.substring(actualLineEnd);
+        input.focus();
+        input.setSelectionRange(lineStart + newText.length, lineStart + newText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
     };
 
     window.insertTable = function() {
-        const tableText = '\n| 列1 | 列2 | 列3 |\n|-----|-----|-----|\n| 内容 | 内容 | 内容 |\n';
-        insertText(tableText);
+        if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+
+        // 检查光标是否在行首，如果不是则添加换行符
+        const beforeCursor = input.value.substring(0, start);
+        const needsNewlineBefore = beforeCursor.length > 0 && !beforeCursor.endsWith('\n');
+        const needsNewlineAfter = end < input.value.length && !input.value.substring(end).startsWith('\n');
+
+        let tableText = '';
+        if (needsNewlineBefore) tableText += '\n';
+        tableText += '| 列1 | 列2 | 列3 |\n|-----|-----|-----|\n| 内容 | 内容 | 内容 |';
+        if (needsNewlineAfter) tableText += '\n';
+
+        // 直接插入文本而不使用insertText函数
+        input.value = input.value.substring(0, start) + tableText + input.value.substring(end);
+
+        // 将光标定位到第一个单元格内容
+        const firstCellPos = start + (needsNewlineBefore ? 1 : 0) + 2; // "| "之后
+        input.focus();
+        input.setSelectionRange(firstCellPos, firstCellPos + 2); // 选中"列1"
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
     };
 
     window.clearEditor = function() {
@@ -580,6 +763,84 @@ document.addEventListener('DOMContentLoaded', function() {
             input.focus();
         }
     };
+
+    let isFullscreen = false;
+    window.toggleFullscreen = function() {
+        const container = document.querySelector('.markdown-editor-container');
+        if (!container) return;
+
+        if (!isFullscreen) {
+            container.classList.add('fullscreen-mode');
+            document.body.style.overflow = 'hidden';
+            isFullscreen = true;
+
+            // 更新按钮图标
+            const fullscreenBtn = event.target;
+            fullscreenBtn.innerHTML = '⛶';
+            fullscreenBtn.title = '退出全屏';
+        } else {
+            container.classList.remove('fullscreen-mode');
+            document.body.style.overflow = '';
+            isFullscreen = false;
+
+            // 更新按钮图标
+            const fullscreenBtn = event.target;
+            fullscreenBtn.innerHTML = '⛶';
+            fullscreenBtn.title = '全屏模式';
+        }
+
+        // 重新调整预览区域
+        updatePreview();
+    };
+
+    window.saveMarkdown = function() {
+        if (!input) return;
+
+        const content = input.value;
+        const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        // 创建下载链接
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'markdown-document.md';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        // 显示保存通知
+        showSaveNotification('文件已保存为 markdown-document.md');
+    };
+
+    function showSaveNotification(message) {
+        // 移除已存在的通知
+        const existingNotification = document.querySelector('.save-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        // 创建新通知
+        const notification = document.createElement('div');
+        notification.className = 'save-notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // 显示动画
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+
+        // 3秒后自动移除
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
 
     if (input) {
         input.addEventListener('keydown', function(e) {
@@ -604,8 +865,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 insertText('    ');
             }
+
+            if (e.key === 'Escape' && isFullscreen) {
+                toggleFullscreen();
+            }
         });
     }
+
+    // 添加ESC键全局监听
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isFullscreen) {
+            toggleFullscreen();
+        }
+    });
 
     updatePreview();
 });
@@ -791,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 每分钟更新一次问候语
   setInterval(updateGreeting, 60000);
-})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。<br/><img src="https://bu.dusays.com/2025/06/03/683ec52fd0dbc.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程"><img src="/img/ArticleTopImgs/cloudWorkflawTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不限终端的云工作流搭建历程"/></a><div class="content"><a class="title" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程">不限终端的云工作流搭建历程</a><time datetime="2025-06-03T09:35:35.000Z" title="发表于 2025-06-03 17:35:35">2025-06-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.26em; color: #999fa8">项目</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.42em; color: #99a6b7">鸿蒙</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">主题美化</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.18em; color: #999ca1">独白</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.18em; color: #999ca1">网络请求</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/V2/" style="font-size: 1.34em; color: #99a3b0">V2</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.26em; color: #999fa8">hexo博客搭建</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/JS/" style="font-size: 1.18em; color: #999ca1">JS</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a></div></div><div class="card-widget card-archives">
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。<br/><img src="https://bu.dusays.com/2025/06/03/683ec52fd0dbc.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程"><img src="/img/ArticleTopImgs/cloudWorkflawTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不限终端的云工作流搭建历程"/></a><div class="content"><a class="title" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程">不限终端的云工作流搭建历程</a><time datetime="2025-06-03T09:35:35.000Z" title="发表于 2025-06-03 17:35:35">2025-06-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.26em; color: #999fa8">项目</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.26em; color: #999fa8">hexo博客搭建</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.18em; color: #999ca1">网络请求</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">主题美化</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.42em; color: #99a6b7">鸿蒙</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/JS/" style="font-size: 1.18em; color: #999ca1">JS</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/V2/" style="font-size: 1.34em; color: #99a3b0">V2</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.18em; color: #999ca1">独白</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -855,7 +1127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">130.9k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-16T12:24:00.244Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">130.9k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-16T12:54:49.608Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const element = mutation.target;
