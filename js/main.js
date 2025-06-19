@@ -836,21 +836,38 @@ document.addEventListener('DOMContentLoaded', () => {
       $htmlDom.toggle('hide-aside')
     },
     'mobile-toc-button': (p, item) => { // Show mobile toc
-      const tocEle = document.getElementById('card-toc')
-      tocEle.style.transition = 'transform 0.3s ease-in-out'
-
-      const tocEleHeight = tocEle.clientHeight
-      const btData = item.getBoundingClientRect()
-
-      const tocEleBottom = window.innerHeight - btData.bottom - 30
-      if (tocEleHeight > tocEleBottom) {
-        tocEle.style.transformOrigin = `right ${tocEleHeight - tocEleBottom - btData.height / 2}px`
+      console.log('=== Mobile TOC Button Clicked ===');
+      console.log('Window width:', window.innerWidth);
+      
+      // 直接获取电脑版侧边栏目录
+      const tocElement = document.querySelector('#aside-content #card-toc');
+      console.log('Found TOC element:', tocElement);
+      
+      if (tocElement) {
+        // 检查当前状态
+        const isOpen = tocElement.classList.contains('open');
+        console.log('Current open state:', isOpen);
+        
+        // 切换显示状态
+        if (isOpen) {
+          tocElement.classList.remove('open');
+          console.log('Closing TOC...');
+        } else {
+          tocElement.classList.add('open');
+          console.log('Opening TOC...');
+        }
+        
+        // 输出最终状态
+        console.log('Final TOC state:', {
+          classList: tocElement.classList.toString(),
+          transform: window.getComputedStyle(tocElement).transform,
+          opacity: window.getComputedStyle(tocElement).opacity,
+          visibility: window.getComputedStyle(tocElement).visibility,
+          display: window.getComputedStyle(tocElement).display
+        });
+      } else {
+        console.error('TOC element not found!');
       }
-
-      tocEle.classList.toggle('open')
-      tocEle.addEventListener('transitionend', () => {
-        tocEle.style.cssText = ''
-      }, { once: true })
     },
     'chat-btn': () => { // Show chat
       window.chatBtnFn()
@@ -861,9 +878,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('rightside').addEventListener('click', e => {
+    console.log('🎯 Rightside clicked:', e.target);
+    console.log('🎯 Event details:', {
+      target: e.target,
+      currentTarget: e.currentTarget,
+      type: e.type,
+      clientX: e.clientX,
+      clientY: e.clientY
+    });
+    
     const $target = e.target.closest('[id]')
+    console.log('🎯 Closest target with ID:', $target);
+    console.log('🎯 Target ID:', $target?.id);
+    
     if ($target && rightSideFn[$target.id]) {
+      console.log('✅ Found handler for:', $target.id);
       rightSideFn[$target.id](e.currentTarget, $target)
+    } else {
+      console.log('❌ No handler found for target:', $target?.id);
+      console.log('❌ Available handlers:', Object.keys(rightSideFn));
     }
   })
 
@@ -1168,6 +1201,63 @@ document.addEventListener('DOMContentLoaded', () => {
     forPostFn()
     GLOBAL_CONFIG_SITE.pageType !== 'shuoshuo' && btf.switchComments(document)
     openMobileMenu()
+    
+    // 初始化移动端目录状态
+    initMobileToc()
+  }
+
+  // 初始化移动端目录
+  const initMobileToc = () => {
+    console.log('🚀 Initializing Mobile TOC...');
+    const tocEle = document.getElementById('card-toc')
+    const mobileTocButton = document.getElementById('mobile-toc-button')
+    const rightside = document.getElementById('rightside')
+    
+    console.log('🔍 Elements check:');
+    console.log('- TOC element:', tocEle);
+    console.log('- Mobile TOC button:', mobileTocButton);
+    console.log('- Rightside container:', rightside);
+    
+    if (!tocEle) {
+      console.log('❌ No TOC element found, skipping mobile TOC init');
+      return;
+    }
+    
+    // 在移动端确保目录初始状态正确
+    if (window.innerWidth <= 900) {
+      console.log('📱 Mobile detected, setting up mobile TOC...');
+      tocEle.style.position = 'fixed'
+      tocEle.style.right = '55px'
+      tocEle.style.bottom = '30px'
+      tocEle.style.zIndex = '99999'  // 大幅提高z-index
+      tocEle.style.maxWidth = '380px'
+      tocEle.style.maxHeight = 'calc(100% - 60px)'
+      tocEle.style.width = 'calc(100% - 80px)'
+      tocEle.style.transformOrigin = 'right bottom'
+      tocEle.style.transition = 'transform 0.3s ease-in-out'
+      tocEle.style.visibility = 'visible'
+      tocEle.style.opacity = '1'
+      tocEle.style.display = 'block'
+      
+      // 强制重置为关闭状态，避免状态不一致
+      tocEle.classList.remove('open')
+      tocEle.style.transform = 'scale(0)'
+      console.log('🔄 Reset to closed state');
+      
+      console.log('✅ Mobile TOC styles applied');
+    }
+    
+    // 确保mobile-toc-button在移动端可见
+    if (mobileTocButton && window.innerWidth <= 900) {
+      console.log('📱 Setting up mobile TOC button...');
+      mobileTocButton.style.display = 'block'
+      mobileTocButton.style.visibility = 'visible'
+      mobileTocButton.style.opacity = '1'
+      mobileTocButton.style.pointerEvents = 'auto'
+      console.log('✅ Mobile TOC button configured');
+    }
+    
+    console.log('🏁 Mobile TOC initialization complete');
   }
 
   btf.addGlobalFn('pjaxComplete', refreshFn, 'refreshFn')
