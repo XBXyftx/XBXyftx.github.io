@@ -246,7 +246,7 @@ html nav#nav #toggle-menu {
     /* 移动端时将侧边栏目录移动到固定位置 */
     #aside-content #card-toc {
         position: fixed !important;
-        right: 20px !important;
+        right: 50px !important;
         bottom: 80px !important;
         top: auto !important;
         left: auto !important;
