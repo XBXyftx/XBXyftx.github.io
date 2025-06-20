@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xbxyftx.top/img/logo.png">
 <meta property="article:published_time" content="2025-05-26T08:03:13.000Z">
-<meta property="article:modified_time" content="2025-06-20T16:24:44.705Z">
+<meta property="article:modified_time" content="2025-06-20T17:10:37.115Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="鸿蒙开发">
 <meta property="article:tag" content="hexo">
@@ -202,9 +202,9 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   border: 2px solid transparent;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   opacity: 0;
-  transform: translateY(50px) scale(0.9);
+  transform: translateY(80px) scale(0.8) rotateX(15deg);
   position: absolute;
   cursor: pointer;
   visibility: hidden; /* 初始隐藏，防止未定位时显示 */
@@ -212,7 +212,7 @@
 
 .waterfall-item.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1) rotateX(0deg);
   visibility: visible; /* 定位完成后显示 */
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
               0 0 0 2px rgba(135, 206, 250, 0.5),
@@ -286,21 +286,18 @@
 
 /* 进度指示器样式 */
 .progress-indicator {
-  position: fixed;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.8);
   border-radius: 12px;
   padding: 15px 20px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
   transition: all 0.3s ease;
   opacity: 0;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);
-  min-width: 200px;
+  margin: 15px auto;
+  max-width: 400px;
+  text-align: center;
 }
 
 .progress-text {
@@ -396,23 +393,13 @@
   }
 
   .progress-indicator {
-    top: auto;
-    bottom: 80px;
-    left: 10px;
-    right: 10px;
-    transform: none;
-    min-width: auto;
+    margin: 10px;
     font-size: 12px;
     padding: 12px 15px;
   }
 
   .preload-indicator {
-    top: auto;
-    bottom: 140px;
-    left: 10px;
-    right: 10px;
-    transform: none;
-    text-align: center;
+    margin: 10px;
   }
 }
 
@@ -474,21 +461,19 @@ body {
 
 /* 预加载提示 */
 .preload-indicator {
-  position: fixed;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-80px); /* 在进度指示器上方 */
   background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 12px;
-  z-index: 1001;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 10px auto;
+  max-width: 300px;
+  text-align: center;
 }
 
 .preload-indicator.visible {
@@ -509,6 +494,19 @@ body {
     <span id="cacheStatus" style="margin-left: 15px; font-size: 12px; color: rgba(255, 255, 255, 0.6);"></span>
   </div>
 
+  <!-- 进度指示器放在清除按钮和图片之间 -->
+  <div class="progress-indicator" id="progressIndicator">
+    <div class="progress-text">已加载 <span id="loadedCount">0</span> / <span id="totalCount">0</span> 张图片</div>
+    <div class="cache-text" id="cacheText" style="font-size: 12px; opacity: 0.8; margin-top: 4px;"></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="preload-indicator" id="preloadIndicator">
+    🚀 预加载中...
+  </div>
+
   <div class="upload-area" id="uploadArea" style="display: none;">
     <div style="color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">
       📁 将图片拖拽到这里或点击选择图片
@@ -526,19 +524,6 @@ body {
   <div class="loading-indicator" id="loadingIndicator">
     <div class="loading-spinner"></div>
     <div>正在扫描图片文件...本功能为测试功能数据加载较慢请耐心等待一分钟左右</div>
-  </div>
-
-
-  <div class="progress-indicator" id="progressIndicator" style="display: none;">
-    <div class="progress-text">已加载 <span id="loadedCount">0</span> / <span id="totalCount">0</span> 张图片</div>
-    <div class="cache-text" id="cacheText" style="font-size: 12px; opacity: 0.8; margin-top: 4px;"></div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-  </div>
-
-  <div class="preload-indicator" id="preloadIndicator">
-    🚀 预加载中...
   </div>
 </div>
 
@@ -824,14 +809,31 @@ document.addEventListener('DOMContentLoaded', function() {
   // 创建Intersection Observer用于监听元素进入视口
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      const item = entry.target;
+
       if (entry.isIntersecting) {
-        // 减少延迟，更快显示图片
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-        console.log(`🎬 图片进入视口并显示`);
+        // 进入视口，添加浮现动画
+        if (!item.classList.contains('visible')) {
+          // 随机延迟，让图片逐个浮现
+          const delay = Math.random() * 300 + 50; // 50-350ms 随机延迟
+
+          setTimeout(() => {
+            item.classList.add('visible');
+            console.log(`🎬 图片进入视口浮现显示，延迟: ${delay.toFixed(0)}ms`);
+          }, delay);
+        }
+      } else {
+        // 离开视口，立即隐藏等待下次浮现动画
+        if (item.classList.contains('visible')) {
+          item.classList.remove('visible');
+          console.log(`👻 图片离开视口，隐藏等待下次浮现`);
+        }
       }
     });
-  }, config.observerOptions);
+  }, {
+    threshold: 0.1, // 当图片10%可见时触发
+    rootMargin: '50px' // 提前50px开始动画
+  });
 
   // 尝试自动读取本地图片文件夹
   async function loadLocalImages() {
@@ -1178,23 +1180,15 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(`🎬 设置可见性监听，共 ${items.length} 个已定位的图片`);
 
     items.forEach((item, index) => {
-      // 检查图片是否已经可见
-      if (item.classList.contains('visible')) {
-        return; // 已经可见，跳过
-      }
+      // 先移除之前的监听，避免重复
+      observer.unobserve(item);
 
-      // 立即检查是否在视口内，如果是则直接显示
-      const rect = item.getBoundingClientRect();
-      const isInViewport = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+      // 重置图片状态，所有图片都需要重新触发动画
+      item.classList.remove('visible');
 
-      if (isInViewport) {
-        // 在视口内，直接显示
-        item.classList.add('visible');
-        console.log(`🎬 图片 ${index} 在视口内，直接显示`);
-      } else {
-        // 不在视口内，使用Observer监听
-        observer.observe(item);
-      }
+      // 为所有图片设置Observer监听，让它们都有浮现动画
+      observer.observe(item);
+      console.log(`👀 重新设置监听: 图片 ${index}`);
     });
   }
 
@@ -1206,23 +1200,15 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(`🎬 设置新图片监听，从索引 ${startIndex} 开始，共 ${newItems.length} 个新图片`);
 
     newItems.forEach((item, index) => {
-      // 检查图片是否已经可见
-      if (item.classList.contains('visible')) {
-        return; // 已经可见，跳过
-      }
+      // 先移除之前的监听，避免重复
+      observer.unobserve(item);
 
-      // 立即检查是否在视口内，如果是则直接显示
-      const rect = item.getBoundingClientRect();
-      const isInViewport = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+      // 确保新图片初始状态为隐藏
+      item.classList.remove('visible');
 
-      if (isInViewport) {
-        // 在视口内，直接显示
-        item.classList.add('visible');
-        console.log(`🎬 新图片 ${startIndex + index} 在视口内，直接显示`);
-      } else {
-        // 不在视口内，使用Observer监听
-        observer.observe(item);
-      }
+      // 为所有新图片设置Observer监听，让它们都有浮现动画
+      observer.observe(item);
+      console.log(`👀 设置新图片监听: 索引 ${startIndex + index}`);
     });
   }
 
@@ -1422,13 +1408,18 @@ document.addEventListener('DOMContentLoaded', function() {
                       updateGridHeight();
                       triggerVisibilityAnimation();
 
-                      // 备用机制：如果3秒后还有隐藏的图片，强制显示
+                      // 备用机制：如果3秒后还有隐藏的图片，检查是否在视口内
                       setTimeout(() => {
                         const hiddenItems = grid.querySelectorAll('.waterfall-item.positioned:not(.visible)');
                         if (hiddenItems.length > 0) {
-                          console.warn(`⚠️ 发现 ${hiddenItems.length} 个隐藏图片，强制显示`);
+                          console.log(`📊 发现 ${hiddenItems.length} 个隐藏图片，检查是否在视口内`);
                           hiddenItems.forEach(item => {
-                            item.classList.add('visible');
+                            const rect = item.getBoundingClientRect();
+                            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+                            if (isInViewport) {
+                              console.warn(`⚠️ 视口内图片未显示，强制显示`);
+                              item.classList.add('visible');
+                            }
                           });
                         }
                       }, 3000);
@@ -1835,9 +1826,10 @@ document.addEventListener('DOMContentLoaded', function() {
     resetLayout();
     const items = grid.querySelectorAll('.waterfall-item');
 
-    // 先隐藏所有图片
+    // 先隐藏所有图片并移除监听
     items.forEach(item => {
-      item.classList.remove('positioned');
+      item.classList.remove('positioned', 'visible');
+      observer.unobserve(item);
     });
 
     // 重新定位
@@ -1946,7 +1938,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   }
                 });
               } else {
-                console.log(`✅ Observer工作正常，图片将在滚动到时显示`);
+                console.log(`✅ Observer工作正常，${finalHiddenCount} 个图片在视口外等待滚动显示`);
               }
             }
           }, 3000);
@@ -2258,7 +2250,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 每分钟更新一次问候语
   setInterval(updateGreeting, 60000);
-})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。<br/><img src="https://bu.dusays.com/2025/06/03/683ec52fd0dbc.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程"><img src="/img/ArticleTopImgs/cloudWorkflawTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不限终端的云工作流搭建历程"/></a><div class="content"><a class="title" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程">不限终端的云工作流搭建历程</a><time datetime="2025-06-03T09:35:35.000Z" title="发表于 2025-06-03 17:35:35">2025-06-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.18em; color: #999ca1">独白</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">主题美化</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.26em; color: #999fa8">hexo博客搭建</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/JS/" style="font-size: 1.18em; color: #999ca1">JS</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.42em; color: #99a6b7">鸿蒙</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/V2/" style="font-size: 1.34em; color: #99a3b0">V2</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.26em; color: #999fa8">项目</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.18em; color: #999ca1">网络请求</a></div></div><div class="card-widget card-archives">
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。<br/><img src="https://bu.dusays.com/2025/06/03/683ec52fd0dbc.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程"><img src="/img/ArticleTopImgs/cloudWorkflawTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不限终端的云工作流搭建历程"/></a><div class="content"><a class="title" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程">不限终端的云工作流搭建历程</a><time datetime="2025-06-03T09:35:35.000Z" title="发表于 2025-06-03 17:35:35">2025-06-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.42em; color: #99a6b7">鸿蒙</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.18em; color: #999ca1">独白</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.18em; color: #999ca1">网络请求</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.26em; color: #999fa8">hexo博客搭建</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.26em; color: #999fa8">项目</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">主题美化</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/JS/" style="font-size: 1.18em; color: #999ca1">JS</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/V2/" style="font-size: 1.34em; color: #99a3b0">V2</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -2322,7 +2314,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">148.6k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-20T16:30:32.471Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">148.6k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-20T17:27:51.015Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const element = mutation.target;
