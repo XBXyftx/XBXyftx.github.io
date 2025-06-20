@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xbxyftx.top/img/logo.png">
 <meta property="article:published_time" content="2025-05-26T08:03:13.000Z">
-<meta property="article:modified_time" content="2025-06-15T11:53:34.335Z">
+<meta property="article:modified_time" content="2025-06-20T16:24:44.705Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="鸿蒙开发">
 <meta property="article:tag" content="hexo">
@@ -502,6 +502,13 @@ body {
     📸 本功能仍为beta测试版，欢迎大家在评论区提意见
   </div>
 
+  <div style="text-align: center; margin-bottom: 15px;">
+    <button id="clearCacheBtn" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.8); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
+      🗑️ 清除图片缓存
+    </button>
+    <span id="cacheStatus" style="margin-left: 15px; font-size: 12px; color: rgba(255, 255, 255, 0.6);"></span>
+  </div>
+
   <div class="upload-area" id="uploadArea" style="display: none;">
     <div style="color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">
       📁 将图片拖拽到这里或点击选择图片
@@ -524,6 +531,7 @@ body {
 
   <div class="progress-indicator" id="progressIndicator" style="display: none;">
     <div class="progress-text">已加载 <span id="loadedCount">0</span> / <span id="totalCount">0</span> 张图片</div>
+    <div class="cache-text" id="cacheText" style="font-size: 12px; opacity: 0.8; margin-top: 4px;"></div>
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill"></div>
     </div>
@@ -541,12 +549,22 @@ const config = {
   imageFolderPath: '/swiper/images/',
   // 支持的图片格式
   supportedFormats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'],
-  loadDelay: 50, // 减少加载间隔到50ms
-  concurrentLoads: 6, // 并发加载数量
-  preloadCount: 10, // 预加载图片数量
+  loadDelay: 100, // 增加加载间隔到100ms，减少并发压力
+  concurrentLoads: 4, // 减少并发数量到4，避免浏览器限制
+  preloadCount: 5, // 减少预加载数量到5
+  imageTimeout: 8000, // 增加单图超时到8秒
+  batchTimeout: 15000, // 增加批次超时到15秒
   observerOptions: {
-    threshold: 0.15, // 增加阈值，图片更多进入视口才显示
-    rootMargin: '20px' // 减少边距，延迟显示时机
+    threshold: 0.1, // 降低阈值，更早触发显示
+    rootMargin: '50px' // 增加边距，提前加载
+  },
+  // 缓存配置
+  cache: {
+    dbName: 'SwiperImageCache',
+    dbVersion: 1,
+    storeName: 'images',
+    maxCacheSize: 100 * 1024 * 1024, // 100MB缓存限制
+    cacheExpiry: 7 * 24 * 60 * 60 * 1000 // 7天过期
   }
 };
 
@@ -568,16 +586,249 @@ document.addEventListener('DOMContentLoaded', function() {
   let preloadedImages = new Map(); // 预加载的图片缓存
   const getGap = () => window.innerWidth <= 480 ? 10 : (window.innerWidth <= 768 ? 12 : 15);
   const columnWidth = () => (grid.offsetWidth - getGap()) / 2; // 计算列宽
+  let imageCache = null; // IndexedDB 缓存实例
+  let cacheStats = { total: 0, cached: 0, remaining: 0 }; // 缓存统计
+
+  // IndexedDB 缓存管理器
+  class ImageCacheManager {
+    constructor() {
+      this.db = null;
+      this.ready = false;
+    }
+
+    async init() {
+      try {
+        const request = indexedDB.open(config.cache.dbName, config.cache.dbVersion);
+
+        request.onerror = () => {
+          console.warn('IndexedDB 初始化失败，将使用内存缓存');
+          this.ready = false;
+        };
+
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(config.cache.storeName)) {
+            const store = db.createObjectStore(config.cache.storeName, { keyPath: 'url' });
+            store.createIndex('timestamp', 'timestamp', { unique: false });
+          }
+        };
+
+        this.db = await new Promise((resolve, reject) => {
+          request.onsuccess = () => {
+            resolve(request.result);
+          };
+          request.onerror = () => reject(request.error);
+        });
+
+        this.ready = true;
+        console.log('🗄️ IndexedDB 缓存初始化成功');
+
+        // 清理过期缓存
+        await this.cleanExpiredCache();
+
+      } catch (error) {
+        console.warn('IndexedDB 不可用，使用内存缓存:', error);
+        this.ready = false;
+      }
+    }
+
+    async get(url) {
+      if (!this.ready || !this.db) return null;
+
+      try {
+        const transaction = this.db.transaction([config.cache.storeName], 'readonly');
+        const store = transaction.objectStore(config.cache.storeName);
+        const request = store.get(url);
+
+        const result = await new Promise((resolve) => {
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => resolve(null);
+        });
+
+        if (result) {
+          // 检查是否过期
+          const now = Date.now();
+          if (now - result.timestamp > config.cache.cacheExpiry) {
+            await this.delete(url);
+            return null;
+          }
+          console.log(`📦 从缓存加载图片: ${url.split('/').pop()}`);
+          return result.blob;
+        }
+
+        return null;
+      } catch (error) {
+        console.warn('缓存读取失败:', error);
+        return null;
+      }
+    }
+
+    async set(url, blob) {
+      if (!this.ready || !this.db) return false;
+
+      try {
+        // 检查缓存大小限制
+        await this.checkCacheSize();
+
+        const transaction = this.db.transaction([config.cache.storeName], 'readwrite');
+        const store = transaction.objectStore(config.cache.storeName);
+
+        const cacheItem = {
+          url: url,
+          blob: blob,
+          timestamp: Date.now(),
+          size: blob.size
+        };
+
+        await new Promise((resolve, reject) => {
+          const request = store.put(cacheItem);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+
+        console.log(`💾 图片已缓存: ${url.split('/').pop()} (${(blob.size / 1024).toFixed(1)}KB)`);
+        return true;
+      } catch (error) {
+        console.warn('缓存写入失败:', error);
+        return false;
+      }
+    }
+
+    async delete(url) {
+      if (!this.ready || !this.db) return;
+
+      try {
+        const transaction = this.db.transaction([config.cache.storeName], 'readwrite');
+        const store = transaction.objectStore(config.cache.storeName);
+        await new Promise((resolve) => {
+          const request = store.delete(url);
+          request.onsuccess = () => resolve();
+          request.onerror = () => resolve();
+        });
+      } catch (error) {
+        console.warn('缓存删除失败:', error);
+      }
+    }
+
+    async checkCacheSize() {
+      if (!this.ready || !this.db) return;
+
+      try {
+        const transaction = this.db.transaction([config.cache.storeName], 'readonly');
+        const store = transaction.objectStore(config.cache.storeName);
+        const request = store.getAll();
+
+        const items = await new Promise((resolve) => {
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => resolve([]);
+        });
+
+        const totalSize = items.reduce((sum, item) => sum + (item.size || 0), 0);
+
+        if (totalSize > config.cache.maxCacheSize) {
+          console.log(`🧹 缓存超限 (${(totalSize / 1024 / 1024).toFixed(1)}MB)，开始清理...`);
+
+          // 按时间戳排序，删除最旧的项目
+          items.sort((a, b) => a.timestamp - b.timestamp);
+
+          let cleanedSize = 0;
+          const targetSize = config.cache.maxCacheSize * 0.8; // 清理到80%
+
+          for (const item of items) {
+            if (totalSize - cleanedSize <= targetSize) break;
+
+            await this.delete(item.url);
+            cleanedSize += item.size || 0;
+          }
+
+          console.log(`✅ 清理完成，释放 ${(cleanedSize / 1024 / 1024).toFixed(1)}MB 空间`);
+        }
+      } catch (error) {
+        console.warn('缓存大小检查失败:', error);
+      }
+    }
+
+    async cleanExpiredCache() {
+      if (!this.ready || !this.db) return;
+
+      try {
+        const transaction = this.db.transaction([config.cache.storeName], 'readwrite');
+        const store = transaction.objectStore(config.cache.storeName);
+        const index = store.index('timestamp');
+
+        const now = Date.now();
+        const expiredBefore = now - config.cache.cacheExpiry;
+
+        const range = IDBKeyRange.upperBound(expiredBefore);
+        const request = index.openCursor(range);
+
+        let cleanedCount = 0;
+        await new Promise((resolve) => {
+          request.onsuccess = (event) => {
+            const cursor = event.target.result;
+            if (cursor) {
+              cursor.delete();
+              cleanedCount++;
+              cursor.continue();
+            } else {
+              resolve();
+            }
+          };
+          request.onerror = () => resolve();
+        });
+
+        if (cleanedCount > 0) {
+          console.log(`🧹 清理了 ${cleanedCount} 个过期缓存项`);
+        }
+      } catch (error) {
+        console.warn('过期缓存清理失败:', error);
+      }
+    }
+
+    async getCacheStats(urls) {
+      if (!this.ready || !this.db) {
+        return { total: urls.length, cached: 0, remaining: urls.length };
+      }
+
+      try {
+        const transaction = this.db.transaction([config.cache.storeName], 'readonly');
+        const store = transaction.objectStore(config.cache.storeName);
+
+        let cachedCount = 0;
+        const now = Date.now();
+
+        for (const url of urls) {
+          const request = store.get(url);
+          const result = await new Promise((resolve) => {
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => resolve(null);
+          });
+
+          if (result && (now - result.timestamp <= config.cache.cacheExpiry)) {
+            cachedCount++;
+          }
+        }
+
+        return {
+          total: urls.length,
+          cached: cachedCount,
+          remaining: urls.length - cachedCount
+        };
+      } catch (error) {
+        console.warn('缓存统计失败:', error);
+        return { total: urls.length, cached: 0, remaining: urls.length };
+      }
+    }
+  }
 
   // 创建Intersection Observer用于监听元素进入视口
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 添加额外延迟，让图片浮现更晚一些
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }, 200); // 200ms延迟，让浮现效果更明显
+        // 减少延迟，更快显示图片
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+        console.log(`🎬 图片进入视口并显示`);
       }
     });
   }, config.observerOptions);
@@ -637,22 +888,89 @@ document.addEventListener('DOMContentLoaded', function() {
     return validImages.length > 0 ? validImages : null;
   }
 
-  // 预加载图片
-  function preloadImage(src) {
-    return new Promise((resolve, reject) => {
-      if (preloadedImages.has(src)) {
-        resolve(preloadedImages.get(src));
-        return;
+  // 数组随机打乱函数
+  function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  // 带缓存的图片预加载
+  async function preloadImageWithCache(src) {
+    if (preloadedImages.has(src)) {
+      return preloadedImages.get(src);
+    }
+
+    try {
+      // 首先尝试从缓存获取
+      if (imageCache && imageCache.ready) {
+        const cachedBlob = await imageCache.get(src);
+        if (cachedBlob) {
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(cachedBlob);
+
+          return new Promise((resolve, reject) => {
+            img.onload = () => {
+              // 不要立即释放 objectUrl，因为图片可能还在使用
+              img.setAttribute('data-object-url', objectUrl);
+              preloadedImages.set(src, img);
+              resolve(img);
+            };
+            img.onerror = () => {
+              URL.revokeObjectURL(objectUrl);
+              reject(new Error(`Cached image load failed: ${src}`));
+            };
+            img.src = objectUrl;
+          });
+        }
       }
 
+      // 缓存中没有，从网络加载
+      const response = await fetch(src);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+
+      // 保存到缓存
+      if (imageCache && imageCache.ready) {
+        await imageCache.set(src, blob);
+      }
+
+      // 创建图片对象
       const img = new Image();
-      img.onload = () => {
-        preloadedImages.set(src, img);
-        resolve(img);
-      };
-      img.onerror = reject;
-      img.src = src;
-    });
+      const objectUrl = URL.createObjectURL(blob);
+
+      return new Promise((resolve, reject) => {
+        img.onload = () => {
+          img.setAttribute('data-object-url', objectUrl);
+          preloadedImages.set(src, img);
+          resolve(img);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error(`Network image load failed: ${src}`));
+        };
+        img.src = objectUrl;
+      });
+
+    } catch (error) {
+      console.warn(`图片预加载失败: ${src}`, error);
+      throw error;
+    }
+  }
+
+  // 清理对象URL（在图片不再需要时调用）
+  function cleanupImageUrl(img) {
+    const objectUrl = img.getAttribute('data-object-url');
+    if (objectUrl && objectUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(objectUrl);
+      img.removeAttribute('data-object-url');
+    }
   }
 
   // 并发加载管理器
@@ -714,18 +1032,19 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         let preloadedImg;
 
-        // 尝试使用预加载的图片
-        if (preloadedImages.has(src)) {
-          preloadedImg = preloadedImages.get(src);
-          console.log(`🚀 使用预加载图片 ${index + 1}`);
+        // 使用带缓存的预加载
+        preloadedImg = await preloadImageWithCache(src);
+        const cacheStatus = preloadedImg.getAttribute('data-object-url') ? '(缓存)' : '(网络)';
+        console.log(`📥 加载图片 ${index + 1} ${cacheStatus}: ${filename}`);
+
+        // 设置图片源（如果使用缓存，src 已经是 blob URL）
+        if (preloadedImg.getAttribute('data-object-url')) {
+          img.src = preloadedImg.src;
         } else {
-          // 如果没有预加载，直接加载
-          preloadedImg = await preloadImage(src);
-          console.log(`📥 直接加载图片 ${index + 1}`);
+          img.src = src;
         }
 
-        // 设置图片源
-        img.src = src;
+        // 图片源已在上面设置
 
         // 确保容器有宽度再进行定位
         if (grid.offsetWidth > 0) {
@@ -737,12 +1056,13 @@ document.addEventListener('DOMContentLoaded', function() {
               positionItem(item, preloadedImg);
             } else {
               console.warn(`容器宽度为0，无法定位图片: ${src}`);
-              // 使用默认布局，但仍然等待滚动显示
+              // 使用默认布局，并直接显示
               item.style.position = 'relative';
               item.style.width = '100%';
               item.style.marginBottom = '15px';
               item.classList.add('positioned');
-              // 不直接添加visible类，让Observer来控制显示
+              item.classList.add('visible'); // 直接显示，不依赖Observer
+              console.log(`🎬 图片使用默认布局并直接显示: ${filename}`);
             }
           }, 100);
         }
@@ -755,14 +1075,14 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
 
-    // 设置超时处理（减少到3秒）
+    // 设置超时处理（增加到配置的超时时间）
     loadTimeout = setTimeout(() => {
       if (!hasLoaded) {
-        console.warn(`⏰ 图片加载超时(3s): ${src}`);
+        console.warn(`⏰ 图片加载超时(${config.imageTimeout}ms): ${src}`);
         item.style.display = 'none';
         handleLoadComplete(false);
       }
-    }, 3000);
+    }, config.imageTimeout);
 
     // 添加点击事件
     item.addEventListener('click', () => {
@@ -863,10 +1183,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // 已经可见，跳过
       }
 
-      // 使用Intersection Observer监听元素，等待滚动到时才显示
-      setTimeout(() => {
+      // 立即检查是否在视口内，如果是则直接显示
+      const rect = item.getBoundingClientRect();
+      const isInViewport = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+
+      if (isInViewport) {
+        // 在视口内，直接显示
+        item.classList.add('visible');
+        console.log(`🎬 图片 ${index} 在视口内，直接显示`);
+      } else {
+        // 不在视口内，使用Observer监听
         observer.observe(item);
-      }, index * 80); // 增加延迟时间，让浮现更晚一些
+      }
     });
   }
 
@@ -883,16 +1211,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // 已经可见，跳过
       }
 
-      // 只设置Observer监听，等待用户滚动到时才显示
-      setTimeout(() => {
+      // 立即检查是否在视口内，如果是则直接显示
+      const rect = item.getBoundingClientRect();
+      const isInViewport = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+
+      if (isInViewport) {
+        // 在视口内，直接显示
+        item.classList.add('visible');
+        console.log(`🎬 新图片 ${startIndex + index} 在视口内，直接显示`);
+      } else {
+        // 不在视口内，使用Observer监听
         observer.observe(item);
-      }, index * 80); // 增加延迟时间，让浮现更晚一些
+      }
     });
   }
 
-  // 分批加载图片（优化版）
-  function loadImages(imageList) {
-    allImages = imageList;
+  // 分批加载图片（优化版 + 随机化 + 缓存）
+  async function loadImages(imageList) {
+    // 随机打乱图片顺序
+    const randomizedImages = shuffleArray(imageList);
+    console.log(`🎲 图片列表已随机打乱: ${randomizedImages.length} 张图片`);
+
+    allImages = randomizedImages;
     currentBatch = 0;
     loadedCount = 0;
     activeLoads = 0;
@@ -900,22 +1240,34 @@ document.addEventListener('DOMContentLoaded', function() {
     grid.innerHTML = ''; // 清空现有内容
     resetLayout(); // 重置布局
 
-    if (imageList.length === 0) {
+    if (randomizedImages.length === 0) {
       showEmptyState();
       hideLoadingIndicator();
       return;
     }
 
-    console.log(`🚀 开始加载 ${imageList.length} 张图片，并发数: ${config.concurrentLoads}`);
+    // 获取缓存统计
+    if (imageCache && imageCache.ready) {
+      cacheStats = await imageCache.getCacheStats(randomizedImages);
+      console.log(`📊 缓存统计: ${cacheStats.cached}/${cacheStats.total} 张图片已缓存，需要加载 ${cacheStats.remaining} 张`);
+
+      // 更新加载提示
+      const loadingText = loadingIndicator.querySelector('div:last-child');
+      if (loadingText) {
+        loadingText.textContent = `正在加载图片...已缓存 ${cacheStats.cached} 张，需下载 ${cacheStats.remaining} 张`;
+      }
+    }
+
+    console.log(`🚀 开始加载 ${randomizedImages.length} 张图片，并发数: ${config.concurrentLoads}`);
 
     // 显示进度指示器（当图片数量大于1批时）
-    if (imageList.length > BATCH_SIZE) {
+    if (randomizedImages.length > BATCH_SIZE) {
       showProgressIndicator();
       updateProgress();
     }
 
     // 预加载前几张图片
-    preloadInitialImages(imageList);
+    preloadInitialImages(randomizedImages);
 
     // 加载第一批图片
     loadNextBatch();
@@ -936,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let completedCount = 0;
     const preloadPromises = preloadList.map(async (src, index) => {
       try {
-        await preloadImage(src);
+        await preloadImageWithCache(src);
         completedCount++;
         console.log(`✅ 预加载完成: 图片 ${index + 1}`);
 
@@ -992,25 +1344,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let batchLoadedCount = 0;
 
-    // 设置批次超时机制（减少到6秒，因为并发加载更快）
+    // 设置批次超时机制
     const batchTimeout = setTimeout(() => {
       if (batchLoadedCount < batchImages.length) {
-        console.warn(`⚠️ 批次 ${currentBatch + 1} 加载超时(6s)，强制完成。已加载 ${batchLoadedCount}/${batchImages.length} 张`);
+        console.warn(`⚠️ 批次 ${currentBatch + 1} 加载超时(${config.batchTimeout}ms)，强制完成。已加载 ${batchLoadedCount}/${batchImages.length} 张`);
 
         // 强制完成当前批次
         currentBatch++;
         isLoading = false;
 
+        // 更新容器高度并触发显示动画
+        setTimeout(() => {
+          updateGridHeight();
+          triggerVisibilityAnimation();
+        }, 200);
+
         // 继续加载下一批
         if (currentBatch * BATCH_SIZE < allImages.length) {
           setTimeout(() => {
             loadNextBatch();
-          }, 200);
+          }, 500);
         } else {
           console.log('🎉 所有图片加载完成（部分可能超时）！');
         }
       }
-    }, 6000);
+    }, config.batchTimeout);
 
     // 预加载下一批图片
     if (currentBatch * BATCH_SIZE + BATCH_SIZE < allImages.length) {
@@ -1020,7 +1378,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       console.log(`🔄 预加载下一批的前 ${nextBatchImages.length} 张图片`);
       nextBatchImages.forEach(src => {
-        preloadImage(src).catch(() => {}); // 静默处理预加载错误
+        preloadImageWithCache(src).catch(() => {}); // 静默处理预加载错误
       });
     }
 
@@ -1063,6 +1421,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => {
                       updateGridHeight();
                       triggerVisibilityAnimation();
+
+                      // 备用机制：如果3秒后还有隐藏的图片，强制显示
+                      setTimeout(() => {
+                        const hiddenItems = grid.querySelectorAll('.waterfall-item.positioned:not(.visible)');
+                        if (hiddenItems.length > 0) {
+                          console.warn(`⚠️ 发现 ${hiddenItems.length} 个隐藏图片，强制显示`);
+                          hiddenItems.forEach(item => {
+                            item.classList.add('visible');
+                          });
+                        }
+                      }, 3000);
                     }, 100);
                   }, 50);
                 } else {
@@ -1147,12 +1516,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadedCountSpan = document.getElementById('loadedCount');
     const totalCountSpan = document.getElementById('totalCount');
     const progressFill = document.getElementById('progressFill');
+    const cacheText = document.getElementById('cacheText');
 
     if (loadedCountSpan) loadedCountSpan.textContent = loadedCount;
     if (totalCountSpan) totalCountSpan.textContent = totalCount;
 
     const percentage = totalCount > 0 ? (loadedCount / totalCount) * 100 : 0;
     if (progressFill) progressFill.style.width = percentage + '%';
+
+    // 更新缓存信息
+    if (cacheText && cacheStats.total > 0) {
+      const cachePercentage = ((cacheStats.cached / cacheStats.total) * 100).toFixed(1);
+      cacheText.textContent = `💾 ${cacheStats.cached} 张已缓存 (${cachePercentage}%) | 🌐 ${cacheStats.remaining} 张需下载`;
+    }
 
     // 输出详细的进度信息
     console.log(`📊 进度更新: ${loadedCount}/${totalCount} (${percentage.toFixed(1)}%)`);
@@ -1250,6 +1626,100 @@ document.addEventListener('DOMContentLoaded', function() {
       uploadArea.classList.remove('dragover');
       handleFiles(e.dataTransfer.files);
     });
+  }
+
+  // 设置缓存控制功能
+  function setupCacheControls() {
+    const clearCacheBtn = document.getElementById('clearCacheBtn');
+    const cacheStatus = document.getElementById('cacheStatus');
+
+    // 更新缓存状态显示
+    const updateCacheStatus = async () => {
+      if (imageCache && imageCache.ready && allImages.length > 0) {
+        const stats = await imageCache.getCacheStats(allImages);
+        const cacheSize = await getCacheSize();
+        cacheStatus.textContent = `${stats.cached}/${stats.total} 张已缓存 (${cacheSize})`;
+      } else {
+        cacheStatus.textContent = '缓存未初始化';
+      }
+    };
+
+    // 获取缓存大小
+    const getCacheSize = async () => {
+      if (!imageCache || !imageCache.ready || !imageCache.db) return '0KB';
+
+      try {
+        const transaction = imageCache.db.transaction([config.cache.storeName], 'readonly');
+        const store = transaction.objectStore(config.cache.storeName);
+        const request = store.getAll();
+
+        const items = await new Promise((resolve) => {
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => resolve([]);
+        });
+
+        const totalSize = items.reduce((sum, item) => sum + (item.size || 0), 0);
+
+        if (totalSize < 1024) return `${totalSize}B`;
+        if (totalSize < 1024 * 1024) return `${(totalSize / 1024).toFixed(1)}KB`;
+        return `${(totalSize / 1024 / 1024).toFixed(1)}MB`;
+      } catch (error) {
+        return '未知';
+      }
+    };
+
+    // 清除缓存按钮事件
+    clearCacheBtn.addEventListener('click', async () => {
+      if (!imageCache || !imageCache.ready) {
+        alert('缓存系统未初始化');
+        return;
+      }
+
+      const confirmed = confirm('确定要清除所有图片缓存吗？这将删除本地存储的所有图片数据。');
+      if (!confirmed) return;
+
+      try {
+        clearCacheBtn.textContent = '🔄 清除中...';
+        clearCacheBtn.disabled = true;
+
+        // 删除数据库
+        const deleteRequest = indexedDB.deleteDatabase(config.cache.dbName);
+        await new Promise((resolve, reject) => {
+          deleteRequest.onsuccess = () => resolve();
+          deleteRequest.onerror = () => reject(deleteRequest.error);
+          deleteRequest.onblocked = () => {
+            console.warn('数据库删除被阻塞，尝试强制清理');
+            resolve();
+          };
+        });
+
+        // 清理内存缓存
+        preloadedImages.forEach((img) => {
+          cleanupImageUrl(img);
+        });
+        preloadedImages.clear();
+
+        // 重新初始化缓存系统
+        imageCache = new ImageCacheManager();
+        await imageCache.init();
+
+        alert('缓存清除成功！页面将刷新以应用更改。');
+        location.reload();
+
+      } catch (error) {
+        console.error('清除缓存失败:', error);
+        alert('清除缓存失败: ' + error.message);
+      } finally {
+        clearCacheBtn.textContent = '🗑️ 清除图片缓存';
+        clearCacheBtn.disabled = false;
+      }
+    });
+
+    // 初始化时更新状态
+    setTimeout(updateCacheStatus, 1000);
+
+    // 定期更新缓存状态
+    setInterval(updateCacheStatus, 10000);
   }
 
   // 图片模态框
@@ -1491,7 +1961,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 初始化
   async function initialize() {
+    // 初始化缓存系统
+    imageCache = new ImageCacheManager();
+    await imageCache.init();
+
     setupFileUpload();
+    setupCacheControls();
 
     // 窗口大小变化时重新布局
     let resizeTimeout;
@@ -1500,12 +1975,21 @@ document.addEventListener('DOMContentLoaded', function() {
       resizeTimeout = setTimeout(relayoutImages, 300);
     });
 
+    // 页面卸载时清理资源
+    window.addEventListener('beforeunload', () => {
+      // 清理所有对象 URL
+      preloadedImages.forEach((img) => {
+        cleanupImageUrl(img);
+      });
+      preloadedImages.clear();
+    });
+
     // 尝试加载本地图片
     const localImages = await loadLocalImages();
 
     if (localImages && localImages.length > 0) {
       console.log('找到本地图片:', localImages.length, '张');
-      loadImages(localImages);
+      await loadImages(localImages); // 注意这里改为 await
 
       // 启动加载监控
       startLoadingMonitor();
@@ -1774,7 +2258,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 每分钟更新一次问候语
   setInterval(updateGreeting, 60000);
-})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。<br/><img src="https://bu.dusays.com/2025/06/03/683ec52fd0dbc.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程"><img src="/img/ArticleTopImgs/cloudWorkflawTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不限终端的云工作流搭建历程"/></a><div class="content"><a class="title" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程">不限终端的云工作流搭建历程</a><time datetime="2025-06-03T09:35:35.000Z" title="发表于 2025-06-03 17:35:35">2025-06-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.26em; color: #999fa8">项目</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/JS/" style="font-size: 1.18em; color: #999ca1">JS</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.18em; color: #999ca1">独白</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.26em; color: #999fa8">hexo博客搭建</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/V2/" style="font-size: 1.34em; color: #99a3b0">V2</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">主题美化</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.18em; color: #999ca1">网络请求</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.42em; color: #99a6b7">鸿蒙</a></div></div><div class="card-widget card-archives">
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。<br/><img src="https://bu.dusays.com/2025/06/03/683ec52fd0dbc.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程"><img src="/img/ArticleTopImgs/cloudWorkflawTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="不限终端的云工作流搭建历程"/></a><div class="content"><a class="title" href="/2025/06/03/CloudWorkflow/" title="不限终端的云工作流搭建历程">不限终端的云工作流搭建历程</a><time datetime="2025-06-03T09:35:35.000Z" title="发表于 2025-06-03 17:35:35">2025-06-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述"><img src="/img/ArticleTopImgs/persistentTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙开发数据持久化简述"/></a><div class="content"><a class="title" href="/2025/05/23/HarmonyOSPersistent/" title="鸿蒙开发数据持久化简述">鸿蒙开发数据持久化简述</a><time datetime="2025-05-23T12:46:19.000Z" title="发表于 2025-05-23 20:46:19">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img src="/img/ArticleTopImgs/SASTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《数据分析方法（第二版）》重要概念"/></a><div class="content"><a class="title" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念">《数据分析方法（第二版）》重要概念</a><time datetime="2025-05-18T06:49:47.000Z" title="发表于 2025-05-18 14:49:47">2025-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"><img src="/img/ArticleTopImgs/HuaWeiCloudTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案"/></a><div class="content"><a class="title" href="/2025/05/16/HuaWeiCloud/" title="华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案">华为云Flexus云服务L实例+宝塔面板+Git Hook自动部署解决方案</a><time datetime="2025-05-16T01:11:23.000Z" title="发表于 2025-05-16 09:11:23">2025-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img src="/img/ArticleTopImgs/AccountTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为账户一键登录功能测试"/></a><div class="content"><a class="title" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试">华为账户一键登录功能测试</a><time datetime="2025-05-14T03:10:51.000Z" title="发表于 2025-05-14 11:10:51">2025-05-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.18em; color: #999ca1">独白</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">主题美化</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.26em; color: #999fa8">hexo博客搭建</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/JS/" style="font-size: 1.18em; color: #999ca1">JS</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.42em; color: #99a6b7">鸿蒙</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/V2/" style="font-size: 1.34em; color: #99a3b0">V2</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.26em; color: #999fa8">项目</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.18em; color: #999ca1">网络请求</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -1838,7 +2322,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">148.6k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-20T15:34:58.732Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">27</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">148.6k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-20T16:30:32.471Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const element = mutation.target;
