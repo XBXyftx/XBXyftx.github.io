@@ -340,6 +340,40 @@ class WaterfallLayout {
         }
         
         this.resizeTimer = setTimeout(() => {
+            // 移动端不需要复杂的瀑布流重新布局，保持简单的单列布局
+            if (window.innerWidth <= 768) {
+                const container = document.querySelector('.waterfall-container');
+                if (container) {
+                    const items = container.querySelectorAll('.waterfall-item');
+                    items.forEach(item => {
+                        // 确保移动端样式始终正确
+                        item.style.cssText = `
+                            width: 100% !important;
+                            max-width: 100% !important;
+                            left: 0 !important;
+                            position: static !important;
+                            display: block !important;
+                            margin-bottom: 20px !important;
+                            transform: none !important;
+                            opacity: 1 !important;
+                            transition: none !important;
+                            float: none !important;
+                            clear: none !important;
+                        `;
+                    });
+                    
+                    container.style.cssText = `
+                        position: relative !important;
+                        width: 100% !important;
+                        overflow: visible !important;
+                        height: auto !important;
+                        min-height: auto !important;
+                    `;
+                }
+                console.log('移动端布局已重新应用');
+                return;
+            }
+            
             if (this.isInitialized && !this.isLayouting) {
                 console.log('窗口大小变化，重新布局');
                 this.init();
@@ -350,6 +384,42 @@ class WaterfallLayout {
     // 处理页面可见性变化
     handleVisibilityChange() {
         if (!document.hidden && this.isInitialized) {
+            // 移动端不需要复杂的布局检查，直接确保样式正确
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const container = document.querySelector('.waterfall-container');
+                    if (container) {
+                        const items = container.querySelectorAll('.waterfall-item');
+                        items.forEach(item => {
+                            // 确保移动端样式始终正确
+                            item.style.cssText = `
+                                width: 100% !important;
+                                max-width: 100% !important;
+                                left: 0 !important;
+                                position: static !important;
+                                display: block !important;
+                                margin-bottom: 20px !important;
+                                transform: none !important;
+                                opacity: 1 !important;
+                                transition: none !important;
+                                float: none !important;
+                                clear: none !important;
+                            `;
+                        });
+                        
+                        container.style.cssText = `
+                            position: relative !important;
+                            width: 100% !important;
+                            overflow: visible !important;
+                            height: auto !important;
+                            min-height: auto !important;
+                        `;
+                    }
+                    console.log('页面可见性变化 - 移动端布局已重新应用');
+                }, 500);
+                return;
+            }
+            
             // 检查是否需要重新布局
             setTimeout(() => {
                 const positionedItems = this.container?.querySelectorAll('.waterfall-item.positioned');
@@ -386,15 +456,28 @@ function initWaterfall() {
         // 手机端立即强制单列
         const items = container.querySelectorAll('.waterfall-item');
         items.forEach(item => {
+            // 移除可能的positioned类
+            item.classList.remove('positioned', 'fade-in');
             item.style.cssText = `
                 width: 100% !important;
                 max-width: 100% !important;
                 left: 0 !important;
+                top: auto !important;
+                right: auto !important;
+                bottom: auto !important;
                 position: static !important;
                 display: block !important;
                 margin-bottom: 20px !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                margin-top: 0 !important;
                 transform: none !important;
                 opacity: 1 !important;
+                transition: none !important;
+                float: none !important;
+                clear: none !important;
+                z-index: auto !important;
+                visibility: visible !important;
             `;
         });
         
@@ -402,6 +485,8 @@ function initWaterfall() {
             position: relative !important;
             width: 100% !important;
             overflow: visible !important;
+            height: auto !important;
+            min-height: auto !important;
         `;
         
         console.log('手机端单列样式已立即应用');
@@ -423,6 +508,91 @@ function initWaterfallOnReady() {
     const container = document.querySelector('.waterfall-container');
     if (!container) {
         console.log('未发现瀑布流容器');
+        return;
+    }
+
+    // 移动端完全禁用瀑布流并持续监控
+    if (window.innerWidth <= 768) {
+        console.log('🔍 移动端检测到，完全禁用瀑布流');
+        
+        // 强制重置函数
+        const forceResetMobile = () => {
+            const container = document.querySelector('.waterfall-container');
+            if (!container) return;
+            
+            // 重置容器
+            container.style.cssText = `
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            `;
+            
+            const items = container.querySelectorAll('.waterfall-item');
+            items.forEach((item, index) => {
+                // 完全重置每个项目
+                item.style.cssText = `
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    position: static !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    margin: 0 0 20px 0 !important;
+                    padding: 0 !important;
+                    left: auto !important;
+                    top: auto !important;
+                    right: auto !important;
+                    bottom: auto !important;
+                    transform: none !important;
+                    transition: none !important;
+                    float: none !important;
+                    clear: none !important;
+                    z-index: auto !important;
+                `;
+                
+                // 移除所有可能的类名
+                item.classList.remove('positioned', 'fade-in', 'waterfall-positioned');
+                
+                console.log(`🔧 强制重置项目 ${index + 1}`);
+            });
+        };
+        
+        // 立即执行
+        forceResetMobile();
+        
+        // 每100ms持续监控并重置
+        const resetInterval = setInterval(() => {
+            const items = document.querySelectorAll('.waterfall-item');
+            let needReset = false;
+            
+            items.forEach(item => {
+                const style = item.getAttribute('style') || '';
+                if (style.includes('position: absolute') || 
+                    style.includes('left:') || 
+                    style.includes('top:') ||
+                    item.classList.contains('positioned')) {
+                    needReset = true;
+                }
+            });
+            
+            if (needReset) {
+                console.log('🚨 检测到样式被修改，立即重置');
+                forceResetMobile();
+            }
+        }, 100);
+        
+        // 监听所有可能的事件
+        ['click', 'touchstart', 'touchend', 'scroll', 'resize'].forEach(eventType => {
+            document.addEventListener(eventType, () => {
+                setTimeout(forceResetMobile, 10);
+            }, true);
+        });
+        
+        console.log('✅ 移动端强制保护已启动');
         return;
     }
 
@@ -457,23 +627,84 @@ if (document.readyState === 'loading') {
 // 添加必要的CSS样式
 const style = document.createElement('style');
 style.textContent = `
-  #recent-posts.waterfall-masonry .waterfall-container {
-    position: relative !important;
-    width: 100% !important;
-    overflow: visible !important;
+  /* 桌面端瀑布流样式 */
+  @media (min-width: 769px) {
+    #recent-posts.waterfall-masonry .waterfall-container {
+      position: relative !important;
+      width: 100% !important;
+      overflow: visible !important;
+    }
+    
+    #recent-posts.waterfall-masonry #pagination {
+      position: relative !important;
+      z-index: 10 !important;
+      margin-top: 40px !important;
+      clear: both !important;
+    }
   }
   
-  #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
-    display: block !important;
-    visibility: visible !important;
-    box-sizing: border-box !important;
-  }
-  
-  #recent-posts.waterfall-masonry #pagination {
-    position: relative !important;
-    z-index: 10 !important;
-    margin-top: 40px !important;
-    clear: both !important;
+  /* 移动端强制单列布局 - 仅针对瀑布流项目 */
+  @media (max-width: 768px) {
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+      width: 100% !important;
+      position: static !important;
+      left: 0 !important;
+      top: auto !important;
+      transform: none !important;
+      margin-bottom: 20px !important;
+      display: block !important;
+      opacity: 1 !important;
+    }
   }
 `;
-document.head.appendChild(style); 
+document.head.appendChild(style);
+
+// 添加全局事件监听来追踪可能的干扰
+if (window.innerWidth <= 768) {
+    console.log('🔧 添加移动端调试监听器');
+    
+    // 监听所有可能触发重新布局的事件
+    ['resize', 'orientationchange', 'scroll', 'visibilitychange'].forEach(eventType => {
+        window.addEventListener(eventType, function(e) {
+            console.log(`⚠️ 检测到 ${eventType} 事件`);
+            
+            // 检查瀑布流项目状态
+            const items = document.querySelectorAll('.waterfall-item');
+            items.forEach((item, index) => {
+                const style = item.getAttribute('style');
+                if (style && (style.includes('position') || style.includes('left') || style.includes('top'))) {
+                    console.log(`🚨 项目 ${index + 1} 被意外修改了样式: ${style}`);
+                }
+            });
+        });
+    });
+    
+    // 监听DOM变化
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const target = mutation.target;
+                if (target.classList.contains('waterfall-item')) {
+                    const newStyle = target.getAttribute('style');
+                    console.log(`🔄 DOM变化: 瀑布流项目样式被修改`);
+                    console.log(`  - 元素: ${target.className}`);
+                    console.log(`  - 新样式: ${newStyle || '无样式'}`);
+                    console.log(`  - 调用栈:`, new Error().stack);
+                }
+            }
+        });
+    });
+    
+    // 开始观察
+    setTimeout(() => {
+        const container = document.querySelector('.waterfall-container');
+        if (container) {
+            observer.observe(container, {
+                attributes: true,
+                attributeFilter: ['style', 'class'],
+                subtree: true
+            });
+            console.log('🔍 DOM变化监听器已启动');
+        }
+    }, 1000);
+}

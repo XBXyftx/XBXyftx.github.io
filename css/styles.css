@@ -240,6 +240,55 @@ html nav#nav #toggle-menu {
     width: calc(100% + 48px);
     color: white!important;
 }
+
+/* 移动端目录 - 直接使用电脑版侧边栏目录 */
+@media (max-width: 900px) {
+    /* 移动端时将侧边栏目录移动到固定位置 */
+    #aside-content #card-toc {
+        position: fixed !important;
+        right: 50px !important;
+        bottom: 80px !important;
+        top: auto !important;
+        left: auto !important;
+        z-index: 99999 !important;
+        width: 280px !important;
+        max-width: 280px !important;
+        max-height: 60vh !important;
+        transform: scale(0) !important;
+        transform-origin: right bottom !important;
+        opacity: 0 !important;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    
+    /* 显示状态 */
+    #aside-content #card-toc.open {
+        transform: scale(1) !important;
+        opacity: 1 !important;
+    }
+    
+    /* 确保目录内容可滚动 */
+    #aside-content #card-toc .toc-content {
+        max-height: 50vh !important;
+        overflow-y: auto !important;
+    }
+    
+    /* 确保移动端目录按钮显示 */
+    #mobile-toc-button {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+/* 电脑端隐藏移动端目录按钮 */
+@media (min-width: 901px) {
+    #mobile-toc-button {
+        display: none !important;
+    }
+}
+
 #aside-content #card-toc .toc-content::before {
     content: '';
     position: absolute;
@@ -251,7 +300,7 @@ html nav#nav #toggle-menu {
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
-    opacity: 0.5;
+    opacity: 0.6;
     z-index: -1;
     pointer-events: none; /* 确保不阻挡点击事件 */
 }
@@ -452,7 +501,10 @@ body{
     overflow: visible !important;
     border-radius: 10px;
     position: relative;
-    z-index: 1; /* 确保轮播图不会突出到顶部图之上 */
+    z-index: 0; /* 降低轮播图的层级，确保不会覆盖页面头部 */
+    top: 0; /* 确保轮播图不会向上偏移 */
+    margin-top: 50px !important; /* 大幅增加顶部间距，避免侵入头部区域 */
+    padding-top: 20px !important; /* 额外增加内边距 */
 }
 
 #recent-posts.waterfall-masonry .waterfall-container {
@@ -627,31 +679,66 @@ body{
 
 /* 手机端立即强制单列 - 避免闪烁 */
 @media (max-width: 768px) {
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
+    /* 移动端瀑布流项目 - 最强保护 */
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item,
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style],
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item.positioned,
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="position"],
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="left"],
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="top"] {
         width: 100% !important;
         max-width: 100% !important;
-        left: 0 !important;
         position: static !important;
         display: block !important;
-        margin-bottom: 20px !important;
-        transform: none !important;
+        margin: 0 0 20px 0 !important;
+        padding: 0 !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
         opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
         transition: none !important;
         float: none !important;
         clear: none !important;
+        z-index: auto !important;
+    }
+    
+    /* 移动端容器样式 - 最强保护 */
+    #recent-posts.waterfall-masonry .waterfall-container,
+    #recent-posts.waterfall-masonry .waterfall-container[style] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* 禁用所有可能的动画和过渡 */
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    /* 仅禁用瀑布流相关的动画效果 */
+    #recent-posts.waterfall-masonry .waterfall-item {
+        animation: none !important;
     }
     
     #recent-posts.waterfall-masonry .waterfall-container {
-        width: 100% !important;
-        position: relative !important;
-        overflow: visible !important;
+        animation: none !important;
     }
     
     /* 轮播图层级修复 */
     #recent-posts.waterfall-masonry .blog-slider {
-        z-index: 1 !important;
+        z-index: 0 !important; /* 移动端也降低轮播图层级 */
         position: relative !important;
-        margin: 0 0 20px 0 !important;
+        margin: 60px 0 20px 0 !important; /* 大幅增加顶部间距，避免侵入头部区域 */
+        top: 0 !important; /* 确保轮播图不会向上偏移 */
+        padding-top: 30px !important; /* 移动端额外增加内边距 */
     }
     
     /* 文章封面图1:1比例 - 仅手机端 */
@@ -973,62 +1060,105 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     padding-top: 8px; /* 增加顶部内边距 */
 }
 
-/* 确保手机端侧边栏正常显示 - 重要修复 */
-@media (max-width: 900px) {
-    /* 确保layout在手机端是flex-direction: column */
-    .layout {
-        display: flex !important;
-        flex-direction: column !important;
-    }
-    
-    /* 确保aside-content在手机端显示 */
-    #aside-content.aside-content {
+/* 移动端侧边栏优化 - 完整对齐修复 */
+@media (max-width: 768px) {
+    /* 确保侧边栏在移动端可见并正确对齐 */
+    #aside-content {
         display: block !important;
         visibility: visible !important;
-        width: 100% !important;
-        margin-top: 20px !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        position: relative !important;
-        z-index: 1 !important;
         opacity: 1 !important;
-        order: 2 !important; /* 确保在主内容后面 */
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 15px !important; /* 与主内容区域保持一致的左右边距 */
+        box-sizing: border-box !important;
+        position: relative !important;
+        float: none !important;
+        clear: both !important;
     }
     
-    /* 确保aside内的组件显示 */
     #aside-content .card-widget {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        margin-bottom: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 0 20px 0 !important; /* 统一卡片间距 */
+        padding: 20px !important; /* 统一内边距 */
+        box-sizing: border-box !important;
+        position: relative !important;
+        float: none !important;
+        clear: both !important;
+        left: 0 !important; /* 重置任何可能的偏移 */
+        right: 0 !important;
+        top: 0 !important;
+        transform: none !important; /* 重置任何变换 */
     }
     
-    /* 确保主内容区在手机端正确显示 */
-    .layout > div:first-child {
+    /* 确保主容器布局正确 */
+    #main {
         width: 100% !important;
-        order: 1 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        position: relative !important;
+    }
+    
+    /* 确保内容区域正确对齐 */
+    #content-inner {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 15px !important; /* 与侧边栏保持一致的边距 */
+        box-sizing: border-box !important;
+        position: relative !important;
+        float: none !important;
+        clear: both !important;
+    }
+    
+    /* 重置任何可能影响对齐的样式 */
+    .layout {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: relative !important;
+        overflow-x: visible !important;
+    }
+    
+    /* 确保容器不会超出屏幕 */
+    body {
+        overflow-x: visible !important;
+    }
+    
+    /* 修复可能的flexbox布局问题 */
+    .container,
+    #page {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        position: relative !important;
+        box-sizing: border-box !important;
     }
 }
 
-/* 平板端也确保侧边栏显示 */
+/* 平板端导航优化 */
 @media (max-width: 1024px) {
-    #aside-content.aside-content {
-        display: block !important;
-        visibility: visible !important;
-    }
-    
     #nav #toggle-menu {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        cursor: pointer !important;
+        display: inline-block;
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
     }
     
     #nav #toggle-menu .site-page {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        cursor: pointer !important;
+        display: inline-block;
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
     }
 }
 
@@ -1062,4 +1192,25 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     display: flex;
     border-radius: 2em;
     box-shadow: 4px 4px 4px #00000c5e;
+}
+
+/* 自定义目录链接颜色 */
+:root {
+    --toc-link-color: #ffffff !important; /* 蓝色，你可以改成任何你喜欢的颜色 */
+}
+
+/* 也可以直接指定目录链接的颜色 */
+#aside-content #card-toc .toc-content .toc .toc-link {
+    color: #ffffff !important; /* 备用方案，确保颜色生效 */
+}
+
+/* 鼠标悬停时的颜色
+#aside-content #card-toc .toc-content .toc .toc-link:hover {
+    color: #ff0055 !important; /* 悬停时变成粉色 */
+}*/
+
+/* 当前激活项的颜色 */
+#aside-content #card-toc .toc-content .toc .toc-link.active {
+    color: #00ff88 !important; /* 激活时变成绿色 */
+    background-color: rgba(0, 255, 136, 0.1) !important; /* 添加背景色 */
 }
