@@ -615,7 +615,7 @@ setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><
 
   const loadTwikoo = (el, path) => {
     if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
-    else btf.getScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/twikoo/1.4.18/twikoo.all.min.js').then(() => init(el, path))
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
   }
 
   if (isShuoshuo) {
