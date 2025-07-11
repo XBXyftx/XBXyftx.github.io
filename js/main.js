@@ -17,7 +17,16 @@
       
       // 强制添加hide-menu类
       nav.classList.add('hide-menu');
-      
+
+      // 移动端下移顶部距离，避免与状态栏重叠
+      if (window.innerWidth <= 768) {
+        nav.style.top = '18px'; // 导航整体下移
+        toggleMenu.style.marginTop = '8px'; // 汉堡按钮自身再下移
+      } else {
+        nav.style.top = '';
+        toggleMenu.style.marginTop = '';
+      }
+
       // 强制显示汉堡菜单按钮
       toggleMenu.style.cssText = `
         display: inline-block !important;
