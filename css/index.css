@@ -4932,8 +4932,8 @@ figure.highlight pre .javascript .function {
 }
 @media screen and (max-width: 768px) {
   #nav {
+    top: 15px;
     padding: 0 16px;
-    top: 18px;
   }
 }
 #nav.show {
