@@ -1,3 +1,10 @@
+@media screen and (max-width: 768px) {
+  #nav {
+    top: 20px;
+    padding: 0 16px;
+  }
+}
+
 /* 超级强力汉堡菜单修复 - 放在文件开头确保优先级 */
 
 /* 默认隐藏汉堡菜单按钮 - 所有设备 */
@@ -1207,7 +1214,7 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
 /* 鼠标悬停时的颜色
 #aside-content #card-toc .toc-content .toc .toc-link:hover {
     color: #ff0055 !important; /* 悬停时变成粉色 */
-}*/
+/*}*/
 
 /* 当前激活项的颜色 */
 #aside-content #card-toc .toc-content .toc .toc-link.active {
@@ -1215,9 +1222,3 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     background-color: rgba(0, 255, 136, 0.1) !important; /* 添加背景色 */
 }
 
-@media screen and (max-width: 768px) {
-  #nav {
-    top: 20px;
-    padding: 0 16px;
-  }
-}
