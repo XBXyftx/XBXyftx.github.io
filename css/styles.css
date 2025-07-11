@@ -1217,7 +1217,7 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
 
 @media screen and (max-width: 768px) {
   #nav {
-    top: 10px;
+    top: 20px;
     padding: 0 16px;
   }
 }
