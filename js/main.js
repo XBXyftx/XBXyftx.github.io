@@ -1,188 +1,188 @@
 // 独立的汉堡菜单修复 - 立即执行，不依赖其他代码
-(function() {
-  'use strict';
+// (function() {
+//   'use strict';
   
-  const fixMobileMenu = () => {
-    console.log('=== 开始修复汉堡菜单 ===');
+//   const fixMobileMenu = () => {
+//     console.log('=== 开始修复汉堡菜单 ===');
     
-    // 强制显示汉堡菜单按钮
-    const forceShowToggleMenu = () => {
-      const nav = document.getElementById('nav');
-      const toggleMenu = document.getElementById('toggle-menu');
+//     // 强制显示汉堡菜单按钮
+//     const forceShowToggleMenu = () => {
+//       const nav = document.getElementById('nav');
+//       const toggleMenu = document.getElementById('toggle-menu');
       
-      if (!nav || !toggleMenu) {
-        console.warn('导航元素未找到:', { nav: !!nav, toggleMenu: !!toggleMenu });
-        return false;
-      }
+//       if (!nav || !toggleMenu) {
+//         console.warn('导航元素未找到:', { nav: !!nav, toggleMenu: !!toggleMenu });
+//         return false;
+//       }
       
-      // 强制添加hide-menu类
-      nav.classList.add('hide-menu');
+//       // 强制添加hide-menu类
+//       nav.classList.add('hide-menu');
 
-      // 移动端下移顶部距离，强制覆盖所有样式，彻底避开状态栏
-      const pageHeader = document.getElementById('page-header');
-      if (window.innerWidth <= 768) {
-        if (nav) nav.style.setProperty('top', 'calc(36px + env(safe-area-inset-top))', 'important');
-        if (toggleMenu) toggleMenu.style.setProperty('margin-top', '8px', 'important');
-        if (pageHeader) pageHeader.style.setProperty('padding-top', 'calc(36px + env(safe-area-inset-top))', 'important');
-      } else {
-        if (nav) nav.style.top = '';
-        if (toggleMenu) toggleMenu.style.marginTop = '';
-        if (pageHeader) pageHeader.style.paddingTop = '';
-      }
+//       // 移动端下移顶部距离，强制覆盖所有样式，彻底避开状态栏
+//       const pageHeader = document.getElementById('page-header');
+//       if (window.innerWidth <= 768) {
+//         if (nav) nav.style.setProperty('top', 'calc(36px + env(safe-area-inset-top))', 'important');
+//         if (toggleMenu) toggleMenu.style.setProperty('margin-top', '8px', 'important');
+//         if (pageHeader) pageHeader.style.setProperty('padding-top', 'calc(36px + env(safe-area-inset-top))', 'important');
+//       } else {
+//         if (nav) nav.style.top = '';
+//         if (toggleMenu) toggleMenu.style.marginTop = '';
+//         if (pageHeader) pageHeader.style.paddingTop = '';
+//       }
 
-      // 强制显示汉堡菜单按钮
-      toggleMenu.style.cssText = `
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        cursor: pointer !important;
-        z-index: 1000 !important;
-      `;
+//       // 强制显示汉堡菜单按钮
+//       toggleMenu.style.cssText = `
+//         display: inline-block !important;
+//         visibility: visible !important;
+//         opacity: 1 !important;
+//         pointer-events: auto !important;
+//         cursor: pointer !important;
+//         z-index: 1000 !important;
+//       `;
       
-      const sitePageElement = toggleMenu.querySelector('.site-page');
-      if (sitePageElement) {
-        sitePageElement.style.cssText = `
-          display: inline-block !important;
-          visibility: visible !important;
-          opacity: 1 !important;
-          pointer-events: auto !important;
-          cursor: pointer !important;
-          padding: 8px 12px !important;
-        `;
-      }
+//       const sitePageElement = toggleMenu.querySelector('.site-page');
+//       if (sitePageElement) {
+//         sitePageElement.style.cssText = `
+//           display: inline-block !important;
+//           visibility: visible !important;
+//           opacity: 1 !important;
+//           pointer-events: auto !important;
+//           cursor: pointer !important;
+//           padding: 8px 12px !important;
+//         `;
+//       }
       
-      console.log('汉堡菜单按钮强制显示完成');
-      return true;
-    };
+//       console.log('汉堡菜单按钮强制显示完成');
+//       return true;
+//     };
     
-    // 简化的sidebar函数
-    const simpleSidebar = {
-      open: () => {
-        console.log('打开侧边栏');
-        const menuMask = document.getElementById('menu-mask');
-        const sidebarMenus = document.getElementById('sidebar-menus');
+//     // 简化的sidebar函数
+//     const simpleSidebar = {
+//       open: () => {
+//         console.log('打开侧边栏');
+//         const menuMask = document.getElementById('menu-mask');
+//         const sidebarMenus = document.getElementById('sidebar-menus');
         
-        if (menuMask) {
-          menuMask.style.cssText = 'display: block !important; opacity: 1 !important;';
-        }
+//         if (menuMask) {
+//           menuMask.style.cssText = 'display: block !important; opacity: 1 !important;';
+//         }
         
-        if (sidebarMenus) {
-          sidebarMenus.classList.add('open');
-          sidebarMenus.style.cssText = 'transform: translate3d(-100%, 0, 0) !important;';
-        }
+//         if (sidebarMenus) {
+//           sidebarMenus.classList.add('open');
+//           sidebarMenus.style.cssText = 'transform: translate3d(-100%, 0, 0) !important;';
+//         }
         
-        // 阻止背景滚动
-        document.body.style.overflow = 'hidden';
+//         // 阻止背景滚动
+//         document.body.style.overflow = 'hidden';
         
-        console.log('侧边栏打开完成');
-      },
+//         console.log('侧边栏打开完成');
+//       },
       
-      close: () => {
-        console.log('关闭侧边栏');
-        const menuMask = document.getElementById('menu-mask');
-        const sidebarMenus = document.getElementById('sidebar-menus');
+//       close: () => {
+//         console.log('关闭侧边栏');
+//         const menuMask = document.getElementById('menu-mask');
+//         const sidebarMenus = document.getElementById('sidebar-menus');
         
-        if (menuMask) {
-          menuMask.style.display = 'none';
-        }
+//         if (menuMask) {
+//           menuMask.style.display = 'none';
+//         }
         
-        if (sidebarMenus) {
-          sidebarMenus.classList.remove('open');
-          sidebarMenus.style.transform = '';
-        }
+//         if (sidebarMenus) {
+//           sidebarMenus.classList.remove('open');
+//           sidebarMenus.style.transform = '';
+//         }
         
-        // 恢复背景滚动
-        document.body.style.overflow = '';
+//         // 恢复背景滚动
+//         document.body.style.overflow = '';
         
-        console.log('侧边栏关闭完成');
-      }
-    };
+//         console.log('侧边栏关闭完成');
+//       }
+//     };
     
-    // 绑定点击事件
-    const bindClickEvents = () => {
-      const toggleMenu = document.getElementById('toggle-menu');
-      if (!toggleMenu) {
-        console.error('汉堡菜单按钮未找到');
-        return false;
-      }
+//     // 绑定点击事件
+//     const bindClickEvents = () => {
+//       const toggleMenu = document.getElementById('toggle-menu');
+//       if (!toggleMenu) {
+//         console.error('汉堡菜单按钮未找到');
+//         return false;
+//       }
       
-      // 移除所有现有的监听器
-      const newToggleMenu = toggleMenu.cloneNode(true);
-      toggleMenu.parentNode.replaceChild(newToggleMenu, toggleMenu);
+//       // 移除所有现有的监听器
+//       const newToggleMenu = toggleMenu.cloneNode(true);
+//       toggleMenu.parentNode.replaceChild(newToggleMenu, toggleMenu);
       
-      // 添加点击事件
-      const clickHandler = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('汉堡菜单被点击！');
-        simpleSidebar.open();
-      };
+//       // 添加点击事件
+//       const clickHandler = (e) => {
+//         e.preventDefault();
+//         e.stopPropagation();
+//         console.log('汉堡菜单被点击！');
+//         simpleSidebar.open();
+//       };
       
-      // 多种方式绑定事件
-      newToggleMenu.addEventListener('click', clickHandler, true);
-      newToggleMenu.addEventListener('touchstart', clickHandler, true);
+//       // 多种方式绑定事件
+//       newToggleMenu.addEventListener('click', clickHandler, true);
+//       newToggleMenu.addEventListener('touchstart', clickHandler, true);
       
-      const sitePageElement = newToggleMenu.querySelector('.site-page');
-      if (sitePageElement) {
-        sitePageElement.addEventListener('click', clickHandler, true);
-        sitePageElement.addEventListener('touchstart', clickHandler, true);
-      }
+//       const sitePageElement = newToggleMenu.querySelector('.site-page');
+//       if (sitePageElement) {
+//         sitePageElement.addEventListener('click', clickHandler, true);
+//         sitePageElement.addEventListener('touchstart', clickHandler, true);
+//       }
       
-      // 为关闭按钮绑定事件
-      const menuMask = document.getElementById('menu-mask');
-      if (menuMask) {
-        menuMask.addEventListener('click', () => {
-          console.log('遮罩被点击，关闭侧边栏');
-          simpleSidebar.close();
-        });
-      }
+//       // 为关闭按钮绑定事件
+//       const menuMask = document.getElementById('menu-mask');
+//       if (menuMask) {
+//         menuMask.addEventListener('click', () => {
+//           console.log('遮罩被点击，关闭侧边栏');
+//           simpleSidebar.close();
+//         });
+//       }
       
-      console.log('汉堡菜单点击事件绑定完成');
-      return true;
-    };
+//       console.log('汉堡菜单点击事件绑定完成');
+//       return true;
+//     };
     
-    // 执行修复
-    if (forceShowToggleMenu() && bindClickEvents()) {
-      console.log('=== 汉堡菜单修复完成 ===');
-    } else {
-      console.error('=== 汉堡菜单修复失败 ===');
-    }
-  };
+//     // 执行修复
+//     if (forceShowToggleMenu() && bindClickEvents()) {
+//       console.log('=== 汉堡菜单修复完成 ===');
+//     } else {
+//       console.error('=== 汉堡菜单修复失败 ===');
+//     }
+//   };
   
-  // 立即执行 + 延迟执行 + DOM加载完成执行
-  fixMobileMenu();
+//   // 立即执行 + 延迟执行 + DOM加载完成执行
+//   fixMobileMenu();
   
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fixMobileMenu);
-  } else {
-    setTimeout(fixMobileMenu, 100);
-  }
+//   if (document.readyState === 'loading') {
+//     document.addEventListener('DOMContentLoaded', fixMobileMenu);
+//   } else {
+//     setTimeout(fixMobileMenu, 100);
+//   }
   
-  // 每秒检查一次，确保修复生效
-  let checkCount = 0;
-  const checkInterval = setInterval(() => {
-    checkCount++;
-    const toggleMenu = document.getElementById('toggle-menu');
+//   // 每秒检查一次，确保修复生效
+//   let checkCount = 0;
+//   const checkInterval = setInterval(() => {
+//     checkCount++;
+//     const toggleMenu = document.getElementById('toggle-menu');
     
-    if (toggleMenu && window.innerWidth <= 768) {
-      const isVisible = window.getComputedStyle(toggleMenu).display !== 'none';
-      if (!isVisible) {
-        console.log(`第${checkCount}次检查：汉堡菜单不可见，重新修复`);
-        fixMobileMenu();
-      } else {
-        console.log(`第${checkCount}次检查：汉堡菜单正常`);
-      }
-    }
+//     if (toggleMenu && window.innerWidth <= 768) {
+//       const isVisible = window.getComputedStyle(toggleMenu).display !== 'none';
+//       if (!isVisible) {
+//         console.log(`第${checkCount}次检查：汉堡菜单不可见，重新修复`);
+//         fixMobileMenu();
+//       } else {
+//         console.log(`第${checkCount}次检查：汉堡菜单正常`);
+//       }
+//     }
     
-    // 10秒后停止检查
-    if (checkCount >= 10) {
-      clearInterval(checkInterval);
-      console.log('停止汉堡菜单检查');
-    }
-  }, 1000);
+//     // 10秒后停止检查
+//     if (checkCount >= 10) {
+//       clearInterval(checkInterval);
+//       console.log('停止汉堡菜单检查');
+//     }
+//   }, 1000);
   
-})();
+// })();
 
 document.addEventListener('DOMContentLoaded', () => {
   let headerContentWidth, $nav
