@@ -1214,3 +1214,10 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     color: #00ff88 !important; /* 激活时变成绿色 */
     background-color: rgba(0, 255, 136, 0.1) !important; /* 添加背景色 */
 }
+
+@media screen and (max-width: 768px) {
+  #nav {
+    top: 10px;
+    padding: 0 16px;
+  }
+}
