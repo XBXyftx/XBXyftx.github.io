@@ -18,21 +18,16 @@
       // 强制添加hide-menu类
       nav.classList.add('hide-menu');
 
-      // 移动端下移顶部距离，避免与状态栏重叠
+      // 移动端下移顶部距离，强制覆盖所有样式，彻底避开状态栏
+      const pageHeader = document.getElementById('page-header');
       if (window.innerWidth <= 768) {
-        nav.style.top = '18px'; // 导航整体下移
-        toggleMenu.style.marginTop = '8px'; // 汉堡按钮自身再下移
-        const pageHeader = document.getElementById('page-header');
-        if (pageHeader) {
-          pageHeader.style.paddingTop = '36px'; // 整个header下移，彻底避开状态栏
-        }
+        if (nav) nav.style.setProperty('top', 'calc(36px + env(safe-area-inset-top))', 'important');
+        if (toggleMenu) toggleMenu.style.setProperty('margin-top', '8px', 'important');
+        if (pageHeader) pageHeader.style.setProperty('padding-top', 'calc(36px + env(safe-area-inset-top))', 'important');
       } else {
-        nav.style.top = '';
-        toggleMenu.style.marginTop = '';
-        const pageHeader = document.getElementById('page-header');
-        if (pageHeader) {
-          pageHeader.style.paddingTop = '';
-        }
+        if (nav) nav.style.top = '';
+        if (toggleMenu) toggleMenu.style.marginTop = '';
+        if (pageHeader) pageHeader.style.paddingTop = '';
       }
 
       // 强制显示汉堡菜单按钮
