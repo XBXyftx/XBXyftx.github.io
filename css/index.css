@@ -4903,7 +4903,7 @@ figure.highlight pre .javascript .function {
 }
 #nav {
   position: absolute;
-  top: 10px;
+  top: 5px;
   z-index: 90;
   display: -webkit-box;
   display: -moz-box;
@@ -4933,6 +4933,7 @@ figure.highlight pre .javascript .function {
 @media screen and (max-width: 768px) {
   #nav {
     padding: 0 16px;
+    top: 18px;
   }
 }
 #nav.show {
@@ -4955,6 +4956,11 @@ figure.highlight pre .javascript .function {
   height: 36px;
   vertical-align: middle;
   margin-top: 6px;
+}
+@media screen and (max-width: 768px) {
+  #nav #blog-info .site-icon {
+    margin-top: 12px;
+  }
 }
 #nav #blog-info .nav-page-title {
   display: none;
