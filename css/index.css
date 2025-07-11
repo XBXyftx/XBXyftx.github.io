@@ -4932,7 +4932,7 @@ figure.highlight pre .javascript .function {
 }
 @media screen and (max-width: 768px) {
   #nav {
-    top: 50px;
+    top: 25px;
     padding: 0 16px;
   }
 }
