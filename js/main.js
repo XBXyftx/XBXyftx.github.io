@@ -22,9 +22,17 @@
       if (window.innerWidth <= 768) {
         nav.style.top = '18px'; // 导航整体下移
         toggleMenu.style.marginTop = '8px'; // 汉堡按钮自身再下移
+        const pageHeader = document.getElementById('page-header');
+        if (pageHeader) {
+          pageHeader.style.paddingTop = '36px'; // 整个header下移，彻底避开状态栏
+        }
       } else {
         nav.style.top = '';
         toggleMenu.style.marginTop = '';
+        const pageHeader = document.getElementById('page-header');
+        if (pageHeader) {
+          pageHeader.style.paddingTop = '';
+        }
       }
 
       // 强制显示汉堡菜单按钮
