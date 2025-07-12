@@ -4932,7 +4932,7 @@ figure.highlight pre .javascript .function {
 }
 @media screen and (max-width: 768px) {
   #nav {
-    top: 15px;
+    top: 50px;
     padding: 0 16px;
   }
 }
@@ -4955,12 +4955,10 @@ figure.highlight pre .javascript .function {
   margin-right: 6px;
   height: 36px;
   vertical-align: middle;
-  margin-top: 6px;
 }
 @media screen and (max-width: 768px) {
   #nav #blog-info .site-icon {
-    margin-top: 12px;
-    top: 15px;
+    top: 50px;
   }
 }
 #nav #blog-info .nav-page-title {
