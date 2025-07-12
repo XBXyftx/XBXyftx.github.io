@@ -1170,6 +1170,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuMask = document.getElementById('menu-mask')
     menuMask && menuMask.addEventListener('click', () => { sidebarFn.close() })
 
+    // 为侧边栏关闭按钮添加事件监听器
+    const sidebarCloseBtn = document.querySelector('.sidebar-close-btn')
+    sidebarCloseBtn && sidebarCloseBtn.addEventListener('click', () => { sidebarFn.close() })
+
     clickFnOfSubMenu()
     GLOBAL_CONFIG.islazyloadPlugin && lazyloadImg()
     GLOBAL_CONFIG.copyright !== undefined && addCopyright()
