@@ -4932,7 +4932,7 @@ figure.highlight pre .javascript .function {
 }
 @media screen and (max-width: 768px) {
   #nav {
-    top: 50px;
+    top: 20px;
     padding: 0 16px;
   }
 }
@@ -4958,7 +4958,7 @@ figure.highlight pre .javascript .function {
 }
 @media screen and (max-width: 768px) {
   #nav #blog-info .site-icon {
-    top: 50px;
+    top: 20px;
   }
 }
 #nav #blog-info .nav-page-title {
