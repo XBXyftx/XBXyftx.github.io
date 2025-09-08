@@ -176,20 +176,27 @@ class SequentialImageLoader {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const img = entry.target;
-            const dataSrc = img.getAttribute('data-src') || img.getAttribute('data-original-src');
-            console.log(`📍 图片进入视口，开始加载: ${dataSrc}`);
+            const element = entry.target;
+            const isVideo = element.tagName.toLowerCase() === 'video';
+            const elementType = isVideo ? '视频' : '图片';
             
-            // 停止观察这张图片
-            this.observer.unobserve(img);
+            console.log(`📍 ${elementType}进入视口，开始加载`);
+            
+            // 停止观察这个元素
+            this.observer.unobserve(element);
             
             // 更新loading状态
-            img.setAttribute('data-loading-state', 'loading');
-            img.classList.remove('lazy-loading');
-            img.classList.add('lazy-loading-active');
+            element.setAttribute('data-loading-state', 'loading');
+            element.classList.remove('lazy-loading');
+            element.classList.add('lazy-loading-active');
             
-            // 直接加载图片（懒加载模式下不使用队列）
-            this.loadImageDirectly(img, dataSrc);
+            // 根据类型加载媒体
+            if (isVideo) {
+              this.loadVideoDirectly(element);
+            } else {
+              const dataSrc = element.getAttribute('data-src') || element.getAttribute('data-original-src');
+              this.loadImageDirectly(element, dataSrc);
+            }
           }
         });
       },
@@ -283,6 +290,144 @@ class SequentialImageLoader {
   }
 
   /**
+   * 直接加载视频（用于懒加载）
+   */
+  loadVideoDirectly(video) {
+    console.log(`⏳ 开始加载视频`);
+    
+    try {
+      // 获取保存的视频源
+      const sourcesData = video.getAttribute('data-original-sources');
+      if (sourcesData) {
+        const originalSources = JSON.parse(sourcesData);
+        
+        // 恢复source标签的src
+        const sources = video.querySelectorAll('source');
+        originalSources.forEach((sourceData, index) => {
+          if (sources[index]) {
+            sources[index].src = sourceData.src;
+            sources[index].type = sourceData.type;
+          }
+        });
+      }
+
+      // 如果有直接的src属性
+      const originalSrc = video.getAttribute('data-original-src');
+      if (originalSrc) {
+        video.src = originalSrc;
+      }
+
+      // 恢复控件
+      const hadControls = video.getAttribute('data-original-controls') === 'true';
+      if (hadControls) {
+        video.setAttribute('controls', '');
+      }
+
+      // 监听加载事件
+      const handleLoadSuccess = () => {
+        console.log(`✅ 视频加载成功`);
+        
+        // 清理占位符样式
+        video.style.backgroundImage = '';
+        video.style.backgroundColor = '';
+        video.style.minHeight = '';
+        
+        // 更新状态
+        video.setAttribute('data-loading-state', 'loaded');
+        video.classList.remove('lazy-loading-active');
+        video.classList.add('lazy-loaded');
+        
+        // 添加淡入效果
+        video.style.opacity = '0';
+        video.style.transition = 'opacity 0.3s ease-in-out';
+        
+        requestAnimationFrame(() => {
+          video.style.opacity = '1';
+        });
+
+        // 触发回调
+        if (this.options.onImageLoaded) {
+          this.options.onImageLoaded(video, '视频');
+        }
+
+        // 标记为已加载
+        this.loadedImages.add(video);
+        
+        // 清理事件监听器
+        video.removeEventListener('loadeddata', handleLoadSuccess);
+        video.removeEventListener('error', handleLoadError);
+      };
+
+      const handleLoadError = () => {
+        console.error(`❌ 视频加载失败`);
+        
+        video.setAttribute('data-loading-state', 'error');
+        video.classList.remove('lazy-loading-active');
+        video.classList.add('lazy-load-error');
+        
+        // 显示错误占位符
+        video.style.backgroundImage = `url("${this.createErrorPlaceholderDataURL()}")`;
+        
+        if (this.options.onError) {
+          this.options.onError(video, '视频', new Error('Video load failed'));
+        }
+        
+        // 清理事件监听器
+        video.removeEventListener('loadeddata', handleLoadSuccess);
+        video.removeEventListener('error', handleLoadError);
+      };
+
+      // 添加事件监听器
+      video.addEventListener('loadeddata', handleLoadSuccess);
+      video.addEventListener('error', handleLoadError);
+
+      // 强制加载视频
+      video.load();
+      
+    } catch (error) {
+      console.error('❌ 视频加载过程中出错:', error);
+      
+      video.setAttribute('data-loading-state', 'error');
+      video.classList.remove('lazy-loading-active');
+      video.classList.add('lazy-load-error');
+      
+      if (this.options.onError) {
+        this.options.onError(video, '视频', error);
+      }
+    }
+  }
+
+  /**
+   * 创建视频占位符
+   */
+  createVideoPlaceholder() {
+    const svg = `
+      <svg width="400" height="225" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="videoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#e8f4f8;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#f0f8ff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e8f4f8;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#videoGrad)"/>
+        <!-- 播放按钮 -->
+        <circle cx="200" cy="112.5" r="35" fill="rgba(0,0,0,0.7)"/>
+        <polygon points="185,95 185,130 215,112.5" fill="white"/>
+        <!-- 加载动画 -->
+        <circle cx="200" cy="112.5" r="45" fill="none" stroke="#4a90e2" stroke-width="2" opacity="0.3">
+          <animate attributeName="stroke-dasharray" values="0,283;141,141;0,283" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dashoffset" values="0;-70.5;-141" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="200" y="175" text-anchor="middle" fill="#666" font-size="14" font-family="Arial">
+          视频加载中...
+        </text>
+      </svg>
+    `;
+    return 'data:image/svg+xml;base64,' + btoa(svg);
+  }
+
+  /**
    * 创建错误占位符
    */
   createErrorPlaceholderDataURL() {
@@ -300,38 +445,44 @@ class SequentialImageLoader {
   }
 
   /**
-   * 扫描页面中的图片
+   * 扫描页面中的媒体元素（图片和视频）
    */
   scanImages(container = document) {
-    const images = container.querySelectorAll(this.options.selector);
-    console.log(`🔍 扫描到 ${images.length} 张图片 - 选择器: ${this.options.selector}`);
+    const mediaElements = container.querySelectorAll(this.options.selector);
+    console.log(`🔍 扫描到 ${mediaElements.length} 个媒体元素 - 选择器: ${this.options.selector}`);
 
-    images.forEach((img, index) => {
-      // 跳过已处理的图片
-      if (img.hasAttribute('data-sequential-processed')) {
+    mediaElements.forEach((element, index) => {
+      // 跳过已处理的元素
+      if (element.hasAttribute('data-sequential-processed')) {
         return;
       }
 
-      img.setAttribute('data-sequential-processed', 'true');
-      img.setAttribute('data-index', index);
+      element.setAttribute('data-sequential-processed', 'true');
+      element.setAttribute('data-index', index);
+
+      // 判断是图片还是视频
+      const isVideo = element.tagName.toLowerCase() === 'video';
+      const elementType = isVideo ? '视频' : '图片';
+      
+      console.log(`📺 发现${elementType} ${index + 1}:`, element);
 
       // 💡 设置懒加载占位符
-      this.setupLazyLoadingPlaceholder(img);
+      this.setupLazyLoadingPlaceholder(element);
 
       if (this.options.enableLazyload) {
-        // 懒加载模式：观察图片是否进入视口
-        console.log(`👁️ 开始观察图片 ${index + 1}: ${img.src || img.getAttribute('data-src')}`);
-        this.observer.observe(img);
+        // 懒加载模式：观察元素是否进入视口
+        console.log(`👁️ 开始观察${elementType} ${index + 1}`);
+        this.observer.observe(element);
       } else {
         // 立即加载模式：直接添加到队列
-        this.addToQueue(img);
+        this.addToQueue(element);
       }
     });
 
     this.totalImages = this.loadingQueue.length + this.loadingImages.size + this.loadedImages.size;
     this.updateProgress();
 
-    console.log(`📊 图片统计: 总计 ${this.totalImages} 张图片已设置懒加载`);
+    console.log(`📊 媒体统计: 总计 ${this.totalImages} 个媒体元素已设置懒加载`);
 
     // 开始加载（如果是立即加载模式）
     if (!this.options.enableLazyload && !this.isLoading) {
@@ -342,7 +493,29 @@ class SequentialImageLoader {
   /**
    * 设置懒加载占位符
    */
-  setupLazyLoadingPlaceholder(img) {
+  setupLazyLoadingPlaceholder(element) {
+    const isVideo = element.tagName.toLowerCase() === 'video';
+    const elementType = isVideo ? '视频' : '图片';
+
+    if (isVideo) {
+      // 处理视频元素
+      this.setupVideoPlaceholder(element);
+    } else {
+      // 处理图片元素
+      this.setupImagePlaceholder(element);
+    }
+
+    // 通用设置
+    element.classList.add('lazy-loading');
+    element.setAttribute('data-loading-state', 'waiting');
+    
+    console.log(`🎬 已为${elementType}设置占位符`);
+  }
+
+  /**
+   * 设置图片占位符
+   */
+  setupImagePlaceholder(img) {
     // 保存原始src
     const originalSrc = img.src;
     if (originalSrc && !originalSrc.startsWith('data:')) {
@@ -357,16 +530,60 @@ class SequentialImageLoader {
     // 设置占位符
     img.src = this.createPlaceholderDataURL();
     
-    // 添加loading状态样式
-    img.classList.add('lazy-loading');
-    img.setAttribute('data-loading-state', 'waiting');
-    
     // 设置最小高度避免布局抖动
     if (!img.style.minHeight && !img.getAttribute('height')) {
       img.style.minHeight = '200px';
     }
+  }
 
-    console.log(`🖼️ 已为图片设置占位符: ${img.getAttribute('data-src')}`);
+  /**
+   * 设置视频占位符
+   */
+  setupVideoPlaceholder(video) {
+    // 保存原始视频源
+    const sources = video.querySelectorAll('source');
+    const originalSources = [];
+    
+    sources.forEach((source, index) => {
+      const originalSrc = source.src;
+      if (originalSrc) {
+        originalSources.push({
+          src: originalSrc,
+          type: source.type || 'video/mp4'
+        });
+        source.setAttribute('data-original-src', originalSrc);
+        source.removeAttribute('src'); // 暂时移除src防止自动加载
+      }
+    });
+
+    // 如果video标签本身有src
+    if (video.src) {
+      originalSources.push({
+        src: video.src,
+        type: 'video/mp4'
+      });
+      video.setAttribute('data-original-src', video.src);
+      video.removeAttribute('src');
+    }
+
+    // 保存所有源到data属性
+    video.setAttribute('data-original-sources', JSON.stringify(originalSources));
+
+    // 创建视频占位符
+    const placeholder = this.createVideoPlaceholder();
+    video.style.backgroundImage = `url("${placeholder}")`;
+    video.style.backgroundSize = 'cover';
+    video.style.backgroundPosition = 'center';
+    video.style.backgroundColor = '#f5f5f5';
+    
+    // 设置最小高度
+    if (!video.style.minHeight && !video.getAttribute('height')) {
+      video.style.minHeight = '200px';
+    }
+
+    // 禁用控件直到加载完成
+    video.setAttribute('data-original-controls', video.hasAttribute('controls') ? 'true' : 'false');
+    video.removeAttribute('controls');
   }
 
   /**

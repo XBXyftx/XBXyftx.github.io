@@ -41,6 +41,51 @@ img[data-loading-state="error"] {
   /* 加载失败状态 */
 }
 
+/* 视频懒加载样式 */
+video.lazy-loading {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* 视频懒加载激活状态 */
+video.lazy-loading-active {
+  background-color: #e8f4f8;
+  position: relative;
+}
+
+/* 视频懒加载完成状态 */
+video.lazy-loaded {
+  background-color: transparent;
+  background-image: none !important;
+}
+
+/* 视频懒加载失败状态 */
+video.lazy-load-error {
+  background-color: #ffeaea;
+  border: 1px dashed #ffcdd2;
+}
+
+/* 为不同视频加载状态添加轻微的视觉反馈 */
+video[data-loading-state="waiting"] {
+  /* 等待加载状态 */
+}
+
+video[data-loading-state="loading"] {
+  /* 正在加载状态 */
+}
+
+video[data-loading-state="loaded"] {
+  /* 加载完成状态 */
+}
+
+video[data-loading-state="error"] {
+  /* 加载失败状态 */
+}
+
 /* 加载失败的图片 */
 img.sequential-error {
   opacity: 0.6;
