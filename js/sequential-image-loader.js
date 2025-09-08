@@ -200,6 +200,17 @@ class SequentialImageLoader {
     const isArticlePage = window.location.pathname.includes('/2025/') || window.location.pathname.includes('/posts/');
     if (isArticlePage) {
       console.log('📄 检测到文章页面，使用严格的图片加载控制');
+      
+      // 🚨 强制阻止所有图片的原生加载
+      images.forEach((img) => {
+        const originalSrc = img.src;
+        if (originalSrc && !img.hasAttribute('data-sequential-processed')) {
+          console.log('🛑 阻止图片原生加载:', originalSrc);
+          img.setAttribute('data-original-src', originalSrc);
+          img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgMSAxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+'; // 透明1x1像素
+          img.setAttribute('data-loading', 'blocked');
+        }
+      });
     }
 
     images.forEach((img, index) => {
@@ -228,6 +239,8 @@ class SequentialImageLoader {
     this.totalImages = this.loadingQueue.length + this.loadingImages.size + this.loadedImages.size;
     this.updateProgress();
 
+    console.log(`📊 图片统计: 总计 ${this.totalImages} 张，队列中 ${this.loadingQueue.length} 张`);
+
     // 开始加载
     if (!this.isLoading) {
       this.startLoading();
@@ -242,11 +255,13 @@ class SequentialImageLoader {
       return;
     }
 
-    // 准备图片URL
-    const src = img.getAttribute('data-src') || img.getAttribute('src');
+    // 准备图片URL - 优先使用原始地址
+    const src = img.getAttribute('data-original-src') || img.getAttribute('data-src') || img.getAttribute('src');
     if (!src || src.startsWith('data:')) {
       return;
     }
+
+    console.log('➕ 添加图片到队列:', src);
 
     img.setAttribute('data-original-src', src);
     this.loadingQueue.push(img);
