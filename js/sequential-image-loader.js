@@ -445,6 +445,45 @@ class SequentialImageLoader {
   }
 
   /**
+   * 判断是否应该跳过某个元素（排除顶部图片、头像等）
+   */
+  shouldSkipElement(element) {
+    // 检查元素本身是否包含排除的类名或属性
+    if (element.classList.contains('avatar-img') || 
+        element.classList.contains('no-sequential') ||
+        element.hasAttribute('data-no-lazy') ||
+        element.closest('#page-header') ||
+        element.closest('.navbar') ||
+        element.closest('.nav') ||
+        element.closest('#nav') ||
+        element.closest('.sidebar') ||
+        element.closest('.menu') ||
+        element.closest('.avatar') ||
+        element.closest('.site-info')) {
+      return true;
+    }
+
+    // 检查图片的src是否是头像或特殊图片
+    const src = element.src || element.getAttribute('data-src') || element.getAttribute('data-original-src');
+    if (src && (
+      src.includes('avatar') ||
+      src.includes('logo') ||
+      src.includes('icon') ||
+      src.includes('topImg') ||
+      src.includes('headerImg')
+    )) {
+      return true;
+    }
+
+    // 检查是否是背景图片设置的元素
+    if (element.style.backgroundImage) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * 扫描页面中的媒体元素（图片和视频）
    */
   scanImages(container = document) {
@@ -454,6 +493,12 @@ class SequentialImageLoader {
     mediaElements.forEach((element, index) => {
       // 跳过已处理的元素
       if (element.hasAttribute('data-sequential-processed')) {
+        return;
+      }
+
+      // 排除特殊图片：顶部图片、头像、导航等
+      if (this.shouldSkipElement(element)) {
+        console.log(`⏭️ 跳过特殊图片/视频:`, element);
         return;
       }
 

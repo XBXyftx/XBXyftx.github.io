@@ -86,6 +86,19 @@ video[data-loading-state="error"] {
   /* 加载失败状态 */
 }
 
+/* 不进行懒加载的特殊图片 */
+img.no-sequential,
+img[data-no-lazy],
+.avatar-img,
+#page-header img,
+.navbar img,
+.nav img,
+.sidebar img,
+.menu img,
+.site-info img {
+  /* 这些图片不会被懒加载系统处理，保持原有行为 */
+}
+
 /* 加载失败的图片 */
 img.sequential-error {
   opacity: 0.6;

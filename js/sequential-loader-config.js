@@ -25,8 +25,8 @@ window.sequentialLoaderConfig = {
   // 是否显示加载进度
   showProgress: true,
   
-  // 媒体选择器 - 支持图片和视频
-  selector: '#article-container img, .post-content img, img[data-src], img[src]:not([data-loaded]):not(.no-sequential), #article-container video, .post-content video, video[src]:not([data-loaded]):not(.no-sequential)',
+  // 媒体选择器 - 支持图片和视频，排除顶部图片、头像、导航等特殊图片
+  selector: '#article-container img:not(.avatar-img):not(.no-sequential), .post-content img:not(.avatar-img):not(.no-sequential), .markdown-body img:not(.avatar-img):not(.no-sequential), img[data-src]:not(.avatar-img):not(.no-sequential), #article-container video:not(.no-sequential), .post-content video:not(.no-sequential), .markdown-body video:not(.no-sequential)',
   
   // 是否启用懒加载 - 只在图片进入视口时才加载
   enableLazyload: true,
@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.sequentialLoaderConfig.timeout = 15000;           // 正常超时时间
     window.sequentialLoaderConfig.showProgress = false;      // 懒加载模式不显示全局进度条
     
-    // 文章页面媒体选择器更具体 - 包括图片和视频
-    window.sequentialLoaderConfig.selector = '#article-container img, .post-content img, .markdown-body img, img[src]:not([data-loaded]):not(.no-sequential), #article-container video, .post-content video, .markdown-body video, video:not([data-loaded]):not(.no-sequential)';
+    // 文章页面媒体选择器更具体 - 包括图片和视频，排除顶部图片和特殊图片
+    window.sequentialLoaderConfig.selector = '#article-container img:not(.avatar-img):not([class*="top-img"]):not(#page-header img), .post-content img:not(.avatar-img):not([class*="top-img"]), .markdown-body img:not(.avatar-img):not([class*="top-img"]), img[src]:not([data-loaded]):not(.no-sequential):not(.avatar-img):not([class*="top-img"]):not(#page-header img), #article-container video:not(.no-sequential), .post-content video:not(.no-sequential), .markdown-body video:not(.no-sequential), video:not([data-loaded]):not(.no-sequential)';
     
     console.log('📄 文章页面懒加载配置已应用：');
     console.log('- 懒加载模式:', window.sequentialLoaderConfig.enableLazyload);
