@@ -177,16 +177,126 @@ class SequentialImageLoader {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const img = entry.target;
-            this.addToQueue(img);
+            const dataSrc = img.getAttribute('data-src') || img.getAttribute('data-original-src');
+            console.log(`📍 图片进入视口，开始加载: ${dataSrc}`);
+            
+            // 停止观察这张图片
             this.observer.unobserve(img);
+            
+            // 更新loading状态
+            img.setAttribute('data-loading-state', 'loading');
+            img.classList.remove('lazy-loading');
+            img.classList.add('lazy-loading-active');
+            
+            // 直接加载图片（懒加载模式下不使用队列）
+            this.loadImageDirectly(img, dataSrc);
           }
         });
       },
       {
-        rootMargin: this.options.rootMargin,
+        rootMargin: this.options.rootMargin || '150px',
         threshold: 0.1
       }
     );
+  }
+
+  /**
+   * 直接加载图片（用于懒加载）
+   */
+  loadImageDirectly(img, src) {
+    if (!src) {
+      console.error('❌ 图片没有有效的src:', img);
+      return;
+    }
+
+    console.log(`⏳ 开始加载图片: ${src}`);
+    
+    const tempImg = new Image();
+    let retryCount = 0;
+    const maxRetries = this.options.retryCount || 3;
+
+    const loadWithRetry = () => {
+      tempImg.onload = () => {
+        console.log(`✅ 图片加载成功: ${src}`);
+        
+        // 更新原图片
+        img.src = src;
+        img.setAttribute('data-loading-state', 'loaded');
+        img.classList.remove('lazy-loading-active');
+        img.classList.add('lazy-loaded');
+        
+        // 移除最小高度限制
+        img.style.minHeight = '';
+        
+        // 添加淡入效果
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.3s ease-in-out';
+        
+        // 下一帧触发淡入
+        requestAnimationFrame(() => {
+          img.style.opacity = '1';
+        });
+
+        // 触发回调
+        if (this.options.onImageLoaded) {
+          this.options.onImageLoaded(img, src);
+        }
+
+        // 标记为已加载
+        this.loadedImages.add(img);
+      };
+
+      tempImg.onerror = (error) => {
+        retryCount++;
+        console.error(`❌ 图片加载失败 (${retryCount}/${maxRetries}): ${src}`, error);
+        
+        if (retryCount < maxRetries) {
+          console.log(`🔄 ${this.options.retryDelay}ms后重试...`);
+          setTimeout(loadWithRetry, this.options.retryDelay || 2000);
+        } else {
+          console.error(`💥 图片加载彻底失败: ${src}`);
+          img.setAttribute('data-loading-state', 'error');
+          img.classList.remove('lazy-loading-active');
+          img.classList.add('lazy-load-error');
+          
+          // 设置错误占位符
+          img.src = this.createErrorPlaceholderDataURL();
+          img.style.minHeight = '';
+          
+          if (this.options.onError) {
+            this.options.onError(img, src, error);
+          }
+        }
+      };
+
+      // 设置超时
+      setTimeout(() => {
+        if (!tempImg.complete) {
+          tempImg.onerror(new Error('Timeout'));
+        }
+      }, this.options.timeout || 15000);
+
+      tempImg.src = src;
+    };
+
+    loadWithRetry();
+  }
+
+  /**
+   * 创建错误占位符
+   */
+  createErrorPlaceholderDataURL() {
+    const svg = `
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <path d="M100 60 L140 140 L60 140 Z" fill="#ddd"/>
+        <circle cx="100" cy="90" r="8" fill="#999"/>
+        <text x="100" y="170" text-anchor="middle" fill="#999" font-size="12" font-family="Arial">
+          加载失败
+        </text>
+      </svg>
+    `;
+    return 'data:image/svg+xml;base64,' + btoa(svg);
   }
 
   /**
@@ -195,23 +305,6 @@ class SequentialImageLoader {
   scanImages(container = document) {
     const images = container.querySelectorAll(this.options.selector);
     console.log(`🔍 扫描到 ${images.length} 张图片 - 选择器: ${this.options.selector}`);
-
-    // 特殊处理文章页面
-    const isArticlePage = window.location.pathname.includes('/2025/') || window.location.pathname.includes('/posts/');
-    if (isArticlePage) {
-      console.log('📄 检测到文章页面，使用严格的图片加载控制');
-      
-      // 🚨 强制阻止所有图片的原生加载
-      images.forEach((img) => {
-        const originalSrc = img.src;
-        if (originalSrc && !img.hasAttribute('data-sequential-processed')) {
-          console.log('🛑 阻止图片原生加载:', originalSrc);
-          img.setAttribute('data-original-src', originalSrc);
-          img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgMSAxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+'; // 透明1x1像素
-          img.setAttribute('data-loading', 'blocked');
-        }
-      });
-    }
 
     images.forEach((img, index) => {
       // 跳过已处理的图片
@@ -222,13 +315,12 @@ class SequentialImageLoader {
       img.setAttribute('data-sequential-processed', 'true');
       img.setAttribute('data-index', index);
 
-      // 为文章页面图片添加特殊标记
-      if (isArticlePage) {
-        img.setAttribute('data-article-image', 'true');
-      }
+      // 💡 设置懒加载占位符
+      this.setupLazyLoadingPlaceholder(img);
 
       if (this.options.enableLazyload) {
         // 懒加载模式：观察图片是否进入视口
+        console.log(`👁️ 开始观察图片 ${index + 1}: ${img.src || img.getAttribute('data-src')}`);
         this.observer.observe(img);
       } else {
         // 立即加载模式：直接添加到队列
@@ -239,12 +331,71 @@ class SequentialImageLoader {
     this.totalImages = this.loadingQueue.length + this.loadingImages.size + this.loadedImages.size;
     this.updateProgress();
 
-    console.log(`📊 图片统计: 总计 ${this.totalImages} 张，队列中 ${this.loadingQueue.length} 张`);
+    console.log(`📊 图片统计: 总计 ${this.totalImages} 张图片已设置懒加载`);
 
-    // 开始加载
-    if (!this.isLoading) {
+    // 开始加载（如果是立即加载模式）
+    if (!this.options.enableLazyload && !this.isLoading) {
       this.startLoading();
     }
+  }
+
+  /**
+   * 设置懒加载占位符
+   */
+  setupLazyLoadingPlaceholder(img) {
+    // 保存原始src
+    const originalSrc = img.src;
+    if (originalSrc && !originalSrc.startsWith('data:')) {
+      img.setAttribute('data-original-src', originalSrc);
+    }
+    
+    // 如果没有data-src，从src获取
+    if (!img.getAttribute('data-src') && originalSrc && !originalSrc.startsWith('data:')) {
+      img.setAttribute('data-src', originalSrc);
+    }
+
+    // 设置占位符
+    img.src = this.createPlaceholderDataURL();
+    
+    // 添加loading状态样式
+    img.classList.add('lazy-loading');
+    img.setAttribute('data-loading-state', 'waiting');
+    
+    // 设置最小高度避免布局抖动
+    if (!img.style.minHeight && !img.getAttribute('height')) {
+      img.style.minHeight = '200px';
+    }
+
+    console.log(`🖼️ 已为图片设置占位符: ${img.getAttribute('data-src')}`);
+  }
+
+  /**
+   * 创建占位符数据URL
+   */
+  createPlaceholderDataURL() {
+    // 创建一个带loading动画的SVG占位符
+    const svg = `
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#f0f0f0;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#e0e0e0;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grad)">
+          <animate attributeName="x" values="-200;200;-200" dur="2s" repeatCount="indefinite"/>
+        </rect>
+        <circle cx="100" cy="100" r="20" fill="none" stroke="#ccc" stroke-width="2">
+          <animate attributeName="stroke-dasharray" values="0,126;63,63;0,126" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dashoffset" values="0;-31.5;-63" dur="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="100" y="130" text-anchor="middle" fill="#999" font-size="12" font-family="Arial">
+          Loading...
+        </text>
+      </svg>
+    `;
+    return 'data:image/svg+xml;base64,' + btoa(svg);
   }
 
   /**

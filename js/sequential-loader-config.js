@@ -94,25 +94,26 @@ window.initializeImageFeatures = function() {
 document.addEventListener('DOMContentLoaded', function() {
   const path = window.location.pathname;
   
-  // 文章页面 - 可能包含大量图片，严格控制
+  // 文章页面 - 使用懒加载模式，只在可见时加载
   if (path.includes('/2025/') || path.includes('/posts/')) {
-    console.log('🚨 检测到文章页面，正在应用严格配置...');
+    console.log('🚨 检测到文章页面，应用懒加载模式...');
     console.log('当前路径:', path);
     
-    window.sequentialLoaderConfig.maxConcurrent = 1;        // 严格单线程
-    window.sequentialLoaderConfig.requestDelay = 3000;      // 增加延迟到3秒！！！
-    window.sequentialLoaderConfig.retryDelay = 8000;        // 失败后等待8秒
-    window.sequentialLoaderConfig.timeout = 30000;          // 增加超时到30秒
-    window.sequentialLoaderConfig.enableLazyload = false;   // 暂时禁用懒加载进行测试
-    window.sequentialLoaderConfig.rootMargin = '50px';      // 缩小预加载范围
+    window.sequentialLoaderConfig.enableLazyload = true;     // ✅ 启用懒加载
+    window.sequentialLoaderConfig.rootMargin = '150px';      // 提前150px开始加载
+    window.sequentialLoaderConfig.requestDelay = 300;        // 减少延迟，懒加载不会并发
+    window.sequentialLoaderConfig.retryDelay = 2000;         // 减少重试延迟
+    window.sequentialLoaderConfig.timeout = 15000;           // 正常超时时间
+    window.sequentialLoaderConfig.showProgress = false;      // 懒加载模式不显示全局进度条
+    
     // 文章页面图片选择器更具体
     window.sequentialLoaderConfig.selector = '#article-container img, .post-content img, .markdown-body img, img[src]:not([data-loaded]):not(.no-sequential)';
     
-    console.log('📄 文章页面超严格配置已应用：');
-    console.log('- 最大并发数:', window.sequentialLoaderConfig.maxConcurrent);
+    console.log('📄 文章页面懒加载配置已应用：');
+    console.log('- 懒加载模式:', window.sequentialLoaderConfig.enableLazyload);
+    console.log('- 预加载边距:', window.sequentialLoaderConfig.rootMargin);
     console.log('- 请求延迟:', window.sequentialLoaderConfig.requestDelay, 'ms');
     console.log('- 重试延迟:', window.sequentialLoaderConfig.retryDelay, 'ms');
-    console.log('- 懒加载:', window.sequentialLoaderConfig.enableLazyload);
   }
   
   // 首页 - 瀑布流布局
