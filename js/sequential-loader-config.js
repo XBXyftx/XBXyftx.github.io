@@ -25,8 +25,8 @@ window.sequentialLoaderConfig = {
   // 是否显示加载进度
   showProgress: true,
   
-  // 图片选择器 - 适配你的博客结构
-  selector: 'img[data-src], img[src]:not([data-loaded]):not(.no-sequential)',
+  // 图片选择器 - 适配你的博客结构，特别是文章页面
+  selector: '#article-container img, .post-content img, img[data-src], img[src]:not([data-loaded]):not(.no-sequential)',
   
   // 是否启用懒加载 - 只在图片进入视口时才加载
   enableLazyload: true,
@@ -94,12 +94,17 @@ window.initializeImageFeatures = function() {
 document.addEventListener('DOMContentLoaded', function() {
   const path = window.location.pathname;
   
-  // 文章页面 - 可能包含大量图片
+  // 文章页面 - 可能包含大量图片，严格控制
   if (path.includes('/2025/') || path.includes('/posts/')) {
-    window.sequentialLoaderConfig.maxConcurrent = 1;
-    window.sequentialLoaderConfig.requestDelay = 1000;
-    window.sequentialLoaderConfig.enableLazyload = true;
-    console.log('📄 文章页面配置已应用');
+    window.sequentialLoaderConfig.maxConcurrent = 1;        // 严格单线程
+    window.sequentialLoaderConfig.requestDelay = 1500;      // 增加延迟到1.5秒
+    window.sequentialLoaderConfig.retryDelay = 5000;        // 失败后等待5秒
+    window.sequentialLoaderConfig.timeout = 20000;          // 增加超时到20秒
+    window.sequentialLoaderConfig.enableLazyload = true;    // 启用懒加载
+    window.sequentialLoaderConfig.rootMargin = '100px';     // 缩小预加载范围
+    // 文章页面图片选择器更具体
+    window.sequentialLoaderConfig.selector = '#article-container img, .post-content img, .markdown-body img, img[src]:not([data-loaded]):not(.no-sequential)';
+    console.log('📄 文章页面严格配置已应用 - 延迟1.5秒，重试5秒');
   }
   
   // 首页 - 瀑布流布局

@@ -194,7 +194,13 @@ class SequentialImageLoader {
    */
   scanImages(container = document) {
     const images = container.querySelectorAll(this.options.selector);
-    console.log(`🔍 扫描到 ${images.length} 张图片`);
+    console.log(`🔍 扫描到 ${images.length} 张图片 - 选择器: ${this.options.selector}`);
+
+    // 特殊处理文章页面
+    const isArticlePage = window.location.pathname.includes('/2025/') || window.location.pathname.includes('/posts/');
+    if (isArticlePage) {
+      console.log('📄 检测到文章页面，使用严格的图片加载控制');
+    }
 
     images.forEach((img, index) => {
       // 跳过已处理的图片
@@ -204,6 +210,11 @@ class SequentialImageLoader {
 
       img.setAttribute('data-sequential-processed', 'true');
       img.setAttribute('data-index', index);
+
+      // 为文章页面图片添加特殊标记
+      if (isArticlePage) {
+        img.setAttribute('data-article-image', 'true');
+      }
 
       if (this.options.enableLazyload) {
         // 懒加载模式：观察图片是否进入视口
@@ -493,10 +504,25 @@ document.addEventListener('DOMContentLoaded', () => {
   if (config.enabled !== false) {
     window.sequentialImageLoader = new SequentialImageLoader(config);
     
-    // 延迟扫描，确保DOM完全加载
-    setTimeout(() => {
-      window.sequentialImageLoader.scanImages();
-    }, 100);
+    // 文章页面需要特殊处理
+    const isArticlePage = window.location.pathname.includes('/2025/') || window.location.pathname.includes('/posts/');
+    
+    if (isArticlePage) {
+      console.log('🚨 文章页面检测到，启用严格图片加载控制');
+      // 文章页面延迟更长时间，确保所有内容都已加载
+      setTimeout(() => {
+        window.sequentialImageLoader.scanImages();
+        // 再次扫描，确保没有遗漏
+        setTimeout(() => {
+          window.sequentialImageLoader.rescan();
+        }, 1000);
+      }, 500);
+    } else {
+      // 其他页面正常扫描
+      setTimeout(() => {
+        window.sequentialImageLoader.scanImages();
+      }, 100);
+    }
   }
 });
 
