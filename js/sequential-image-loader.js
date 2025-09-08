@@ -216,84 +216,211 @@ class SequentialImageLoader {
       return;
     }
 
-    console.log(`⏳ 开始加载图片: ${src}`);
-    
-    const tempImg = new Image();
-    let retryCount = 0;
+    // 获取或初始化重试次数
+    const currentRetries = parseInt(img.getAttribute('data-retry-count') || '0');
     const maxRetries = this.options.retryCount || 3;
 
-    const loadWithRetry = () => {
-      tempImg.onload = () => {
-        console.log(`✅ 图片加载成功: ${src}`);
-        
-        // 更新原图片
-        img.src = src;
-        img.setAttribute('data-loading-state', 'loaded');
-        img.classList.remove('lazy-loading-active');
-        img.classList.add('lazy-loaded');
-        
-        // 移除最小高度限制
-        img.style.minHeight = '';
-        
-        // 添加淡入效果
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 0.3s ease-in-out';
-        
-        // 下一帧触发淡入
-        requestAnimationFrame(() => {
-          img.style.opacity = '1';
-        });
+    console.log(`⏳ 开始加载图片 (尝试 ${currentRetries + 1}/${maxRetries}): ${src}`);
+    
+    // 更新loading状态显示重试信息
+    if (currentRetries > 0) {
+      img.setAttribute('data-loading-state', 'retrying');
+      console.log(`🔄 重试加载图片: ${src} (第${currentRetries + 1}次尝试)`);
+    }
 
-        // 触发回调
-        if (this.options.onImageLoaded) {
-          this.options.onImageLoaded(img, src);
-        }
+    const tempImg = new Image();
+    let timeoutId;
 
-        // 标记为已加载
-        this.loadedImages.add(img);
-      };
+    const onSuccess = () => {
+      console.log(`✅ 图片加载成功: ${src} (尝试了${currentRetries + 1}次)`);
+      
+      // 清除超时定时器
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      // 清除重试计数
+      img.removeAttribute('data-retry-count');
+      
+      // 更新原图片
+      img.src = src;
+      img.setAttribute('data-loading-state', 'loaded');
+      img.classList.remove('lazy-loading-active');
+      img.classList.add('lazy-loaded');
+      
+      // 移除最小高度限制
+      img.style.minHeight = '';
+      
+      // 添加淡入效果
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.3s ease-in-out';
+      
+      // 下一帧触发淡入
+      requestAnimationFrame(() => {
+        img.style.opacity = '1';
+      });
 
-      tempImg.onerror = (error) => {
-        retryCount++;
-        console.error(`❌ 图片加载失败 (${retryCount}/${maxRetries}): ${src}`, error);
-        
-        if (retryCount < maxRetries) {
-          console.log(`🔄 ${this.options.retryDelay}ms后重试...`);
-          setTimeout(loadWithRetry, this.options.retryDelay || 2000);
-        } else {
-          console.error(`💥 图片加载彻底失败: ${src}`);
-          img.setAttribute('data-loading-state', 'error');
-          img.classList.remove('lazy-loading-active');
-          img.classList.add('lazy-load-error');
-          
-          // 设置错误占位符
-          img.src = this.createErrorPlaceholderDataURL();
-          img.style.minHeight = '';
-          
-          if (this.options.onError) {
-            this.options.onError(img, src, error);
-          }
-        }
-      };
+      // 触发回调
+      if (this.options.onImageLoaded) {
+        this.options.onImageLoaded(img, src);
+      }
 
-      // 设置超时
-      setTimeout(() => {
-        if (!tempImg.complete) {
-          tempImg.onerror(new Error('Timeout'));
-        }
-      }, this.options.timeout || 15000);
-
-      tempImg.src = src;
+      // 标记为已加载
+      this.loadedImages.add(img);
     };
 
-    loadWithRetry();
+    const onFailure = (error) => {
+      // 清除超时定时器
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      const nextRetryCount = currentRetries + 1;
+      console.error(`❌ 图片加载失败 (尝试 ${nextRetryCount}/${maxRetries}): ${src}`, error);
+      
+      if (nextRetryCount < maxRetries) {
+        // 还可以重试
+        img.setAttribute('data-retry-count', nextRetryCount.toString());
+        
+        // 动态重试延迟：第1次重试2秒，第2次重试4秒，第3次重试6秒
+        const baseDelay = this.options.retryDelay || 2000;
+        const retryDelay = baseDelay * nextRetryCount;
+        
+        console.log(`🔄 ${retryDelay}ms后进行第${nextRetryCount + 1}次重试... (延迟逐渐增加)`);
+        
+        // 更新UI显示重试状态
+        img.setAttribute('data-loading-state', 'retry-waiting');
+        
+        setTimeout(() => {
+          this.loadImageDirectly(img, src);
+        }, retryDelay);
+      } else {
+        // 重试次数用完，标记为彻底失败
+        console.error(`💥 图片加载彻底失败，已重试${maxRetries}次: ${src}`);
+        
+        img.removeAttribute('data-retry-count');
+        img.setAttribute('data-loading-state', 'error');
+        img.classList.remove('lazy-loading-active');
+        img.classList.add('lazy-load-error');
+        
+        // 设置错误占位符
+        img.src = this.createErrorPlaceholderDataURL();
+        img.style.minHeight = '';
+        
+        if (this.options.onError) {
+          this.options.onError(img, src, error);
+        }
+      }
+    };
+
+    // 设置事件监听器
+    tempImg.onload = onSuccess;
+    tempImg.onerror = onFailure;
+
+    // 设置超时检测
+    timeoutId = setTimeout(() => {
+      console.warn(`⏰ 图片加载超时: ${src}`);
+      onFailure(new Error('图片加载超时'));
+    }, this.options.timeout || 15000);
+
+    // 开始加载
+    try {
+      tempImg.src = src;
+    } catch (error) {
+      onFailure(error);
+    }
   }
 
   /**
    * 直接加载视频（用于懒加载）
    */
   loadVideoDirectly(video) {
-    console.log(`⏳ 开始加载视频`);
+    // 获取或初始化重试次数
+    const currentRetries = parseInt(video.getAttribute('data-retry-count') || '0');
+    const maxRetries = this.options.retryCount || 3;
+    
+    console.log(`⏳ 开始加载视频 (尝试 ${currentRetries + 1}/${maxRetries})`);
+    
+    // 更新loading状态显示重试信息
+    if (currentRetries > 0) {
+      video.setAttribute('data-loading-state', 'retrying');
+      console.log(`🔄 重试加载视频 (第${currentRetries + 1}次尝试)`);
+    }
+    
+    const onSuccess = () => {
+      console.log(`✅ 视频加载成功 (尝试了${currentRetries + 1}次)`);
+      
+      // 清除重试计数
+      video.removeAttribute('data-retry-count');
+      
+      // 清理占位符样式
+      video.style.backgroundImage = '';
+      video.style.backgroundColor = '';
+      video.style.minHeight = '';
+      
+      // 更新状态
+      video.setAttribute('data-loading-state', 'loaded');
+      video.classList.remove('lazy-loading-active');
+      video.classList.add('lazy-loaded');
+      
+      // 添加淡入效果
+      video.style.opacity = '0';
+      video.style.transition = 'opacity 0.3s ease-in-out';
+      
+      requestAnimationFrame(() => {
+        video.style.opacity = '1';
+      });
+
+      // 触发回调
+      if (this.options.onImageLoaded) {
+        this.options.onImageLoaded(video, '视频');
+      }
+
+      // 标记为已加载
+      this.loadedImages.add(video);
+      
+      // 清理事件监听器
+      video.removeEventListener('loadeddata', onSuccess);
+      video.removeEventListener('error', onFailure);
+    };
+
+    const onFailure = (error) => {
+      const nextRetryCount = currentRetries + 1;
+      console.error(`❌ 视频加载失败 (尝试 ${nextRetryCount}/${maxRetries})`, error);
+      
+      // 清理事件监听器
+      video.removeEventListener('loadeddata', onSuccess);
+      video.removeEventListener('error', onFailure);
+      
+      if (nextRetryCount < maxRetries) {
+        // 还可以重试
+        video.setAttribute('data-retry-count', nextRetryCount.toString());
+        
+        // 动态重试延迟：第1次重试2秒，第2次重试4秒，第3次重试6秒
+        const baseDelay = this.options.retryDelay || 2000;
+        const retryDelay = baseDelay * nextRetryCount;
+        
+        console.log(`🔄 ${retryDelay}ms后进行第${nextRetryCount + 1}次视频重试... (延迟逐渐增加)`);
+        
+        // 更新UI显示重试状态
+        video.setAttribute('data-loading-state', 'retry-waiting');
+        
+        setTimeout(() => {
+          this.loadVideoDirectly(video);
+        }, retryDelay);
+      } else {
+        // 重试次数用完，标记为彻底失败
+        console.error(`💥 视频加载彻底失败，已重试${maxRetries}次`);
+        
+        video.removeAttribute('data-retry-count');
+        video.setAttribute('data-loading-state', 'error');
+        video.classList.remove('lazy-loading-active');
+        video.classList.add('lazy-load-error');
+        
+        // 显示错误占位符
+        video.style.backgroundImage = `url("${this.createErrorPlaceholderDataURL()}")`;
+        
+        if (this.options.onError) {
+          this.options.onError(video, '视频', error);
+        }
+      }
+    };
     
     try {
       // 获取保存的视频源
@@ -323,77 +450,23 @@ class SequentialImageLoader {
         video.setAttribute('controls', '');
       }
 
-      // 监听加载事件
-      const handleLoadSuccess = () => {
-        console.log(`✅ 视频加载成功`);
-        
-        // 清理占位符样式
-        video.style.backgroundImage = '';
-        video.style.backgroundColor = '';
-        video.style.minHeight = '';
-        
-        // 更新状态
-        video.setAttribute('data-loading-state', 'loaded');
-        video.classList.remove('lazy-loading-active');
-        video.classList.add('lazy-loaded');
-        
-        // 添加淡入效果
-        video.style.opacity = '0';
-        video.style.transition = 'opacity 0.3s ease-in-out';
-        
-        requestAnimationFrame(() => {
-          video.style.opacity = '1';
-        });
-
-        // 触发回调
-        if (this.options.onImageLoaded) {
-          this.options.onImageLoaded(video, '视频');
-        }
-
-        // 标记为已加载
-        this.loadedImages.add(video);
-        
-        // 清理事件监听器
-        video.removeEventListener('loadeddata', handleLoadSuccess);
-        video.removeEventListener('error', handleLoadError);
-      };
-
-      const handleLoadError = () => {
-        console.error(`❌ 视频加载失败`);
-        
-        video.setAttribute('data-loading-state', 'error');
-        video.classList.remove('lazy-loading-active');
-        video.classList.add('lazy-load-error');
-        
-        // 显示错误占位符
-        video.style.backgroundImage = `url("${this.createErrorPlaceholderDataURL()}")`;
-        
-        if (this.options.onError) {
-          this.options.onError(video, '视频', new Error('Video load failed'));
-        }
-        
-        // 清理事件监听器
-        video.removeEventListener('loadeddata', handleLoadSuccess);
-        video.removeEventListener('error', handleLoadError);
-      };
-
       // 添加事件监听器
-      video.addEventListener('loadeddata', handleLoadSuccess);
-      video.addEventListener('error', handleLoadError);
+      video.addEventListener('loadeddata', onSuccess);
+      video.addEventListener('error', onFailure);
+
+      // 设置超时检测
+      setTimeout(() => {
+        if (video.getAttribute('data-loading-state') === 'loading' || video.getAttribute('data-loading-state') === 'retrying') {
+          console.warn(`⏰ 视频加载超时`);
+          onFailure(new Error('视频加载超时'));
+        }
+      }, this.options.timeout || 20000); // 视频超时时间设置长一些
 
       // 强制加载视频
       video.load();
       
     } catch (error) {
-      console.error('❌ 视频加载过程中出错:', error);
-      
-      video.setAttribute('data-loading-state', 'error');
-      video.classList.remove('lazy-loading-active');
-      video.classList.add('lazy-load-error');
-      
-      if (this.options.onError) {
-        this.options.onError(video, '视频', error);
-      }
+      onFailure(error);
     }
   }
 

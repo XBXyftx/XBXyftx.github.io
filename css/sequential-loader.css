@@ -33,6 +33,18 @@ img[data-loading-state="loading"] {
   /* 正在加载状态 */
 }
 
+img[data-loading-state="retrying"] {
+  /* 重试加载状态 */
+  background-color: #fff3cd !important;
+  border: 1px solid #ffc107 !important;
+}
+
+img[data-loading-state="retry-waiting"] {
+  /* 等待重试状态 */
+  background-color: #f8f9fa !important;
+  border: 1px dashed #6c757d !important;
+}
+
 img[data-loading-state="loaded"] {
   /* 加载完成状态 */
 }
@@ -76,6 +88,18 @@ video[data-loading-state="waiting"] {
 
 video[data-loading-state="loading"] {
   /* 正在加载状态 */
+}
+
+video[data-loading-state="retrying"] {
+  /* 重试加载状态 */
+  background-color: #fff3cd !important;
+  border: 2px solid #ffc107 !important;
+}
+
+video[data-loading-state="retry-waiting"] {
+  /* 等待重试状态 */
+  background-color: #f8f9fa !important;
+  border: 2px dashed #6c757d !important;
 }
 
 video[data-loading-state="loaded"] {
