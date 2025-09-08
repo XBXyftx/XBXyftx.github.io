@@ -1,0 +1,226 @@
+/* Sequential Image Loader 样式文件 */
+
+/* 图片加载状态样式 - 不影响原有样式 */
+img[data-sequential-processed] {
+  /* 不修改任何视觉样式，保持原有外观 */
+}
+
+/* 加载中的图片 - 只添加最小化的加载指示 */
+img[data-sequential-processed]:not([data-loaded]):not([data-load-error]) {
+  /* 移除所有会影响图片外观的样式 */
+}
+
+/* 已加载的图片 - 保持原有样式 */
+img.sequential-loaded {
+  /* 不强制修改任何样式，保持图片原有外观 */
+}
+
+/* 加载失败的图片 */
+img.sequential-error {
+  opacity: 0.6;
+  filter: grayscale(100%);
+  border: 2px dashed #ff6b6b;
+  background: #ffe0e0;
+}
+
+/* 加载动画 */
+@keyframes sequential-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* 淡入动画 */
+@keyframes sequential-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 进度条样式增强 */
+#image-loader-progress {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#image-loader-progress .progress-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+#image-loader-progress .progress-text::before {
+  content: "📸";
+  font-size: 16px;
+}
+
+/* 暗黑模式适配 */
+[data-theme="dark"] #image-loader-progress {
+  background: rgba(20, 20, 20, 0.9);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] img.sequential-error {
+  background: #2d1b1b;
+  border-color: #ff4757;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  #image-loader-progress {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+  
+  #image-loader-progress .progress-container {
+    min-width: auto;
+  }
+}
+
+/* 瀑布流图片加载优化 - 移除样式修改 */
+.waterfall-item img[data-sequential-processed]:not([data-loaded]) {
+  /* 不修改图片样式 */
+}
+
+/* 文章内容图片加载优化 - 移除样式修改 */
+#article-container img[data-sequential-processed]:not([data-loaded]) {
+  /* 不修改图片样式 */
+}
+
+/* Lightbox图片预加载状态 - 移除样式修改 */
+.lightbox-image[data-sequential-processed]:not([data-loaded]) {
+  /* 不修改图片样式 */
+}
+
+/* 加载错误提示样式 */
+.sequential-error-tooltip {
+  position: relative;
+}
+
+.sequential-error-tooltip::after {
+  content: "图片加载失败，点击重试";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.sequential-error-tooltip:hover::after {
+  opacity: 1;
+}
+
+/* 加载完成通知动画 */
+.sequential-complete-notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 150, 136, 0.9);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  z-index: 10000;
+  animation: sequential-notification 3s ease;
+  pointer-events: none;
+}
+
+@keyframes sequential-notification {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+/* 禁用默认的图片懒加载样式冲突 */
+img[data-sequential-processed][loading="lazy"] {
+  loading: auto;
+}
+
+/* 与butterfly主题的兼容性样式 - 移除样式修改 */
+.recent-post-item img[data-sequential-processed]:not([data-loaded]) {
+  /* 不修改图片样式 */
+}
+
+.card-widget img[data-sequential-processed]:not([data-loaded]) {
+  /* 不修改图片样式 */
+}
+
+/* 图片加载成功的特效 - 移除所有视觉效果 */
+img.sequential-loaded {
+  /* 不添加任何样式，保持图片原有外观 */
+}
+
+@keyframes sequential-success-badge {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* 性能优化：减少重绘 */
+img[data-sequential-processed] {
+  will-change: opacity, filter;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* 打印样式 */
+@media print {
+  #image-loader-progress {
+    display: none !important;
+  }
+  
+  img[data-sequential-processed] {
+    opacity: 1 !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}
