@@ -1002,36 +1002,59 @@ document.addEventListener('DOMContentLoaded', () => {
   // 检查是否启用了顺序加载
   const config = window.sequentialLoaderConfig || {};
   
-  if (config.enabled !== false) {
+  // 检测是否为文章页面
+  const path = window.location.pathname;
+  const isArticlePage = path.includes('/2025/') || path.includes('/posts/') || path.match(/\/\d{4}\/\d{2}\/\d{2}\//);
+  
+  if (isArticlePage && config.enabled !== false) {
+    console.log('🚨 文章页面检测到，启用图片视频懒加载功能');
+    console.log('当前路径:', path);
+    
+    // 只在文章页面创建加载器实例
     window.sequentialImageLoader = new SequentialImageLoader(config);
     
-    // 文章页面需要特殊处理
-    const isArticlePage = window.location.pathname.includes('/2025/') || window.location.pathname.includes('/posts/');
-    
-    if (isArticlePage) {
-      console.log('🚨 文章页面检测到，启用严格图片加载控制');
-      // 文章页面延迟更长时间，确保所有内容都已加载
+    // 文章页面延迟启动，确保所有内容都已加载
+    setTimeout(() => {
+      window.sequentialImageLoader.scanImages();
+      // 再次扫描，确保没有遗漏
       setTimeout(() => {
-        window.sequentialImageLoader.scanImages();
-        // 再次扫描，确保没有遗漏
-        setTimeout(() => {
-          window.sequentialImageLoader.rescan();
-        }, 1000);
-      }, 500);
-    } else {
-      // 其他页面正常扫描
-      setTimeout(() => {
-        window.sequentialImageLoader.scanImages();
-      }, 100);
-    }
+        window.sequentialImageLoader.rescan();
+      }, 1000);
+    }, 500);
+  } else {
+    console.log('🏠 非文章页面，跳过图片懒加载器初始化');
+    console.log('当前路径:', path);
+    console.log('页面类型: 首页/标签页/分类页/归档页等');
   }
 });
 
 // PJAX支持
 if (window.pjax) {
   document.addEventListener('pjax:complete', () => {
-    if (window.sequentialImageLoader) {
-      window.sequentialImageLoader.rescan();
+    // 页面切换后重新检测页面类型
+    const path = window.location.pathname;
+    const isArticlePage = path.includes('/2025/') || path.includes('/posts/') || path.match(/\/\d{4}\/\d{2}\/\d{2}\//);
+    
+    if (isArticlePage) {
+      console.log('🔄 PJAX切换到文章页面，重新扫描图片');
+      if (window.sequentialImageLoader) {
+        window.sequentialImageLoader.rescan();
+      } else {
+        // 如果没有实例，创建一个
+        const config = window.sequentialLoaderConfig || {};
+        if (config.enabled !== false) {
+          window.sequentialImageLoader = new SequentialImageLoader(config);
+          setTimeout(() => {
+            window.sequentialImageLoader.scanImages();
+          }, 300);
+        }
+      }
+    } else {
+      console.log('🔄 PJAX切换到非文章页面，清理懒加载器');
+      // 切换到非文章页面时，可以选择清理加载器实例
+      if (window.sequentialImageLoader) {
+        window.sequentialImageLoader = null;
+      }
     }
   });
 }

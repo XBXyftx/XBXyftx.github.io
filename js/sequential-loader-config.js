@@ -94,11 +94,14 @@ window.initializeImageFeatures = function() {
 document.addEventListener('DOMContentLoaded', function() {
   const path = window.location.pathname;
   
-  // 文章页面 - 使用懒加载模式，只在可见时加载
-  if (path.includes('/2025/') || path.includes('/posts/')) {
-    console.log('🚨 检测到文章页面，应用懒加载模式...');
+  // 检测是否为文章页面
+  const isArticlePage = path.includes('/2025/') || path.includes('/posts/') || path.match(/\/\d{4}\/\d{2}\/\d{2}\//);
+
+  if (isArticlePage) {
+    console.log('🚨 检测到文章页面，启用图片视频懒加载功能...');
     console.log('当前路径:', path);
     
+    // 启用懒加载功能
     window.sequentialLoaderConfig.enableLazyload = true;     // ✅ 启用懒加载
     window.sequentialLoaderConfig.rootMargin = '150px';      // 提前150px开始加载
     window.sequentialLoaderConfig.requestDelay = 300;        // 减少延迟，懒加载不会并发
@@ -114,32 +117,16 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('- 预加载边距:', window.sequentialLoaderConfig.rootMargin);
     console.log('- 请求延迟:', window.sequentialLoaderConfig.requestDelay, 'ms');
     console.log('- 重试延迟:', window.sequentialLoaderConfig.retryDelay, 'ms');
-  }
-  
-  // 首页 - 瀑布流布局
-  else if (path === '/' || path === '/index.html') {
-    window.sequentialLoaderConfig.maxConcurrent = 1;
-    window.sequentialLoaderConfig.requestDelay = 600;
-    window.sequentialLoaderConfig.enableLazyload = true;
-    window.sequentialLoaderConfig.rootMargin = '100px';
-    console.log('🏠 首页配置已应用');
-  }
-  
-  // 归档页面
-  else if (path.includes('/archives/')) {
-    window.sequentialLoaderConfig.maxConcurrent = 1;
-    window.sequentialLoaderConfig.requestDelay = 500;
-    window.sequentialLoaderConfig.enableLazyload = true;
-    console.log('📚 归档页面配置已应用');
-  }
-  
-  // 相册或图片集中的页面
-  else if (path.includes('/swiper/') || path.includes('/gallery/')) {
-    window.sequentialLoaderConfig.maxConcurrent = 1;
-    window.sequentialLoaderConfig.requestDelay = 1200;
-    window.sequentialLoaderConfig.enableLazyload = true;
-    window.sequentialLoaderConfig.rootMargin = '50px';
-    console.log('🖼️ 相册页面配置已应用');
+  } else {
+    console.log('🏠 检测到非文章页面（首页/标签页/分类页等），禁用懒加载功能');
+    console.log('当前路径:', path);
+    
+    // 在非文章页面禁用懒加载
+    window.sequentialLoaderConfig.enableLazyload = false;    // ❌ 禁用懒加载
+    window.sequentialLoaderConfig.enabled = false;           // ❌ 完全禁用加载器
+    window.sequentialLoaderConfig.selector = '';             // 清空选择器，不处理任何媒体元素
+    
+    console.log('🚫 已禁用懒加载功能，首页等页面将保持原有加载方式');
   }
 });
 
