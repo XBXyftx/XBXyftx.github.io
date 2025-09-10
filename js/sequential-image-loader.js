@@ -26,6 +26,8 @@ class SequentialImageLoader {
       enableLazyload: options.enableLazyload !== false,
       // 视口检测边距
       rootMargin: options.rootMargin || '200px',
+      // 防抖延迟 (毫秒) - 页面停止滚动后等待时间
+      debounceDelay: options.debounceDelay || 400,
       // 加载完成回调
       onImageLoaded: options.onImageLoaded || null,
       // 所有图片加载完成回调
@@ -41,6 +43,9 @@ class SequentialImageLoader {
     this.totalImages = 0;
     this.loadedCount = 0;
     this.isLoading = false;
+    this.debounceTimers = new Map(); // 防抖计时器
+    this.scrollDebounceTimer = null; // 滚动防抖计时器
+    this.isScrolling = false; // 滚动状态标记
     
     // 创建进度条
     if (this.options.showProgress) {
@@ -50,6 +55,7 @@ class SequentialImageLoader {
     // 初始化 Intersection Observer
     if (this.options.enableLazyload) {
       this.initIntersectionObserver();
+      this.initScrollDebounce();
     }
 
     console.log('🖼️ Sequential Image Loader 初始化完成', this.options);
@@ -169,6 +175,66 @@ class SequentialImageLoader {
   }
 
   /**
+   * 初始化滚动防抖
+   */
+  initScrollDebounce() {
+    const handleScroll = () => {
+      this.isScrolling = true;
+      
+      // 清除之前的防抖计时器
+      if (this.scrollDebounceTimer) {
+        clearTimeout(this.scrollDebounceTimer);
+      }
+      
+      // 设置新的防抖计时器
+      this.scrollDebounceTimer = setTimeout(() => {
+        this.isScrolling = false;
+        console.log('🛑 滚动停止，允许图片加载');
+        
+        // 处理在滚动期间被延迟的加载请求
+        this.processDelayedLoads();
+      }, this.options.debounceDelay);
+    };
+
+    // 监听页面滚动
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // 监听目录点击（通过监听hash变化）
+    window.addEventListener('hashchange', () => {
+      console.log('🔗 检测到锚点跳转，重置防抖计时器');
+      handleScroll();
+    });
+    
+    console.log('🚀 滚动防抖初始化完成，延迟:', this.options.debounceDelay + 'ms');
+  }
+
+  /**
+   * 处理延迟的加载请求
+   */
+  processDelayedLoads() {
+    const delayedElements = document.querySelectorAll('[data-delayed-load="true"]');
+    delayedElements.forEach(element => {
+      element.removeAttribute('data-delayed-load');
+      const isVideo = element.tagName.toLowerCase() === 'video';
+      
+      if (isVideo) {
+        this.loadVideoDirectly(element);
+      } else {
+        const dataSrc = element.getAttribute('data-src') || element.getAttribute('data-original-src');
+        this.loadImageDirectly(element, dataSrc);
+      }
+    });
+  }
+
+  /**
+   * 计划延迟加载
+   */
+  scheduleDelayedLoad(element) {
+    element.setAttribute('data-delayed-load', 'true');
+    console.log('⏰ 计划延迟加载:', element.src || element.dataset.src);
+  }
+
+  /**
    * 初始化 Intersection Observer
    */
   initIntersectionObserver() {
@@ -180,10 +246,19 @@ class SequentialImageLoader {
             const isVideo = element.tagName.toLowerCase() === 'video';
             const elementType = isVideo ? '视频' : '图片';
             
-            console.log(`📍 ${elementType}进入视口，开始加载`);
+            console.log(`📍 ${elementType}进入视口`);
             
             // 停止观察这个元素
             this.observer.unobserve(element);
+            
+            // 检查是否正在滚动
+            if (this.isScrolling) {
+              console.log(`⏳ 页面正在滚动，延迟加载${elementType}`);
+              this.scheduleDelayedLoad(element);
+              return;
+            }
+            
+            console.log(`🚀 开始加载${elementType}`);
             
             // 更新loading状态
             element.setAttribute('data-loading-state', 'loading');

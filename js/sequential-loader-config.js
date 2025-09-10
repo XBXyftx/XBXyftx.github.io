@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.sequentialLoaderConfig.retryDelay = 2000;         // 减少重试延迟
     window.sequentialLoaderConfig.timeout = 15000;           // 正常超时时间
     window.sequentialLoaderConfig.showProgress = false;      // 懒加载模式不显示全局进度条
+    window.sequentialLoaderConfig.debounceDelay = 400;       // 防抖延迟0.4秒，防止快速滚动触发大量加载
     
     // 文章页面媒体选择器更具体 - 包括图片和视频，排除顶部图片和特殊图片
     window.sequentialLoaderConfig.selector = '#article-container img:not(.avatar-img):not([class*="top-img"]):not(#page-header img), .post-content img:not(.avatar-img):not([class*="top-img"]), .markdown-body img:not(.avatar-img):not([class*="top-img"]), img[src]:not([data-loaded]):not(.no-sequential):not(.avatar-img):not([class*="top-img"]):not(#page-header img), #article-container video:not(.no-sequential), .post-content video:not(.no-sequential), .markdown-body video:not(.no-sequential), video:not([data-loaded]):not(.no-sequential)';
@@ -117,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('- 预加载边距:', window.sequentialLoaderConfig.rootMargin);
     console.log('- 请求延迟:', window.sequentialLoaderConfig.requestDelay, 'ms');
     console.log('- 重试延迟:', window.sequentialLoaderConfig.retryDelay, 'ms');
+    console.log('- 防抖延迟:', window.sequentialLoaderConfig.debounceDelay, 'ms');
   } else {
     console.log('🏠 检测到非文章页面（首页/标签页/分类页等），禁用懒加载功能');
     console.log('当前路径:', path);
