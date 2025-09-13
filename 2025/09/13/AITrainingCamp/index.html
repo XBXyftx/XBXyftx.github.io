@@ -1,0 +1,770 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AITrainingCamp | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="iflab的AI训练营！！！魔鬼训练！！！（持续更新）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AITrainingCamp">
+<meta property="og:url" content="https://xbxyftx.top/2025/09/13/AITrainingCamp/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="iflab的AI训练营！！！魔鬼训练！！！（持续更新）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg">
+<meta property="article:published_time" content="2025-09-13T06:12:42.000Z">
+<meta property="article:modified_time" content="2025-09-13T09:34:43.907Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="技术向">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="ClaudeCode">
+<meta property="article:tag" content="cursor">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AITrainingCamp",
+  "url": "https://xbxyftx.top/2025/09/13/AITrainingCamp/",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg",
+  "datePublished": "2025-09-13T06:12:42.000Z",
+  "dateModified": "2025-09-13T09:34:43.907Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.png"><link rel="canonical" href="https://xbxyftx.top/2025/09/13/AITrainingCamp/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/typewriter-effect.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AITrainingCamp',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post',
+  typewriter: 'iflab 的曾老师创新性提出周末 AI 编程魔鬼训练营方案，以高强度、高协作的学习模式打破传统编程教学局限。训练营采用单日长达八小时的连续编程模式，摒弃碎片化学习，让学员深度沉浸于代码世界，在持续思考与实践中突破编程瓶颈，快速提升问题解决能力。同时，特别设置 10 人小组的集中心流式编程机制，小组内成员围绕核心 AI 编程任务实时交流、分工协作，不仅能通过思维碰撞迸发创新灵感，还能在互助中弥补知识短板，形成 “一人攻坚、众人支援” 的高效学习氛围，助力学员在沉浸式、协作式的高强度训练中，短期内实现 AI 编程技能的质的飞跃。'
+}</script><script src="/js/nyan.js"></script><script>localStorage.setItem('theme','dark')</script><script>document.documentElement.setAttribute('data-theme', 'dark');</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/transpancy.css"><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><link rel="stylesheet" href="/css/styles.css"><script> document.querySelectorAll('#post-comment').forEach(el => { el.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'; }); </script><link rel="twikoo" href="/css/twikoo.css"><link rel="stylesheet" href="/css/rightmenu.css"><link rel="stylesheet" href="/css/sequential-loader.css"><script src="/js/sequential-loader-config.js"></script><script src="/js/sequential-image-loader.js" defer></script><script src="/js/sequential-integration.js" defer></script><script src="/js/custom-lightbox.js" defer></script><script src="/js/nyan.js"></script><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.png" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">AITrainingCamp</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">AITrainingCamp</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T06:12:42.000Z" title="发表于 2025-09-13 14:12:42">2025-09-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T09:34:43.907Z" title="更新于 2025-09-13 17:34:43">2025-09-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2025-09-13 17:34:43&quot;}" hidden></div><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一切的起源都要说回到佳澎这一年的AIcoding让曾老师突发奇想的开展了一个长时间集中开发的训练营的想法，于是就有了一个18人的小群与长达8小时的报名制（没错就是自己给自己上压力的模式）训练营。</p>
+<p><img src="/2025/09/13/AITrainingCamp/1.png" alt="1"></p>
+<h2 id="claudCode"><a href="#claudCode" class="headerlink" title="claudCode"></a>claudCode</h2><p>cc这一神器也是久仰大名，此前一直都是在使用cursor提供的Claude，非常的方便，所以也就没有搞。这一次刚好是接着训练营的机会向佳澎请教一下cc和ccr。</p>
+<p><img src="/2025/09/13/AITrainingCamp/2.jpg" alt="2"></p>
+<p><img src="/2025/09/13/AITrainingCamp/3.jpg" alt="3"></p>
+<p><img src="/2025/09/13/AITrainingCamp/4.jpg" alt="4"></p>
+<p>ClaudeCode并不是一个IDE也不是一个模型，而是一个用于接入各个厂商的API和Token的工具。他可以借助github cli的能力去读取上下文信息，同时执行命令。就像是cursor和trea的侧边栏一样的东西，只不过是手动配置模型接口的而已。</p>
+<p>cc的安装与基础使用时相当简单的，只需要nmp进行安装就可以所以我们必须提前下载并配置好<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">Node.js</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Claude Code</span></span><br><span class="line">npm install -g @anthropic-ai/claude-code</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导航到您的项目</span></span><br><span class="line"><span class="built_in">cd</span> your-awesome-project</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始使用 Claude 编程</span></span><br><span class="line">claude</span><br><span class="line"><span class="comment"># 首次使用时会提示您登录</span></span><br></pre></td></tr></table></figure>
+<p>随后安装一下github cli。</p>
+<p>可以执行以下命令去进行安装也可以直接去github<a target="_blank" rel="noopener" href="https://cli.github.com/">下载安装程序</a>。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winget install --id <span class="title class_">GitHub</span>.<span class="property">cli</span></span><br></pre></td></tr></table></figure>
+<p>随后配置个环境变量，写入API的基础URL随后再写入Token后就可以开始去进行AI对话了。</p>
+<h2 id="项目选择"><a href="#项目选择" class="headerlink" title="项目选择"></a>项目选择</h2><p>曾老师让一人选择一个项目去进行开发，在获得了这样一个强力的工具之后我第一时间想到的就是用它去继续的完善我们的NowInOpenHarmony项目的后端服务。</p>
+<p>我在群里说了这个想法之后我本以为曾老师会劝说我去进行一个新项目的开发，但没想到曾老师是如此的善解人意，直接就是一个电话过来去了解我的这个项目的现状，并指导我要去进行一个完整的软件开发流程。要先去进行需求分析。</p>
+<p><img src="/2025/09/13/AITrainingCamp/6.jpg" alt="6"></p>
+<p>于是我决定去认真的做一下项目的需求分析以及模块的优化方案设计。首先是让cc去进行一下Claude.md的创建，这也是极大提高cc的构建速度的小技巧，前两天刷视频也刷到了，嘲讽那些网上教用cc的但实际上连Claude.md都没有创建的半吊子教程，笑死。也是没想到就赶上了社团的正版教程。</p>
+<p><img src="/2025/09/13/AITrainingCamp/5.png" alt="5"></p>
+<p><img src="/2025/09/13/AITrainingCamp/7.png" alt="7"></p>
+<p>上面这张图截取自cc的官方<a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/claude-code-best-practices">最佳实践</a>的文章。</p>
+<h2 id="NowInOpenHarmony的cc尝试"><a href="#NowInOpenHarmony的cc尝试" class="headerlink" title="NowInOpenHarmony的cc尝试"></a>NowInOpenHarmony的cc尝试</h2><h3 id="需求文档"><a href="#需求文档" class="headerlink" title="需求文档"></a>需求文档</h3><h4 id="1-项目背景与目标"><a href="#1-项目背景与目标" class="headerlink" title="1. 项目背景与目标"></a>1. 项目背景与目标</h4><h5 id="1-1-项目背景"><a href="#1-1-项目背景" class="headerlink" title="1.1 项目背景"></a>1.1 项目背景</h5><p>随着OpenHarmony生态的快速发展，开发者、企业及相关从业者对OpenHarmony官方资讯、技术文章等信息的获取需求日益增长。目前，OpenHarmony相关信息分散在官方网站、技术博客等多个平台，用户需要切换不同平台才能获取全面信息，存在信息获取效率低、聚合性差的问题。为解决这一痛点，计划开发NowInOpenHarmony后端服务，实现多源OpenHarmony信息的采集、整合与统一输出，为客户端应用提供稳定、高效的数据源支持。</p>
+<h5 id="1-2-项目目标"><a href="#1-2-项目目标" class="headerlink" title="1.2 项目目标"></a>1.2 项目目标</h5><ul>
+<li>构建多源数据采集体系，覆盖OpenHarmony官方网站新闻动态、技术博客文章及移动端Banner图片等信息来源。</li>
+<li>打造高性能、非阻塞的后端服务，支持高并发请求，确保服务启动后快速响应，数据更新过程不影响用户使用。</li>
+<li>设计智能缓存管理机制，实现数据预热、定时更新与无缝切换，提升数据访问效率，降低数据库压力。</li>
+<li>提供标准化、易扩展的RESTful API接口，满足客户端多样化的数据查询需求，同时具备良好的可维护性与可扩展性。</li>
+<li>实现服务容器化部署，支持开发与生产环境的快速切换，保障服务稳定运行与便捷运维。</li>
+</ul>
+<h4 id="2-范围界定"><a href="#2-范围界定" class="headerlink" title="2. 范围界定"></a>2. 范围界定</h4><h5 id="2-1-功能范围"><a href="#2-1-功能范围" class="headerlink" title="2.1 功能范围"></a>2.1 功能范围</h5><ul>
+<li><strong>数据采集</strong>：支持OpenHarmony官方网站新闻、技术博客文章、移动端Banner图片（传统版与增强版）的采集，包含数据去重、清洗与结构化处理。</li>
+<li><strong>服务核心</strong>：提供API接口服务、缓存管理、定时任务调度、服务状态监控等核心功能。</li>
+<li><strong>部署运维</strong>：支持Docker容器化部署，提供环境配置、日志管理、健康检查等运维相关能力。</li>
+</ul>
+<h5 id="2-2-排除范围"><a href="#2-2-排除范围" class="headerlink" title="2.2 排除范围"></a>2.2 排除范围</h5><ul>
+<li>不涉及前端应用开发，仅提供后端数据接口服务。</li>
+<li>暂不支持OpenHarmony非官方来源（如第三方社区、个人博客）的信息采集。</li>
+<li>不包含用户认证与权限管理功能，API接口暂对所有调用方开放（后续可根据需求扩展）。</li>
+<li>数据存储暂不支持分布式数据库，生产环境默认使用PostgreSQL单机部署。</li>
+</ul>
+<h4 id="3-功能需求"><a href="#3-功能需求" class="headerlink" title="3. 功能需求"></a>3. 功能需求</h4><h5 id="3-1-数据采集模块需求"><a href="#3-1-数据采集模块需求" class="headerlink" title="3.1 数据采集模块需求"></a>3.1 数据采集模块需求</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求ID</th>
+<th>需求描述</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DC-001</td>
+<td>采集OpenHarmony官方网站新闻与动态信息，包含标题、发布时间、正文、来源链接等字段</td>
+<td>高</td>
+<td>1. 每日可成功采集官方网站新增新闻，采集成功率≥98%；<br>2. 采集数据字段完整，无缺失关键信息；<br>3. 自动过滤重复新闻，重复数据识别准确率≥99%</td>
+</tr>
+<tr>
+<td>DC-002</td>
+<td>采集OpenHarmony技术博客文章，包含标题、作者、发布日期、正文内容、标签等字段</td>
+<td>高</td>
+<td>1. 技术博客新增文章采集延迟≤30分钟；<br>2. 支持文章标签的提取与存储；<br>3. 采集数据可正常解析为结构化格式，无乱码或格式错误</td>
+</tr>
+<tr>
+<td>DC-003</td>
+<td>采集移动端Banner图片，提供传统版（Requests+BeautifulSoup）与增强版（Selenium）两种采集方案</td>
+<td>中</td>
+<td>1. 传统版爬虫支持静态Banner图片URL获取，成功率≥95%；<br>2. 增强版爬虫可获取动态加载的Banner图片，成功率≥90%；<br>3. 增强版采集失败时自动切换为传统版，保障Banner数据可用性</td>
+</tr>
+<tr>
+<td>DC-004</td>
+<td>支持多线程并发采集，配置失败重试机制</td>
+<td>高</td>
+<td>1. 可同时启动至少2个线程执行不同数据源的采集任务；<br>2. 采集请求失败后自动重试，重试次数可配置（默认3次）；<br>3. 线程执行过程中无数据竞争或死锁问题</td>
+</tr>
+<tr>
+<td>DC-005</td>
+<td>实现数据清洗功能，处理无效字符、格式统一化等问题</td>
+<td>中</td>
+<td>1. 清洗后的数据无特殊无效字符（如乱码、空字符串）；<br>2. 日期格式统一为“YYYY-MM-DD HH:MM:SS”，时间 zone 为 UTC；<br>3. 正文内容去除多余空格、换行符，格式整洁</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="3-2-缓存机制需求"><a href="#3-2-缓存机制需求" class="headerlink" title="3.2 缓存机制需求"></a>3.2 缓存机制需求</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求ID</th>
+<th>需求描述</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CM-001</td>
+<td>服务启动时自动执行缓存预热，后台线程完成初始数据爬取与缓存加载</td>
+<td>高</td>
+<td>1. 服务启动后≤30秒可响应API请求（使用默认缓存或正在预热的提示）；<br>2. 初始缓存加载完成时间≤10分钟（基于现有数据源规模）；<br>3. 预热过程不阻塞主服务线程，API接口可正常返回状态信息</td>
+</tr>
+<tr>
+<td>CM-002</td>
+<td>实现精细缓存状态管理，仅在数据写入数据库时设为“准备中”，其余时间保持“就绪”状态</td>
+<td>高</td>
+<td>1. 缓存状态包含“preparing”“ready”“error”三种，状态切换准确；<br>2. 数据写入数据库阶段状态为“preparing”，持续时间≤5秒（单批次数据）；<br>3. 缓存更新过程中，API接口返回旧数据，无服务不可用情况</td>
+</tr>
+<tr>
+<td>CM-003</td>
+<td>支持定时缓存更新，默认每30分钟执行一次数据更新，每天凌晨2点执行完整爬取</td>
+<td>高</td>
+<td>1. 定时任务执行时间偏差≤1分钟；<br>2. 定时更新过程遵循缓存状态管理规则，不阻塞API请求；<br>3. 完整爬取任务可覆盖所有数据源，执行完成后缓存数据全面更新</td>
+</tr>
+<tr>
+<td>CM-004</td>
+<td>提供手动缓存刷新与清空接口，支持指定数据源的缓存操作</td>
+<td>中</td>
+<td>1. 调用缓存刷新接口后，≤1分钟内启动对应数据源的爬取与缓存更新；<br>2. 调用Banner缓存清空接口后，缓存数据立即清除，下次请求触发重新采集；<br>3. 接口支持参数指定数据源（如“news”“blog”“banner”），操作精准性≥99%</td>
+</tr>
+<tr>
+<td>CM-005</td>
+<td>保障缓存线程安全，使用可重入锁避免多线程操作导致的数据不一致</td>
+<td>高</td>
+<td>1. 多线程同时请求缓存更新或读取时，无数据错乱（如部分字段缺失、重复数据）；<br>2. 高并发场景（≥100次/秒请求）下，缓存操作无死锁或性能急剧下降问题；<br>3. 缓存数据更新完成后，所有后续请求可获取最新数据，无缓存不一致窗口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="3-3-API接口模块需求"><a href="#3-3-API接口模块需求" class="headerlink" title="3.3 API接口模块需求"></a>3.3 API接口模块需求</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求ID</th>
+<th>需求描述</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API-001</td>
+<td>新闻列表接口（GET /api/news/），支持分页、分类、搜索参数</td>
+<td>高</td>
+<td>1. 支持参数：page（默认1）、page_size（默认10，最大50）、category（可选，如“official”“blog”）、keyword（搜索标题/正文）；<br>2. 分页返回数据准确，无重复或遗漏，响应时间≤300ms；<br>3. 搜索功能支持模糊匹配，关键词命中准确率≥95%</td>
+</tr>
+<tr>
+<td>API-002</td>
+<td>新闻详情接口（GET /api/news/{article_id}），返回单篇新闻完整信息</td>
+<td>高</td>
+<td>1. 根据article_id准确查询对应新闻，查询成功率≥99%；<br>2. 返回字段包含标题、发布时间、来源、正文、标签（如有）、链接等；<br>3. 响应时间≤200ms，无无效数据或格式错误</td>
+</tr>
+<tr>
+<td>API-003</td>
+<td>轮播图接口（GET /api/banner/mobile 与 /api/banner/mobile/enhanced），返回图片URL列表</td>
+<td>中</td>
+<td>1. 传统版接口返回静态Banner URL，增强版返回动态加载URL；<br>2. 每次请求返回Banner数量与官方保持一致（通常3-5张）；<br>3. URL有效性≥98%，可正常访问对应图片资源</td>
+</tr>
+<tr>
+<td>API-004</td>
+<td>手动触发爬取接口（POST /api/news/crawl 与 POST /api/banner/crawl），支持指定数据源</td>
+<td>中</td>
+<td>1. 支持参数：source（如“openharmony_official”“blog”“banner”）；<br>2. 接口调用后≤10秒内启动对应爬取任务，返回任务启动状态；<br>3. 任务执行状态可通过服务状态接口查询，执行结果准确反馈</td>
+</tr>
+<tr>
+<td>API-005</td>
+<td>服务状态监控接口（GET /api/news/status/info、GET /api/banner/status、GET /health）</td>
+<td>高</td>
+<td>1. 服务状态接口返回当前状态（preparing/ready/error）、最后更新时间、数据总量等信息；<br>2. 健康检查接口返回HTTP 200状态码与“healthy”标识，响应时间≤100ms；<br>3. 状态信息更新延迟≤1秒，与实际服务状态一致</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="3-4-定时任务模块需求"><a href="#3-4-定时任务模块需求" class="headerlink" title="3.4 定时任务模块需求"></a>3.4 定时任务模块需求</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求ID</th>
+<th>需求描述</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-001</td>
+<td>配置每30分钟执行一次缓存更新任务，更新OpenHarmony新闻与博客数据</td>
+<td>高</td>
+<td>1. 任务执行周期偏差≤1分钟，无漏执行情况；<br>2. 每次更新完成后，缓存数据与源平台最新数据一致性≥98%；<br>3. 任务执行过程不影响API接口正常响应</td>
+</tr>
+<tr>
+<td>TS-002</td>
+<td>配置每天凌晨2点执行完整爬取任务，覆盖所有数据源（新闻、博客、Banner）</td>
+<td>高</td>
+<td>1. 任务在指定时间窗口（凌晨2:00-2:30）内启动，执行完成时间≤30分钟；<br>2. 完整爬取后，数据库与缓存数据全面更新，无历史数据残留；<br>3. 任务执行日志完整记录，包含开始时间、结束时间、采集数量、错误信息（如有）</td>
+</tr>
+<tr>
+<td>TS-003</td>
+<td>实现定时任务失败重试机制，支持重试次数与重试间隔配置</td>
+<td>中</td>
+<td>1. 任务失败后自动重试，重试次数默认3次，间隔默认5分钟；<br>2. 重试仍失败时，记录错误日志并发送告警（如日志标记关键错误级别）；<br>3. 失败任务不影响其他定时任务正常执行</td>
+</tr>
+<tr>
+<td>TS-004</td>
+<td>支持定时任务开关配置，可通过环境变量或配置文件启用/禁用</td>
+<td>低</td>
+<td>1. 通过“ENABLE_SCHEDULER”环境变量控制任务开关，配置生效时间≤1分钟；<br>2. 禁用任务后，无定时触发的爬取或更新操作；<br>3. 开关状态可通过服务状态接口查询，与实际配置一致</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="3-5-数据存储模块需求"><a href="#3-5-数据存储模块需求" class="headerlink" title="3.5 数据存储模块需求"></a>3.5 数据存储模块需求</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>需求ID</th>
+<th>需求描述</th>
+<th>优先级</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DS-001</td>
+<td>支持SQLite（开发环境）与PostgreSQL（生产环境）两种数据库，实现数据结构化存储</td>
+<td>高</td>
+<td>1. 开发环境使用SQLite，数据存储正常，支持本地调试；<br>2. 生产环境切换为PostgreSQL后，所有功能正常运行，无兼容性问题；<br>3. 数据库表结构设计合理，包含新闻表、博客表、Banner表等，字段定义完整</td>
+</tr>
+<tr>
+<td>DS-002</td>
+<td>实现数据库索引优化，提升查询性能</td>
+<td>中</td>
+<td>1. 对常用查询字段（如article_id、发布时间、来源）建立索引；<br>2. 新闻列表分页查询（含条件筛选）响应时间≤200ms；<br>3. 单表数据量达10000条时，查询性能无明显下降（响应时间增幅≤50%）</td>
+</tr>
+<tr>
+<td>DS-003</td>
+<td>支持数据分类存储，按信息类型（新闻、博客、Banner）分别存储与管理</td>
+<td>高</td>
+<td>1. 不同类型数据存储在对应的数据表中，数据隔离性良好；<br>2. 支持按类型单独查询或批量查询，数据准确性≥99%；<br>3. 数据删除、更新操作可按类型执行，无跨类型影响</td>
+</tr>
+<tr>
+<td>DS-004</td>
+<td>实现数据库连接池管理，避免连接泄露与过度创建</td>
+<td>中</td>
+<td>1. 数据库连接池最大连接数可配置（默认10），支持动态调整；<br>2. 高并发场景下，无连接超时或连接耗尽问题；<br>3. 服务停止时，连接池正常关闭所有连接，无资源泄露</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="4-非功能需求"><a href="#4-非功能需求" class="headerlink" title="4. 非功能需求"></a>4. 非功能需求</h4><h5 id="4-1-性能需求"><a href="#4-1-性能需求" class="headerlink" title="4.1 性能需求"></a>4.1 性能需求</h5><ul>
+<li><strong>响应时间</strong>：API接口平均响应时间≤300ms，95%请求响应时间≤500ms；服务启动后≤30秒可正常提供API服务。</li>
+<li><strong>并发能力</strong>：支持≥100次/秒的并发请求，请求成功率≥99.9%，无请求丢失或超时。</li>
+<li><strong>数据更新效率</strong>：单数据源采集时间≤5分钟（基于现有OpenHarmony信息更新频率），多数据源并发采集总耗时≤10分钟。</li>
+<li><strong>缓存效率</strong>：缓存命中率≥90%，缓存更新切换时间≤1秒，无缓存穿透、击穿问题。</li>
+</ul>
+<h5 id="4-2-可靠性需求"><a href="#4-2-可靠性需求" class="headerlink" title="4.2 可靠性需求"></a>4.2 可靠性需求</h5><ul>
+<li><strong>服务可用性</strong>：服务正常运行时间≥99.5%（不含计划维护时间），单次故障恢复时间≤5分钟。</li>
+<li><strong>数据可靠性</strong>：数据采集成功率≥98%，数据存储无丢失、损坏，支持数据备份（可选，基于数据库自身备份能力）。</li>
+<li><strong>容错能力</strong>：爬虫任务失败时自动重试，重试失败后记录日志并降级（如使用旧缓存数据）；API接口异常时返回标准化错误信息（HTTP状态码+错误描述）。</li>
+<li><strong>日志完整性</strong>：关键操作（如爬取任务启动/完成、缓存更新、API请求异常）均记录日志，日志包含时间戳、操作类型、结果、错误信息（如有），日志保留时间≥7天。</li>
+</ul>
+<h5 id="4-3-可扩展性需求"><a href="#4-3-可扩展性需求" class="headerlink" title="4.3 可扩展性需求"></a>4.3 可扩展性需求</h5><ul>
+<li><strong>数据源扩展</strong>：新增数据源时，需支持在不修改核心代码的前提下，通过新增爬虫类、配置数据源参数实现集成，扩展周期≤2个工作日。</li>
+<li><strong>接口扩展</strong>：新增API接口时，支持基于现有路由框架快速注册，接口文档自动生成，扩展后不影响原有接口功能。</li>
+<li><strong>部署扩展</strong>：支持通过增加容器实例实现服务水平扩展，扩展后可分担并发请求压力，无服务冲突。</li>
+</ul>
+<h5 id="4-4-安全性需求"><a href="#4-4-安全性需求" class="headerlink" title="4.4 安全性需求"></a>4.4 安全性需求</h5><ul>
+<li><strong>接口安全</strong>：API接口支持基础的请求频率限制（可选，如单IP每分钟≤60次请求），防止恶意请求攻击。</li>
+<li><strong>数据安全</strong>：采集的数据仅用于OpenHarmony资讯聚合，不存储敏感信息；数据库访问需通过配置文件或环境变量管理连接信息，避免硬编码。</li>
+<li><strong>容器安全</strong>：Docker镜像基于官方基础镜像构建，减少冗余依赖；容器运行时使用非root用户，限制权限范围。</li>
+</ul>
+<h5 id="4-5-可维护性需求"><a href="#4-5-可维护性需求" class="headerlink" title="4.5 可维护性需求"></a>4.5 可维护性需求</h5><ul>
+<li><strong>代码规范</strong>：代码遵循PEP 8规范，关键函数、类添加文档注释，注释覆盖率≥80%。</li>
+<li><strong>配置管理</strong>：服务参数（如端口、数据库地址、爬取间隔）通过环境变量或配置文件管理，支持动态调整（部分参数需重启服务）。</li>
+<li><strong>监控能力</strong>：提供健康检查接口与服务状态接口，支持第三方监控工具（如Prometheus，可选）接入，便于运维人员实时掌握服务运行状态。</li>
+<li><strong>文档完整性</strong>：提供完整的开发文档（含项目结构、接口说明、扩展指南）与运维文档（含部署步骤、配置说明、故障排查）。</li>
+</ul>
+<h4 id="5-技术需求"><a href="#5-技术需求" class="headerlink" title="5. 技术需求"></a>5. 技术需求</h4><h5 id="5-1-开发环境需求"><a href="#5-1-开发环境需求" class="headerlink" title="5.1 开发环境需求"></a>5.1 开发环境需求</h5><ul>
+<li><strong>编程语言</strong>：Python 3.8及以上版本，需兼容Python 3.8-3.11版本。</li>
+<li><strong>依赖管理</strong>：使用pip管理Python依赖，依赖列表维护在requirements.txt文件中，确保依赖版本兼容性。</li>
+<li><strong>开发工具</strong>：支持PyCharm、VS Code等主流Python开发工具，代码版本控制使用Git。</li>
+</ul>
+<h5 id="5-2-技术栈选型需求"><a href="#5-2-技术栈选型需求" class="headerlink" title="5.2 技术栈选型需求"></a>5.2 技术栈选型需求</h5><ul>
+<li><strong>Web框架</strong>：采用FastAPI，需支持异步请求处理、自动API文档生成（Swagger UI）。</li>
+<li><strong>数据库</strong>：开发环境使用SQLite，生产环境使用PostgreSQL 12及以上版本，ORM框架使用SQLAlchemy。</li>
+<li><strong>爬虫工具</strong>：基础爬虫使用Requests+BeautifulSoup，动态内容爬虫使用Selenium WebDriver（需支持Chrome/Firefox浏览器驱动）。</li>
+<li><strong>任务调度</strong>：使用APScheduler实现定时任务，支持Cron表达式配置执行时间。</li>
+<li><strong>缓存管理</strong>：基于内存实现缓存存储，使用threading.Lock保证线程安全。</li>
+<li><strong>部署工具</strong>：使用Docker进行容器化打包，Docker Compose实现多容器编排，Web服务器使用Uvicorn。</li>
+</ul>
+<h5 id="5-3-环境配置需求"><a href="#5-3-环境配置需求" class="headerlink" title="5.3 环境配置需求"></a>5.3 环境配置需求</h5><ul>
+<li><strong>开发环境</strong>：支持Windows 10/11、macOS 12+、Linux（Ubuntu 20.04+）操作系统，需安装Python、pip、SQLite及相关依赖。</li>
+<li><strong>生产环境</strong>：支持Linux（Ubuntu 20.04+、CentOS 8+）操作系统，需安装Docker、Docker Compose</li>
+</ul>
+<h3 id="后端服务更新方案"><a href="#后端服务更新方案" class="headerlink" title="后端服务更新方案"></a>后端服务更新方案</h3><h4 id="核心待更新需求"><a href="#核心待更新需求" class="headerlink" title="核心待更新需求"></a>核心待更新需求</h4><ol>
+<li><p><strong>OpenHarmony官网资讯文章爬虫的逻辑优化</strong><br> 在最早开发OpenHarmony官网的资讯板块的专用爬虫时并没有注意到目标资源接口的URL这种有可以调整获取条数的参数，导致编写了许多冗余的代码。其中包含了大量模拟用户点击文章卡片的代码，通过逐个点击卡片，捕获资源接口的返回值来进行数据的获取，这就导致了很多重复内容的获取。为了去重和进行有效性验证每次都会消耗大量时间，极大的拖慢了服务数据更新的速度。</p>
+<p> 所以我们需要将当前的OpenHarmony官网的资讯板块的专用爬虫进行优化。直接通过设置URL的参数来去获取足够的数据，像是针对于OpenHarmony的官网的博文板块一样。</p>
+</li>
+<li><p>文章资源排序器日期格式优化<br> 这个问题主要是发生在爬取到的数据中会包含少数日期格式不规范的情况，绝大多数的日期格式是<code>2025.9.13</code>但有少数的日期格式会是<code>2025-9-13</code>，这会导致在排序时出现错误，所以我们需要修正一下我们的正则表达式来让它能匹配更多的日期格式，随后还需要将能正确匹配的日期全都去转化成统一的格式，来让整体的显示效果更加整齐与美观。</p>
+<p> <img src="/2025/09/13/AITrainingCamp/8.jpg" alt="8"></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/ClaudeCode/">ClaudeCode</a><a class="post-meta__tags" href="/tags/cursor/">cursor</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程"><img class="cover" src="/imgs/ArticleTopImgs/CodeInspirationTopImg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">由单向编程走向多向编程</div></div><div class="info-2"><div class="info-item-1">从小白到小有成就的一些感悟。（持续更新中）</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony"><img class="cover" src="/imgs/ArticleTopImgs/OpenSourceSummerTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-29</div><div class="info-item-2">开源之夏NowInOpenHarmony</div></div><div class="info-2"><div class="info-item-1">开源之夏2025项目开发笔记</div></div></div></a><a class="pagination-related" href="/2025/03/31/%E2%80%9CHongXiaoYi%E2%80%9D/" title="鸿小易项目开发笔记"><img class="cover" src="/imgs/ArticleTopImgs/hxyTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-31</div><div class="info-item-2">鸿小易项目开发笔记</div></div><div class="info-2"><div class="info-item-1">鸿小易，你的鸿蒙开发好帮手。</div></div></div></a><a class="pagination-related" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程"><img class="cover" src="/imgs/ArticleTopImgs/CodeInspirationTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-11</div><div class="info-item-2">由单向编程走向多向编程</div></div><div class="info-2"><div class="info-item-1">从小白到小有成就的一些感悟。（持续更新中）</div></div></div></a><a class="pagination-related" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果"><img class="cover" src="https://bu.dusays.com/2025/07/04/686795125c127.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-04</div><div class="info-item-2">Butterfly主题实现入场弹窗效果</div></div><div class="info-2"><div class="info-item-1">讲解如何在butterfly主题中添加一个有相关配置项的入场文字弹窗</div></div></div></a><a class="pagination-related" href="/2025/06/24/typewriter/" title="Butterfly主题实现简介打字机"><img class="cover" src="/imgs/ArticleTopImgs/TypeWriteTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-24</div><div class="info-item-2">Butterfly主题实现简介打字机</div></div><div class="info-2"><div class="info-item-1">详细介绍如何在Hexo的Butterfly主题中添加炫酷的打字机效果，包含完整的实现代码和配置方法。</div></div></div></a><a class="pagination-related" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img class="cover" src="/imgs/ArticleTopImgs/AccountTopImg.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-14</div><div class="info-item-2">华为账户一键登录功能测试</div></div><div class="info-2"><div class="info-item-1">Account Kit的官方demo测试与华为账户登录的功能实现分析。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipapi.co/json/',
+    'https://freegeoip.app/json/',
+    'https://ipinfo.io/json'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    fetch(currentApi)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本站由于服务器带宽有限，设置了文章图片懒加载，滚动停止后才会开始加载图片，遇到加载中的图片请静止等待<br/><img src="https://bu.dusays.com/2025/09/10/68c18a5b2710f.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#claudCode"><span class="toc-number">2.</span> <span class="toc-text">claudCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%80%89%E6%8B%A9"><span class="toc-number">3.</span> <span class="toc-text">项目选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NowInOpenHarmony%E7%9A%84cc%E5%B0%9D%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">NowInOpenHarmony的cc尝试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%96%87%E6%A1%A3"><span class="toc-number">4.1.</span> <span class="toc-text">需求文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF%E4%B8%8E%E7%9B%AE%E6%A0%87"><span class="toc-number">4.1.1.</span> <span class="toc-text">1. 项目背景与目标</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-number">4.1.1.1.</span> <span class="toc-text">1.1 项目背景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-%E9%A1%B9%E7%9B%AE%E7%9B%AE%E6%A0%87"><span class="toc-number">4.1.1.2.</span> <span class="toc-text">1.2 项目目标</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%8C%83%E5%9B%B4%E7%95%8C%E5%AE%9A"><span class="toc-number">4.1.2.</span> <span class="toc-text">2. 范围界定</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-%E5%8A%9F%E8%83%BD%E8%8C%83%E5%9B%B4"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">2.1 功能范围</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-%E6%8E%92%E9%99%A4%E8%8C%83%E5%9B%B4"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">2.2 排除范围</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.3.</span> <span class="toc-text">3. 功能需求</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%A8%A1%E5%9D%97%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.3.1.</span> <span class="toc-text">3.1 数据采集模块需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.3.2.</span> <span class="toc-text">3.2 缓存机制需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-API%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%9D%97%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.3.3.</span> <span class="toc-text">3.3 API接口模块需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9D%97%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.3.4.</span> <span class="toc-text">3.4 定时任务模块需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-5-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%A8%A1%E5%9D%97%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.3.5.</span> <span class="toc-text">3.5 数据存储模块需求</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E9%9D%9E%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.4.</span> <span class="toc-text">4. 非功能需求</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-%E6%80%A7%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.4.1.</span> <span class="toc-text">4.1 性能需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-%E5%8F%AF%E9%9D%A0%E6%80%A7%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.4.2.</span> <span class="toc-text">4.2 可靠性需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.4.3.</span> <span class="toc-text">4.3 可扩展性需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-4-%E5%AE%89%E5%85%A8%E6%80%A7%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.4.4.</span> <span class="toc-text">4.4 安全性需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-5-%E5%8F%AF%E7%BB%B4%E6%8A%A4%E6%80%A7%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.4.5.</span> <span class="toc-text">4.5 可维护性需求</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%8A%80%E6%9C%AF%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.5.</span> <span class="toc-text">5. 技术需求</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#5-1-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.5.1.</span> <span class="toc-text">5.1 开发环境需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-2-%E6%8A%80%E6%9C%AF%E6%A0%88%E9%80%89%E5%9E%8B%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.5.2.</span> <span class="toc-text">5.2 技术栈选型需求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-3-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E9%9C%80%E6%B1%82"><span class="toc-number">4.1.5.3.</span> <span class="toc-text">5.3 环境配置需求</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1%E6%9B%B4%E6%96%B0%E6%96%B9%E6%A1%88"><span class="toc-number">4.2.</span> <span class="toc-text">后端服务更新方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%BE%85%E6%9B%B4%E6%96%B0%E9%9C%80%E6%B1%82"><span class="toc-number">4.2.1.</span> <span class="toc-text">核心待更新需求</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp"><img src="/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AITrainingCamp"/></a><div class="content"><a class="title" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp">AITrainingCamp</a><time datetime="2025-09-13T06:12:42.000Z" title="发表于 2025-09-13 14:12:42">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程"><img src="/imgs/ArticleTopImgs/CodeInspirationTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="由单向编程走向多向编程"/></a><div class="content"><a class="title" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程">由单向编程走向多向编程</a><time datetime="2025-09-11T07:26:54.000Z" title="发表于 2025-09-11 15:26:54">2025-09-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果"><img src="https://bu.dusays.com/2025/07/04/686795125c127.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Butterfly主题实现入场弹窗效果"/></a><div class="content"><a class="title" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果">Butterfly主题实现入场弹窗效果</a><time datetime="2025-07-04T05:58:26.000Z" title="发表于 2025-07-04 13:58:26">2025-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony"><img src="/imgs/ArticleTopImgs/OpenSourceSummerTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="开源之夏NowInOpenHarmony"/></a><div class="content"><a class="title" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony">开源之夏NowInOpenHarmony</a><time datetime="2025-06-29T06:01:21.000Z" title="发表于 2025-06-29 14:01:21">2025-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/BlogSetup/" title="创客空间2025级新生训练营博客搭建赛道"><img src="/imgs/ArticleTopImgs/BlogSetupTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="创客空间2025级新生训练营博客搭建赛道"/></a><div class="content"><a class="title" href="/2025/06/27/BlogSetup/" title="创客空间2025级新生训练营博客搭建赛道">创客空间2025级新生训练营博客搭建赛道</a><time datetime="2025-06-27T08:45:41.000Z" title="发表于 2025-06-27 16:45:41">2025-06-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script>localStorage.setItem('theme','dark')</script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script> // 强制锁定为暗黑模式 localStorage.setItem('theme', 'dark'); // 防止其他脚本覆盖模式 document.documentElement.setAttribute('data-theme', 'dark'); </script><link rel="stylesheet" href="/css/styles.css"><script> document.querySelectorAll('#post-comment).forEach(el => { el.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'; }); </script><script src="/js/jquery-3.6.0.min.js"></script><script src="/js/rightmenu.js"></script><link rel="twikoo" href="/css/twikoo.css"><script src="/js/happy-title.js" async></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="/%5Bobject%20Object%5D"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="99" count="99" mobile="true" src="/%5Bobject%20Object%5D"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/24/typewriter/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/TypeWriteTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-24</span><a class="blog-slider__title" href="2025/06/24/typewriter/" alt="">Butterfly主题实现简介打字机</a><div class="blog-slider__text">详细介绍如何在Hexo的Butterfly主题中添加炫酷的打字机效果，包含完整的实现代码和配置方法。</div><a class="blog-slider__button" href="2025/06/24/typewriter/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/yiduoTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/04/V2/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/V2TopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-04</span><a class="blog-slider__title" href="2025/02/04/V2/" alt="">浅谈鸿蒙状态管理V1——&gt;V2</a><div class="blog-slider__text">用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。</div><a class="blog-slider__button" href="2025/02/04/V2/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/RCPTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
