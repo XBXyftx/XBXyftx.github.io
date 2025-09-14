@@ -25,13 +25,22 @@
         return;
       }
 
-      // 劫持所有图片的src设置
+      // 立即劫持所有图片的src设置，必须在DOM解析之前
       this.interceptImageLoading();
 
       // 定期处理队列
-      setInterval(() => {
+      this.queueProcessor = setInterval(() => {
         this.processQueue();
-      }, 500);
+      }, 200);  // 更频繁的处理
+
+      // DOM准备就绪后再次扫描
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(() => this.scanAllImages(), 50);
+        });
+      } else {
+        setTimeout(() => this.scanAllImages(), 50);
+      }
     }
 
     isPostPage() {
@@ -70,6 +79,9 @@
     }
 
     interceptImageLoading() {
+      // 更强力的请求拦截 - 劫持所有网络请求
+      this.interceptNetworkRequests();
+
       // 监控新添加的图片
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
@@ -91,35 +103,101 @@
       });
 
       // 处理已存在的图片
+      setTimeout(() => {
+        this.scanAllImages();
+      }, 100);
+    }
+
+    scanAllImages() {
+      console.log('🔍 开始全面扫描图片...');
+      let processedCount = 0;
       document.querySelectorAll('img').forEach(img => {
         this.hijackImage(img);
+        processedCount++;
       });
+      console.log(`📊 图片扫描完成，处理了 ${processedCount} 个图片元素`);
+    }
+
+    interceptNetworkRequests() {
+      // 劫持 Image 构造函数
+      const OriginalImage = window.Image;
+      const self = this;
+
+      window.Image = function() {
+        const img = new OriginalImage();
+        const originalDescriptor = Object.getOwnPropertyDescriptor(OriginalImage.prototype, 'src') ||
+                                 { set: function(v) { this.setAttribute('src', v); }, get: function() { return this.getAttribute('src'); } };
+
+        Object.defineProperty(img, 'src', {
+          get: function() {
+            return this._actualSrc || this.getAttribute('src') || '';
+          },
+          set: function(url) {
+            if (url && self.shouldControlRequest(url)) {
+              console.log('🚫 拦截Image构造函数请求:', url);
+              this._actualSrc = url;
+              self.addToQueue({
+                element: this,
+                url: url,
+                type: 'image-constructor'
+              });
+              return;
+            }
+            this._actualSrc = url;
+            if (originalDescriptor.set) {
+              originalDescriptor.set.call(this, url);
+            } else {
+              this.setAttribute('src', url);
+            }
+          }
+        });
+
+        return img;
+      };
+
+      // 保持原始构造函数的属性
+      Object.setPrototypeOf(window.Image, OriginalImage);
+      Object.setPrototypeOf(window.Image.prototype, OriginalImage.prototype);
+    }
+
+    shouldControlRequest(url) {
+      // 只控制本域名的图片请求
+      return url && url.includes('xbxyftx.top') &&
+             (url.includes('.jpg') || url.includes('.png') || url.includes('.jpeg') || url.includes('.webp'));
     }
 
     hijackImage(img) {
       if (img.getAttribute('data-limiter-processed')) return;
       img.setAttribute('data-limiter-processed', 'true');
 
-      const originalSrc = img.src;
+      const originalSrc = img.src || img.getAttribute('data-src') || img.getAttribute('data-original');
 
-      // 跳过已经加载的图片
-      if (!originalSrc || originalSrc.startsWith('data:') || img.complete) return;
+      // 跳过已经加载的图片或不需要处理的图片
+      if (!originalSrc || originalSrc.startsWith('data:')) return;
 
       // 只处理本域名的图片
-      if (!originalSrc.includes('xbxyftx.top')) return;
+      if (!this.shouldControlRequest(originalSrc)) return;
 
-      console.log('🎯 劫持图片加载:', originalSrc);
+      // 如果图片还没完成加载，就拦截它
+      if (!img.complete || img.naturalWidth === 0) {
+        console.log('🎯 劫持图片加载:', originalSrc);
 
-      // 清除原始src，防止立即加载
-      img.removeAttribute('src');
-      img.setAttribute('data-original-src', originalSrc);
+        // 清除原始src，防止立即加载
+        img.removeAttribute('src');
+        img.setAttribute('data-original-src', originalSrc);
 
-      // 添加到队列
-      this.addToQueue({
-        element: img,
-        url: originalSrc,
-        type: 'image'
-      });
+        // 添加占位符
+        img.style.backgroundColor = '#f5f5f5';
+        img.style.minHeight = '200px';
+        img.style.display = 'block';
+
+        // 添加到队列
+        this.addToQueue({
+          element: img,
+          url: originalSrc,
+          type: 'image'
+        });
+      }
     }
 
     addToQueue(item) {
@@ -180,13 +258,16 @@
           console.log(`✅ 图片加载成功 (${duration}ms): ${item.url}`);
 
           // 设置到原始图片元素
-          item.element.src = item.url;
-          item.element.style.opacity = '0';
-          item.element.style.transition = 'opacity 0.5s';
+          if (item.element) {
+            item.element.src = item.url;
+            item.element.style.backgroundColor = 'transparent';
+            item.element.style.opacity = '0';
+            item.element.style.transition = 'opacity 0.5s';
 
-          setTimeout(() => {
-            item.element.style.opacity = '1';
-          }, 10);
+            setTimeout(() => {
+              item.element.style.opacity = '1';
+            }, 10);
+          }
 
           this.requestComplete();
         };
