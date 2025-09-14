@@ -41,6 +41,9 @@
       } else {
         setTimeout(() => this.scanAllImages(), 50);
       }
+
+      // 添加滚动监听器处理快速滚动
+      this.setupScrollHandler();
     }
 
     isPostPage() {
@@ -118,6 +121,69 @@
       console.log(`📊 图片扫描完成，处理了 ${processedCount} 个图片元素`);
     }
 
+    setupScrollHandler() {
+      let scrollTimeout;
+      let lastScrollTime = 0;
+
+      const handleScroll = () => {
+        const now = Date.now();
+        lastScrollTime = now;
+
+        // 清除之前的延时
+        clearTimeout(scrollTimeout);
+
+        // 延迟执行，避免频繁触发
+        scrollTimeout = setTimeout(() => {
+          // 检查是否是最近的滚动事件
+          if (Date.now() - lastScrollTime >= 150) {
+            console.log('📜 滚动停止，重新扫描可视图片');
+            this.scanVisibleImages();
+          }
+        }, 150);
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      // 监听目录点击（特殊处理）
+      document.addEventListener('click', (e) => {
+        const tocLink = e.target.closest('.toc-link, .toc a, [href*="#"]');
+        if (tocLink && tocLink.getAttribute('href')?.startsWith('#')) {
+          console.log('🎯 检测到目录点击，准备扫描新位置图片');
+          // 延迟执行，等待滚动完成
+          setTimeout(() => {
+            this.scanVisibleImages();
+          }, 300);
+        }
+      });
+    }
+
+    scanVisibleImages() {
+      let scannedCount = 0;
+      document.querySelectorAll('img[data-limiter-processed]').forEach(img => {
+        // 检查图片是否在视口中但还没有加载
+        if (this.isElementVisible(img, 800) && !img.src) {
+          const originalSrc = img.getAttribute('data-original-src');
+          if (originalSrc) {
+            // 检查是否已经在队列中
+            const inQueue = this.requestQueue.some(item => item.url === originalSrc);
+            if (!inQueue) {
+              console.log('🔄 重新加载可视图片:', originalSrc);
+              this.addToQueue({
+                element: img,
+                url: originalSrc,
+                type: 'image'
+              });
+              scannedCount++;
+            }
+          }
+        }
+      });
+
+      if (scannedCount > 0) {
+        console.log(`📊 重新扫描完成，添加了 ${scannedCount} 个图片到队列`);
+      }
+    }
+
     interceptNetworkRequests() {
       // 劫持 Image 构造函数
       const OriginalImage = window.Image;
@@ -179,17 +245,21 @@
       if (!this.shouldControlRequest(originalSrc)) return;
 
       // 如果图片还没完成加载，就拦截它
-      if (!img.complete || img.naturalWidth === 0) {
+      if (!img.complete || img.naturalWidth === 0 || !img.src) {
         console.log('🎯 劫持图片加载:', originalSrc);
 
         // 清除原始src，防止立即加载
-        img.removeAttribute('src');
+        if (img.src) {
+          img.removeAttribute('src');
+        }
         img.setAttribute('data-original-src', originalSrc);
 
-        // 添加占位符
-        img.style.backgroundColor = '#f5f5f5';
-        img.style.minHeight = '200px';
-        img.style.display = 'block';
+        // 添加占位符（只在还没有内容时添加）
+        if (!img.style.backgroundColor) {
+          img.style.backgroundColor = '#f5f5f5';
+          img.style.minHeight = '200px';
+          img.style.display = 'block';
+        }
 
         // 添加到队列
         this.addToQueue({
@@ -224,9 +294,16 @@
       // 获取下一个请求
       const item = this.requestQueue.shift();
 
-      // 检查图片是否还在视口中
-      if (!this.isElementVisible(item.element)) {
-        console.log('🚫 图片不在视口中，跳过:', item.url);
+      // 检查图片是否在视口中（使用较大的范围）
+      if (!this.isElementVisible(item.element, 1000)) {
+        // 如果不在视口中，将其重新放回队列末尾，但不是无限重试
+        if (item.retries < 3) {
+          item.retries++;
+          this.requestQueue.push(item);
+          console.log(`🔄 图片不在视口中，重新排队 (重试 ${item.retries}/3):`, item.url);
+        } else {
+          console.log('🚫 图片多次不在视口中，最终跳过:', item.url);
+        }
         return;
       }
 
@@ -236,13 +313,13 @@
       this.loadImageWithLimiter(item);
     }
 
-    isElementVisible(element) {
+    isElementVisible(element, expandRange = 500) {
       const rect = element.getBoundingClientRect();
       return (
-        rect.top < window.innerHeight + 200 && // 提前200px
-        rect.bottom > -200 &&
-        rect.left < window.innerWidth + 200 &&
-        rect.right > -200
+        rect.top < window.innerHeight + expandRange && // 扩大预加载范围
+        rect.bottom > -expandRange &&
+        rect.left < window.innerWidth + expandRange &&
+        rect.right > -expandRange
       );
     }
 
