@@ -33,13 +33,21 @@
         this.processQueue();
       }, 200);  // 更频繁的处理
 
-      // DOM准备就绪后再次扫描
+      // DOM准备就绪后等待一段时间再扫描，确保页面稳定
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-          setTimeout(() => this.scanAllImages(), 50);
+          setTimeout(() => {
+            this.scanAllImages();
+            // 初始页面加载后立即扫描一次可视图片
+            setTimeout(() => this.scanVisibleImages(), 200);
+          }, 100);
         });
       } else {
-        setTimeout(() => this.scanAllImages(), 50);
+        setTimeout(() => {
+          this.scanAllImages();
+          // 初始页面加载后立即扫描一次可视图片
+          setTimeout(() => this.scanVisibleImages(), 200);
+        }, 100);
       }
 
       // 添加滚动监听器处理快速滚动
@@ -124,22 +132,24 @@
     setupScrollHandler() {
       let scrollTimeout;
       let lastScrollTime = 0;
+      this.isScrolling = false;
 
       const handleScroll = () => {
         const now = Date.now();
         lastScrollTime = now;
+        this.isScrolling = true;
 
         // 清除之前的延时
         clearTimeout(scrollTimeout);
 
-        // 延迟执行，避免频繁触发
+        // 500ms后检查滚动是否停止
         scrollTimeout = setTimeout(() => {
-          // 检查是否是最近的滚动事件
-          if (Date.now() - lastScrollTime >= 150) {
-            console.log('📜 滚动停止，重新扫描可视图片');
+          if (Date.now() - lastScrollTime >= 500) {
+            this.isScrolling = false;
+            console.log('📜 滚动停止500ms，开始扫描可视图片');
             this.scanVisibleImages();
           }
-        }, 150);
+        }, 500);
       };
 
       window.addEventListener('scroll', handleScroll, { passive: true });
@@ -149,25 +159,33 @@
         const tocLink = e.target.closest('.toc-link, .toc a, [href*="#"]');
         if (tocLink && tocLink.getAttribute('href')?.startsWith('#')) {
           console.log('🎯 检测到目录点击，准备扫描新位置图片');
-          // 延迟执行，等待滚动完成
+          // 等待跳转完成后再扫描
           setTimeout(() => {
-            this.scanVisibleImages();
-          }, 300);
+            if (!this.isScrolling) {
+              this.scanVisibleImages();
+            }
+          }, 800);
         }
       });
     }
 
     scanVisibleImages() {
+      // 如果正在滚动，不进行扫描
+      if (this.isScrolling) {
+        console.log('🚫 正在滚动，跳过图片扫描');
+        return;
+      }
+
       let scannedCount = 0;
       document.querySelectorAll('img[data-limiter-processed]').forEach(img => {
-        // 检查图片是否在视口中但还没有加载
-        if (this.isElementVisible(img, 800) && !img.src) {
+        // 严格检查：只有在可视区域内且未加载的图片才处理
+        if (this.isElementVisible(img) && !img.src) {
           const originalSrc = img.getAttribute('data-original-src');
           if (originalSrc) {
             // 检查是否已经在队列中
             const inQueue = this.requestQueue.some(item => item.url === originalSrc);
             if (!inQueue) {
-              console.log('🔄 重新加载可视图片:', originalSrc);
+              console.log('✅ 滚动停止，加载可视图片:', originalSrc);
               this.addToQueue({
                 element: img,
                 url: originalSrc,
@@ -180,7 +198,9 @@
       });
 
       if (scannedCount > 0) {
-        console.log(`📊 重新扫描完成，添加了 ${scannedCount} 个图片到队列`);
+        console.log(`📊 扫描完成，添加了 ${scannedCount} 个可视图片到队列`);
+      } else {
+        console.log('📊 扫描完成，没有发现需要加载的可视图片');
       }
     }
 
@@ -281,6 +301,11 @@
     }
 
     processQueue() {
+      // 如果正在滚动，暂停队列处理
+      if (this.isScrolling) {
+        return;
+      }
+
       // 如果已经达到最大并发数，等待
       if (this.currentRequests >= this.maxConcurrent) {
         return;
@@ -294,32 +319,27 @@
       // 获取下一个请求
       const item = this.requestQueue.shift();
 
-      // 检查图片是否在视口中（使用较大的范围）
-      if (!this.isElementVisible(item.element, 1000)) {
-        // 如果不在视口中，将其重新放回队列末尾，但不是无限重试
-        if (item.retries < 3) {
-          item.retries++;
-          this.requestQueue.push(item);
-          console.log(`🔄 图片不在视口中，重新排队 (重试 ${item.retries}/3):`, item.url);
-        } else {
-          console.log('🚫 图片多次不在视口中，最终跳过:', item.url);
-        }
+      // 严格检查图片是否在可视区域内
+      if (!this.isElementVisible(item.element)) {
+        // 不在视口中，直接丢弃
+        console.log('🚫 图片不在可视区域，丢弃:', item.url);
         return;
       }
 
       this.currentRequests++;
-      console.log(`🚀 开始请求 (${this.currentRequests}/${this.maxConcurrent}): ${item.url}`);
+      console.log(`🚀 滚动停止，开始请求 (${this.currentRequests}/${this.maxConcurrent}): ${item.url}`);
 
       this.loadImageWithLimiter(item);
     }
 
-    isElementVisible(element, expandRange = 500) {
+    isElementVisible(element) {
       const rect = element.getBoundingClientRect();
+      // 严格的可视区域检测，不预加载
       return (
-        rect.top < window.innerHeight + expandRange && // 扩大预加载范围
-        rect.bottom > -expandRange &&
-        rect.left < window.innerWidth + expandRange &&
-        rect.right > -expandRange
+        rect.top < window.innerHeight &&
+        rect.bottom > 0 &&
+        rect.left < window.innerWidth &&
+        rect.right > 0
       );
     }
 
