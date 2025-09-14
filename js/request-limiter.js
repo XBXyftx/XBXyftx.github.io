@@ -19,6 +19,12 @@
     }
 
     init() {
+      // 检查是否在文章页面 - 双重保护
+      if (!this.isPostPage()) {
+        console.log('🚫 Request Limiter 仅在文章页面生效，当前页面跳过');
+        return;
+      }
+
       // 劫持所有图片的src设置
       this.interceptImageLoading();
 
@@ -26,6 +32,41 @@
       setInterval(() => {
         this.processQueue();
       }, 500);
+    }
+
+    isPostPage() {
+      // 检查多种可能的文章页面标识
+      const indicators = [
+        // 检查URL路径
+        () => {
+          const path = window.location.pathname;
+          return /\/\d{4}\/\d{2}\/\d{2}\//.test(path); // 匹配日期格式路径
+        },
+        // 检查文章容器
+        () => document.getElementById('post') !== null,
+        // 检查body class
+        () => document.body.classList.contains('post-type') ||
+              document.body.classList.contains('post-template'),
+        // 检查meta标签
+        () => {
+          const meta = document.querySelector('meta[property="article:published_time"]');
+          return meta !== null;
+        },
+        // 检查页面标题结构
+        () => {
+          const title = document.title;
+          return title.includes('|') && !title.includes('Archives') && !title.includes('Categories');
+        }
+      ];
+
+      // 任何一个条件满足就认为是文章页
+      return indicators.some(check => {
+        try {
+          return check();
+        } catch (e) {
+          return false;
+        }
+      });
     }
 
     interceptImageLoading() {
