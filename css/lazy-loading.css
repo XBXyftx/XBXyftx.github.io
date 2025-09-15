@@ -1,28 +1,27 @@
 /* 基础懒加载样式 */
-.lazy-image,
-.lazy-video {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
 .lazy-image.loaded,
 .lazy-video.loaded {
   opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .lazy-image.loading,
 .lazy-video.loading {
   opacity: 0.6;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* 占位符样式 - 仅在视窗中显示 */
+/* 占位符样式 - 在图片未加载时显示 */
 .lazy-placeholder {
   position: relative;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite linear;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite linear !important;
   border-radius: 4px;
   overflow: hidden;
+  min-height: 200px;
+  min-width: 200px;
+  display: inline-block;
 }
 
 .lazy-placeholder::before {
