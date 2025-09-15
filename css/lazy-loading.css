@@ -15,22 +15,94 @@
   opacity: 0.6;
 }
 
-/* 占位符样式 */
+/* 占位符样式 - 仅在视窗中显示 */
 .lazy-placeholder {
+  position: relative;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
-  animation: loading 1.5s infinite;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-@keyframes loading {
+.lazy-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.lazy-placeholder::after {
+  content: '加载中...';
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #999;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* 动画效果 */
+@keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 /* 深色模式适配 */
 [data-theme='dark'] .lazy-placeholder {
   background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
   background-size: 200% 100%;
+}
+
+[data-theme='dark'] .lazy-placeholder::before {
+  border: 3px solid #3a3a3a;
+  border-top: 3px solid #4a9eff;
+}
+
+[data-theme='dark'] .lazy-placeholder::after {
+  color: #ccc;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* 不同尺寸的占位符适配 */
+.lazy-placeholder.small::before {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.lazy-placeholder.small::after {
+  font-size: 10px;
+  bottom: 5px;
+  padding: 1px 4px;
+}
+
+.lazy-placeholder.large::before {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+.lazy-placeholder.large::after {
+  font-size: 14px;
+  bottom: 15px;
+  padding: 4px 12px;
 }
 
 /* 确保文章内容外的图片不受影响 */
