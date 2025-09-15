@@ -197,10 +197,7 @@
     function initLazyLoading() {
         console.log('[Lazy Loading] Initializing...');
 
-        // 添加占位符到视窗中的图片
-        addPlaceholderToVisibleElements();
-
-        // 为文章内容中的所有图片添加懒加载类
+        // 为文章内容中的所有图片添加懒加载类和占位符
         const contentSelectors = [
             '.post-content img',
             '#post-content img',
@@ -221,7 +218,14 @@
                         !img.closest('.footer') &&
                         !img.classList.contains('lazy-image')) {
 
-                        img.classList.add('lazy-image');
+                        // 获取图片尺寸类别
+                        const sizeClass = getImageSizeClass(img);
+
+                        // 为所有文章内图片添加懒加载类和占位符
+                        img.classList.add('lazy-image', 'lazy-placeholder');
+                        if (sizeClass) {
+                            img.classList.add(sizeClass);
+                        }
 
                         // 如果已经有src，保存到data-src
                         if (img.src && !img.dataset.src) {
@@ -255,12 +259,8 @@
                         !video.closest('.aside-card') &&
                         !video.closest('.footer')) {
 
-                        // 只为在视窗中的视频添加占位符
-                        if (isInViewport(video)) {
-                            video.classList.add('lazy-video', 'lazy-placeholder');
-                        } else {
-                            video.classList.add('lazy-video');
-                        }
+                        // 为所有文章内视频添加懒加载类和占位符
+                        video.classList.add('lazy-video', 'lazy-placeholder');
 
                         // 如果已经有src，保存到data-src
                         if (video.src && !video.dataset.src) {
@@ -277,11 +277,6 @@
         // 绑定滚动事件
         window.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('resize', handleScroll, { passive: true });
-
-        // 定期检查并为进入视窗的元素添加占位符
-        setInterval(() => {
-            addPlaceholderToVisibleElements();
-        }, 1000);
 
         // 初始加载可见元素
         setTimeout(processVisibleElements, 100);
