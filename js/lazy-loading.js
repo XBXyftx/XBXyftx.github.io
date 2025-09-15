@@ -10,7 +10,7 @@
 
     // 配置
     const config = {
-        scrollDelay: 500, // 停止滚动500ms后开始加载
+        scrollDelay: 200, // 停止滚动200ms后开始加载
         rootMargin: '50px', // 提前50px开始检测
         threshold: 0.1 // 10%可见时触发
     };
@@ -196,14 +196,14 @@
     // 初始化懒加载
     function initLazyLoading() {
         console.log('[Lazy Loading] Initializing...');
+        console.log('[Lazy Loading] Document ready state:', document.readyState);
 
         // 为文章内容中的所有图片添加懒加载类和占位符
         const contentSelectors = [
+            '#article-container img',
             '.post-content img',
-            '#post-content img',
-            '.post-body img',
-            'article img',
-            '.content img'
+            '.container.post-content img',
+            'article img'
         ];
 
         contentSelectors.forEach(selector => {
@@ -227,10 +227,13 @@
                             img.classList.add(sizeClass);
                         }
 
+                        console.log('[Lazy Loading] Processing image:', img.src, 'Classes added:', img.classList.toString());
+
                         // 如果已经有src，保存到data-src
                         if (img.src && !img.dataset.src) {
                             img.dataset.src = img.src;
                             img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                            console.log('[Lazy Loading] Image src replaced, data-src:', img.dataset.src);
                         }
                     }
                 });
