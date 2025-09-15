@@ -1,0 +1,44 @@
+/* 基础懒加载样式 */
+.lazy-image,
+.lazy-video {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.lazy-image.loaded,
+.lazy-video.loaded {
+  opacity: 1;
+}
+
+.lazy-image.loading,
+.lazy-video.loading {
+  opacity: 0.6;
+}
+
+/* 占位符样式 */
+.lazy-placeholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 深色模式适配 */
+[data-theme='dark'] .lazy-placeholder {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+}
+
+/* 确保文章内容外的图片不受影响 */
+#page-header img,
+.avatar img,
+.related-post-item img,
+.aside-card img,
+.footer img {
+  opacity: 1 !important;
+  transition: none !important;
+}
