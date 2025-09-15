@@ -173,14 +173,14 @@
                             }
 
                             // 如果已经有src，保存到data-src
-                            if (img.src && !img.dataset.src) {
+                            if (img.src && !img.dataset.src && !img.src.includes('data:image/gif')) {
                                 img.dataset.src = img.src;
                                 img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                             }
                         } else {
                             // 不在视窗中的图片也添加懒加载类，但不显示占位符
                             img.classList.add('lazy-image');
-                            if (img.src && !img.dataset.src) {
+                            if (img.src && !img.dataset.src && !img.src.includes('data:image/gif')) {
                                 img.dataset.src = img.src;
                                 img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                             }
@@ -229,8 +229,8 @@
 
                         console.log('[Lazy Loading] Processing image:', img.src, 'Classes added:', img.classList.toString());
 
-                        // 如果已经有src，保存到data-src
-                        if (img.src && !img.dataset.src) {
+                        // 如果已经有src，保存到data-src并替换为占位符
+                        if (img.src && !img.dataset.src && !img.src.includes('data:image/gif')) {
                             img.dataset.src = img.src;
                             img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                             console.log('[Lazy Loading] Image src replaced, data-src:', img.dataset.src);
