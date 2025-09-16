@@ -485,9 +485,23 @@
       // 更新信息
       updateImageInfo();
       
-      // 直接设置图片源，无需预加载
-      console.log('Loading image:', currentImage.src);
-      imageElement.src = currentImage.src;
+      // 规范化图片路径，避免重复域名问题
+      let normalizedSrc = currentImage.src;
+
+      // 检查并修复重复域名的问题
+      if (normalizedSrc.includes('xbxyftx.top/xbxyftx.top')) {
+        // 找到第一个有效的域名位置
+        const firstDomain = normalizedSrc.indexOf('xbxyftx.top');
+        if (firstDomain !== -1) {
+          const beforeDomain = normalizedSrc.substring(0, firstDomain);
+          const afterFirstDomain = normalizedSrc.substring(firstDomain);
+          // 移除后续的重复域名，只保留第一个
+          normalizedSrc = beforeDomain + afterFirstDomain.replace(/xbxyftx\.top\/xbxyftx\.top(\/xbxyftx\.top)*/g, 'xbxyftx.top');
+        }
+      }
+
+      console.log('Loading image:', normalizedSrc);
+      imageElement.src = normalizedSrc;
       
       // 添加超时保护
       const loadingTimeout = setTimeout(() => {
@@ -514,15 +528,10 @@
         loading.classList.add('hidden');
         imageElement.alt = '图片加载失败';
         imageElement.style.opacity = '1';
-        
-        // 尝试修复路径
-        const originalSrc = this.src;
-        if (originalSrc.includes('//')) {
-          // 如果是相对路径，尝试添加域名
-          const fixedSrc = window.location.origin + originalSrc.replace(/.*?\/\//, '/');
-          console.log('Trying fixed path:', fixedSrc);
-          this.src = fixedSrc;
-        }
+
+        // 不再尝试修复路径，避免无限循环
+        // 如果需要路径修复，应该在设置src之前进行
+        console.warn('Image load failed, no retry attempt to avoid infinite loop');
       };
     }
 

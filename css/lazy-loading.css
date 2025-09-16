@@ -1,0 +1,236 @@
+/* 基础懒加载样式 */
+.lazy-image.loaded,
+.lazy-video.loaded {
+  opacity: 1;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: blur(0px) brightness(1);
+}
+
+.lazy-image.loading,
+.lazy-video.loading {
+  opacity: 0.8;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: blur(2px) brightness(1.1);
+}
+
+/* 梦幻占位符样式 */
+.lazy-placeholder {
+  position: relative;
+  background: linear-gradient(45deg,
+    rgba(147, 112, 219, 0.1) 0%,
+    rgba(138, 43, 226, 0.15) 25%,
+    rgba(75, 0, 130, 0.1) 50%,
+    rgba(138, 43, 226, 0.15) 75%,
+    rgba(147, 112, 219, 0.1) 100%) !important;
+  background-size: 400% 400% !important;
+  animation: dreamyShimmer 3s infinite ease-in-out !important;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 200px;
+  min-width: 200px;
+  display: inline-block;
+  box-shadow:
+    0 0 20px rgba(147, 112, 219, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* 梦幻光圈效果 */
+.lazy-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(147, 112, 219, 0.8) 60deg,
+    rgba(138, 43, 226, 0.9) 120deg,
+    rgba(75, 0, 130, 1) 180deg,
+    rgba(138, 43, 226, 0.9) 240deg,
+    rgba(147, 112, 219, 0.8) 300deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  animation: magicSpin 2s linear infinite;
+  filter: blur(1px);
+}
+
+/* 内部光点 */
+.lazy-placeholder::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(147, 112, 219, 0.7) 50%,
+    transparent 100%);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 加载文字 */
+.lazy-placeholder:hover::before {
+  content: '✨ 加载中 ✨';
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: rgba(147, 112, 219, 0.9);
+  background: linear-gradient(45deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(247, 240, 255, 0.95));
+  padding: 6px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(147, 112, 219, 0.3);
+  animation: float 2s infinite ease-in-out;
+  z-index: 10;
+}
+
+/* 梦幻动画效果 */
+@keyframes dreamyShimmer {
+  0% {
+    background-position: 0% 50%;
+    box-shadow:
+      0 0 20px rgba(147, 112, 219, 0.3),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    background-position: 100% 50%;
+    box-shadow:
+      0 0 30px rgba(138, 43, 226, 0.4),
+      inset 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    background-position: 0% 50%;
+    box-shadow:
+      0 0 20px rgba(147, 112, 219, 0.3),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes magicSpin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.7;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* 深色模式适配 */
+[data-theme='dark'] .lazy-placeholder {
+  background: linear-gradient(45deg,
+    rgba(75, 0, 130, 0.2) 0%,
+    rgba(138, 43, 226, 0.25) 25%,
+    rgba(72, 61, 139, 0.2) 50%,
+    rgba(138, 43, 226, 0.25) 75%,
+    rgba(75, 0, 130, 0.2) 100%) !important;
+  background-size: 400% 400% !important;
+  box-shadow:
+    0 0 25px rgba(138, 43, 226, 0.4),
+    inset 0 0 25px rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] .lazy-placeholder::before {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(138, 43, 226, 0.9) 60deg,
+    rgba(147, 112, 219, 1) 120deg,
+    rgba(75, 0, 130, 1) 180deg,
+    rgba(147, 112, 219, 1) 240deg,
+    rgba(138, 43, 226, 0.9) 300deg,
+    transparent 360deg
+  );
+}
+
+[data-theme='dark'] .lazy-placeholder:hover::before {
+  color: rgba(186, 85, 211, 0.9);
+  background: linear-gradient(45deg,
+    rgba(25, 25, 35, 0.95),
+    rgba(45, 35, 65, 0.95));
+  box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+}
+
+/* 不同尺寸的占位符适配 */
+.lazy-placeholder.small::before {
+  width: 35px;
+  height: 35px;
+}
+
+.lazy-placeholder.small::after {
+  width: 12px;
+  height: 12px;
+}
+
+.lazy-placeholder.small:hover::before {
+  font-size: 10px;
+  bottom: 8px;
+  padding: 3px 8px;
+}
+
+.lazy-placeholder.large::before {
+  width: 80px;
+  height: 80px;
+}
+
+.lazy-placeholder.large::after {
+  width: 28px;
+  height: 28px;
+}
+
+.lazy-placeholder.large:hover::before {
+  font-size: 15px;
+  bottom: 20px;
+  padding: 8px 20px;
+}
+
+/* 确保文章内容外的图片不受影响 */
+#page-header img,
+.avatar img,
+.related-post-item img,
+.aside-card img,
+.footer img {
+  opacity: 1 !important;
+  transition: none !important;
+}
