@@ -1,20 +1,20 @@
-/* 基础懒加载样式 */
-.lazy-image.loaded,
-.lazy-video.loaded {
+/* 基础懒加载样式 - 仅在文章页生效 */
+#post .lazy-image.loaded,
+#post .lazy-video.loaded {
   opacity: 1;
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   filter: blur(0px) brightness(1);
 }
 
-.lazy-image.loading,
-.lazy-video.loading {
+#post .lazy-image.loading,
+#post .lazy-video.loading {
   opacity: 0.8;
   transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   filter: blur(2px) brightness(1.1);
 }
 
-/* 梦幻占位符样式 */
-.lazy-placeholder {
+/* 梦幻占位符样式 - 仅在文章页生效 */
+#post .lazy-placeholder {
   position: relative;
   background: linear-gradient(45deg,
     rgba(147, 112, 219, 0.1) 0%,
@@ -36,7 +36,7 @@
 }
 
 /* 梦幻光圈效果 */
-.lazy-placeholder::before {
+#post .lazy-placeholder::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -60,7 +60,7 @@
 }
 
 /* 内部光点 */
-.lazy-placeholder::after {
+#post .lazy-placeholder::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -77,7 +77,7 @@
 }
 
 /* 加载文字 */
-.lazy-placeholder:hover::before {
+#post .lazy-placeholder:hover::before {
   content: '✨ 加载中 ✨';
   position: absolute;
   bottom: 15px;
@@ -158,7 +158,7 @@
 }
 
 /* 深色模式适配 */
-[data-theme='dark'] .lazy-placeholder {
+[data-theme='dark'] #post .lazy-placeholder {
   background: linear-gradient(45deg,
     rgba(75, 0, 130, 0.2) 0%,
     rgba(138, 43, 226, 0.25) 25%,
@@ -171,7 +171,7 @@
     inset 0 0 25px rgba(255, 255, 255, 0.05);
 }
 
-[data-theme='dark'] .lazy-placeholder::before {
+[data-theme='dark'] #post .lazy-placeholder::before {
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
@@ -184,7 +184,7 @@
   );
 }
 
-[data-theme='dark'] .lazy-placeholder:hover::before {
+[data-theme='dark'] #post .lazy-placeholder:hover::before {
   color: rgba(186, 85, 211, 0.9);
   background: linear-gradient(45deg,
     rgba(25, 25, 35, 0.95),
@@ -193,33 +193,33 @@
 }
 
 /* 不同尺寸的占位符适配 */
-.lazy-placeholder.small::before {
+#post .lazy-placeholder.small::before {
   width: 35px;
   height: 35px;
 }
 
-.lazy-placeholder.small::after {
+#post .lazy-placeholder.small::after {
   width: 12px;
   height: 12px;
 }
 
-.lazy-placeholder.small:hover::before {
+#post .lazy-placeholder.small:hover::before {
   font-size: 10px;
   bottom: 8px;
   padding: 3px 8px;
 }
 
-.lazy-placeholder.large::before {
+#post .lazy-placeholder.large::before {
   width: 80px;
   height: 80px;
 }
 
-.lazy-placeholder.large::after {
+#post .lazy-placeholder.large::after {
   width: 28px;
   height: 28px;
 }
 
-.lazy-placeholder.large:hover::before {
+#post .lazy-placeholder.large:hover::before {
   font-size: 15px;
   bottom: 20px;
   padding: 8px 20px;
