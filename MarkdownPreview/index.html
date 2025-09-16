@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xbxyftx.top/img/logo.png">
 <meta property="article:published_time" content="2025-06-04T02:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-16T15:10:42.062Z">
+<meta property="article:modified_time" content="2025-09-16T15:13:27.729Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="鸿蒙开发">
 <meta property="article:tag" content="hexo">
@@ -721,12 +721,6 @@
     background: #777;
 }
 
-/* 全屏动画阶段 */
-.fullscreen-expanding {
-    animation: fullscreenExpand 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    z-index: 9999 !important;
-}
-
 .fullscreen-mode {
     position: fixed !important;
     top: 0 !important;
@@ -734,57 +728,13 @@
     width: 100vw !important;
     height: 100vh !important;
     z-index: 9999 !important;
-    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d30 100%) !important;
+    background: #1e1e1e !important;
     margin: 0 !important;
     border-radius: 0 !important;
 }
 
 .fullscreen-mode .editor-content {
     height: calc(100vh - 120px) !important;
-}
-
-/* 退出全屏动画 */
-.fullscreen-collapsing {
-    animation: fullscreenCollapse 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-/* 全屏展开动画关键帧 */
-@keyframes fullscreenExpand {
-    0% {
-        transform: scale(1);
-        border-radius: 16px;
-    }
-
-    100% {
-        transform: scale(1);
-        border-radius: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-    }
-}
-
-/* 全屏收缩动画关键帧 */
-@keyframes fullscreenCollapse {
-    0% {
-        transform: scale(1);
-        border-radius: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-    }
-
-    100% {
-        transform: scale(1);
-        border-radius: 16px;
-        position: static;
-        width: 100%;
-        height: auto;
-    }
 }
 
 .save-notification {
@@ -918,7 +868,6 @@
     animation: sparkle 3s ease-in-out infinite;
     animation-delay: calc(var(--delay, 0) * 0.5s);
 }
-
 </style>
 
 <h1 id="🚀-Markdown编辑器"><a href="#🚀-Markdown编辑器" class="headerlink" title="🚀 Markdown编辑器"></a>🚀 Markdown编辑器</h1><p>体验实时的Markdown编辑与预览功能！在左边输入Markdown源码，右边即时查看渲染效果。</p>
@@ -1212,39 +1161,32 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     let isFullscreen = false;
-    let isAnimating = false; // 防止动画期间重复点击
-
     window.toggleFullscreen = function() {
         const container = document.querySelector('.markdown-editor-container');
-        if (!container || isAnimating) return;
-
-        const fullscreenBtn = event.target;
+        if (!container) return;
 
         if (!isFullscreen) {
-            // 进入全屏模式
-            isAnimating = true;
-
-            // 添加展开动画类
-            container.classList.add('fullscreen-expanding');
+            container.classList.add('fullscreen-mode');
             document.body.style.overflow = 'hidden';
+            isFullscreen = true;
 
-            // 更新按钮状态
+            // 更新按钮内容和提示
+            const fullscreenBtn = event.target;
             fullscreenBtn.innerHTML = '⛶ 退出全屏';
             fullscreenBtn.title = '退出全屏模式 (ESC)';
-
-            // 等待展开动画完成后添加全屏模式类
-            setTimeout(() => {
-                container.classList.remove('fullscreen-expanding');
-                container.classList.add('fullscreen-mode');
-                isFullscreen = true;
-                isAnimating = false;
-                updatePreview();
-            }, 800); // 动画持续0.8秒
-
         } else {
-            // 退出全屏模式
-            exitFullscreen();
+            container.classList.remove('fullscreen-mode');
+            document.body.style.overflow = '';
+            isFullscreen = false;
+
+            // 更新按钮内容和提示
+            const fullscreenBtn = event.target;
+            fullscreenBtn.innerHTML = '⛶ 全屏';
+            fullscreenBtn.title = '全屏模式 (ESC退出)';
         }
+
+        // 重新调整预览区域
+        updatePreview();
     };
 
     window.saveMarkdown = function() {
@@ -1321,45 +1263,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (e.key === 'Escape' && isFullscreen) {
-                exitFullscreen();
+                toggleFullscreen();
             }
         });
     }
 
-    // 独立的退出全屏函数
-    window.exitFullscreen = function() {
-        if (!isFullscreen || isAnimating) return;
-
-        const container = document.querySelector('.markdown-editor-container');
-        if (!container) return;
-
-        isAnimating = true;
-
-        // 移除全屏模式类，添加收缩动画类
-        container.classList.remove('fullscreen-mode');
-        container.classList.add('fullscreen-collapsing');
-
-        // 更新按钮状态
-        const fullscreenBtn = document.querySelector('[onclick="toggleFullscreen()"]');
-        if (fullscreenBtn) {
-            fullscreenBtn.innerHTML = '⛶ 全屏';
-            fullscreenBtn.title = '全屏模式 (ESC退出)';
-        }
-
-        // 等待收缩动画完成后恢复正常状态
-        setTimeout(() => {
-            container.classList.remove('fullscreen-collapsing');
-            document.body.style.overflow = '';
-            isFullscreen = false;
-            isAnimating = false;
-            updatePreview();
-        }, 600);
-    };
-
     // 添加ESC键全局监听
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && isFullscreen) {
-            exitFullscreen();
+            toggleFullscreen();
         }
     });
 
@@ -1797,7 +1709,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 每分钟更新一次问候语
   setInterval(updateGreeting, 60000);
-})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">鸿蒙生态，星河璀璨！<br/><img src="https://bu.dusays.com/2025/09/10/68c18a5b2710f.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp"><img src="/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AITrainingCamp"/></a><div class="content"><a class="title" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp">AITrainingCamp</a><time datetime="2025-09-13T06:12:42.000Z" title="发表于 2025-09-13 14:12:42">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程"><img src="/imgs/ArticleTopImgs/CodeInspirationTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="由单向编程走向多向编程"/></a><div class="content"><a class="title" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程">由单向编程走向多向编程</a><time datetime="2025-09-11T07:26:54.000Z" title="发表于 2025-09-11 15:26:54">2025-09-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果"><img src="https://bu.dusays.com/2025/07/04/686795125c127.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Butterfly主题实现入场弹窗效果"/></a><div class="content"><a class="title" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果">Butterfly主题实现入场弹窗效果</a><time datetime="2025-07-04T05:58:26.000Z" title="发表于 2025-07-04 13:58:26">2025-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony"><img src="/imgs/ArticleTopImgs/OpenSourceSummerTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="开源之夏NowInOpenHarmony"/></a><div class="content"><a class="title" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony">开源之夏NowInOpenHarmony</a><time datetime="2025-06-29T06:01:21.000Z" title="发表于 2025-06-29 14:01:21">2025-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/BlogSetup/" title="创客空间2025级新生训练营博客搭建赛道"><img src="/imgs/ArticleTopImgs/BlogSetupTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="创客空间2025级新生训练营博客搭建赛道"/></a><div class="content"><a class="title" href="/2025/06/27/BlogSetup/" title="创客空间2025级新生训练营博客搭建赛道">创客空间2025级新生训练营博客搭建赛道</a><time datetime="2025-06-27T08:45:41.000Z" title="发表于 2025-06-27 16:45:41">2025-06-27</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/CSS/" style="font-size: 1.19em; color: #999da1">CSS</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/ClaudeCode/" style="font-size: 1.1em; color: #999">ClaudeCode</a> <a href="/tags/%E5%88%9B%E5%AE%A2%E7%A9%BA%E9%97%B4/" style="font-size: 1.1em; color: #999">创客空间</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.46em; color: #99a7bb">鸿蒙</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.28em; color: #99a0aa">主题美化</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.41em; color: #99a5b7">hexo博客搭建</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/AI/" style="font-size: 1.1em; color: #999">AI</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/JS/" style="font-size: 1.23em; color: #999ea6">JS</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.14em; color: #999b9d">网络请求</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/" style="font-size: 1.1em; color: #999">开源之夏</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.32em; color: #99a2ae">项目</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/cursor/" style="font-size: 1.1em; color: #999">cursor</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.19em; color: #999da1">独白</a> <a href="/tags/%E6%96%B0%E7%94%9F%E8%AE%AD%E7%BB%83%E8%90%A5/" style="font-size: 1.1em; color: #999">新生训练营</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/HTML/" style="font-size: 1.19em; color: #999da1">HTML</a></div></div><div class="card-widget card-archives">
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">鸿蒙生态，星河璀璨！<br/><img src="https://bu.dusays.com/2025/09/10/68c18a5b2710f.jpg" alt="1748944170064.jpg" title="1748944170064.jpg" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp"><img src="/imgs/ArticleTopImgs/AITrainingCampTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AITrainingCamp"/></a><div class="content"><a class="title" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp">AITrainingCamp</a><time datetime="2025-09-13T06:12:42.000Z" title="发表于 2025-09-13 14:12:42">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程"><img src="/imgs/ArticleTopImgs/CodeInspirationTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="由单向编程走向多向编程"/></a><div class="content"><a class="title" href="/2025/09/11/CodeInspiration/" title="由单向编程走向多向编程">由单向编程走向多向编程</a><time datetime="2025-09-11T07:26:54.000Z" title="发表于 2025-09-11 15:26:54">2025-09-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果"><img src="https://bu.dusays.com/2025/07/04/686795125c127.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Butterfly主题实现入场弹窗效果"/></a><div class="content"><a class="title" href="/2025/07/04/entrancePopup/" title="Butterfly主题实现入场弹窗效果">Butterfly主题实现入场弹窗效果</a><time datetime="2025-07-04T05:58:26.000Z" title="发表于 2025-07-04 13:58:26">2025-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony"><img src="/imgs/ArticleTopImgs/OpenSourceSummerTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="开源之夏NowInOpenHarmony"/></a><div class="content"><a class="title" href="/2025/06/29/OpenSourceSummer2025/" title="开源之夏NowInOpenHarmony">开源之夏NowInOpenHarmony</a><time datetime="2025-06-29T06:01:21.000Z" title="发表于 2025-06-29 14:01:21">2025-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/BlogSetup/" title="创客空间2025级新生训练营博客搭建赛道"><img src="/imgs/ArticleTopImgs/BlogSetupTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="创客空间2025级新生训练营博客搭建赛道"/></a><div class="content"><a class="title" href="/2025/06/27/BlogSetup/" title="创客空间2025级新生训练营博客搭建赛道">创客空间2025级新生训练营博客搭建赛道</a><time datetime="2025-06-27T08:45:41.000Z" title="发表于 2025-06-27 16:45:41">2025-06-27</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/JS/" style="font-size: 1.23em; color: #999ea6">JS</a> <a href="/tags/AI/" style="font-size: 1.1em; color: #999">AI</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.1em; color: #999">智能体</a> <a href="/tags/V2/" style="font-size: 1.37em; color: #99a4b2">V2</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/ClaudeCode/" style="font-size: 1.1em; color: #999">ClaudeCode</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.19em; color: #999da1">独白</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.1em; color: #999">扣子</a> <a href="/tags/HTML/" style="font-size: 1.19em; color: #999da1">HTML</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/%E6%96%B0%E7%94%9F%E8%AE%AD%E7%BB%83%E8%90%A5/" style="font-size: 1.1em; color: #999">新生训练营</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.32em; color: #99a2ae">项目</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.14em; color: #999b9d">网络请求</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.41em; color: #99a5b7">hexo博客搭建</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.46em; color: #99a7bb">鸿蒙</a> <a href="/tags/CSS/" style="font-size: 1.19em; color: #999da1">CSS</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.28em; color: #99a0aa">主题美化</a> <a href="/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/" style="font-size: 1.1em; color: #999">开源之夏</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E5%88%9B%E5%AE%A2%E7%A9%BA%E9%97%B4/" style="font-size: 1.1em; color: #999">创客空间</a> <a href="/tags/%E8%BF%9C%E5%9C%BA%E9%80%9A%E4%BF%A1/" style="font-size: 1.1em; color: #999">远场通信</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/cursor/" style="font-size: 1.1em; color: #999">cursor</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E9%B8%BF%E5%B0%8F%E6%98%93/" style="font-size: 1.1em; color: #999">鸿小易</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -1879,7 +1791,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">33</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">292.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-16T15:11:53.024Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">33</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">292.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-16T15:13:39.667Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const element = mutation.target;
