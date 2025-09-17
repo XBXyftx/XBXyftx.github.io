@@ -9,8 +9,11 @@ class SmoothScrollOptimizer {
         this.scrollTimer = null;
         this.lastScrollTop = 0;
         this.velocity = 0;
-        this.friction = 0.85; // 摩擦系数
+        this.friction = 0.88; // 进一步优化摩擦系数，超级跟手
         this.isWheelScrolling = false;
+        this.lastWheelTime = 0;
+        this.wheelAccumulator = 0; // 滚轮累积器
+        this.pendingScrolls = []; // 待处理的滚动队列
 
         this.init();
     }
@@ -77,32 +80,25 @@ class SmoothScrollOptimizer {
         console.log('✅ 已禁用默认smooth滚动');
     }
 
-    // 优化滚轮事件
+    // 高响应滚轮事件处理
     optimizeWheelEvents() {
         let wheelTimeout;
-        let isWheeling = false;
 
-        // 使用passive监听器提升性能
+        // 更灵敏的滚轮处理器
         const wheelHandler = (e) => {
-            if (isWheeling) return;
-
-            isWheeling = true;
+            // 立即标记为滚动状态
             this.isWheelScrolling = true;
 
             // 清除之前的定时器
             if (wheelTimeout) clearTimeout(wheelTimeout);
 
-            // 使用requestAnimationFrame优化滚动
-            requestAnimationFrame(() => {
-                this.smoothWheelScroll(e);
-            });
+            // 立即处理滚轮事件，无延迟
+            this.responsiveWheelScroll(e);
 
-            // 滚轮结束检测
+            // 超短的滚轮结束检测
             wheelTimeout = setTimeout(() => {
-                isWheeling = false;
                 this.isWheelScrolling = false;
-                console.log('🛑 滚轮滚动结束');
-            }, 150);
+            }, 50); // 进一步缩短到50ms，极致响应性
         };
 
         // 添加优化的滚轮监听
@@ -111,28 +107,55 @@ class SmoothScrollOptimizer {
             capture: false
         });
 
-        console.log('🎮 滚轮事件优化完成');
+        console.log('⚡ 高响应滚轮事件已启动');
     }
 
-    // 丝滑滚轮滚动实现
-    smoothWheelScroll(e) {
+    // 高响应滚轮滚动实现
+    responsiveWheelScroll(e) {
+        const now = performance.now();
         const delta = e.deltaY || e.detail || e.wheelDelta;
         const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        // 计算目标位置（减小滚动距离，增加控制精度）
-        const scrollAmount = Math.sign(delta) * Math.min(Math.abs(delta), 100);
+        // 更自然的滚动距离计算
+        let scrollAmount;
+        const absDelta = Math.abs(delta);
+
+        if (absDelta < 50) {
+            // 小幅滚动，保持原始精度
+            scrollAmount = delta * 0.8;
+        } else if (absDelta < 120) {
+            // 中等滚动，适度放大
+            scrollAmount = Math.sign(delta) * (absDelta * 1.2);
+        } else {
+            // 大幅滚动，限制最大值但保持流畅
+            scrollAmount = Math.sign(delta) * Math.min(absDelta * 1.5, 180);
+        }
+
+        // 滚轮累积处理，增强连续性
+        const timeDiff = now - this.lastWheelTime;
+        if (timeDiff < 30) {
+            // 快速连续滚动时累积
+            this.wheelAccumulator += scrollAmount * 0.3;
+            scrollAmount += this.wheelAccumulator;
+            this.wheelAccumulator *= 0.7; // 衰减累积
+        } else {
+            this.wheelAccumulator = 0;
+        }
+
+        this.lastWheelTime = now;
+
         const targetScrollTop = Math.max(0, currentScrollTop + scrollAmount);
 
-        // 使用easing函数实现丝滑滚动
-        this.animateScrollTo(targetScrollTop, 200); // 200ms动画时间
+        // 更短的动画时间，超级跟手
+        this.animateScrollTo(targetScrollTop, 80); // 再次减少到80ms，极致响应
     }
 
-    // 动画滚动到指定位置
-    animateScrollTo(targetScrollTop, duration = 300) {
+    // 高响应动画滚动
+    animateScrollTo(targetScrollTop, duration = 80) {
         const startScrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const distance = targetScrollTop - startScrollTop;
 
-        if (Math.abs(distance) < 1) return;
+        if (Math.abs(distance) < 0.5) return;
 
         const startTime = performance.now();
 
@@ -140,10 +163,19 @@ class SmoothScrollOptimizer {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
 
-            // 使用easeOutCubic缓动函数
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            const currentScrollTop = startScrollTop + (distance * easeProgress);
+            // 超级响应的缓动函数：立即开始，平滑结束
+            let easeProgress;
+            if (progress < 0.2) {
+                // 前20%：立即响应，快速到达80%
+                easeProgress = progress * 4; // 0.2 * 4 = 0.8，快速到达80%
+            } else {
+                // 后80%：从80%平滑到100%
+                const t = (progress - 0.2) / 0.8;
+                const smoothPart = Math.pow(t, 0.5); // 平方根缓动，比较平滑
+                easeProgress = 0.8 + smoothPart * 0.2; // 从80%到100%
+            }
 
+            const currentScrollTop = startScrollTop + (distance * easeProgress);
             window.scrollTo(0, currentScrollTop);
 
             if (progress < 1) {
@@ -233,8 +265,7 @@ class SmoothScrollOptimizer {
                 isScrollEnd = true;
                 // 滚动结束时恢复
                 document.body.style.pointerEvents = 'auto';
-                console.log('✅ 滚动结束，性能优化恢复');
-            }, 150);
+            }, 60); // 进一步缩短到60ms
         };
 
         // 使用passive监听器

@@ -221,7 +221,7 @@ class WaterfallLayout {
 
         // 检测是否正在滚动
         const isScrolling = this.isUserScrolling();
-        const delay = isScrolling ? 500 : 150; // 滚动时延长延迟
+        const delay = isScrolling ? 300 : 100; // 缩短延迟时间，提升响应性
 
         this.relayoutTimer = setTimeout(() => {
             if (this.isInitialized && !this.isLayouting && !this.isUserScrolling()) {
@@ -235,7 +235,7 @@ class WaterfallLayout {
     isUserScrolling() {
         const now = Date.now();
         const timeSinceLastScroll = now - (this.lastScrollTime || 0);
-        return timeSinceLastScroll < 200; // 200ms内有滚动活动
+        return timeSinceLastScroll < 150; // 缩短到150ms，更快响应
     }
 
     // 高性能布局执行
