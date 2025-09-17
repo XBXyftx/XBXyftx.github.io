@@ -282,6 +282,12 @@
         console.log('[Lazy Loading] Document ready state:', document.readyState);
         console.log('[Lazy Loading] 当前页面URL:', window.location.href);
 
+        // 检查是否为文章页面，如果不是则直接返回
+        if (!document.getElementById('post')) {
+            console.log('[Lazy Loading] 非文章页面，跳过懒加载初始化');
+            return;
+        }
+
         // 为文章内容中的所有图片添加懒加载类和占位符
         const contentSelectors = [
             '#article-container img',
