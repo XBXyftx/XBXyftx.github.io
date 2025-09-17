@@ -16,10 +16,12 @@ class WaterfallLayout {
         this.resizeTimer = null;
         this.animationFrame = null;
         this.cachedHeights = new Map(); // 缓存元素高度
+        this.lastScrollTime = 0; // 最后滚动时间
 
         // 绑定方法
         this.init = this.init.bind(this);
         this.handleResize = this.handleResize.bind(this);
+        this.trackScrollTime = this.trackScrollTime.bind(this);
     }
 
     // 高性能初始化瀑布流
@@ -157,49 +159,83 @@ class WaterfallLayout {
         });
     }
 
-    // 非阻塞式图片处理
+    // 非阻塞式图片处理 - 滚动优化版
     handleImages() {
         const images = this.container.querySelectorAll('img');
         if (images.length === 0) return;
 
-        // 非阻塞式处理，先执行布局，图片加载完成后再调整
-        let pendingImages = 0;
-
-        Array.from(images).forEach((img) => {
-            if (!img.complete || img.naturalHeight === 0) {
-                pendingImages++;
-
-                const handleImageLoad = () => {
-                    pendingImages--;
-                    img.removeEventListener('load', handleImageLoad);
-                    img.removeEventListener('error', handleImageLoad);
-
-                    // 图片加载完成后，使用防抖重新布局
-                    this.debounceReLayout();
-                };
-
-                img.addEventListener('load', handleImageLoad);
-                img.addEventListener('error', handleImageLoad);
-
-                // 设置默认尺寸避免布局抖动
-                if (!img.style.height) {
-                    img.style.height = '200px';
+        // 使用 Intersection Observer 只处理可见图片
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    this.handleSingleImage(img);
+                    imageObserver.unobserve(img);
                 }
+            });
+        }, {
+            rootMargin: '200px', // 提前200px开始处理
+            threshold: 0.1
+        });
+
+        // 先处理已在视口内的图片
+        Array.from(images).forEach((img) => {
+            const rect = img.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+            if (isVisible) {
+                this.handleSingleImage(img);
+            } else {
+                imageObserver.observe(img);
             }
         });
     }
 
-    // 防抖重新布局
+    // 处理单个图片
+    handleSingleImage(img) {
+        if (!img.complete || img.naturalHeight === 0) {
+            const handleImageLoad = () => {
+                img.removeEventListener('load', handleImageLoad);
+                img.removeEventListener('error', handleImageLoad);
+
+                // 图片加载完成后，使用防抖重新布局
+                this.debounceReLayout();
+            };
+
+            img.addEventListener('load', handleImageLoad);
+            img.addEventListener('error', handleImageLoad);
+
+            // 设置默认尺寸避免布局抖动
+            if (!img.style.height) {
+                img.style.height = '200px';
+                img.style.backgroundColor = '#f5f5f5'; // 占位背景
+            }
+        }
+    }
+
+    // 防抖重新布局 - 滚动感知版
     debounceReLayout() {
         if (this.relayoutTimer) {
             clearTimeout(this.relayoutTimer);
         }
 
+        // 检测是否正在滚动
+        const isScrolling = this.isUserScrolling();
+        const delay = isScrolling ? 500 : 150; // 滚动时延长延迟
+
         this.relayoutTimer = setTimeout(() => {
-            if (this.isInitialized && !this.isLayouting) {
+            if (this.isInitialized && !this.isLayouting && !this.isUserScrolling()) {
+                console.log('🔄 非滚动状态下执行重布局');
                 this.performOptimizedLayout();
             }
-        }, 150);
+        }, delay);
+    }
+
+    // 检测用户是否正在滚动
+    isUserScrolling() {
+        const now = Date.now();
+        const timeSinceLastScroll = now - (this.lastScrollTime || 0);
+        return timeSinceLastScroll < 200; // 200ms内有滚动活动
     }
 
     // 高性能布局执行
@@ -413,6 +449,11 @@ class WaterfallLayout {
         this.isInitialized = false;
         this.isLayouting = false;
     }
+
+    // 跟踪滚动时间
+    trackScrollTime() {
+        this.lastScrollTime = Date.now();
+    }
 }
 
 // 创建全局实例
@@ -460,6 +501,13 @@ function initWaterfallOnReady() {
 
     // 初始化瀑布流
     initWaterfall();
+
+    // 添加滚动时间跟踪
+    window.addEventListener('scroll', () => {
+        if (waterfallInstance) {
+            waterfallInstance.trackScrollTime();
+        }
+    }, { passive: true });
 
     // 简化事件监听
     let resizeTimeout;
