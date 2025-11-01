@@ -2794,7 +2794,6 @@ figure.highlight pre .javascript .function {
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .post_cover {
   width: 100%;
-  height: 200px;
   overflow: hidden;
   position: relative;
   -webkit-box-ordinal-group: 0;
@@ -2807,12 +2806,12 @@ figure.highlight pre .javascript .function {
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .post_cover a {
   display: block;
   width: 100%;
-  height: 100%;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .post_cover img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
+  object-fit: contain;
   -webkit-transition: -webkit-transform 0.3s ease;
   -moz-transition: -moz-transform 0.3s ease;
   -o-transition: -o-transform 0.3s ease;
@@ -2966,9 +2965,6 @@ figure.highlight pre .javascript .function {
   margin-top: auto;
 }
 @media (max-width: 768px) {
-  #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .post_cover {
-    height: 180px;
-  }
   #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info {
     padding: 15px;
   }
@@ -2977,9 +2973,6 @@ figure.highlight pre .javascript .function {
   }
 }
 @media (max-width: 600px) {
-  #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .post_cover {
-    height: 150px;
-  }
   #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info {
     padding: 12px;
   }
