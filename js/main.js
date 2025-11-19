@@ -804,16 +804,44 @@ document.addEventListener('DOMContentLoaded', () => {
       const newEle = document.createElement('button')
 
       const exitReadMode = () => {
-        $body.classList.remove('read-mode')
-        newEle.remove()
-        newEle.removeEventListener('click', exitReadMode)
+        // 添加退出动画
+        newEle.style.animation = 'fadeOutScale 0.2s ease-in'
+        setTimeout(() => {
+          $body.classList.remove('read-mode')
+          newEle.remove()
+          newEle.removeEventListener('click', exitReadMode)
+          // 显示退出提示
+          GLOBAL_CONFIG.Snackbar !== undefined && btf.snackbarShow('已退出阅读模式', false, 2000)
+        }, 200)
       }
 
+      // 平滑进入阅读模式
       $body.classList.add('read-mode')
       newEle.type = 'button'
       newEle.className = 'fas fa-sign-out-alt exit-readmode'
+      newEle.title = '退出阅读模式 (ESC)'
       newEle.addEventListener('click', exitReadMode)
       $body.appendChild(newEle)
+
+      // 添加 ESC 键退出功能
+      const escapeHandler = (e) => {
+        if (e.key === 'Escape' && $body.classList.contains('read-mode')) {
+          exitReadMode()
+          document.removeEventListener('keydown', escapeHandler)
+        }
+      }
+      document.addEventListener('keydown', escapeHandler)
+
+      // 显示进入提示
+      GLOBAL_CONFIG.Snackbar !== undefined && btf.snackbarShow('已进入阅读模式，按 ESC 或点击按钮退出', false, 3000)
+
+      // 平滑滚动到文章内容
+      const postContent = document.querySelector('#post')
+      if (postContent) {
+        setTimeout(() => {
+          postContent.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 300)
+      }
     },
     darkmode: () => { // switch between light and dark mode
       const willChangeMode = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
