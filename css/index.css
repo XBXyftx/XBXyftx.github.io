@@ -7823,7 +7823,6 @@ blockquote.pullquote.right {
 .read-mode > canvas {
   display: none !important;
 }
-.read-mode .highlight-tools,
 .read-mode #footer,
 .read-mode #post > *:not(#post-info):not(.post-content),
 .read-mode #nav,

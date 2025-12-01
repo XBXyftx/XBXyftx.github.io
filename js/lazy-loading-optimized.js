@@ -10,7 +10,8 @@
   const config = {
     rootMargin: '100px 0px', // 提前100px开始加载
     threshold: 0.01,
-    fadeInDuration: 400
+    fadeInDuration: 600,  // 淡入持续时间（毫秒）
+    fadeInDelay: 50       // 淡入延迟（毫秒），避免突然变亮
   };
   
   // 检查是否支持 IntersectionObserver
@@ -50,16 +51,23 @@
     const tempImg = new Image();
     
     tempImg.onload = function() {
+      // 先确保图片完全透明
+      img.style.opacity = '0';
+      img.style.transition = 'none';
+      
+      // 替换图片源
       img.src = src;
       img.classList.remove('lazy-loading', 'lazy-placeholder');
       img.classList.add('lazy-loaded');
       
-      // 淡入动画
-      img.style.opacity = '0';
-      img.style.transition = `opacity ${config.fadeInDuration}ms ease`;
-      requestAnimationFrame(() => {
-        img.style.opacity = '1';
-      });
+      // 延迟后开始平滑淡入，避免突然变亮
+      setTimeout(() => {
+        img.style.transition = `opacity ${config.fadeInDuration}ms ease-out`;
+        // 再次使用 requestAnimationFrame 确保过渡生效
+        requestAnimationFrame(() => {
+          img.style.opacity = '1';
+        });
+      }, config.fadeInDelay);
     };
     
     tempImg.onerror = function() {

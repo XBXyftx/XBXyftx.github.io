@@ -1,0 +1,398 @@
+/**
+ * 阅读模式增强样式
+ * 修复代码块样式和复制按钮问题
+ */
+
+/* ========== 阅读模式代码块修复 ========== */
+
+/* 确保代码块工具栏在阅读模式下显示 */
+.read-mode .highlight-tools {
+  display: flex !important;
+  position: relative;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid var(--hr-border, #e0ddd5);
+  padding: 8px 12px;
+  border-radius: 8px 8px 0 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+[data-theme='dark'] .read-mode .highlight-tools {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mac 风格按钮 */
+.read-mode .highlight-tools .macStyle {
+  display: flex;
+  gap: 6px;
+}
+
+.read-mode .highlight-tools .macStyle > div {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.read-mode .highlight-tools .mac-close {
+  background: #ff5f56;
+}
+
+.read-mode .highlight-tools .mac-minimize {
+  background: #ffbd2e;
+}
+
+.read-mode .highlight-tools .mac-maximize {
+  background: #27c93f;
+}
+
+/* 语言标签 */
+.read-mode .highlight-tools .code-lang {
+  font-size: 12px;
+  color: var(--light-grey, #5a6c7d);
+  font-family: 'Consolas', 'Monaco', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+  text-align: center;
+}
+
+/* 复制按钮 */
+.read-mode .highlight-tools .copy-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--hr-border, #e0ddd5);
+  border-radius: 6px;
+  color: var(--light-grey, #5a6c7d);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.read-mode .highlight-tools .copy-button:hover {
+  background: var(--link-color, #3498db);
+  border-color: var(--link-color, #3498db);
+  color: white;
+  transform: scale(1.05);
+}
+
+.read-mode .highlight-tools .copy-button:active {
+  transform: scale(0.95);
+}
+
+/* 复制成功提示 */
+.read-mode .highlight-tools .copy-notice {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--link-color, #3498db);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.read-mode .highlight-tools .copy-notice.show {
+  opacity: 1;
+}
+
+/* 展开/收缩按钮 */
+.read-mode .highlight-tools .expand {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--light-grey, #5a6c7d);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.read-mode .highlight-tools.closed .expand {
+  transform: rotate(-90deg);
+}
+
+/* 全屏按钮 */
+.read-mode .highlight-tools .fullpage-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--hr-border, #e0ddd5);
+  border-radius: 6px;
+  color: var(--light-grey, #5a6c7d);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.read-mode .highlight-tools .fullpage-button:hover {
+  background: var(--link-color, #3498db);
+  border-color: var(--link-color, #3498db);
+  color: white;
+}
+
+/* ========== 代码块内容样式 ========== */
+
+.read-mode figure.highlight {
+  margin: 1.5em 0 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background: var(--highlight-bg, #f5f2ed) !important;
+  border: 1px solid var(--hr-border, #e0ddd5) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme='dark'] .read-mode figure.highlight {
+  background: #1e1e1e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 代码表格 */
+.read-mode figure.highlight table {
+  margin: 0 !important;
+  border: none !important;
+  width: 100%;
+}
+
+.read-mode figure.highlight table td {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* 行号列 */
+.read-mode figure.highlight .gutter {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 12px 8px !important;
+  text-align: right;
+  user-select: none;
+  border-right: 1px solid var(--hr-border, #e0ddd5);
+  min-width: 40px;
+}
+
+[data-theme='dark'] .read-mode figure.highlight .gutter {
+  background: rgba(255, 255, 255, 0.02);
+  border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+.read-mode figure.highlight .gutter pre {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.read-mode figure.highlight .gutter .line {
+  color: var(--gray, #bdc3c7) !important;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* 代码内容列 */
+.read-mode figure.highlight .code {
+  padding: 12px 16px !important;
+  overflow-x: auto;
+}
+
+.read-mode figure.highlight .code pre {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.read-mode figure.highlight .code .line {
+  font-size: 14px;
+  line-height: 1.6;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* 代码高亮颜色 - 亮色主题 */
+.read-mode figure.highlight .keyword { color: #8959a8; }
+.read-mode figure.highlight .string { color: #718c00; }
+.read-mode figure.highlight .number { color: #f5871f; }
+.read-mode figure.highlight .comment { color: #8e908c; font-style: italic; }
+.read-mode figure.highlight .function { color: #4271ae; }
+.read-mode figure.highlight .class { color: #c82829; }
+.read-mode figure.highlight .variable { color: #c82829; }
+.read-mode figure.highlight .operator { color: #3e999f; }
+.read-mode figure.highlight .punctuation { color: #4d4d4c; }
+.read-mode figure.highlight .tag { color: #c82829; }
+.read-mode figure.highlight .attr { color: #f5871f; }
+.read-mode figure.highlight .built_in { color: #4271ae; }
+
+/* 代码高亮颜色 - 暗色主题 */
+[data-theme='dark'] .read-mode figure.highlight .keyword { color: #c678dd; }
+[data-theme='dark'] .read-mode figure.highlight .string { color: #98c379; }
+[data-theme='dark'] .read-mode figure.highlight .number { color: #d19a66; }
+[data-theme='dark'] .read-mode figure.highlight .comment { color: #5c6370; font-style: italic; }
+[data-theme='dark'] .read-mode figure.highlight .function { color: #61afef; }
+[data-theme='dark'] .read-mode figure.highlight .class { color: #e06c75; }
+[data-theme='dark'] .read-mode figure.highlight .variable { color: #e06c75; }
+[data-theme='dark'] .read-mode figure.highlight .operator { color: #56b6c2; }
+[data-theme='dark'] .read-mode figure.highlight .punctuation { color: #abb2bf; }
+[data-theme='dark'] .read-mode figure.highlight .tag { color: #e06c75; }
+[data-theme='dark'] .read-mode figure.highlight .attr { color: #d19a66; }
+[data-theme='dark'] .read-mode figure.highlight .built_in { color: #61afef; }
+
+/* ========== 代码块展开按钮 ========== */
+
+.read-mode .code-expand-btn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: linear-gradient(to bottom, transparent, var(--highlight-bg, #f5f2ed));
+  cursor: pointer;
+  color: var(--link-color, #3498db);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border-top: 1px dashed var(--hr-border, #e0ddd5);
+}
+
+.read-mode .code-expand-btn:hover {
+  background: var(--highlight-bg, #f5f2ed);
+  color: var(--link-hover-color, #2980b9);
+}
+
+.read-mode .code-expand-btn i {
+  transition: transform 0.3s ease;
+}
+
+.read-mode .code-expand-btn.expand-done i {
+  transform: rotate(180deg);
+}
+
+/* ========== 代码块全屏模式 ========== */
+
+.read-mode figure.highlight.code-fullpage {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  z-index: 10000 !important;
+  overflow: auto !important;
+}
+
+.read-mode figure.highlight.code-fullpage .code {
+  min-height: calc(100vh - 50px);
+}
+
+/* ========== 内联代码样式 ========== */
+
+.read-mode code:not([class*="language-"]):not(.hljs) {
+  background: var(--highlight-bg, #f5f2ed) !important;
+  color: #c7254e !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 0.9em !important;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  border: 1px solid var(--hr-border, #e0ddd5) !important;
+  word-break: break-word;
+}
+
+[data-theme='dark'] .read-mode code:not([class*="language-"]):not(.hljs) {
+  background: #2d2d2d !important;
+  color: #e06c75 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ========== 图片样式增强 ========== */
+
+.read-mode .post-content img {
+  cursor: zoom-in;
+  max-width: 100%;
+  height: auto;
+  margin: 2em auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.read-mode .post-content img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme='dark'] .read-mode .post-content img {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='dark'] .read-mode .post-content img:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ========== 移动端适配 ========== */
+
+@media (max-width: 768px) {
+  .read-mode .highlight-tools {
+    padding: 6px 10px;
+    flex-wrap: wrap;
+  }
+  
+  .read-mode .highlight-tools .code-lang {
+    font-size: 11px;
+    order: 1;
+    flex-basis: 100%;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+  
+  .read-mode .highlight-tools .macStyle {
+    order: 0;
+  }
+  
+  .read-mode .highlight-tools .copy-button,
+  .read-mode .highlight-tools .fullpage-button {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .read-mode figure.highlight .code {
+    padding: 10px 12px !important;
+  }
+  
+  .read-mode figure.highlight .code .line {
+    font-size: 13px;
+  }
+  
+  .read-mode figure.highlight .gutter {
+    padding: 10px 6px !important;
+    min-width: 32px;
+  }
+  
+  .read-mode figure.highlight .gutter .line {
+    font-size: 11px;
+  }
+}
+
+/* ========== 打印样式 ========== */
+
+@media print {
+  .read-mode .highlight-tools {
+    display: none !important;
+  }
+  
+  .read-mode figure.highlight {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
