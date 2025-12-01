@@ -1,0 +1,78 @@
+/**
+ * 优化版懒加载样式
+ * 简化动画，减少GPU占用
+ */
+
+/* 懒加载占位符 - 简化版 */
+.lazy-placeholder {
+  background: linear-gradient(
+    90deg,
+    rgba(147, 112, 219, 0.1) 0%,
+    rgba(138, 43, 226, 0.2) 50%,
+    rgba(147, 112, 219, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: lazyShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  min-height: 150px;
+}
+
+/* 加载中状态 */
+.lazy-loading {
+  opacity: 0.6;
+  filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+/* 加载完成状态 */
+.lazy-loaded {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* 加载失败状态 */
+.lazy-error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px dashed rgba(255, 0, 0, 0.3);
+}
+
+/* 简化的闪烁动画 */
+@keyframes lazyShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* 深色模式适配 */
+[data-theme='dark'] .lazy-placeholder {
+  background: linear-gradient(
+    90deg,
+    rgba(75, 0, 130, 0.15) 0%,
+    rgba(138, 43, 226, 0.25) 50%,
+    rgba(75, 0, 130, 0.15) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* 移动端优化 - 禁用动画 */
+@media (max-width: 768px) {
+  .lazy-placeholder {
+    animation: none;
+    background: rgba(147, 112, 219, 0.15);
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .lazy-placeholder {
+    animation: none;
+  }
+  
+  .lazy-loading,
+  .lazy-loaded {
+    transition: none;
+  }
+}
