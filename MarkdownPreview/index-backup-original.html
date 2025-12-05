@@ -1,0 +1,1911 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Markdown语法指南与在线编辑器 | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="详细的Markdown语法介绍和使用指南，包含在线编辑器">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Markdown语法指南与在线编辑器">
+<meta property="og:url" content="https://xbxyftx.top/MarkdownPreview/index-backup-original.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="详细的Markdown语法介绍和使用指南，包含在线编辑器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/img/logo.png">
+<meta property="article:published_time" content="2025-06-04T02:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-05T08:47:13.077Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="鸿蒙开发">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="技术向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/img/logo.png"><link rel="shortcut icon" href="/img/logo.png"><link rel="canonical" href="https://xbxyftx.top/MarkdownPreview/index-backup-original.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="/css/lazy-loading.css"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Markdown语法指南与在线编辑器',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page',
+  typewriter: ''
+}</script><script>localStorage.setItem('theme','dark');document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/rightmenu.css"><link rel="stylesheet" href="/css/twikoo.css"><link rel="stylesheet" href="/css/lazy-loading-optimized.css"><link rel="stylesheet" href="/css/readmode-enhanced.css"><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(https://bu.dusays.com/2025/07/04/686787f462e79.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.png" alt="Logo"><span class="site-name">XBXyftx</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">Markdown语法指南与在线编辑器</h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><style>
+.markdown-editor-container {
+    margin: 20px 0;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.3),
+        0 0 0 1px rgba(255,255,255,0.1);
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d30 100%);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.markdown-editor-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg,
+        rgba(147, 112, 219, 0.1) 0%,
+        rgba(138, 43, 226, 0.1) 25%,
+        rgba(75, 0, 130, 0.1) 50%,
+        rgba(138, 43, 226, 0.1) 75%,
+        rgba(147, 112, 219, 0.1) 100%);
+    background-size: 400% 400%;
+    opacity: 0;
+    border-radius: 16px;
+    animation: gradientShift 6s ease-in-out infinite;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.markdown-editor-container:hover::before {
+    opacity: 1;
+}
+
+.markdown-editor-container:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 48px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(147, 112, 219, 0.3),
+        0 0 20px rgba(147, 112, 219, 0.2);
+}
+
+.editor-header {
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.2) 0%,
+        rgba(138, 43, 226, 0.2) 50%,
+        rgba(75, 0, 130, 0.2) 100%);
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(147, 112, 219, 0.3);
+    font-weight: 600;
+    color: #ffffff;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(147, 112, 219, 0.1);
+}
+
+.editor-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(147, 112, 219, 0.1) 50%,
+        transparent 100%);
+    animation: headerShine 3s ease-in-out infinite;
+}
+
+.editor-toolbar {
+    background: linear-gradient(135deg,
+        rgba(45, 45, 48, 0.9) 0%,
+        rgba(60, 60, 60, 0.9) 100%);
+    border-bottom: 1px solid rgba(147, 112, 219, 0.2);
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.toolbar-btn {
+    background: linear-gradient(135deg,
+        rgba(60, 60, 60, 0.8) 0%,
+        rgba(80, 80, 80, 0.8) 100%);
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    color: #d4d4d4;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.toolbar-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(147, 112, 219, 0.3) 50%,
+        transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.toolbar-btn:hover::before {
+    left: 100%;
+}
+
+.toolbar-btn:hover {
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.3) 0%,
+        rgba(138, 43, 226, 0.3) 100%);
+    border-color: rgba(147, 112, 219, 0.6);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 12px rgba(147, 112, 219, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.toolbar-btn:active {
+    transform: translateY(0);
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.editor-content {
+    display: flex;
+    height: 500px;
+    background: linear-gradient(135deg,
+        rgba(30, 30, 30, 0.95) 0%,
+        rgba(40, 40, 42, 0.95) 100%);
+    position: relative;
+    z-index: 2;
+}
+
+.editor-pane {
+    flex: 1;
+    position: relative;
+}
+
+.editor-pane:first-child {
+    border-right: 1px solid rgba(147, 112, 219, 0.2);
+}
+
+.pane-header {
+    background: linear-gradient(135deg,
+        rgba(37, 37, 38, 0.9) 0%,
+        rgba(45, 45, 48, 0.9) 100%);
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(147, 112, 219, 0.9);
+    border-bottom: 1px solid rgba(147, 112, 219, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.pane-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(147, 112, 219, 0.5) 50%,
+        transparent 100%);
+    animation: headerPulse 2s ease-in-out infinite;
+}
+
+.markdown-input {
+    width: 100%;
+    height: calc(100% - 32px);
+    border: none;
+    outline: none;
+    padding: 20px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    background: linear-gradient(135deg,
+        rgba(26, 26, 28, 0.95) 0%,
+        rgba(35, 35, 38, 0.95) 100%);
+    color: #e6e6e6;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.markdown-input::placeholder {
+    color: rgba(147, 112, 219, 0.6);
+    font-style: italic;
+}
+
+.markdown-input:focus {
+    background: linear-gradient(135deg,
+        rgba(30, 30, 32, 0.98) 0%,
+        rgba(40, 40, 42, 0.98) 100%);
+    color: #ffffff;
+    box-shadow: inset 0 0 20px rgba(147, 112, 219, 0.1);
+}
+
+.markdown-preview {
+    height: calc(100% - 32px);
+    overflow-y: auto;
+    padding: 20px;
+    background: linear-gradient(135deg,
+        rgba(22, 22, 24, 0.95) 0%,
+        rgba(32, 32, 35, 0.95) 100%);
+    color: #e6e6e6;
+    position: relative;
+}
+
+.markdown-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(147, 112, 219, 0.02) 0%,
+        transparent 70%);
+    pointer-events: none;
+}
+
+.markdown-preview h1, .markdown-preview h2, .markdown-preview h3,
+.markdown-preview h4, .markdown-preview h5, .markdown-preview h6 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #ffffff;
+}
+
+.markdown-preview h1 { font-size: 2em; border-bottom: 1px solid #444; padding-bottom: 10px; }
+.markdown-preview h2 { font-size: 1.5em; border-bottom: 1px solid #444; padding-bottom: 8px; }
+.markdown-preview h3 { font-size: 1.25em; }
+.markdown-preview h4 { font-size: 1em; }
+.markdown-preview h5 { font-size: 0.875em; }
+.markdown-preview h6 { font-size: 0.85em; color: #cccccc; }
+
+.markdown-preview p {
+    margin-bottom: 16px;
+    color: #d4d4d4;
+}
+
+.markdown-preview code {
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.15) 0%,
+        rgba(138, 43, 226, 0.15) 100%);
+    border-radius: 6px;
+    font-size: 85%;
+    margin: 0;
+    padding: 0.3em 0.6em;
+    color: #ff79c6;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.2s ease;
+}
+
+.markdown-preview code:hover {
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.25) 0%,
+        rgba(138, 43, 226, 0.25) 100%);
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 8px rgba(147, 112, 219, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.markdown-preview pre {
+    background: linear-gradient(135deg,
+        rgba(20, 20, 22, 0.95) 0%,
+        rgba(30, 30, 32, 0.95) 100%);
+    border-radius: 12px;
+    font-size: 85%;
+    line-height: 1.5;
+    overflow: auto;
+    padding: 20px;
+    border: 1px solid rgba(147, 112, 219, 0.2);
+    box-shadow:
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.markdown-preview pre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(147, 112, 219, 0.5) 50%,
+        transparent 100%);
+}
+
+.markdown-preview pre code {
+    background: transparent;
+    border: 0;
+    display: inline;
+    line-height: inherit;
+    margin: 0;
+    max-width: auto;
+    overflow: visible;
+    padding: 0;
+    word-wrap: normal;
+    color: #a6e22e;
+}
+
+.markdown-preview blockquote {
+    border-left: 4px solid transparent;
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.15) 0%,
+        rgba(138, 43, 226, 0.1) 100%);
+    color: #e6e6e6;
+    margin: 16px 0;
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    position: relative;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.markdown-preview blockquote::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg,
+        rgba(147, 112, 219, 0.8) 0%,
+        rgba(138, 43, 226, 0.8) 50%,
+        rgba(75, 0, 130, 0.8) 100%);
+    border-radius: 2px;
+}
+
+.markdown-preview blockquote::after {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 24px;
+    color: rgba(147, 112, 219, 0.4);
+    font-family: Georgia, serif;
+}
+
+.markdown-preview table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    margin: 20px 0;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow:
+        0 4px 16px rgba(0,0,0,0.3),
+        0 0 0 1px rgba(147, 112, 219, 0.2);
+    background: linear-gradient(135deg,
+        rgba(30, 30, 32, 0.9) 0%,
+        rgba(40, 40, 42, 0.9) 100%);
+}
+
+.markdown-preview table th,
+.markdown-preview table td {
+    border: none;
+    border-bottom: 1px solid rgba(147, 112, 219, 0.2);
+    padding: 12px 16px;
+    color: #e6e6e6;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.markdown-preview table tr:hover td {
+    background: rgba(147, 112, 219, 0.1);
+    transform: translateX(2px);
+}
+
+.markdown-preview table th {
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.3) 0%,
+        rgba(138, 43, 226, 0.3) 100%);
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
+
+.markdown-preview table th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        rgba(147, 112, 219, 0.6) 0%,
+        rgba(138, 43, 226, 0.6) 50%,
+        rgba(147, 112, 219, 0.6) 100%);
+}
+
+.markdown-preview ul, .markdown-preview ol {
+    margin-bottom: 16px;
+    padding-left: 2em;
+    color: #d4d4d4;
+}
+
+.markdown-preview li {
+    margin-bottom: 4px;
+    color: #d4d4d4;
+}
+
+.markdown-preview a {
+    color: #8be9fd;
+    text-decoration: none;
+    position: relative;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.1) 0%,
+        rgba(138, 43, 226, 0.05) 100%);
+}
+
+.markdown-preview a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        rgba(147, 112, 219, 0.8) 0%,
+        rgba(138, 43, 226, 0.8) 100%);
+    transition: width 0.3s ease;
+}
+
+.markdown-preview a:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.2) 0%,
+        rgba(138, 43, 226, 0.15) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(147, 112, 219, 0.3);
+}
+
+.markdown-preview a:hover::before {
+    width: 100%;
+}
+
+.markdown-preview strong {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.markdown-preview em {
+    color: #d4d4d4;
+    font-style: italic;
+}
+
+.markdown-preview del {
+    color: #888888;
+    text-decoration: line-through;
+}
+
+.markdown-preview hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 24px 0;
+}
+
+@media (max-width: 768px) {
+    .editor-content {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .editor-pane:first-child {
+        border-right: none;
+        border-bottom: 1px solid #444;
+    }
+
+    .markdown-input, .markdown-preview {
+        height: 300px;
+    }
+}
+
+.markdown-input::-webkit-scrollbar,
+.markdown-preview::-webkit-scrollbar {
+    width: 8px;
+}
+
+.markdown-input::-webkit-scrollbar-track,
+.markdown-preview::-webkit-scrollbar-track {
+    background: #2d2d30;
+}
+
+.markdown-input::-webkit-scrollbar-thumb,
+.markdown-preview::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.markdown-input::-webkit-scrollbar-thumb:hover,
+.markdown-preview::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+.fullscreen-mode {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background: #1e1e1e !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+.fullscreen-mode .editor-content {
+    height: calc(100vh - 120px) !important;
+}
+
+.save-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg,
+        rgba(147, 112, 219, 0.95) 0%,
+        rgba(138, 43, 226, 0.95) 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.3),
+        0 0 0 1px rgba(255,255,255,0.2),
+        0 0 20px rgba(147, 112, 219, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.save-notification::before {
+    content: '💾';
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.save-notification.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* 美丽的动画关键帧 */
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes headerShine {
+    0%, 100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0);
+        opacity: 0.5;
+    }
+}
+
+@keyframes headerPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scaleX(0.8);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes floatingParticles {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.5;
+    }
+    33% {
+        transform: translateY(-10px) rotate(120deg);
+        opacity: 0.8;
+    }
+    66% {
+        transform: translateY(5px) rotate(240deg);
+        opacity: 0.6;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+/* 添加浮动装饰粒子 */
+.editor-content::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, rgba(147, 112, 219, 0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatingParticles 4s ease-in-out infinite;
+    z-index: 1;
+}
+
+.editor-content::after {
+    content: '';
+    position: absolute;
+    top: 60%;
+    right: 15%;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatingParticles 5s ease-in-out infinite 1s;
+    z-index: 1;
+}
+
+/* 添加闪烁效果到工具栏按钮 */
+.toolbar-btn:nth-child(3n)::after {
+    content: '✨';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    font-size: 8px;
+    opacity: 0;
+    animation: sparkle 3s ease-in-out infinite;
+    animation-delay: calc(var(--delay, 0) * 0.5s);
+}
+</style>
+
+<h1 id="🚀-Markdown编辑器"><a href="#🚀-Markdown编辑器" class="headerlink" title="🚀 Markdown编辑器"></a>🚀 Markdown编辑器</h1><p>体验实时的Markdown编辑与预览功能！在左边输入Markdown源码，右边即时查看渲染效果。</p>
+<div class="markdown-editor-container">
+    <div class="editor-header">
+        🖊️ Markdown在线编辑器
+    </div>
+    <div class="editor-toolbar">
+        <button class="toolbar-btn" onclick="insertText('**', '**')" title="粗体 (Ctrl+B)">**B** 粗体</button>
+        <button class="toolbar-btn" onclick="insertText('*', '*')" title="斜体 (Ctrl+I)">*I* 斜体</button>
+        <button class="toolbar-btn" onclick="insertText('~~', '~~')" title="删除线">~~S~~ 删除线</button>
+        <button class="toolbar-btn" onclick="insertText('`', '`')" title="行内代码">&lt;/&gt; 代码</button>
+        <button class="toolbar-btn" onclick="insertText('[', '](url)')" title="链接 (Ctrl+K)">🔗 链接</button>
+        <button class="toolbar-btn" onclick="insertText('![', '](url)')" title="图片">🖼️ 图片</button>
+        <button class="toolbar-btn" onclick="insertHeading()" title="标题"># 标题</button>
+        <button class="toolbar-btn" onclick="insertList()" title="列表">📝 列表</button>
+        <button class="toolbar-btn" onclick="insertQuote()" title="引用">💬 引用</button>
+        <button class="toolbar-btn" onclick="insertTable()" title="表格">📊 表格</button>
+        <button class="toolbar-btn" onclick="toggleFullscreen()" title="全屏模式 (ESC退出)">⛶ 全屏</button>
+        <button class="toolbar-btn" onclick="saveMarkdown()" title="保存为文件">💾 保存</button>
+        <button class="toolbar-btn" onclick="clearEditor()" title="清空编辑器">🗑️ 清空</button>
+    </div>
+    <div class="editor-content">
+        <div class="editor-pane">
+            <div class="pane-header">📝 Markdown源码</div>
+            <textarea id="markdown-input" class="markdown-input" placeholder="在这里输入Markdown内容...">## 欢迎使用Markdown编辑器
+
+这是一个**实时预览**的Markdown编辑器。
+
+### 功能特色
+
+- ✨ **实时预览** - 边写边看效果
+- 🎨 **语法高亮** - 清晰的代码展示  
+- 📱 **响应式设计** - 适配各种设备
+- 🔧 **工具栏** - 快速插入常用语法
+
+### 试试这些语法
+
+1. **粗体文字**
+2. *斜体文字*
+3. ~~删除线~~
+4. `行内代码`
+
+> 这是一个引用块
+> 可以包含多行内容
+
+| 表格 | 演示 | 示例 |
+|------|------|------|
+| 单元格1 | 单元格2 | 单元格3 |
+| 数据A | 数据B | 数据C |
+
+---
+
+**开始你的Markdown创作之旅吧！** 🚀</textarea>
+        </div>
+        <div class="editor-pane">
+            <div class="pane-header">👁️ 实时预览</div>
+            <div id="markdown-preview" class="markdown-preview">
+                <!-- 预览内容将在这里显示 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./marked.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof marked !== 'undefined') {
+        marked.setOptions({
+            gfm: true,
+            breaks: true,
+            headerIds: false,
+            mangle: false
+        });
+    }
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('markdown-preview');
+    function updatePreview() {
+        if (input && preview && typeof marked !== 'undefined') {
+            const markdownText = input.value;
+            const htmlContent = marked.parse(markdownText);
+            preview.innerHTML = htmlContent;
+        }
+    }
+    // 保存编辑器状态的函数
+    function saveEditorState() {
+        return {
+            scrollTop: input.scrollTop,
+            selectionStart: input.selectionStart,
+            selectionEnd: input.selectionEnd
+        };
+    }
+    // 恢复编辑器状态的函数
+    function restoreEditorState(state) {
+        input.scrollTop = state.scrollTop;
+        input.setSelectionRange(state.selectionStart, state.selectionEnd);
+    }
+    if (input) {
+        input.addEventListener('input', updatePreview);
+        input.addEventListener('scroll', function() {
+            if (preview) {
+                const scrollPercent = input.scrollTop / (input.scrollHeight - input.clientHeight);
+                preview.scrollTop = scrollPercent * (preview.scrollHeight - preview.clientHeight);
+            }
+        });
+    }
+    window.insertText = function(before, after = '') {
+        if (!input) return;
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const selectedText = input.value.substring(start, end);
+        const newText = before + selectedText + after;
+        input.value = input.value.substring(0, start) + newText + input.value.substring(end);
+        input.focus();
+        input.setSelectionRange(start + before.length, start + before.length + selectedText.length);
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+        updatePreview();
+    };
+
+    window.insertHeading = function() {
+        if (!input) return;
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const lineStart = input.value.lastIndexOf('\n', start - 1) + 1;
+        const lineEnd = input.value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? input.value.length : lineEnd;
+
+        // 获取当前行内容
+        const currentLine = input.value.substring(lineStart, actualLineEnd);
+
+        // 检查是否已经是标题格式
+        const headingMatch = currentLine.match(/^(#+)\s*/);
+        let newText;
+
+        if (headingMatch) {
+            // 如果已经是标题，增加标题级别或移除
+            const currentLevel = headingMatch[1].length;
+            if (currentLevel >= 6) {
+                // 移除标题格式
+                newText = currentLine.replace(/^#+\s*/, '');
+            } else {
+                // 增加一个#
+                newText = '#' + currentLine;
+            }
+        } else {
+            // 添加二级标题
+            newText = '## ' + currentLine;
+        }
+
+        input.value = input.value.substring(0, lineStart) + newText + input.value.substring(actualLineEnd);
+        input.focus();
+        input.setSelectionRange(lineStart + newText.length, lineStart + newText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
+    };
+
+    window.insertList = function() {
+        if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const lineStart = input.value.lastIndexOf('\n', start - 1) + 1;
+        const lineEnd = input.value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? input.value.length : lineEnd;
+
+        // 获取当前行内容
+        const currentLine = input.value.substring(lineStart, actualLineEnd);
+
+        // 检查是否已经是列表格式
+        const listMatch = currentLine.match(/^(\s*)-\s*/);
+        let newText;
+
+        if (listMatch) {
+            // 如果已经是列表，移除列表格式
+            newText = currentLine.replace(/^(\s*)-\s*/, '$1');
+        } else {
+            // 添加列表格式
+            newText = '- ' + currentLine;
+        }
+
+        input.value = input.value.substring(0, lineStart) + newText + input.value.substring(actualLineEnd);
+        input.focus();
+        input.setSelectionRange(lineStart + newText.length, lineStart + newText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
+    };
+
+    window.insertQuote = function() {
+        if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const lineStart = input.value.lastIndexOf('\n', start - 1) + 1;
+        const lineEnd = input.value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? input.value.length : lineEnd;
+
+        // 获取当前行内容
+        const currentLine = input.value.substring(lineStart, actualLineEnd);
+
+        // 检查是否已经是引用格式
+        const quoteMatch = currentLine.match(/^(\s*)>\s*/);
+        let newText;
+
+        if (quoteMatch) {
+            // 如果已经是引用，移除引用格式
+            newText = currentLine.replace(/^(\s*)>\s*/, '$1');
+        } else {
+            // 添加引用格式
+            newText = '> ' + currentLine;
+        }
+
+        input.value = input.value.substring(0, lineStart) + newText + input.value.substring(actualLineEnd);
+        input.focus();
+        input.setSelectionRange(lineStart + newText.length, lineStart + newText.length);
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
+    };
+
+    window.insertTable = function() {
+        if (!input) return;
+
+        // 保存编辑器当前滚动位置
+        const scrollTop = input.scrollTop;
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+
+        // 检查光标是否在行首，如果不是则添加换行符
+        const beforeCursor = input.value.substring(0, start);
+        const needsNewlineBefore = beforeCursor.length > 0 && !beforeCursor.endsWith('\n');
+        const needsNewlineAfter = end < input.value.length && !input.value.substring(end).startsWith('\n');
+
+        let tableText = '';
+        if (needsNewlineBefore) tableText += '\n';
+        tableText += '| 列1 | 列2 | 列3 |\n|-----|-----|-----|\n| 内容 | 内容 | 内容 |';
+        if (needsNewlineAfter) tableText += '\n';
+
+        // 直接插入文本而不使用insertText函数
+        input.value = input.value.substring(0, start) + tableText + input.value.substring(end);
+
+        // 将光标定位到第一个单元格内容
+        const firstCellPos = start + (needsNewlineBefore ? 1 : 0) + 2; // "| "之后
+        input.focus();
+        input.setSelectionRange(firstCellPos, firstCellPos + 2); // 选中"列1"
+
+        // 恢复滚动位置
+        input.scrollTop = scrollTop;
+
+        updatePreview();
+    };
+
+    window.clearEditor = function() {
+        if (input && confirm('确定要清空编辑器内容吗？')) {
+            input.value = '';
+            updatePreview();
+            input.focus();
+        }
+    };
+
+    let isFullscreen = false;
+    window.toggleFullscreen = function() {
+        const container = document.querySelector('.markdown-editor-container');
+        if (!container) return;
+
+        if (!isFullscreen) {
+            container.classList.add('fullscreen-mode');
+            document.body.style.overflow = 'hidden';
+            isFullscreen = true;
+
+            // 更新按钮内容和提示
+            const fullscreenBtn = event.target;
+            fullscreenBtn.innerHTML = '⛶ 退出全屏';
+            fullscreenBtn.title = '退出全屏模式 (ESC)';
+        } else {
+            container.classList.remove('fullscreen-mode');
+            document.body.style.overflow = '';
+            isFullscreen = false;
+
+            // 更新按钮内容和提示
+            const fullscreenBtn = event.target;
+            fullscreenBtn.innerHTML = '⛶ 全屏';
+            fullscreenBtn.title = '全屏模式 (ESC退出)';
+        }
+
+        // 重新调整预览区域
+        updatePreview();
+    };
+
+    window.saveMarkdown = function() {
+        if (!input) return;
+
+        const content = input.value;
+        const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        // 创建下载链接
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'markdown-document.md';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        // 显示保存通知
+        showSaveNotification('文件已保存为 markdown-document.md');
+    };
+
+    function showSaveNotification(message) {
+        // 移除已存在的通知
+        const existingNotification = document.querySelector('.save-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        // 创建新通知
+        const notification = document.createElement('div');
+        notification.className = 'save-notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // 显示动画
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+
+        // 3秒后自动移除
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    if (input) {
+        input.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'b':
+                        e.preventDefault();
+                        insertText('**', '**');
+                        break;
+                    case 'i':
+                        e.preventDefault();
+                        insertText('*', '*');
+                        break;
+                    case 'k':
+                        e.preventDefault();
+                        insertText('[', '](url)');
+                        break;
+                }
+            }
+
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                insertText('    ');
+            }
+
+            if (e.key === 'Escape' && isFullscreen) {
+                toggleFullscreen();
+            }
+        });
+    }
+
+    // 添加ESC键全局监听
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isFullscreen) {
+            toggleFullscreen();
+        }
+    });
+
+    updatePreview();
+});
+</script>
+
+<hr>
+<h1 id="📝-Markdown语法指南"><a href="#📝-Markdown语法指南" class="headerlink" title="📝 Markdown语法指南"></a>📝 Markdown语法指南</h1><p>下面是详细的Markdown语法教程和示例。</p>
+<h2 id="✨-为什么使用Markdown？"><a href="#✨-为什么使用Markdown？" class="headerlink" title="✨ 为什么使用Markdown？"></a>✨ 为什么使用Markdown？</h2><ul>
+<li>🔄 <strong>简单易学</strong> - 语法简洁，容易掌握</li>
+<li>🎨 <strong>专注内容</strong> - 专注于内容而非格式</li>
+<li>📱 <strong>跨平台</strong> - 支持各种编辑器和平台</li>
+<li>💾 <strong>纯文本</strong> - 易于版本控制和分享</li>
+<li>🔄 <strong>可转换</strong> - 可转换为HTML、PDF等格式</li>
+</ul>
+<hr>
+<h2 id="📋-目录"><a href="#📋-目录" class="headerlink" title="📋 目录"></a>📋 目录</h2><ul>
+<li><a href="/MarkdownPreview/#🏷%EF%B8%8F-标题">标题</a></li>
+<li><a href="/MarkdownPreview/#📝-段落与换行">段落与换行</a></li>
+<li><a href="/MarkdownPreview/#✨-文本强调">文本强调</a></li>
+<li><a href="/MarkdownPreview/#📃-列表">列表</a></li>
+<li><a href="/MarkdownPreview/#🔗-链接">链接</a></li>
+<li><a href="/MarkdownPreview/#🖼%EF%B8%8F-图片">图片</a></li>
+<li><a href="/MarkdownPreview/#💻-代码">代码</a></li>
+<li><a href="/MarkdownPreview/#📊-表格">表格</a></li>
+<li><a href="/MarkdownPreview/#💬-引用">引用</a></li>
+<li><a href="/MarkdownPreview/#✅-任务列表">任务列表</a></li>
+<li><a href="/MarkdownPreview/#📑-删除线">删除线</a></li>
+<li><a href="/MarkdownPreview/#😊-表情符号">表情符号</a></li>
+<li><a href="/MarkdownPreview/#📖-脚注">脚注</a></li>
+<li><a href="/MarkdownPreview/#🔢-数学公式">数学公式</a></li>
+<li><a href="/MarkdownPreview/#🚀-高级语法">高级语法</a></li>
+</ul>
+<hr>
+<h2 id="🏷️-标题"><a href="#🏷️-标题" class="headerlink" title="🏷️ 标题"></a>🏷️ 标题</h2><p>使用 <code>#</code> 来创建标题，支持1-6级标题：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><hr>
+<h2 id="📝-段落与换行"><a href="#📝-段落与换行" class="headerlink" title="📝 段落与换行"></a>📝 段落与换行</h2><h3 id="段落"><a href="#段落" class="headerlink" title="段落"></a>段落</h3><p>段落之间用空行分隔：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这是第一个段落。</span><br><span class="line"></span><br><span class="line">这是第二个段落。</span><br></pre></td></tr></table></figure>
+<h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><p>在行尾添加两个空格，或使用一个空行：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这是第一行  </span><br><span class="line">这是第二行</span><br><span class="line"></span><br><span class="line">这是新的段落</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="✨-文本强调"><a href="#✨-文本强调" class="headerlink" title="✨ 文本强调"></a>✨ 文本强调</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="emphasis">*斜体文本*</span> 或 <span class="emphasis">_斜体文本_</span></span><br><span class="line"><span class="strong">**粗体文本**</span> 或 <span class="strong">__粗体文本__</span></span><br><span class="line"><span class="strong">**<span class="emphasis">*粗斜体文本*</span>**</span> 或 <span class="strong">__<span class="emphasis">_粗斜体文本_</span>__</span></span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<p><em>斜体文本</em> 或 <em>斜体文本</em><br><strong>粗体文本</strong> 或 <strong>粗体文本</strong><br><strong><em>粗斜体文本</em></strong> 或 <strong><em>粗斜体文本</em></strong></p>
+<hr>
+<h2 id="📃-列表"><a href="#📃-列表" class="headerlink" title="📃 列表"></a>📃 列表</h2><h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><p>使用 <code>-</code>、<code>+</code> 或 <code>*</code>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> 项目一</span><br><span class="line"><span class="bullet">-</span> 项目二</span><br><span class="line"><span class="bullet">  -</span> 子项目 2.1</span><br><span class="line"><span class="bullet">  -</span> 子项目 2.2</span><br><span class="line"><span class="bullet">-</span> 项目三</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<ul>
+<li>项目一</li>
+<li>项目二<ul>
+<li>子项目 2.1</li>
+<li>子项目 2.2</li>
+</ul>
+</li>
+<li>项目三</li>
+</ul>
+<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><p>使用数字加点：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> 第一项</span><br><span class="line"><span class="bullet">2.</span> 第二项</span><br><span class="line"><span class="bullet">   1.</span> 子项目 2.1</span><br><span class="line"><span class="bullet">   2.</span> 子项目 2.2</span><br><span class="line"><span class="bullet">3.</span> 第三项</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<ol>
+<li>第一项</li>
+<li>第二项<ol>
+<li>子项目 2.1</li>
+<li>子项目 2.2</li>
+</ol>
+</li>
+<li>第三项</li>
+</ol>
+<hr>
+<h2 id="🔗-链接"><a href="#🔗-链接" class="headerlink" title="🔗 链接"></a>🔗 链接</h2><h3 id="普通链接"><a href="#普通链接" class="headerlink" title="普通链接"></a>普通链接</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">链接文本</span>](<span class="link">https://example.com</span>)</span><br><span class="line">[<span class="string">带标题的链接</span>](<span class="link">https://example.com &quot;这是标题&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">&lt;https://example.com&gt;</span></span><br><span class="line"><span class="language-xml">&lt;email@example.com&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="参考式链接"><a href="#参考式链接" class="headerlink" title="参考式链接"></a>参考式链接</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">Google</span>][<span class="symbol">1</span>]</span><br><span class="line">[<span class="string">GitHub</span>][<span class="symbol">github</span>]</span><br><span class="line"></span><br><span class="line">[<span class="symbol">1</span>]: <span class="link">https://google.com</span></span><br><span class="line">[<span class="symbol">github</span>]: <span class="link">https://github.com</span></span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://example.com">链接文本</a><br><a target="_blank" rel="noopener" href="https://example.com" title="这是标题">带标题的链接</a><br><a target="_blank" rel="noopener" href="https://example.com">https://example.com</a></p>
+<hr>
+<h2 id="🖼️-图片"><a href="#🖼️-图片" class="headerlink" title="🖼️ 图片"></a>🖼️ 图片</h2><h3 id="普通图片"><a href="#普通图片" class="headerlink" title="普通图片"></a>普通图片</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">替代文本</span>](<span class="link">https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg</span>)</span><br><span class="line">![<span class="string">带标题的图片</span>](<span class="link">https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg &quot;图片标题&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<p><img src="https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg" alt="替代文本"><br><img src="https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg" alt="带标题的图片" title="图片标题"></p>
+<h3 id="参考式图片"><a href="#参考式图片" class="headerlink" title="参考式图片"></a>参考式图片</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">替代文本</span>][<span class="symbol">图片ID</span>]</span><br><span class="line"></span><br><span class="line">[<span class="symbol">图片ID</span>]: <span class="link">https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg &quot;可选标题&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<p><img src="https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg" alt="替代文本" title="演示图片"></p>
+<h3 id="图片链接"><a href="#图片链接" class="headerlink" title="图片链接"></a>图片链接</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">![图片</span>](<span class="link">https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg</span>)](<span class="link">https://example.com</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://example.com"><img src="https://bu.dusays.com/2025/04/21/6805d63ef1902.jpg" alt="图片"></a></p>
+<hr>
+<h2 id="💻-代码"><a href="#💻-代码" class="headerlink" title="💻 代码"></a>💻 代码</h2><h3 id="行内代码"><a href="#行内代码" class="headerlink" title="行内代码"></a>行内代码</h3><p>使用反引号包围：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这是 <span class="code">`行内代码`</span> 示例</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong> 这是 <code>行内代码</code> 示例</p>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>使用三个反引号：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">```javascript</span></span><br><span class="line"><span class="code">function hello() &#123;</span></span><br><span class="line"><span class="code">    console.log(&quot;Hello, World!&quot;);</span></span><br><span class="line"><span class="code">&#125;</span></span><br><span class="line"><span class="code">```</span></span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hello</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="指定语言高亮"><a href="#指定语言高亮" class="headerlink" title="指定语言高亮"></a>指定语言高亮</h3><p>支持多种编程语言：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">```python</span></span><br><span class="line"><span class="code">def hello():</span></span><br><span class="line"><span class="code">    print(&quot;Hello, Python!&quot;)</span></span><br><span class="line"><span class="code">```</span></span><br><span class="line"></span><br><span class="line"><span class="code">```typescript</span></span><br><span class="line"><span class="code">interface User &#123;</span></span><br><span class="line"><span class="code">    name: string;</span></span><br><span class="line"><span class="code">    age: number;</span></span><br><span class="line"><span class="code">&#125;</span></span><br><span class="line"><span class="code">```</span></span><br><span class="line"></span><br><span class="line"><span class="code">```bash</span></span><br><span class="line"><span class="code">npm install package-name</span></span><br><span class="line"><span class="code">```</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="📊-表格"><a href="#📊-表格" class="headerlink" title="📊 表格"></a>📊 表格</h2><h3 id="基本表格"><a href="#基本表格" class="headerlink" title="基本表格"></a>基本表格</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| 列1 | 列2 | 列3 |</span><br><span class="line">|-----|-----|-----|</span><br><span class="line">| 行1 | 数据 | 数据 |</span><br><span class="line">| 行2 | 数据 | 数据 |</span><br></pre></td></tr></table></figure>
+<h3 id="对齐方式"><a href="#对齐方式" class="headerlink" title="对齐方式"></a>对齐方式</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| 左对齐 | 居中对齐 | 右对齐 |</span><br><span class="line">|:-------|:--------:|-------:|</span><br><span class="line">| 文本   | 文本     | 文本   |</span><br><span class="line">| 内容   | 内容     | 内容   |</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">左对齐</th>
+<th style="text-align:center">居中对齐</th>
+<th style="text-align:right">右对齐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">文本</td>
+<td style="text-align:center">文本</td>
+<td style="text-align:right">文本</td>
+</tr>
+<tr>
+<td style="text-align:left">内容</td>
+<td style="text-align:center">内容</td>
+<td style="text-align:right">内容</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="💬-引用"><a href="#💬-引用" class="headerlink" title="💬 引用"></a>💬 引用</h2><h3 id="普通引用"><a href="#普通引用" class="headerlink" title="普通引用"></a>普通引用</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 这是一个引用</span></span><br><span class="line"><span class="quote">&gt; 可以跨越多行</span></span><br></pre></td></tr></table></figure>
+<h3 id="嵌套引用"><a href="#嵌套引用" class="headerlink" title="嵌套引用"></a>嵌套引用</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 第一级引用</span></span><br><span class="line">&gt;&gt; 第二级引用</span><br><span class="line">&gt;&gt;&gt; 第三级引用</span><br></pre></td></tr></table></figure>
+<h3 id="引用中的其他元素"><a href="#引用中的其他元素" class="headerlink" title="引用中的其他元素"></a>引用中的其他元素</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; ## 引用中的标题</span></span><br><span class="line"><span class="quote">&gt; </span></span><br><span class="line"><span class="quote">&gt; 引用中的<span class="strong">**粗体**</span>和<span class="emphasis">*斜体*</span></span></span><br><span class="line"><span class="quote">&gt; </span></span><br><span class="line"><span class="quote">&gt; ```javascript</span></span><br><span class="line"><span class="quote">&gt; // 引用中的代码</span></span><br><span class="line"><span class="quote">&gt; console.log(&quot;Hello&quot;);</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**效果展示：**</span><br><span class="line"></span><br><span class="line">&gt; 这是一个引用  </span><br><span class="line">&gt; 可以跨越多行</span><br><span class="line"></span><br><span class="line">&gt; ## 引用中的标题</span><br><span class="line">&gt; </span><br><span class="line">&gt; 引用中的**粗体**和*斜体*</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## ➖ 分割线</span><br><span class="line"></span><br><span class="line">使用三个或更多的 `-`、`*` 或 `_`：</span><br><span class="line"></span><br><span class="line">```markdown</span><br><span class="line">---</span><br><span class="line">***</span><br><span class="line">___</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="✅-任务列表"><a href="#✅-任务列表" class="headerlink" title="✅ 任务列表"></a>✅ 任务列表</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> [x] 已完成的任务</span><br><span class="line"><span class="bullet">-</span> [ ] 未完成的任务</span><br><span class="line"><span class="bullet">-</span> [x] ~~已取消的任务~~</span><br><span class="line"><span class="bullet">-</span> [ ] 待办事项</span><br><span class="line"><span class="bullet">  -</span> [x] 子任务1</span><br><span class="line"><span class="bullet">  -</span> [ ] 子任务2</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong></p>
+<ul>
+<li>[x] 已完成的任务</li>
+<li>[ ] 未完成的任务</li>
+<li>[x] <del>已取消的任务</del></li>
+<li>[ ] 待办事项<ul>
+<li>[x] 子任务1</li>
+<li>[ ] 子任务2</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="📑-删除线"><a href="#📑-删除线" class="headerlink" title="📑 删除线"></a><del>📑</del> 删除线</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~~这是删除线文本~~</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong> <del>这是删除线文本</del></p>
+<hr>
+<h2 id="😊-表情符号"><a href="#😊-表情符号" class="headerlink" title="😊 表情符号"></a>😊 表情符号</h2><h3 id="使用表情代码"><a href="#使用表情代码" class="headerlink" title="使用表情代码"></a>使用表情代码</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:smile: :heart: :thumbsup: :fire: :rocket:</span><br></pre></td></tr></table></figure>
+<h3 id="直接使用Unicode表情"><a href="#直接使用Unicode表情" class="headerlink" title="直接使用Unicode表情"></a>直接使用Unicode表情</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">😀 😃 😄 😁 😆 😅 😂 🤣</span><br><span class="line">❤️ 💖 💕 💗 💓 💝 💟</span><br><span class="line">👍 👎 👌 🤝 👏 🙌 🎉</span><br></pre></td></tr></table></figure>
+<p><strong>效果展示：</strong><br>😀 😃 😄 😁 😆 😅 😂 🤣<br>❤️ 💖 💕 💗 💓 💝 💟<br>👍 👎 👌 🤝 👏 🙌 🎉</p>
+<hr>
+<h2 id="📖-脚注"><a href="#📖-脚注" class="headerlink" title="📖 脚注"></a>📖 脚注</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">这是一个有脚注的文本[^1]。</span><br><span class="line"></span><br><span class="line">这是另一个脚注[^note]。</span><br><span class="line"></span><br><span class="line">[<span class="symbol">^1</span>]: <span class="link">这是第一个脚注的内容。</span></span><br><span class="line">[<span class="symbol">^note</span>]: <span class="link">这是命名脚注的内容。</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="🔢-数学公式"><a href="#🔢-数学公式" class="headerlink" title="🔢 数学公式"></a>🔢 数学公式</h2><h3 id="行内公式"><a href="#行内公式" class="headerlink" title="行内公式"></a>行内公式</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这是行内公式：$E = mc^2$</span><br></pre></td></tr></table></figure>
+<h3 id="块级公式"><a href="#块级公式" class="headerlink" title="块级公式"></a>块级公式</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\frac&#123;n!&#125;&#123;k!(n-k)!&#125; = \binom&#123;n&#125;&#123;k&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<h3 id="常用数学符号"><a href="#常用数学符号" class="headerlink" title="常用数学符号"></a>常用数学符号</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$\alpha, \beta, \gamma, \Delta, \pi, \sigma$</span><br><span class="line">$\sum<span class="emphasis">_&#123;i=1&#125;^&#123;n&#125; x_</span>i$</span><br><span class="line">$\int<span class="emphasis">_0^&#123;\infty&#125; e^&#123;-x&#125; dx$</span></span><br><span class="line"><span class="emphasis">$\sqrt&#123;x^2 + y^2&#125;$</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="🚀-高级语法"><a href="#🚀-高级语法" class="headerlink" title="🚀 高级语法"></a>🚀 高级语法</h2><h3 id="HTML标签"><a href="#HTML标签" class="headerlink" title="HTML标签"></a>HTML标签</h3><p>Markdown支持部分HTML标签：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">details</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">summary</span>&gt;</span>点击展开<span class="tag">&lt;/<span class="name">summary</span>&gt;</span></span><br><span class="line">这里是隐藏的内容</span><br><span class="line"><span class="tag">&lt;/<span class="name">details</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">mark</span>&gt;</span>高亮文本<span class="tag">&lt;/<span class="name">mark</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">kbd</span>&gt;</span>Ctrl<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span> + <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>C<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h3><p>使用反斜杠转义特殊字符：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\* 这不是斜体 \*</span><br><span class="line">\# 这不是标题</span><br><span class="line">\[这不是链接\]</span><br></pre></td></tr></table></figure>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这是注释，不会在渲染结果中显示 --&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="💡-实用技巧"><a href="#💡-实用技巧" class="headerlink" title="💡 实用技巧"></a>💡 实用技巧</h2><h3 id="1-目录生成"><a href="#1-目录生成" class="headerlink" title="1. 目录生成"></a>1. 目录生成</h3><p>大多数Markdown编辑器支持自动生成目录：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[TOC]</span><br></pre></td></tr></table></figure>
+<h3 id="2-语法高亮的语言标识符"><a href="#2-语法高亮的语言标识符" class="headerlink" title="2. 语法高亮的语言标识符"></a>2. 语法高亮的语言标识符</h3><p>常用的语言标识符：</p>
+<ul>
+<li><code>javascript</code> / <code>js</code></li>
+<li><code>typescript</code> / <code>ts</code>  </li>
+<li><code>python</code> / <code>py</code></li>
+<li><code>java</code></li>
+<li><code>c</code> / <code>cpp</code></li>
+<li><code>csharp</code> / <code>cs</code></li>
+<li><code>php</code></li>
+<li><code>html</code></li>
+<li><code>css</code></li>
+<li><code>scss</code> / <code>sass</code></li>
+<li><code>bash</code> / <code>shell</code></li>
+<li><code>json</code></li>
+<li><code>xml</code></li>
+<li><code>yaml</code></li>
+<li><code>markdown</code> / <code>md</code></li>
+</ul>
+<h3 id="3-表格对齐"><a href="#3-表格对齐" class="headerlink" title="3. 表格对齐"></a>3. 表格对齐</h3><ul>
+<li><code>:---</code> 左对齐</li>
+<li><code>:---:</code> 居中对齐  </li>
+<li><code>---:</code> 右对齐</li>
+</ul>
+<h3 id="4-引用嵌套"><a href="#4-引用嵌套" class="headerlink" title="4. 引用嵌套"></a>4. 引用嵌套</h3><blockquote>
+<p>引用可以嵌套</p>
+<blockquote>
+<p>这是二级引用</p>
+<blockquote>
+<p>这是三级引用</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="📚-常见问题"><a href="#📚-常见问题" class="headerlink" title="📚 常见问题"></a>📚 常见问题</h2><h3 id="Q-如何在表格中换行？"><a href="#Q-如何在表格中换行？" class="headerlink" title="Q: 如何在表格中换行？"></a>Q: 如何在表格中换行？</h3><p>A: 使用HTML的 <code>&lt;br&gt;</code> 标签：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| 列1 | 列2 |</span><br><span class="line">|-----|-----|</span><br><span class="line">| 第一行<span class="language-xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span>第二行 | 内容 |</span><br></pre></td></tr></table></figure>
+<h3 id="Q-如何添加颜色？"><a href="#Q-如何添加颜色？" class="headerlink" title="Q: 如何添加颜色？"></a>Q: 如何添加颜色？</h3><p>A: 使用HTML标签：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">&quot;color: red&quot;</span>&gt;</span>红色文本<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">&quot;color: blue&quot;</span>&gt;</span>蓝色文本<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Q-如何居中对齐？"><a href="#Q-如何居中对齐？" class="headerlink" title="Q: 如何居中对齐？"></a>Q: 如何居中对齐？</h3><p>A: 使用HTML标签：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">center</span>&gt;</span>居中的内容<span class="tag">&lt;/<span class="name">center</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">align</span>=<span class="string">&quot;center&quot;</span>&gt;</span></span><br><span class="line">另一种居中方式</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="🎯-最佳实践"><a href="#🎯-最佳实践" class="headerlink" title="🎯 最佳实践"></a>🎯 最佳实践</h2><h3 id="1-文档结构"><a href="#1-文档结构" class="headerlink" title="1. 文档结构"></a>1. 文档结构</h3><ul>
+<li>使用清晰的标题层次</li>
+<li>适当使用目录</li>
+<li>合理使用分割线分节</li>
+</ul>
+<h3 id="2-代码展示"><a href="#2-代码展示" class="headerlink" title="2. 代码展示"></a>2. 代码展示</h3><ul>
+<li>为代码块指定语言</li>
+<li>使用反引号包围行内代码</li>
+<li>保持代码缩进一致</li>
+</ul>
+<h3 id="3-链接和图片"><a href="#3-链接和图片" class="headerlink" title="3. 链接和图片"></a>3. 链接和图片</h3><ul>
+<li>为链接添加描述性文本</li>
+<li>为图片添加替代文本</li>
+<li>使用相对路径引用本地文件</li>
+</ul>
+<h3 id="4-表格优化"><a href="#4-表格优化" class="headerlink" title="4. 表格优化"></a>4. 表格优化</h3><ul>
+<li>保持列宽一致</li>
+<li>使用适当的对齐方式</li>
+<li>避免表格过于复杂</li>
+</ul>
+<hr>
+<h2 id="⚡-快捷键参考"><a href="#⚡-快捷键参考" class="headerlink" title="⚡ 快捷键参考"></a>⚡ 快捷键参考</h2><p>大多数Markdown编辑器的常用快捷键：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>粗体</td>
+<td><code>Ctrl + B</code></td>
+<td>加粗选中文本</td>
+</tr>
+<tr>
+<td>斜体</td>
+<td><code>Ctrl + I</code></td>
+<td>倾斜选中文本</td>
+</tr>
+<tr>
+<td>链接</td>
+<td><code>Ctrl + K</code></td>
+<td>插入链接</td>
+</tr>
+<tr>
+<td>代码</td>
+<td><code>Ctrl + Shift + C</code></td>
+<td>插入代码块</td>
+</tr>
+<tr>
+<td>预览</td>
+<td><code>Ctrl + Shift + P</code></td>
+<td>预览模式</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p><em>希望这个详细的Markdown语法指南对您有帮助！现在您可以开始创作精美的文档了！</em> 🚀 ✨</p>
+<p><strong>Happy Writing!</strong> 📝💫</p>
+</div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipapi.co/json/',
+    'https://freegeoip.app/json/',
+    'https://ipinfo.io/json'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    fetch(currentApi)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.gif" title="1.gif" class="announcementImg"/></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/28/EverydayAlgorithm/" title="每日算法"><img src="/imgs/ArticleTopImgs/EverydayAlgorithmTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="每日算法"/></a><div class="content"><a class="title" href="/2025/11/28/EverydayAlgorithm/" title="每日算法">每日算法</a><time datetime="2025-11-28T09:09:19.000Z" title="发表于 2025-11-28 17:09:19">2025-11-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/18/HongYiXun/" title="鸿易讯"><img src="/imgs/ArticleTopImgs/HongYiXunTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿易讯"/></a><div class="content"><a class="title" href="/2025/11/18/HongYiXun/" title="鸿易讯">鸿易讯</a><time datetime="2025-11-18T07:19:14.000Z" title="发表于 2025-11-18 15:19:14">2025-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/01/ThoughtsOnVibeCoding/" title="在虚构与现实之间，守住那束灵感之光"><img src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="在虚构与现实之间，守住那束灵感之光"/></a><div class="content"><a class="title" href="/2025/11/01/ThoughtsOnVibeCoding/" title="在虚构与现实之间，守住那束灵感之光">在虚构与现实之间，守住那束灵感之光</a><time datetime="2025-11-01T08:53:54.000Z" title="发表于 2025-11-01 16:53:54">2025-11-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/20/NowInOpenHarmonyPutAway3/" title="NowInOpenHarmony上架笔记之后端部署优化"><img src="/imgs/ArticleTopImgs/NowInOpenHarmonyPutawayTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NowInOpenHarmony上架笔记之后端部署优化"/></a><div class="content"><a class="title" href="/2025/10/20/NowInOpenHarmonyPutAway3/" title="NowInOpenHarmony上架笔记之后端部署优化">NowInOpenHarmony上架笔记之后端部署优化</a><time datetime="2025-10-20T06:17:05.000Z" title="发表于 2025-10-20 14:17:05">2025-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/12/NowInOpenHarmonyPutaway2/" title="NowInOpenHarmony上架笔记之再起新征程"><img src="/imgs/ArticleTopImgs/NowInOpenHarmonyPutawayTopImg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NowInOpenHarmony上架笔记之再起新征程"/></a><div class="content"><a class="title" href="/2025/10/12/NowInOpenHarmonyPutaway2/" title="NowInOpenHarmony上架笔记之再起新征程">NowInOpenHarmony上架笔记之再起新征程</a><time datetime="2025-10-12T06:17:05.000Z" title="发表于 2025-10-12 14:17:05">2025-10-12</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E6%96%B0%E7%94%9F%E8%AE%AD%E7%BB%83%E8%90%A5/" style="font-size: 1.1em; color: #999">新生训练营</a> <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.15em; color: #999b9e">智能体</a> <a href="/tags/Vibe-Coding/" style="font-size: 1.1em; color: #999">Vibe Coding</a> <a href="/tags/%E7%8B%AC%E7%99%BD/" style="font-size: 1.25em; color: #999fa7">独白</a> <a href="/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/" style="font-size: 1.25em; color: #999fa7">开源之夏</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/ClaudeCode/" style="font-size: 1.2em; color: #999da3">ClaudeCode</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/" style="font-size: 1.5em; color: #99a9bf">技术向</a> <a href="/tags/AI/" style="font-size: 1.2em; color: #999da3">AI</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/cursor/" style="font-size: 1.15em; color: #999b9e">cursor</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95/" style="font-size: 1.1em; color: #999">华为账户登录</a> <a href="/tags/Web/" style="font-size: 1.1em; color: #999">Web</a> <a href="/tags/%E7%94%A8%E6%88%B7%E9%A6%96%E9%80%89%E9%A1%B9/" style="font-size: 1.1em; color: #999">用户首选项</a> <a href="/tags/JS/" style="font-size: 1.25em; color: #999fa7">JS</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.1em; color: #999">算法</a> <a href="/tags/%E9%B8%BF%E6%98%93%E8%AE%AF/" style="font-size: 1.1em; color: #999">鸿易讯</a> <a href="/tags/netlify/" style="font-size: 1.1em; color: #999">netlify</a> <a href="/tags/%E4%BA%91%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">云工作流</a> <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="font-size: 1.4em; color: #99a5b6">项目</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/%E9%B8%BF%E8%92%99/" style="font-size: 1.45em; color: #99a7ba">鸿蒙</a> <a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91Flexus%E4%BA%91%E6%9C%8D%E5%8A%A1L%E5%AE%9E%E4%BE%8B/" style="font-size: 1.1em; color: #999">华为云Flexus云服务L实例</a> <a href="/tags/%E6%89%A3%E5%AD%90/" style="font-size: 1.15em; color: #999b9e">扣子</a> <a href="/tags/%E5%9B%BD%E5%86%85%E7%9B%B4%E8%BF%9E/" style="font-size: 1.1em; color: #999">国内直连</a> <a href="/tags/HTML/" style="font-size: 1.2em; color: #999da3">HTML</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 1.1em; color: #999">期末复习</a> <a href="/tags/NowInOpenHarmony/" style="font-size: 1.25em; color: #999fa7">NowInOpenHarmony</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 1.1em; color: #999">数据持久化</a> <a href="/tags/CodeX/" style="font-size: 1.1em; color: #999">CodeX</a> <a href="/tags/%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91%E5%A4%9A%E7%AB%AF%E9%83%A8%E7%BD%B2/" style="font-size: 1.1em; color: #999">一次开发多端部署</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" style="font-size: 1.15em; color: #999b9e">网络请求</a> <a href="/tags/V2/" style="font-size: 1.35em; color: #99a3b1">V2</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" style="font-size: 1.3em; color: #99a1ac">主题美化</a> <a href="/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 1.35em; color: #99a3b1">hexo博客搭建</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E5%88%9B%E5%AE%A2%E7%A9%BA%E9%97%B4/" style="font-size: 1.1em; color: #999">创客空间</a> <a href="/tags/CSS/" style="font-size: 1.2em; color: #999da3">CSS</a> <a href="/tags/%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF/" style="font-size: 1.1em; color: #999">宝塔面板</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/11/">
+            <span class="card-archive-list-date">
+              十一月 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/10/">
+            <span class="card-archive-list-date">
+              十月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/07/">
+            <span class="card-archive-list-date">
+              七月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/05/">
+            <span class="card-archive-list-date">
+              五月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">41</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">484.6k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-12-05T10:38:18.439Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><script>function initCounter(targetId, initValue) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            const element = mutation.target;
+            const currentValue = parseInt(element.textContent);
+            if (!isNaN(currentValue)) {
+                element.textContent = currentValue + parseInt(10000); 
+                observer.disconnect();
+            }
+        });
+    });
+
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+        observer.observe(targetElement, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+    }
+}
+
+// 初始化访问量统计
+initCounter('busuanzi_value_site_pv');
+// 初始化访客量统计 
+initCounter('busuanzi_value_site_uv');</script><script>checkUv()</script></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><!-- 网络监控器 - 帮助定位503问题--><script src="/js/network-monitor.js"></script><script src="/js/topimg-monitor.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 基础懒加载功能--><script src="/js/lazy-loading.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe-optimized.js"></script><script defer src="/js/jquery-3.6.0.min.js"></script><script defer src="/js/rightmenu.js"></script><script src="/js/happy-title.js" async></script><script defer src="/js/lazy-loading-optimized.js"></script><script defer src="/js/lightbox-enhanced.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/24/typewriter/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/TypeWriteTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-24</span><a class="blog-slider__title" href="2025/06/24/typewriter/" alt="">Butterfly主题实现简介打字机</a><div class="blog-slider__text">详细介绍如何在Hexo的Butterfly主题中添加炫酷的打字机效果，包含完整的实现代码和配置方法。</div><a class="blog-slider__button" href="2025/06/24/typewriter/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/yiduoTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/04/V2/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/V2TopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-04</span><a class="blog-slider__title" href="2025/02/04/V2/" alt="">浅谈鸿蒙状态管理V1——&gt;V2</a><div class="blog-slider__text">用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。</div><a class="blog-slider__button" href="2025/02/04/V2/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/RCPTopImg.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

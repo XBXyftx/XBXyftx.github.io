@@ -30,7 +30,7 @@
         );
     }
 
-    // 加载图片
+    // 加载图片 - 简化版，平滑淡入效果
     function loadImage(img) {
         return new Promise((resolve, reject) => {
             const originalSrc = img.dataset.src || img.dataset.original || img.getAttribute('data-lazy-src');
@@ -43,21 +43,20 @@
 
             const newImg = new Image();
             newImg.onload = function() {
-                // 添加梦幻的加载完成效果
-                img.style.transform = 'scale(1.05)';
-                img.style.filter = 'brightness(1.2) saturate(1.3)';
+                // 先确保完全透明，禁用过渡
+                img.style.opacity = '0';
+                img.style.transition = 'none';
+                img.src = originalSrc;
+                img.classList.remove('loading', 'lazy-placeholder');
+                img.classList.add('loaded');
 
+                // 延迟后平滑淡入，避免突然变亮
                 setTimeout(() => {
-                    img.src = originalSrc;
-                    img.classList.remove('loading', 'lazy-placeholder');
-                    img.classList.add('loaded');
-
-                    // 恢复正常样式
-                    setTimeout(() => {
-                        img.style.transform = '';
-                        img.style.filter = '';
-                    }, 300);
-                }, 150);
+                    img.style.transition = 'opacity 0.6s ease-out';
+                    requestAnimationFrame(() => {
+                        img.style.opacity = '1';
+                    });
+                }, 50);
 
                 resolve();
             };
@@ -155,71 +154,9 @@
         return '';
     }
 
-    // 添加梦幻加载效果
+    // 梦幻加载效果已移除，保持简洁的淡入效果
     function addMagicalLoadingEffect(img) {
-        // 创建星光粒子效果
-        const starContainer = document.createElement('div');
-        starContainer.className = 'magical-stars';
-        starContainer.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        `;
-
-        // 创建多个星光粒子
-        for (let i = 0; i < 8; i++) {
-            const star = document.createElement('div');
-            star.style.cssText = `
-                position: absolute;
-                width: 3px;
-                height: 3px;
-                background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(147,112,219,0.6) 100%);
-                border-radius: 50%;
-                animation: twinkle ${2 + Math.random() * 2}s infinite ease-in-out;
-                animation-delay: ${Math.random() * 2}s;
-                top: ${Math.random() * 100}%;
-                left: ${Math.random() * 100}%;
-            `;
-            starContainer.appendChild(star);
-        }
-
-        // 添加星光动画样式
-        if (!document.querySelector('#magical-loading-styles')) {
-            const style = document.createElement('style');
-            style.id = 'magical-loading-styles';
-            style.textContent = `
-                @keyframes twinkle {
-                    0%, 100% { opacity: 0; transform: scale(0.5); }
-                    50% { opacity: 1; transform: scale(1.2); }
-                }
-
-                .magical-stars {
-                    animation: float-particles 4s infinite linear;
-                }
-
-                @keyframes float-particles {
-                    0% { transform: translateY(0px) rotate(0deg); }
-                    100% { transform: translateY(-10px) rotate(360deg); }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        img.style.position = 'relative';
-        img.appendChild(starContainer);
-
-        // 图片加载完成后移除粒子效果
-        img.addEventListener('load', () => {
-            setTimeout(() => {
-                if (starContainer && starContainer.parentNode) {
-                    starContainer.remove();
-                }
-            }, 1000);
-        });
+        // 不再添加星光粒子效果，保持简洁
     }
 
     // 添加占位符到视窗中的元素
