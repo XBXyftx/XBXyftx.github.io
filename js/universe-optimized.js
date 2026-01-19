@@ -35,26 +35,26 @@
     function resize() {
       width = window.innerWidth;
       height = window.innerHeight;
-      // 移动端减少50%粒子，桌面端也减少30%
-      starCount = isMobile ? Math.floor(width * 0.08) : Math.floor(width * 0.15);
+      // 进一步减少粒子数量：移动端 0.04，桌面端 0.08
+      starCount = isMobile ? Math.floor(width * 0.04) : Math.floor(width * 0.08);
       canvas.width = width;
       canvas.height = height;
     }
     
     function Star() {
       this.reset = function() {
-        this.giant = Math.random() < 0.03;
-        this.comet = !this.giant && Math.random() < 0.08;
+        this.giant = Math.random() < 0.02; // 减少大星星
+        this.comet = !this.giant && Math.random() < 0.04; // 减少流星密度（从0.08降到0.04）
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.r = 1.1 + Math.random() * 1.5;
-        this.dx = (speed + Math.random() * speed * 5) + (this.comet ? speed * 70 : 0);
-        this.dy = -(speed + Math.random() * speed * 5) - (this.comet ? speed * 70 : 0);
+        this.r = 1.0 + Math.random() * 1.2;
+        this.dx = (speed + Math.random() * speed * 5) + (this.comet ? speed * 60 : 0);
+        this.dy = -(speed + Math.random() * speed * 5) - (this.comet ? speed * 60 : 0);
         this.fadingOut = false;
         this.fadingIn = true;
         this.opacity = 0;
-        this.opacityTresh = 0.2 + Math.random() * 0.6;
-        this.do = 0.0005 + Math.random() * 0.002;
+        this.opacityTresh = 0.2 + Math.random() * 0.5;
+        this.do = 0.001 + Math.random() * 0.002;
       };
       
       this.fadeIn = function() {
@@ -83,10 +83,10 @@
         } else if (this.comet) {
           ctx.fillStyle = `rgba(${cometColor},${Math.min(this.opacity * 1.5, 1)})`;
           ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
-          // 简化彗星尾巴，只画20个点而不是50个
-          for (let t = 0; t < 20; t++) {
-            ctx.fillStyle = `rgba(${cometColor},${this.opacity - this.opacity / 20 * t})`;
-            ctx.fillRect(this.x - this.dx / 3 * t, this.y - this.dy / 3 * t - 2, 2, 2);
+          // 极简流星尾巴，只画10个点（从20降到10），减轻渲染压力
+          for (let t = 0; t < 10; t++) {
+            ctx.fillStyle = `rgba(${cometColor},${this.opacity - this.opacity / 10 * t})`;
+            ctx.fillRect(this.x - this.dx / 4 * t, this.y - this.dy / 4 * t - 1, 1.5, 1.5);
           }
         } else {
           ctx.fillStyle = `rgba(${starColor},${this.opacity})`;

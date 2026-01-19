@@ -52,8 +52,7 @@
 
             // 添加加载样式
             img.style.opacity = '0.3';
-            img.style.filter = 'blur(2px)';
-            img.style.transition = 'all 0.6s ease';
+            img.style.transition = 'opacity 0.6s ease';
         });
 
         console.log(`[About Lazy Loading] 预处理了 ${allImages.length} 张图片`);
@@ -148,7 +147,7 @@
                 // 图片加载成功
                 img.src = originalSrc;
                 img.style.opacity = '1';
-                img.style.filter = 'none';
+                img.style.filter = '';
                 img.classList.remove('loading', 'lazy-image');
                 img.classList.add('loaded');
 
@@ -197,27 +196,99 @@
      */
     function initCarouselForCardRow(carousel, cardRowIndex) {
         const slides = carousel.querySelectorAll('.carousel-slide');
-        if (slides.length <= 1) return;
+        if (slides.length === 0) return;
 
-        let currentSlide = 0;
-
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        // 如果只有一张图，直接显示
+        if (slides.length === 1) {
+            slides[0].classList.add('active');
+            return;
         }
 
-        // 每个轮播使用不同的延迟时间和间隔，避免同步切换
-        const delay = cardRowIndex * 500; // 每个轮播错开500ms
-        const interval = 2000 + (cardRowIndex % 3) * 500; // 2-3.5秒的不同间隔
+        let currentSlide = 0;
+        let isTransitioning = false;
+
+        /**
+         * 更新所有幻灯片的类名，实现3D走马灯效果
+         */
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                // 清除所有状态类
+                slide.classList.remove('active', 'prev', 'next', 'prev-hidden', 'next-hidden');
+                
+                const total = slides.length;
+                
+                if (index === currentSlide) {
+                    // 当前图片
+                    slide.classList.add('active');
+                } else if (index === (currentSlide - 1 + total) % total) {
+                    // 上一张（左侧）
+                    slide.classList.add('prev');
+                } else if (index === (currentSlide + 1) % total) {
+                    // 下一张（右侧）
+                    slide.classList.add('next');
+                } else if (index === (currentSlide - 2 + total) % total) {
+                    // 更远处的左侧
+                    slide.classList.add('prev-hidden');
+                } else if (index === (currentSlide + 2) % total) {
+                    // 更远处的右侧
+                    slide.classList.add('next-hidden');
+                } else {
+                    // 其他隐藏
+                }
+            });
+        }
+
+        /**
+         * 切换到指定索引
+         */
+        function goToSlide(index) {
+            if (isTransitioning) return;
+            currentSlide = index;
+            updateSlides();
+            
+            isTransitioning = true;
+            setTimeout(() => { isTransitioning = false; }, 700); // 与 CSS transition 时间一致
+        }
+
+        function next() {
+            goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prev() {
+            goToSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        // 初始化显示状态
+        updateSlides();
+
+        // 绑定点击交互：点击左右两侧的图片可以直接切换
+        slides.forEach((slide, index) => {
+            slide.style.pointerEvents = 'auto'; // 确保可以点击
+            slide.addEventListener('click', (e) => {
+                if (slide.classList.contains('prev')) {
+                    e.preventDefault();
+                    prev();
+                } else if (slide.classList.contains('next')) {
+                    e.preventDefault();
+                    next();
+                }
+            });
+        });
+
+        // 自动轮播逻辑
+        const delay = cardRowIndex * 800; // 错开各张卡片的起始时间
+        const interval = 3500 + (cardRowIndex % 4) * 500; // 3.5s - 5s 的随机间隔
 
         setTimeout(() => {
-            const intervalId = setInterval(nextSlide, interval);
+            const intervalId = setInterval(() => {
+                // 仅在鼠标不在容器上时自动轮播
+                if (!carousel.matches(':hover')) {
+                    next();
+                }
+            }, interval);
 
-            // 将 intervalId 存储到 carousel 元素上，便于后续管理
             carousel.dataset.intervalId = intervalId;
-
-            console.log(`[About Lazy Loading] Card-row ${cardRowIndex} 轮播图已启动，间隔: ${interval}ms`);
+            console.log(`[About Lazy Loading] Card-row ${cardRowIndex} 3D轮播已启动，间隔: ${interval}ms`);
         }, delay);
     }
 
