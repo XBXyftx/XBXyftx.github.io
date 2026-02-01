@@ -258,8 +258,15 @@
      * @param {HTMLImageElement} img - 图片元素
      */
     function handleImageError(img) {
-        // 只处理懒加载图片
-        if (!img.classList.contains('lazy-image') && !img.classList.contains('lazy-placeholder')) {
+        // 只处理懒加载图片（包括已有错误标记的）
+        if (!img.classList.contains('lazy-image') && 
+            !img.classList.contains('lazy-placeholder') &&
+            !img.classList.contains('lazy-error')) {
+            return;
+        }
+        
+        // 检查是否已经有刷新按钮
+        if (img.parentElement?.classList.contains('lazy-image-container')) {
             return;
         }
 
@@ -295,12 +302,18 @@
      * 扫描并处理加载失败的图片
      */
     function scanFailedImages() {
-        const placeholderImages = document.querySelectorAll('#post .lazy-placeholder, #article-container .lazy-placeholder');
+        // 扫描所有懒加载图片（包括占位符和已标记错误的）
+        const lazyImages = document.querySelectorAll('#post .lazy-image, #article-container .lazy-image, #post .lazy-placeholder, #article-container .lazy-placeholder');
         let failedCount = 0;
         
-        placeholderImages.forEach(img => {
-            // 检查图片是否已经加载失败或长时间处于占位符状态
-            if (isImageLoadFailed(img) && !img.parentElement?.classList.contains('lazy-image-container')) {
+        lazyImages.forEach(img => {
+            // 跳过已处理的图片（已经有刷新按钮的）
+            if (img.parentElement?.classList.contains('lazy-image-container')) {
+                return;
+            }
+            
+            // 检查图片是否加载失败
+            if (isImageLoadFailed(img)) {
                 handleImageError(img);
                 failedCount++;
             }
@@ -320,10 +333,14 @@
             return;
         }
 
-        // 监听全局图片错误事件
+        // 监听全局图片错误事件（捕获阶段确保能监听到所有错误）
         document.addEventListener('error', function(e) {
-            if (e.target.tagName.toLowerCase() === 'img') {
-                handleImageError(e.target);
+            const target = e.target;
+            if (target.tagName.toLowerCase() === 'img') {
+                // 延迟一点处理，等待原有懒加载完成错误处理（添加lazy-error类）
+                setTimeout(() => {
+                    handleImageError(target);
+                }, 50);
             }
         }, true);
 
@@ -356,6 +373,11 @@
                 scanFailedImages();
             }, 500);
         }, { passive: true });
+
+        // 定期检查（每3秒）- 用于捕获可能被遗漏的失败图片
+        setInterval(() => {
+            scanFailedImages();
+        }, 3000);
 
         console.log('[Lazy Refresh] 图片刷新功能已初始化');
     }

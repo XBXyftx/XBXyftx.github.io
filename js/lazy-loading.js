@@ -62,6 +62,7 @@
             };
             newImg.onerror = function() {
                 img.classList.remove('loading');
+                img.classList.add('lazy-error');
                 reject(new Error('Image load failed: ' + originalSrc));
             };
             newImg.src = originalSrc;
