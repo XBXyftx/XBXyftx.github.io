@@ -1,0 +1,250 @@
+/**
+ * 稳定的图片懒加载样式
+ * 解决布局偏移问题
+ */
+
+/* ============================================
+   1. 图片容器稳定化
+   ============================================ */
+
+/* 为文章中的图片设置稳定高度 */
+#article-container img {
+  /* 优先使用原生的 width/height 属性计算 aspect-ratio */
+  aspect-ratio: attr(width) / attr(height);
+  /* 降级方案：如果没有 width/height，使用 data-aspect-ratio */
+  height: auto;
+  max-width: 100%;
+  /* 确保图片加载前占据空间 */
+  vertical-align: middle;
+}
+
+/* 使用 data-aspect-ratio 作为备用 */
+#article-container img[data-aspect-ratio]:not([width]):not([height]) {
+  width: 100%;
+  padding-bottom: attr(data-aspect-ratio %);
+}
+
+/* ============================================
+   2. 懒加载占位符 - 稳定高度
+   ============================================ */
+
+/* 懒加载占位符基础样式 */
+.lazy-placeholder-stable {
+  /* 使用 aspect-ratio 保持比例 */
+  aspect-ratio: attr(width) / attr(height);
+  height: auto;
+  background: linear-gradient(
+    90deg,
+    rgba(147, 112, 219, 0.1) 0%,
+    rgba(138, 43, 226, 0.2) 50%,
+    rgba(147, 112, 219, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: lazyShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  display: block;
+}
+
+/* 如果没有尺寸信息，使用默认占位符高度 */
+#article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+  min-height: 200px;
+  background: linear-gradient(
+    90deg,
+    rgba(147, 112, 219, 0.1) 0%,
+    rgba(138, 43, 226, 0.2) 50%,
+    rgba(147, 112, 219, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: lazyShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ============================================
+   3. 加载状态过渡效果
+   ============================================ */
+
+/* 加载中状态 */
+.lazy-loading {
+  opacity: 0.6;
+  filter: blur(3px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* 加载完成状态 - 淡入效果 */
+.lazy-loaded {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.6s ease-out;
+}
+
+/* 加载失败状态 */
+.lazy-error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px dashed rgba(255, 0, 0, 0.3);
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lazy-error::after {
+  content: '图片加载失败';
+  color: rgba(255, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+/* ============================================
+   4. 闪烁动画
+   ============================================ */
+
+@keyframes lazyShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
+   5. 目录锚点跳转优化
+   ============================================ */
+
+/* 为所有标题设置滚动边距，避免被导航栏遮挡 */
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+  /* 导航栏高度(约70px) + 一些间距 */
+  scroll-margin-top: 90px;
+  scroll-snap-margin-top: 90px; /* Safari 兼容 */
+  /* 确保锚点跳转时位置稳定 */
+  scroll-behavior: smooth;
+}
+
+/* 标题悬停效果 - 提示可点击 */
+#article-container h1:hover,
+#article-container h2:hover,
+#article-container h3:hover,
+#article-container h4:hover,
+#article-container h5:hover,
+#article-container h6:hover {
+  position: relative;
+}
+
+#article-container h1:hover::before,
+#article-container h2:hover::before,
+#article-container h3:hover::before,
+#article-container h4:hover::before,
+#article-container h5:hover::before,
+#article-container h6:hover::before {
+  content: '#';
+  position: absolute;
+  left: -20px;
+  color: var(--main);
+  opacity: 0.5;
+}
+
+/* ============================================
+   6. 图片容器包装器
+   ============================================ */
+
+/* 图片包装器 - 确保稳定布局 */
+.img-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.img-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================
+   7. 深色模式适配
+   ============================================ */
+
+[data-theme='dark'] .lazy-placeholder-stable,
+[data-theme='dark'] #article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+  background: linear-gradient(
+    90deg,
+    rgba(75, 0, 130, 0.15) 0%,
+    rgba(138, 43, 226, 0.25) 50%,
+    rgba(75, 0, 130, 0.15) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* ============================================
+   8. 移动端优化
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* 移动端禁用动画，减少 GPU 占用 */
+  .lazy-placeholder-stable,
+  #article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+    animation: none;
+    background: rgba(147, 112, 219, 0.15);
+  }
+
+  /* 移动端调整滚动边距 */
+  #article-container h1,
+  #article-container h2,
+  #article-container h3,
+  #article-container h4,
+  #article-container h5,
+  #article-container h6 {
+    scroll-margin-top: 70px;
+    scroll-snap-margin-top: 70px;
+  }
+}
+
+/* ============================================
+   9. 减少动画偏好
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .lazy-placeholder-stable,
+  #article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+    animation: none;
+  }
+
+  .lazy-loading,
+  .lazy-loaded {
+    transition: none;
+  }
+
+  #article-container h1,
+  #article-container h2,
+  #article-container h3,
+  #article-container h4,
+  #article-container h5,
+  #article-container h6 {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================
+   10. 排除特定区域的图片
+   ============================================ */
+
+#page-header img,
+.avatar img,
+.related-post-item img,
+.aside-card img,
+.footer img,
+#sidebar-menus img {
+  /* 这些区域的图片不使用懒加载样式 */
+  aspect-ratio: auto !important;
+  min-height: auto !important;
+  background: none !important;
+  animation: none !important;
+}

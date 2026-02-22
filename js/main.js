@@ -684,16 +684,38 @@ document.addEventListener('DOMContentLoaded', () => {
       $tocPercentage = $cardTocLayout.querySelector('.toc-percentage')
       isExpand = $cardToc.classList.contains('is-expand')
 
-      // toc元素點擊
+      // toc元素點擊 - 优化版：预加载目标区域图片后跳转
       const tocItemClickFn = e => {
         const target = e.target.closest('.toc-link')
         if (!target) return
 
         e.preventDefault()
-        btf.scrollToDest(btf.getEleTop(document.getElementById(decodeURI(target.getAttribute('href')).replace('#', ''))), 300)
+        
+        const targetId = decodeURI(target.getAttribute('href')).replace('#', '')
+        const targetEle = document.getElementById(targetId)
+        if (!targetEle) return
+
+        // 关闭移动端目录
         if (window.innerWidth < 900) {
           $cardTocLayout.classList.remove('open')
         }
+
+        // 预加载目标区域的图片，确保跳转位置准确
+        const preloadAndScroll = async () => {
+          // 如果有预加载函数，先预加载图片
+          if (typeof window.lazyLoadPreload === 'function') {
+            await window.lazyLoadPreload(targetEle, 1000)
+          }
+          
+          // 给 DOM 一点时间更新
+          requestAnimationFrame(() => {
+            // 重新计算目标位置（因为图片加载后高度可能变化）
+            const targetPos = btf.getEleTop(targetEle)
+            btf.scrollToDest(targetPos, 300)
+          })
+        }
+
+        preloadAndScroll()
       }
 
       btf.addEventListenerPjax($cardToc, 'click', tocItemClickFn)

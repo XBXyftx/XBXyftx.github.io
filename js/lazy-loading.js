@@ -1,6 +1,9 @@
 /**
  * 基础图片和视频懒加载
  * 仅处理文章内容中的图片和视频，不影响顶部图、头像、相关推荐等
+ * 
+ * 注意：此脚本现在与 lazy-loading-native.js 配合使用
+ * 原生支持 loading="lazy" 的图片将由浏览器原生处理
  */
 (function() {
     'use strict';
@@ -14,6 +17,13 @@
         rootMargin: '50px', // 提前50px开始检测
         threshold: 0.1 // 10%可见时触发
     };
+
+    // 检查图片是否已由原生懒加载处理
+    function isNativeLazyHandled(img) {
+        return img.hasAttribute('loading') || 
+               img.classList.contains('lazy-loaded') ||
+               img.dataset.processed === 'true';
+    }
 
     // 检查元素是否在视口中
     function isInViewport(element) {
@@ -174,6 +184,11 @@
             try {
                 const images = document.querySelectorAll(selector);
                 images.forEach(img => {
+                    // 跳过已由原生懒加载处理的图片
+                    if (isNativeLazyHandled(img)) {
+                        return;
+                    }
+
                     // 排除特定区域的图片和已处理的图片
                     if (!img.closest('#page-header') &&
                         !img.closest('.avatar') &&
@@ -248,6 +263,12 @@
                         classes: img.classList.toString(),
                         parentElement: img.parentElement?.tagName || 'unknown'
                     });
+
+                    // 跳过已由原生懒加载处理的图片
+                    if (isNativeLazyHandled(img)) {
+                        console.log(`[Lazy Loading] ⏭️ 图片 ${index + 1} 已由原生懒加载处理，跳过`);
+                        return;
+                    }
 
                     // 排除特定区域的图片
                     if (!img.closest('#page-header') &&
