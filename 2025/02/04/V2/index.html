@@ -1,0 +1,638 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>浅谈鸿蒙状态管理V1——&gt;V2 | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈鸿蒙状态管理V1——&gt;V2">
+<meta property="og:url" content="https://xbxyftx.top/2025/02/04/V2/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/V2TopImg.webp">
+<meta property="article:published_time" content="2025-02-03T17:02:36.000Z">
+<meta property="article:modified_time" content="2026-02-27T11:58:43.423Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="技术向">
+<meta property="article:tag" content="鸿蒙">
+<meta property="article:tag" content="V2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/V2TopImg.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "浅谈鸿蒙状态管理V1——>V2",
+  "url": "https://xbxyftx.top/2025/02/04/V2/",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/V2TopImg.webp",
+  "datePublished": "2025-02-03T17:02:36.000Z",
+  "dateModified": "2026-02-27T11:58:43.423Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.webp"><link rel="canonical" href="https://xbxyftx.top/2025/02/04/V2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//cn.vercount.one"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/typewriter-effect.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="/css/lazy-loading.css"><link rel="stylesheet" href="/css/lazy-loading-stable.css"><link rel="stylesheet" href="/css/lazy-image-refresh.css"><link rel="stylesheet" href="/css/lazy-video-refresh.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '浅谈鸿蒙状态管理V1——>V2',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post',
+  typewriter: '🚀 深度解析鸿蒙状态管理的进化之路！本文基于实际开发经验，详细对比了V1与V2状态管理的核心差异与技术优势。通过具体代码示例深入讲解@State、@Local、@Param、@Once等装饰器的使用场景与注意事项。重点阐述了V2在组件封装性、数据传递安全性、性能优化等方面的显著改进。用通俗易懂的语言解释了官方文档中的晦涩概念，为开发者提供了从V1平滑迁移到V2的实用指南。'
+}</script><script>document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/universe.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/transpancy.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/styles.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/rightmenu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/twikoo.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/lazy-loading-optimized.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/readmode-enhanced.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'"><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/V2TopImg.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">浅谈鸿蒙状态管理V1——&gt;V2</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">浅谈鸿蒙状态管理V1——&gt;V2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-03T17:02:36.000Z" title="发表于 2025-02-04 01:02:36">2025-02-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-27T11:58:43.423Z" title="更新于 2026-02-27 19:58:43">2026-02-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-02-27 19:58:43&quot;}" hidden></div><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在鸿蒙开发中，状态管理是一个非常重要的概念。它涉及到如何在应用程序中<strong>存储和管理数据</strong>，以便在不同的组件、Ability之间共享和访问。<br>状态管理的目标是确保应用程序的<strong>数据一致性</strong>和<strong>可维护性</strong>。它还可以帮助开发者更好地理解应用程序的<strong>数据流</strong>和<strong>数据依赖关系</strong>，从而更好地设计和实现应用程序。</p>
+<p>截止到目前，鸿蒙开发中的状态管理分为两个版本<strong>V1和V2</strong>。</p>
+<p>V1作为最初的一代状态管理框架，其功能已经满足了绝大多数的应用开发需求，但仍有许多不足。<br>V2作为新一代的状态管理框架，其功能更加完善，能够更好地满足应用开发的需求。</p>
+<p><img src="/2025/02/04/V2/1.webp" alt="1" width="939" height="174" loading="lazy"></p>
+<p>针对于V1和V2的区别，官方文档给出了十分详尽的解释。我也不再详细的赘述，直接给出官方文档的链接。<br><a target="_blank" rel="noopener" href="https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/ts-v1-v2-migration-V5">V1——&gt;V2迁移指南</a><br><a target="_blank" rel="noopener" href="https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/ts-v2-decorators-V5">V2装饰器指南</a><br><a target="_blank" rel="noopener" href="https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/ts-new-other-state-mgmt-V5">V2其他状态管理</a></p>
+<p>接下来我会用我的实际经验来解释一些文档中写的有些晦涩的内容。</p>
+<h2 id="State和-Loacl、-Param-Once"><a href="#State和-Loacl、-Param-Once" class="headerlink" title="@State和@Loacl、@Param@Once"></a><code>@State</code>和<code>@Loacl</code>、<code>@Param@Once</code></h2><h3 id="State的缺陷与V2的解决方案"><a href="#State的缺陷与V2的解决方案" class="headerlink" title="@State的缺陷与V2的解决方案"></a><code>@State</code>的缺陷与V2的解决方案</h3><p><code>@State</code>无疑是V1中最为常用的装饰器，它的作用是将一个变量声明为状态变量，当状态变量发生变化时，会自动更新视图。是想完成各种UI变化的<strong>基石</strong></p>
+<p>而<code>@Local</code>则是为了解决<code>@State</code>在外部初始化时无法准确表达组件内部状态不能被外面修改的语义的问题。<br>这个问题官方的描述有些抽象，我举个例子：</p>
+<p>假设有一个计数器组件，内部有一个状态 count 表示当前的计数值。如果外部代码可以直接修改 count，可能会导致计数器的逻辑混乱。正确的做法应该是通过组件提供的接口（例如方法或事件）来间接修改状态，而不是直接访问和修改 count。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line">struct <span class="title class_">LocalState</span> &#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="attr">countChange</span>:<span class="built_in">number</span> = <span class="number">5</span></span><br><span class="line">  <span class="title function_">aboutToAppear</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">countChange</span>--</span><br><span class="line">    &#125;,<span class="number">500</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title function_">count</span>(&#123;<span class="attr">count</span>:<span class="variable language_">this</span>.<span class="property">countChange</span>&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line">struct count&#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="attr">count</span>: <span class="built_in">number</span> = <span class="number">0</span>;</span><br><span class="line">  <span class="title function_">aboutToAppear</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">count</span>++</span><br><span class="line">    &#125;,<span class="number">1000</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">count</span>.<span class="title function_">toString</span>())</span><br><span class="line">      .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">      .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/02/04/V2/2.webp" alt="2" width="241" height="505" loading="lazy"></p>
+<p>这段代码中我们设置了计数器组件<code>count</code>的初始值为0，然后在<code>aboutToAppear</code>方法中使用<code>setInterval</code>方法每隔一秒钟将计数器的值加1。<br>但是，这段代码中存在一个问题，就是外部代码可以修改计数器的初始值。</p>
+<p><code>count(&#123;count:this.countChange&#125;)</code>这行代码将计时器的初始值设置为了5，但很显然这个组件的设计初衷是不想让内部数据被外部修改的。<br>V1版本的状态管理虽然可以通过其他方式来实现这个简单的初始化功能，但这并不利于组件功能的封装。<br>因此，V2版本的状态管理引入了<code>@Local</code>装饰器，它可以将一个变量声明为本地状态变量，只能在组件内部访问和修改。这样可以避免外部代码修改组件内部状态，从而提高组件的封装性和可维护性。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">LocalState</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">countChange</span>:<span class="built_in">number</span> = <span class="number">5</span></span><br><span class="line">  <span class="title function_">aboutToAppear</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">countChange</span>--</span><br><span class="line">    &#125;,<span class="number">500</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title function_">count</span>(&#123;<span class="attr">count</span>:<span class="variable language_">this</span>.<span class="property">countChange</span>&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct count&#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">count</span>: <span class="built_in">number</span> = <span class="number">0</span>;</span><br><span class="line">  <span class="title function_">aboutToAppear</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">count</span>++</span><br><span class="line">    &#125;,<span class="number">1000</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">count</span>.<span class="title function_">toString</span>())</span><br><span class="line">      .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">      .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/02/04/V2/3.webp" alt="3" width="968" height="224" loading="lazy"></p>
+<p>由报错信息我们可以清晰的看到<code>&#39;count&#39; cannot be initialized here</code>，count不能在这里初始化。<br>这样就实现了我们的需求。</p>
+<div class="note danger flat"><p>要注意，<code>@Local</code>装饰器并不能像<code>@State</code>一样监视第一层对象的状态变化，当你<strong>直接修改<code>@Local</code>装饰器修饰的对象的属性时UI并不会发生变化！！！</strong><br>要适当的配合<code>@ObserveV2</code>以及<code>@Trace</code>去进行复杂类型的数据变化。</p>
+</div>
+<h3 id="Param和-Once"><a href="#Param和-Once" class="headerlink" title="@Param和@Once"></a><code>@Param</code>和<code>@Once</code></h3><p>上文说到<code>@State</code>的缺陷在于无法规范是否可以外部初始化的问题。<code>@Local</code>可以有效地阻隔外部初始化，来保障该状态变量仅为本组件内部使用。<br>但我们也确实会存在外部初始化的需求。<br>V2版本的状态管理引入了<code>@Param</code>和<code>@Once</code>装饰器。</p>
+<h4 id="Param"><a href="#Param" class="headerlink" title="@Param"></a><code>@Param</code></h4><p><code>@Param</code>与<code>@Prop</code>的功能类似，都是定义一个状态变量从外部传入。</p>
+<p><strong>区别：</strong></p>
+<ol>
+<li><code>@Prop</code>是单向绑定，只有父组件能影响子组件，子组件的<strong>修改</strong>无法影响父组件。</li>
+<li><code>@Param</code>也是单向绑定，<strong>但是</strong>在子组件内部无法对状态变量进行修改，只能读取！！！是<code>readonly</code>的。</li>
+<li>对于复杂类型如类对象，<code>@Param</code>会接受数据源的<strong>引用(类似于地址值)</strong>。在组件内可以修改类对象中的属性，该修改<strong>会同步到数据源</strong>。</li>
+<li>由第三条衍生出的一点就是，如果如果传递的是<strong>复杂对象</strong>且需要严格的<strong>单向</strong>数据绑定，应当对对象进行<strong>深拷贝</strong>，防止子组件修改父组件的数据。</li>
+</ol>
+<p>针对于简单类型的前两点不同可以通过下面的例子来理解：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">LocalState</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">countChange</span>: <span class="built_in">number</span> = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">aboutToAppear</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">countChange</span>++</span><br><span class="line">    &#125;, <span class="number">5000</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">countChange</span>.<span class="title function_">toString</span>())</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">      <span class="title function_">count</span>(&#123; <span class="attr">count</span>: <span class="variable language_">this</span>.<span class="property">countChange</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line">struct count &#123;</span><br><span class="line">  <span class="meta">@Prop</span> <span class="attr">count</span>: <span class="built_in">number</span> = <span class="number">0</span>;</span><br><span class="line">  <span class="title function_">aboutToAppear</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">count</span>++</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">count</span>.<span class="title function_">toString</span>())</span><br><span class="line">      .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">      .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<video width="100%" controls>
+  <source src="4.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
+
+<p>这段代码中，我们使用了<code>@Prop</code>装饰器来定义一个从外部传入的简单类型状态变量。同时也展示了V1V2版本混用的可行性。可以看到，当父组件的<code>countChange</code>发生变化时，子组件的<code>count</code>也会随之变化。<br>如果将<code>@Prop</code>改为<code>@Param</code>，则会出现报错。<br><img src="/2025/02/04/V2/5.webp" alt="4" width="692" height="277" loading="lazy"></p>
+<p><code>Cannot assign to &#39;count&#39; because it is a read-only property.</code>这个报错信息告诉我们，<code>count</code>是一个只读属性，无法修改。<br>这也很好理解，因为<code>@Param</code>是单向绑定，子组件只能读取父组件传入的状态变量，而不能修改。</p>
+<p>但针对于后两点来说可能会有一些迷惑。已经是<code>Readonly</code>了，为什么还可以修改？<br>在经过我的尝试后，可以用下面这个例子来进行解释：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ObservedV2</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">  <span class="meta">@Trace</span> <span class="keyword">private</span> <span class="attr">_name</span>: <span class="built_in">string</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">set</span> <span class="title function_">name</span>(<span class="params"><span class="attr">value</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_name</span> = value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">get</span> <span class="title function_">name</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">_name</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Trace</span> <span class="keyword">private</span> <span class="attr">_age</span>: <span class="built_in">number</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">set</span> <span class="title function_">age</span>(<span class="params"><span class="attr">value</span>: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_age</span> = value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">get</span> <span class="title function_">age</span>(): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">_age</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_name</span> = name</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_age</span> = age</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">LocalState</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">student</span>: <span class="title class_">Student</span> = <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&#x27;A&#x27;</span>,<span class="number">10</span>)</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">&#x27;name:&#x27;</span>+<span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">      <span class="title function_">count</span>(&#123; <span class="attr">student</span>: <span class="variable language_">this</span>.<span class="property">student</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct count &#123;</span><br><span class="line">  <span class="meta">@Param</span> <span class="attr">student</span>: <span class="title class_">Student</span> = <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&#x27;B&#x27;</span>,<span class="number">10</span>)</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>()&#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">&#x27;name:&#x27;</span>+<span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">      <span class="title class_">Button</span>()</span><br><span class="line">        .<span class="title function_">onClick</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>=<span class="string">&#x27;C&#x27;</span></span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<video width="100%" controls>
+  <source src="6.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
+
+<div class="note warning flat"><p>我们所传入的并非是一个对象，而是<strong>对象的索引</strong>对象本身存储于内存中并没有被传入，所以我们所谓的<code>Readonly</code><strong>只是传入的索引是只读</strong>，而并<strong>不会限制通过索引对该对象进行操作</strong>！！！</p>
+</div>
+<p>当传入的参数是一个对象或是其他复杂类型时，其内部可能包含有内置函数可以被子组件调用并修改其属性值，这就是为什么需要用深度拷贝的原因。</p>
+<p>而修正上面代码的方法就是添加克隆函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ObservedV2</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">  <span class="meta">@Trace</span> <span class="keyword">private</span> <span class="attr">_name</span>: <span class="built_in">string</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">set</span> <span class="title function_">name</span>(<span class="params"><span class="attr">value</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_name</span> = value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">get</span> <span class="title function_">name</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">_name</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Trace</span> <span class="keyword">private</span> <span class="attr">_age</span>: <span class="built_in">number</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">set</span> <span class="title function_">age</span>(<span class="params"><span class="attr">value</span>: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_age</span> = value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">get</span> <span class="title function_">age</span>(): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">_age</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_name</span> = name</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_age</span> = age</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">clone</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="variable language_">this</span>.<span class="property">name</span>, <span class="variable language_">this</span>.<span class="property">age</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">LocalState</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">student</span>: <span class="title class_">Student</span> = <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&#x27;A&#x27;</span>,<span class="number">10</span>)</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">&#x27;name:&#x27;</span>+<span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">      <span class="title function_">count</span>(&#123; <span class="attr">student</span>: <span class="variable language_">this</span>.<span class="property">student</span>.<span class="title function_">clone</span>() &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct count &#123;</span><br><span class="line">  <span class="meta">@Param</span> <span class="attr">student</span>: <span class="title class_">Student</span> = <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&#x27;B&#x27;</span>,<span class="number">10</span>)</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>()&#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">&#x27;name:&#x27;</span>+<span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="title class_">FontWeight</span>.<span class="property">Bold</span>)</span><br><span class="line">      <span class="title class_">Button</span>()</span><br><span class="line">        .<span class="title function_">onClick</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>=<span class="string">&#x27;C&#x27;</span></span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">student</span>.<span class="property">name</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/02/04/V2/7.webp" alt="7" width="238" height="493" loading="lazy"></p>
+<p>这样就实现了深度拷贝，将子组件无法再反向影响父组件。保障数据安全性。</p>
+<h4 id="Once"><a href="#Once" class="headerlink" title="@Once"></a><code>@Once</code></h4><p>这个装饰器与V1并无明确对应关系，而且并不能单独使用，能且仅能与<code>@Param</code>配合使用。来实现<code>@State</code>的单次外部初始化的效果。<br>可以参考下方示例：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">Once1</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">num</span>:<span class="built_in">number</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">num</span>.<span class="title function_">toString</span>())</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">60</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="number">700</span>)</span><br><span class="line">      <span class="title class_">Button</span>(<span class="string">&#x27;num++&#x27;</span>)</span><br><span class="line">        .<span class="title function_">onClick</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">num</span>++</span><br><span class="line">        &#125;)</span><br><span class="line">      <span class="title function_">num</span>(&#123;<span class="attr">num</span>:<span class="variable language_">this</span>.<span class="property">num</span>&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct num&#123;</span><br><span class="line">  <span class="meta">@Param</span><span class="meta">@Once</span> <span class="attr">num</span>:<span class="built_in">number</span> = -<span class="number">1</span></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>()&#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">&#x27;子组件&#x27;</span>+<span class="variable language_">this</span>.<span class="property">num</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">60</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="number">700</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<video width="100%" controls>
+  <source src="8.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
+
+<p>当点击按钮时，父组件的<code>num</code>会发生变化，但是子组件的<code>num</code>不会发生变化。这就是单次外部初始化的效果。</p>
+<h2 id="Link和-Event、-Param"><a href="#Link和-Event、-Param" class="headerlink" title="@Link和@Event、@Param"></a><code>@Link</code>和<code>@Event</code>、<code>@Param</code></h2><p>在V1版本的状态管理中，实现数据双向同步有两种方法，一种是直接通过<code>@link</code>来进行绑定，还有就是预留组件内置函数，将需要传出的数据暴露出去。<br>而在V2版本中，官方推荐使用<code>@Event</code>来进行数据的<strong>双向绑定</strong>。</p>
+<p>对于<code>@Event</code>，官方的描述是这样的：<br><img src="/2025/02/04/V2/9.webp" alt="9" width="931" height="359" loading="lazy"></p>
+<p>enm……有一说一我现在并不太理解为什么要把双向绑定的功能删掉，变成用函数的参数暴露数据的方式。</p>
+<p>但既然现在官方选择了这种方式，应该是<code>@Link</code>存在一些底层逻辑上的错误，所以我们也要去学习<code>@Event</code>基本的使用方法，可以参考下面的案例：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">EventTest</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">num</span>:<span class="built_in">number</span> = <span class="number">0</span></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">num</span>.<span class="title function_">toString</span>())</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">60</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="number">700</span>)</span><br><span class="line">      <span class="title function_">num2</span>(&#123;</span><br><span class="line">        <span class="attr">num</span>:<span class="variable language_">this</span>.<span class="property">num</span>,</span><br><span class="line">        <span class="attr">changeNum</span>:<span class="function">(<span class="params"><span class="attr">a</span>:<span class="built_in">number</span></span>)=&gt;</span>&#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">num</span> = a</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">justifyContent</span>(<span class="title class_">FlexAlign</span>.<span class="property">Center</span>)</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct num2&#123;</span><br><span class="line">  <span class="meta">@Param</span> <span class="attr">num</span>:<span class="built_in">number</span> = -<span class="number">1</span></span><br><span class="line">  <span class="meta">@Event</span> <span class="attr">changeNum</span>:<span class="function">(<span class="params"><span class="attr">a</span>:<span class="built_in">number</span></span>)=&gt;</span><span class="built_in">void</span> = <span class="function">(<span class="params"><span class="attr">a</span>:<span class="built_in">number</span></span>)=&gt;</span>&#123;&#125;</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>()&#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">&#x27;子组件&#x27;</span>+<span class="variable language_">this</span>.<span class="property">num</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">60</span>)</span><br><span class="line">        .<span class="title function_">fontWeight</span>(<span class="number">700</span>)</span><br><span class="line">      <span class="title class_">Button</span>(<span class="string">&#x27;++&#x27;</span>)</span><br><span class="line">        .<span class="title function_">onClick</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="title function_">changeNum</span>(<span class="variable language_">this</span>.<span class="property">num</span>+<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">backgroundColor</span>(<span class="title class_">Color</span>.<span class="property">Orange</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<video width="100%" controls>
+  <source src="10.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
+
+<h3 id="双向绑定语法糖"><a href="#双向绑定语法糖" class="headerlink" title="双向绑定语法糖!!"></a>双向绑定语法糖<code>!!</code></h3><p>在后续的开发中我发现可以使用<code>@Event</code>配合语法糖<code>!!</code>来实现双向绑定，具体代码如下：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">Index</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">value</span>: <span class="built_in">number</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.value&#125;</span>`</span>)</span><br><span class="line">      <span class="title class_">Button</span>(<span class="string">`change value`</span>).<span class="title function_">onClick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">value</span>++;</span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="title class_">Star</span>(&#123; <span class="attr">value</span>: <span class="variable language_">this</span>.<span class="property">value</span>!! &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">Star</span> &#123;</span><br><span class="line">  <span class="meta">@Param</span> <span class="attr">value</span>: <span class="built_in">number</span> = <span class="number">0</span>;</span><br><span class="line">  <span class="meta">@Event</span> <span class="attr">$value</span>: <span class="function">(<span class="params"><span class="attr">val</span>: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span> = <span class="function">(<span class="params"><span class="attr">val</span>: <span class="built_in">number</span></span>) =&gt;</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.value&#125;</span>`</span>)</span><br><span class="line">      <span class="title class_">Button</span>(<span class="string">`change value `</span>).<span class="title function_">onClick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.$value(<span class="number">10</span>);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/02/04/V2/13.webp" alt="13" width="1204" height="503" loading="lazy"></p>
+<p>我本来以为V2版本的双向绑定需要像V1版本那样手动处理子组件暴露出去的数据，但实际上官方特意注明了在<code>@Event</code>修饰的函数没有被初始化时，会自动初始化一个空函数。<br>这样一来我们就可以直接用<code>!!</code>来进行双向绑定了。</p>
+<p><code>@Event $value: (val: number) =&gt; void = (val: number) =&gt; &#123;&#125;;</code>这行代码是必须的，否则会报错。这是将数据暴露出去的关键步骤。</p>
+<h2 id="Watch和-Monitor"><a href="#Watch和-Monitor" class="headerlink" title="@Watch和@Monitor"></a><code>@Watch</code>和<code>@Monitor</code></h2><div class="note info flat"><p>这两代监听器的功能基本一致，都是在状态变量发生变化时，执行回调函数。<br>其最大的区别在于装饰器绑定的对象不同。</p>
+</div>
+<p><code>@Watch</code>是绑定在<strong>变量</strong>上的，当变量发生变化时，会执行<code>@Watch</code>参数指向的回调函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="meta">@Watch</span>(<span class="string">&#x27;onNumChange&#x27;</span>) <span class="attr">num</span>: <span class="built_in">number</span> = <span class="number">1</span></span><br><span class="line"><span class="title function_">onNumChange</span>(<span class="params"><span class="attr">changedPropertyName</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">num</span>.<span class="title function_">toString</span>())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@Monitor</code>是绑定在<strong>方法</strong>上的，当<code>@Monitor</code>参数指向的一个或多个状态变量变化时，会执行<code>@Monitor</code>装饰的回调函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">MonitorTest</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">num</span>: <span class="built_in">number</span> = <span class="number">1</span></span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">num2</span>: <span class="built_in">number</span> = <span class="number">2</span></span><br><span class="line">  <span class="meta">@Monitor</span>(<span class="string">&#x27;num&#x27;</span>,<span class="string">&#x27;num2&#x27;</span>)</span><br><span class="line">  <span class="title function_">onNumChange</span>(<span class="params"><span class="attr">monitor</span>: <span class="title class_">IMonitor</span></span>) &#123;</span><br><span class="line">    monitor.<span class="property">dirty</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params"><span class="attr">path</span>: <span class="built_in">string</span></span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;path&#125;</span> changed from <span class="subst">$&#123;monitor.value(path)?.before&#125;</span> to <span class="subst">$&#123;monitor.value(path)?.now&#125;</span>`</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;__________________________________________&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Button</span>(<span class="string">&#x27;++&#x27;</span>)</span><br><span class="line">        .<span class="title function_">onClick</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">num</span>++</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">num2</span>++</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    .<span class="title function_">height</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">    .<span class="title function_">width</span>(<span class="string">&#x27;100%&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<video width="100%" controls>
+  <source src="11.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
+
+<h2 id="AppStorageV2和PersistenceV2"><a href="#AppStorageV2和PersistenceV2" class="headerlink" title="AppStorageV2和PersistenceV2"></a>AppStorageV2和PersistenceV2</h2><p>AppStorageV2是一个<strong>全局状态管理</strong>的装饰器，它可以将一个变量声明为全局状态变量，在整个应用程序中共享和访问。<br>PersistenceV2是一个<strong>本地持久化</strong>的装饰器，它可以将一个变量声明为本地持久化变量，在应用程序中保存和读取。<br>这两者的功能与其本身的V1版本其实区别不大，但有几点需要注意：</p>
+<ol>
+<li>在<strong>V1</strong>版本中，一个键值在PersistentStorage中初始化过就会自动在AppStorage中初始化该键值。而在<strong>V2</strong>版本中，两者初始化键值<strong>不互通</strong>，是独立的两个功能。</li>
+<li>在<strong>V1</strong>版本中，两者皆有多个API接口可以区分创建、调用、链接等功能。而在<strong>V2</strong>版本中创建、调用、链接都合成到了<code>connect</code>中。而这就意味着你传入不同的参数数量，以及不同的参数类型就会有不同的功能。</li>
+<li>在<strong>V2</strong>版本中，PersistentV2支持追踪<strong>多层嵌套的对象</strong>，也可以追踪<strong>对象数组</strong>，但在追踪对象数组时要注意，最外层只能是Class对象，同时要配合<code>@Type</code>装饰器使用。</li>
+</ol>
+<p>针对于上述几点，我们可以参考以下示例：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppStorageV2</span>, <span class="title class_">PersistenceV2</span>, <span class="title class_">Type</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@kit.ArkUI&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ObservedV2</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">People</span> &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span></span><br><span class="line">  <span class="meta">@Trace</span> <span class="attr">age</span>: <span class="built_in">number</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ObservedV2</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Human</span> &#123;</span><br><span class="line">  <span class="meta">@Type</span>(<span class="title class_">Array</span>)</span><br><span class="line">  <span class="attr">peoples</span>: <span class="title class_">People</span>[] = [</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">People</span>(<span class="string">&#x27;A&#x27;</span>, <span class="number">1</span>),</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">People</span>(<span class="string">&#x27;B&#x27;</span>, <span class="number">2</span>),</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="attr">peoples</span>: <span class="title class_">People</span>[]</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">peoples</span> = peoples</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> peoplesTest = <span class="keyword">new</span> <span class="title class_">Human</span>([<span class="keyword">new</span> <span class="title class_">People</span>(<span class="string">&#x27;A&#x27;</span>, <span class="number">1</span>),<span class="keyword">new</span> <span class="title class_">People</span>(<span class="string">&#x27;B&#x27;</span>, <span class="number">2</span>)])</span><br><span class="line"><span class="keyword">let</span> peoplesTest2 = <span class="keyword">new</span> <span class="title class_">Human</span>([<span class="keyword">new</span> <span class="title class_">People</span>(<span class="string">&#x27;C&#x27;</span>, <span class="number">3</span>),<span class="keyword">new</span> <span class="title class_">People</span>(<span class="string">&#x27;D&#x27;</span>, <span class="number">4</span>)])</span><br><span class="line"><span class="title class_">PersistenceV2</span>.<span class="title function_">connect</span>(<span class="title class_">Human</span>, <span class="string">&#x27;peoples&#x27;</span>, <span class="function">() =&gt;</span> peoplesTest)</span><br><span class="line"><span class="title class_">AppStorageV2</span>.<span class="title function_">connect</span>(<span class="title class_">Human</span>,<span class="string">&#x27;peoples&#x27;</span>,<span class="function">()=&gt;</span> peoplesTest2)</span><br><span class="line"><span class="meta">@Entry</span></span><br><span class="line"><span class="meta">@ComponentV2</span></span><br><span class="line">struct <span class="title class_">Index</span> &#123;</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">peoples</span>: <span class="title class_">Human</span> = <span class="title class_">PersistenceV2</span>.<span class="title function_">connect</span>(<span class="title class_">Human</span>,<span class="string">&#x27;peoples&#x27;</span>)!</span><br><span class="line">  <span class="meta">@Local</span> <span class="attr">peoples2</span>:<span class="title class_">Human</span> = <span class="title class_">AppStorageV2</span>.<span class="title function_">connect</span>(<span class="title class_">Human</span>,<span class="string">&#x27;peoples&#x27;</span>)!</span><br><span class="line">  <span class="title function_">build</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Column</span>() &#123;</span><br><span class="line">      <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">peoples</span>.<span class="property">peoples</span>[<span class="number">0</span>].<span class="property">age</span> + <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">      <span class="title class_">Text</span>(<span class="variable language_">this</span>.<span class="property">peoples2</span>.<span class="property">peoples</span>[<span class="number">0</span>].<span class="property">age</span> + <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        .<span class="title function_">fontSize</span>(<span class="number">50</span>)</span><br><span class="line">      <span class="title class_">Button</span>()</span><br><span class="line">        .<span class="title function_">onClick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">peoples</span>.<span class="property">peoples</span>[<span class="number">0</span>].<span class="property">age</span>++</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">peoples2</span>.<span class="property">peoples</span>[<span class="number">0</span>].<span class="property">age</span>++</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<video width="100%" controls>
+  <source src="12.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
+
+<p>在这个案例中我们可以看到，我特意将两个Human对象的键值设置为<strong>相同</strong>的<code>&#39;peoples&#39;</code>，再通过实际获取的数值证明了PersistentV2和AppStorageV2的功能是<strong>独立</strong>的。</p>
+<p>而我为了实现<code>People[]</code>对象数组的持久化存储，我特意利用<code>Human</code>对象包裹住<code>People[]</code>并作为了PersistentV2和AppStorageV2的参数，这样就可以实现多层嵌套的对象的持久化存储。否则直接持久化<code>People[]</code>会报错。</p>
+<p>同样的<code>connect</code>接口在传入不同参数时的效果不同。这里不一一排列组合了，只说一下是实测最规范的使用方式。</p>
+<p><code>connect</code>接口可以传三个参数，分别是：</p>
+<ol>
+<li>要存储的类型</li>
+<li>要存储的键值（string类型）</li>
+<li>初始化构造器（()=&gt;初始化数值）</li>
+</ol>
+<p>在第一次存储该键值要进行初始化时，三个参数均需传递。<br>而在之后获取该键值对的链接时，只需要传入前两个参数即可。</p>
+<div class="note danger flat"><p><strong>注意</strong>：在测试过程中我发现UI中有使用内置的JSON解析函数的组件文本时，修改<code>AppStorageV2</code>和<code>PersistenceV2</code>中的值<strong>不会引发UI的更新</strong>。但通过打印日志和重启应用等方式可以发现数据已经<strong>发生了变化</strong>。这说明JSON的内置解析函数只会在<strong>构建页面时</strong>计算一次，而不会在数据发生变化时重新计算。</p>
+</div>
+<p>这一点与V2版本新增的<code>@Computed</code>不同，<code>@Computed</code>会在<strong>状态变量</strong>的数据发生变化时重新计算。<br><strong>仅在状态变量变化时重新计算！！！常规变量不会触发！！！</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在后续开发面试通项目时我发现V2版本的AppStorageV2在存储很多系统内置的对象比如应用上下文对象<code>Context</code>时无法直接存储，我们无法在第一个参数中传入一个合法的类型，这真的很奇怪。</p>
+<p>目前我的解决方式就是将无法直接存储的对象包装进一个自定义类的属性中，然后在进行存储。</p>
+<div class="note success flat"><p>还有一些简单类型在做持久化以及全局变量的定义时都会出现一些问题，我的建议就是<strong>之要是无法正常存储的情况就都包裹一层对象试试</strong>，再配合上<code>@ObservedV2</code>和<code>@Trace</code>的无限嵌套层数追踪能力，基本上就可以解决大部分问题。</p>
+</div>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>啊先写到这吧，V2版本的文档偶尔还是有一些谜语人或者说是可能存在歧义的地方，但这也是大多数官方文档都会存在一点的小问题无伤大雅。<br>学习任何一门技术总归还是得自己尝试之后，把自己想到的使用场景都试一遍，才能清楚他的特性和注意点。</p>
+<p>同时再写这篇博客的时候也学会了在md中外挂HTML标签的方式，相信以后我的博客会有更多新鲜玩意加入进来。</p>
+<p>最后也感谢你能看到这里，相信你也一定是个爱技术爱生活的人，拜拜咯~ :)</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/%E9%B8%BF%E8%92%99/">鸿蒙</a><a class="post-meta__tags" href="/tags/V2/">V2</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/V2TopImg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/01/30/%E5%BC%80%E5%BF%83%E4%B8%80%E7%AC%91%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="开心一笑项目笔记"><img class="cover" src="/imgs/ArticleTopImgs/JokeTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">开心一笑项目笔记</div></div><div class="info-2"><div class="info-item-1">下拉刷新与触底加载逻辑的练习项目</div></div></div></a><a class="pagination-related" href="/2025/02/08/%E6%88%91%E7%9A%84%E4%B9%A6%E6%9E%B6%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="我的书架项目笔记"><img class="cover" src="/imgs/ArticleTopImgs/BookShelfTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">我的书架项目笔记</div></div><div class="info-2"><div class="info-item-1">一个对利用NetWork Kit发送HTTP请求的实战练习项目</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/11/18/HongYiXun/" title="鸿易讯"><img class="cover" src="/imgs/ArticleTopImgs/HongYiXunTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-18</div><div class="info-item-2">鸿易讯</div></div><div class="info-2"><div class="info-item-1">鸿易讯，鸿蒙新闻与鸿蒙开发问答助手应用。</div></div></div></a><a class="pagination-related" href="/2025/03/31/%E2%80%9CHongXiaoYi%E2%80%9D/" title="鸿小易项目开发笔记"><img class="cover" src="/imgs/ArticleTopImgs/hxyTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-31</div><div class="info-item-2">鸿小易项目开发笔记</div></div><div class="info-2"><div class="info-item-1">鸿小易，你的鸿蒙开发好帮手。</div></div></div></a><a class="pagination-related" href="/2025/05/14/AccountKitTest/" title="华为账户一键登录功能测试"><img class="cover" src="/imgs/ArticleTopImgs/AccountTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-14</div><div class="info-item-2">华为账户一键登录功能测试</div></div><div class="info-2"><div class="info-item-1">Account Kit的官方demo测试与华为账户登录的功能实现分析。</div></div></div></a><a class="pagination-related" href="/2025/03/16/yiDuo/" title="关于鸿蒙的一多能力"><img class="cover" src="/imgs/ArticleTopImgs/yiduoTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-16</div><div class="info-item-2">关于鸿蒙的一多能力</div></div><div class="info-2"><div class="info-item-1">一多能力的学习笔记</div></div></div></a><a class="pagination-related" href="/2025/03/13/Navigation/" title="Navigation与NavDestination"><img class="cover" src="/imgs/ArticleTopImgs/NavTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-13</div><div class="info-item-2">Navigation与NavDestination</div></div><div class="info-2"><div class="info-item-1">本文将介绍Navigation与NavDestination的使用方法。</div></div></div></a><a class="pagination-related" href="/2025/03/11/MianShiTong2/" title="面试通项目开发笔记2"><img class="cover" src="/imgs/ArticleTopImgs/MSTTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-11</div><div class="info-item-2">面试通项目开发笔记2</div></div><div class="info-2"><div class="info-item-1">面试通项目开发笔记2（暂时停更）</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipapi.co/json/',
+    'https://freegeoip.app/json/',
+    'https://ipinfo.io/json'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    fetch(currentApi)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.webp" title="1.gif" class="announcementImg"/><br/>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。<br/>总之祝大家2026新春快乐！！！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#State%E5%92%8C-Loacl%E3%80%81-Param-Once"><span class="toc-number">2.</span> <span class="toc-text">@State和@Loacl、@Param@Once</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#State%E7%9A%84%E7%BC%BA%E9%99%B7%E4%B8%8EV2%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.1.</span> <span class="toc-text">@State的缺陷与V2的解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Param%E5%92%8C-Once"><span class="toc-number">2.2.</span> <span class="toc-text">@Param和@Once</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Param"><span class="toc-number">2.2.1.</span> <span class="toc-text">@Param</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Once"><span class="toc-number">2.2.2.</span> <span class="toc-text">@Once</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Link%E5%92%8C-Event%E3%80%81-Param"><span class="toc-number">3.</span> <span class="toc-text">@Link和@Event、@Param</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E8%AF%AD%E6%B3%95%E7%B3%96"><span class="toc-number">3.1.</span> <span class="toc-text">双向绑定语法糖!!</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watch%E5%92%8C-Monitor"><span class="toc-number">4.</span> <span class="toc-text">@Watch和@Monitor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AppStorageV2%E5%92%8CPersistenceV2"><span class="toc-number">5.</span> <span class="toc-text">AppStorageV2和PersistenceV2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">6.</span> <span class="toc-text">补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs"><img src="/imgs/ArticleTopImgs/HMNodejsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙Nodejs"/ width="3120" height="2080" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs">鸿蒙Nodejs</a><time datetime="2026-02-13T06:40:21.000Z" title="发表于 2026-02-13 14:40:21">2026-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/03/HarmonyVScode/" title="VScode的鸿蒙化尝试"><img src="/imgs/ArticleTopImgs/HarmonyVScodeTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VScode的鸿蒙化尝试"/ width="1670" height="961" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/03/HarmonyVScode/" title="VScode的鸿蒙化尝试">VScode的鸿蒙化尝试</a><time datetime="2026-02-03T06:52:55.000Z" title="发表于 2026-02-03 14:52:55">2026-02-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/01/KimiCode/" title="KimiCode"><img src="/imgs/ArticleTopImgs/KimiCodeTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="KimiCode"/ width="403" height="237" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/01/KimiCode/" title="KimiCode">KimiCode</a><time datetime="2026-02-01T06:20:33.000Z" title="发表于 2026-02-01 14:20:33">2026-02-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习"><img src="/imgs/ArticleTopImgs/MachineCollectionFinalReviewTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="机器学习与数据挖掘期末复习"/ width="627" height="418" loading="lazy"></a><div class="content"><a class="title" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习">机器学习与数据挖掘期末复习</a><time datetime="2026-01-09T06:46:13.000Z" title="发表于 2026-01-09 14:46:13">2026-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/06/osFinalReview/" title="操作系统期末复习"><img src="/imgs/ArticleTopImgs/osFinalReviewTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统期末复习"/ width="1254" height="836" loading="lazy"></a><div class="content"><a class="title" href="/2026/01/06/osFinalReview/" title="操作系统期末复习">操作系统期末复习</a><time datetime="2026-01-06T05:10:37.000Z" title="发表于 2026-01-06 13:10:37">2026-01-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><script type="text/javascript" src="https://unpkg.com/mermaid@undefined/dist/mermaid.min.js" id="maid-script"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaid-options'));
+  mermaid.initialize(options);
+}</script><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 网络监控器 - 帮助定位503问题--><script src="/js/network-monitor.js"></script><script src="/js/topimg-monitor.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 基础懒加载功能（兼容旧版）--><script src="/js/lazy-loading.js"></script><!-- 原生懒加载优化 - 解决布局偏移问题--><script src="/js/lazy-loading-native.js"></script><!-- 图片懒加载刷新按钮功能--><script src="/js/lazy-image-refresh.js"></script><!-- 视频懒加载刷新按钮功能--><script src="/js/lazy-video-refresh.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/%5Bobject%20Object%5D').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe-optimized.js"></script><script defer src="/js/jquery-3.6.0.min.js"></script><script defer src="/js/rightmenu.js"></script><script defer src="/js/happy-title.js"></script><script defer src="/js/lazy-loading-optimized.js"></script><script defer src="/js/lightbox-enhanced.js"></script><script async data-pjax src="//cn.vercount.one/js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/24/typewriter/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/TypeWriteTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-24</span><a class="blog-slider__title" href="2025/06/24/typewriter/" alt="">Butterfly主题实现简介打字机</a><div class="blog-slider__text">详细介绍如何在Hexo的Butterfly主题中添加炫酷的打字机效果，包含完整的实现代码和配置方法。</div><a class="blog-slider__button" href="2025/06/24/typewriter/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/yiduoTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/11/01/ThoughtsOnVibeCoding/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-11-01</span><a class="blog-slider__title" href="2025/11/01/ThoughtsOnVibeCoding/" alt="">在虚构与现实之间，守住那束灵感之光</a><div class="blog-slider__text">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</div><a class="blog-slider__button" href="2025/11/01/ThoughtsOnVibeCoding/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/RCPTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

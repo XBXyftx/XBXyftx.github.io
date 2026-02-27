@@ -1,0 +1,2032 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>操作系统期末复习 | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机网络期末复习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统期末复习">
+<meta property="og:url" content="https://xbxyftx.top/2026/01/06/osFinalReview/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="计算机网络期末复习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/osFinalReviewTopImg.webp">
+<meta property="article:published_time" content="2026-01-06T05:10:37.000Z">
+<meta property="article:modified_time" content="2026-02-27T11:58:43.428Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/osFinalReviewTopImg.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "操作系统期末复习",
+  "url": "https://xbxyftx.top/2026/01/06/osFinalReview/",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/osFinalReviewTopImg.webp",
+  "datePublished": "2026-01-06T05:10:37.000Z",
+  "dateModified": "2026-02-27T11:58:43.428Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.webp"><link rel="canonical" href="https://xbxyftx.top/2026/01/06/osFinalReview/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//cn.vercount.one"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/typewriter-effect.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="/css/lazy-loading.css"><link rel="stylesheet" href="/css/lazy-loading-stable.css"><link rel="stylesheet" href="/css/lazy-image-refresh.css"><link rel="stylesheet" href="/css/lazy-video-refresh.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '操作系统期末复习',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post',
+  typewriter: '📊 操作系统期末复习，一些真题的详解。'
+}</script><script>document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/universe.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/transpancy.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/styles.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/rightmenu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/twikoo.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/lazy-loading-optimized.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/readmode-enhanced.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'"><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/osFinalReviewTopImg.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">操作系统期末复习</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></div><div class="menus_item"><a class="site-page" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">操作系统期末复习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-06T05:10:37.000Z" title="发表于 2026-01-06 13:10:37">2026-01-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-27T11:58:43.428Z" title="更新于 2026-02-27 19:58:43">2026-02-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">13.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>43分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-02-27 19:58:43&quot;}" hidden></div><h2 id="期末题型"><a href="#期末题型" class="headerlink" title="期末题型"></a>期末题型</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>题型</th>
+<th>题量</th>
+<th>分值</th>
+<th>答题要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单选</td>
+<td>10</td>
+<td>10</td>
+<td>机读卡，每题 1 分</td>
+</tr>
+<tr>
+<td>判断</td>
+<td>5</td>
+<td>5</td>
+<td>机读卡，每题 1 分</td>
+</tr>
+<tr>
+<td>简答</td>
+<td>2</td>
+<td>15</td>
+<td>纯概念阐述，每题 7-8 分</td>
+</tr>
+<tr>
+<td>综合</td>
+<td>5</td>
+<td>70</td>
+<td>全部含计算，共 85 分主观题</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="期末“必考-必会”核心知识点速查表"><a href="#期末“必考-必会”核心知识点速查表" class="headerlink" title="期末“必考/必会”核心知识点速查表"></a>期末“必考/必会”核心知识点速查表</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>章节</th>
+<th>考点</th>
+<th>最关键要点（背下就能拿分）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ch1 概论</td>
+<td>用户/内核态</td>
+<td>系统调用、中断、异常→立即进入内核态；普通 C 代码→用户态</td>
+</tr>
+<tr>
+<td></td>
+<td>微内核</td>
+<td>优点：可靠、易扩展；缺点：性能低（多次上下文切换）</td>
+</tr>
+<tr>
+<td></td>
+<td>虚拟机</td>
+<td>优点：隔离、并发运行多 OS；缺点：资源开销大</td>
+</tr>
+<tr>
+<td>Ch2 进程线程</td>
+<td>进程三态图</td>
+<td>就绪→运行（被调度）；运行→阻塞（等 I/O）；阻塞→就绪（I/O 完成）</td>
+</tr>
+<tr>
+<td></td>
+<td>PCB/TCB/JCB/FCB</td>
+<td>分别对应进程/线程/作业/文件——英文与中文必须秒对应</td>
+</tr>
+<tr>
+<td></td>
+<td>同步互斥模型</td>
+<td>生产者-消费者：empty/full/mutex 三信号量；若缓冲区=1，可省 mutex</td>
+</tr>
+<tr>
+<td></td>
+<td>PV 最少信号量</td>
+<td>单缓冲区时 empty+full 已隐含互斥，不必再设 mutex</td>
+</tr>
+<tr>
+<td>Ch3 CPU 调度</td>
+<td>前三算法</td>
+<td>FCFS、SJF（非抢占）、SRTF（抢占）——会画甘特图、算周转/带权周转</td>
+</tr>
+<tr>
+<td></td>
+<td>三级调度</td>
+<td>高级（作业）、中级（内存）、低级（进程）——名称与作用</td>
+</tr>
+<tr>
+<td>Ch4 存储</td>
+<td>分页地址转换</td>
+<td>逻辑地址→页号+页内偏移；页号查页表→块号；拼接得物理地址</td>
+</tr>
+<tr>
+<td></td>
+<td>页面置换</td>
+<td>FIFO、LRU、OPT 必会手工算“缺页次数”；置换时先画页框时间线</td>
+</tr>
+<tr>
+<td></td>
+<td>二级/多级页表</td>
+<td>位数拆分公式：页内偏移=页大小 2^n；剩余高位再拆页目录+页号</td>
+</tr>
+<tr>
+<td>Ch5 文件</td>
+<td>混合索引计算</td>
+<td>直接块+一级+二级+三级；每块 1 KB、块指针 4 B→一个索引块可指 256 块；公式：8×1 KB + 256×1 KB + 256²×1 KB + 256³×1 KB</td>
+</tr>
+<tr>
+<td></td>
+<td>目录结构</td>
+<td>树形 vs 有向无环图——后者支持共享目录，需用“文件链接”实现</td>
+</tr>
+<tr>
+<td>Ch6 I/O</td>
+<td>磁盘调度</td>
+<td>SSTF、SCAN（电梯）会算磁头移动总道数；初始方向影响 SCAN</td>
+</tr>
+<tr>
+<td>Ch8 死锁</td>
+<td>银行家算法</td>
+<td>1. 算 Need=Max-Allocation；2. 找安全序列：Work≥Need 且 Finish=F→T；3. 能列出即安全，不能即不安全</td>
+</tr>
+<tr>
+<td></td>
+<td>死锁 4 条件</td>
+<td>互斥、占有且等待、非抢占、循环等待——缺一不能形成死锁</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="作业计算大题整合"><a href="#作业计算大题整合" class="headerlink" title="作业计算大题整合"></a>作业计算大题整合</h2><p><img src="/2026/01/06/osFinalReview/50.webp" alt="50" width="791" height="716" loading="lazy"></p>
+<p>对于最少PV的题就两个要点</p>
+<ol>
+<li>每个进程最后一定要有V操作用于唤醒其他进程</li>
+<li>判断是否满足互斥，缓冲区为1则不需要mutex</li>
+</ol>
+<p><img src="/2026/01/06/osFinalReview/51.webp" alt="51" width="826" height="790" loading="lazy"></p>
+<p>这张图的右侧这个问题，很显然是可以但没必要。</p>
+<p>看到这张图了。右侧的问题是：<strong>是否可以改为上图算法（mutex 初值 1）？</strong></p>
+<p>这是在问能否用三个信号量（empty、full、mutex）的标准生产者-消费者模型来替代左侧的两信号量模型。</p>
+<p>左侧的算法（图2-3的算法框图）采用的是<strong>两信号量模型</strong>：</p>
+<ul>
+<li>进程A：P(empty) → 写入信息 → V(full)</li>
+<li>进程B：P(full) → 读出信息 → V(empty)</li>
+</ul>
+<p>这个模型中，<code>empty</code>和<code>full</code>的PV操作<strong>已经隐含了互斥关系</strong>：</p>
+<ul>
+<li>当缓冲区=1时，进程A执行P(empty)后，缓冲区被占用</li>
+<li>进程B必须等待P(full)才能读取</li>
+<li>两者天然互斥，无需额外的mutex信号量</li>
+</ul>
+<p><strong>如果改为三信号量模型</strong>（右侧所示）：</p>
+<ul>
+<li>虽然逻辑上可以运行，但会<strong>增加不必要的开销</strong></li>
+<li>多了一个mutex信号量的初始化、P操作、V操作</li>
+<li>对于单缓冲区的情况，这是<strong>冗余的</strong></li>
+</ul>
+<p><strong>结论</strong>：</p>
+<p>对于<strong>单缓冲区（容量=1）</strong>的情况：</p>
+<ul>
+<li>✅ 用两信号量模型（empty、full）就足够了</li>
+<li>❌ 不需要加mutex，因为已经隐含互斥</li>
+<li>❌ 加mutex会增加系统开销，违反最少信号量原则</li>
+</ul>
+<p>这正是”<strong>最少PV操作</strong>“的核心优化思想。</p>
+<p><img src="/2026/01/06/osFinalReview/52.webp" alt="52" width="804" height="655" loading="lazy"></p>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/53.webp" alt="53" width="787" height="347" loading="lazy"></p>
+<div class="tabs"><div class="nav-tabs"><button type="button" class="tab active">情况①：环形缓冲区</button><button type="button" class="tab">情况②：无穷大缓冲区</button></div><div class="tab-contents"><div class="tab-item-content active"><p>情况①：环形缓冲区（最多容纳n个信息）</p>
+<p>(1) 读写条件</p>
+<ul>
+<li>输入进程（写）：缓冲区未满（有空闲位置）才能写；</li>
+<li>输出进程（读）：缓冲区非空（有信息）才能读；</li>
+<li>同时需保证读写操作的互斥（避免同时操作同一缓冲区单元）。</li>
+</ul>
+<p>(2) P、V操作同步算法<br>定义3个信号量：</p>
+<ul>
+<li><code>empty</code>：表示缓冲区的空闲单元数，初值为<code>n</code>；</li>
+<li><code>full</code>：表示缓冲区的已用单元数，初值为<code>0</code>；</li>
+<li><code>mutex</code>：保证读写操作的互斥，初值为<code>1</code>。</li>
+</ul>
+<p><strong>输入进程伪码</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123;</span><br><span class="line">    生成信息;</span><br><span class="line">    P(empty);  // 申请空闲单元</span><br><span class="line">    P(mutex);  // 申请互斥锁</span><br><span class="line">    将信息写入环形缓冲区;</span><br><span class="line">    V(mutex);  // 释放互斥锁</span><br><span class="line">    V(full);   // 增加已用单元数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>输出进程伪码</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123;</span><br><span class="line">    P(full);   // 申请已用单元</span><br><span class="line">    P(mutex);  // 申请互斥锁</span><br><span class="line">    从环形缓冲区取出信息;</span><br><span class="line">    V(mutex);  // 释放互斥锁</span><br><span class="line">    V(empty);  // 增加空闲单元数</span><br><span class="line">    处理信息;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-item-content"><p>情况②：无穷大缓冲区</p>
+<p>(1) 读写条件</p>
+<ul>
+<li>输入进程（写）：无限制（缓冲区无穷大，永远有空闲位置）；</li>
+<li>输出进程（读）：缓冲区非空（有信息）才能读；</li>
+<li>仍需保证读写操作的互斥。</li>
+</ul>
+<p>(2) P、V操作同步算法<br>定义2个信号量：</p>
+<ul>
+<li><code>full</code>：表示缓冲区的已用单元数，初值为<code>0</code>；</li>
+<li><code>mutex</code>：保证读写操作的互斥，初值为<code>1</code>。</li>
+</ul>
+<p><strong>输入进程伪码</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123;</span><br><span class="line">    生成信息;</span><br><span class="line">    P(mutex);  // 申请互斥锁</span><br><span class="line">    将信息写入缓冲区;</span><br><span class="line">    V(mutex);  // 释放互斥锁</span><br><span class="line">    V(full);   // 增加已用单元数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>输出进程伪码</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123;</span><br><span class="line">    P(full);   // 申请已用单元</span><br><span class="line">    P(mutex);  // 申请互斥锁</span><br><span class="line">    从缓冲区取出信息;</span><br><span class="line">    V(mutex);  // 释放互斥锁</span><br><span class="line">    处理信息;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/54.webp" alt="54" width="692" height="568" loading="lazy"></p>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/55.webp" alt="55" width="692" height="648" loading="lazy"></p>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/56.webp" alt="56" width="692" height="951" loading="lazy"></p>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/57.webp" alt="57" width="692" height="1007" loading="lazy"></p>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/58.webp" alt="58" width="692" height="159" loading="lazy"></p>
+<p>问题解答</p>
+<p>(1) 最大文件长度计算</p>
+<ul>
+<li>每个地址项长度：4B → 可表示的盘块号数量：(2^{32})（但受盘块大小限制，实际取盘块号对应的物理块）</li>
+<li>直接地址项：8个 → 对应盘块数：8</li>
+<li>一级间接地址项：1个 → 对应盘块数：(1KB / 4B = 256)</li>
+<li>二级间接地址项：1个 → 对应盘块数：(256 × 256 = 256^2)</li>
+<li>三级间接地址项：1个 → 对应盘块数：(256 × 256 × 256 = 256^3)</li>
+</ul>
+<p>最大文件长度（以盘块数计）：(8 + 256 + 256^2 + 256^3)，换算为字节数：((8 + 256 + 256^2 + 256^3) × 1KB)</p>
+<p>(2) 访问时间是否相同</p>
+<ul>
+<li><p><strong>逻辑偏移量5000B对应的盘块号</strong>：<br>盘块大小1KB=1024B，(5000 ÷ 1024 ≈ 4.88) → 对应第5个盘块（从0开始计数则为第4块），属于<strong>直接地址项</strong>（直接地址项覆盖前8个盘块）。<br>访问过程：读取索引节点 → 直接从直接地址项中取盘块号 → 访问盘块。</p>
+</li>
+<li><p><strong>逻辑偏移量10000B对应的盘块号</strong>：<br>(10000 ÷ 1024 ≈ 9.77) → 对应第10个盘块（从0开始计数则为第9块），超过直接地址项（8个），属于<strong>一级间接地址项</strong>。<br>访问过程：读取索引节点 → 从一级间接地址项取间接块的盘块号 → 读取间接块 → 从间接块中取目标盘块号 → 访问盘块。</p>
+</li>
+</ul>
+<p>因此，两者访问时间<strong>不相同</strong>：10000B对应的访问需要多读取一次间接块。</p>
+<p>(3) 偏移量10000B的块内位移<br>块内位移 = 逻辑偏移量 % 盘块大小<br>计算：(10000 % 1024 = 10000 - 9×1024 = 10000 - 9216 = 784)</p>
+<hr>
+<h2 id="核心知识点速过"><a href="#核心知识点速过" class="headerlink" title="核心知识点速过"></a>核心知识点速过</h2><h3 id="操作系统的特点"><a href="#操作系统的特点" class="headerlink" title="操作系统的特点"></a>操作系统的特点</h3><ul>
+<li>并发：多个程序同时运行</li>
+<li>共享：系统资源可被多个程序共同使用</li>
+<li>异步性：程序执行顺序不确定</li>
+<li>抽象性：将复杂系统抽象为简单模型</li>
+</ul>
+<h3 id="FCB与I节点"><a href="#FCB与I节点" class="headerlink" title="FCB与I节点"></a>FCB与I节点</h3><p><strong>文件控制块（FCB）</strong> 和 <strong>I节点（Inode）</strong> 是两种不同的文件管理方式，各有优缺点。</p>
+<p><strong>FCB（File Control Block）</strong>：</p>
+<ul>
+<li><strong>定义</strong>：文件控制块是操作系统为管理文件而设置的数据结构，存储文件的所有属性信息</li>
+<li><strong>存储位置</strong>：通常存储在目录项中或目录区</li>
+<li><strong>包含信息</strong>：文件名、大小、创建时间、修改时间、存储位置（首块号）、访问权限等</li>
+<li><strong>特点</strong>：信息集成化，一个FCB包含文件的全部管理信息</li>
+</ul>
+<p><strong>I节点（Inode）</strong>：</p>
+<ul>
+<li><strong>定义</strong>：I节点是Unix/Linux系统中的文件管理结构，分离了文件名和文件属性</li>
+<li><strong>存储位置</strong>：I节点存储在磁盘的I节点表中，目录项仅存储文件名和I节点号</li>
+<li><strong>包含信息</strong>：文件大小、所有者、访问权限、时间戳、磁盘块指针等（不包含文件名）</li>
+<li><strong>特点</strong>：轻量化设计，目录项简洁，支持文件共享和硬链接</li>
+</ul>
+<p><strong>对比表格</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>FCB方式</th>
+<th>I节点方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文件名存储</strong></td>
+<td>在FCB中</td>
+<td>在目录项中</td>
+</tr>
+<tr>
+<td><strong>文件属性存储</strong></td>
+<td>在FCB中</td>
+<td>在I节点表中</td>
+</tr>
+<tr>
+<td><strong>目录项大小</strong></td>
+<td>较大（包含全部信息）</td>
+<td>较小（仅文件名+I节点号）</td>
+</tr>
+<tr>
+<td><strong>目录区空间占用</strong></td>
+<td>多</td>
+<td>少</td>
+</tr>
+<tr>
+<td><strong>文件共享</strong></td>
+<td>困难（需复制FCB）</td>
+<td>容易（多个目录项指向同一I节点）</td>
+</tr>
+<tr>
+<td><strong>硬链接支持</strong></td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>典型系统</strong></td>
+<td>DOS、FAT文件系统</td>
+<td>Unix、Linux、ext系列</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>关键优势</strong>：</p>
+<p><strong>FCB方式的优点</strong>：</p>
+<ul>
+<li>实现简单，文件信息集中管理</li>
+<li>适合小型文件系统</li>
+</ul>
+<p><strong>I节点方式的优点</strong>：</p>
+<ul>
+<li>✅ 目录项小，可存储更多文件</li>
+<li>✅ 支持文件硬链接（多个目录项指向同一I节点）</li>
+<li>✅ 支持文件共享（多个用户可共享同一文件）</li>
+<li>✅ 修改文件属性时无需更新所有目录项</li>
+<li>✅ 适合大型文件系统</li>
+</ul>
+<p><strong>例题</strong>：</p>
+<p>某文件系统采用I节点方式管理文件，一个目录项占16字节（8字节文件名+8字节I节点号），一个I节点占256字节。若目录区大小为4KB，最多可存储多少个文件？</p>
+<p><strong>解析</strong>：</p>
+<ul>
+<li>目录区大小：4KB = 4096字节</li>
+<li>每个目录项大小：16字节</li>
+<li>最多目录项数：4096 ÷ 16 = 256个</li>
+</ul>
+<p>因此最多可存储<strong>256个文件</strong>。</p>
+<p>若采用FCB方式，每个FCB占256字节，则最多可存储：4096 ÷ 256 = 16个文件。</p>
+<p><strong>结论</strong>：I节点方式相比FCB方式，在相同目录区大小下，能存储更多文件。</p>
+<h3 id="用户态-内核态"><a href="#用户态-内核态" class="headerlink" title="用户态/内核态"></a>用户态/内核态</h3><blockquote>
+<p>下列哪些指令应该只在核心态下执行？</p>
+<p>① 屏蔽所有中断<br>② 读时钟日期<br>③ 设置时钟日期<br>④ 改变指令地址寄存器的内容<br>⑤ 启动打印机<br>⑥ 清内存</p>
+</blockquote>
+<p>核心态下执行的有：①③⑤⑥<br>解释：核心态方式下有较高特权，可以执行特权指令，例如：启动I/O、内存清零、修改程序状态字、设置时钟、允许/禁止中断、停机<br>④ 改变指令地址寄存器的内容, 涉及到修改指令的执行流程。<br>指令地址寄存器，通常缩写为IAR，是一个专门用来存储即将执行的指令的内存地址的寄存器。<br>指令地址寄存器即指令计数器PC，允许用户改变内容，以便转入子程序。<br>用户态程序可通过标准函数调用指令修改PC，但受限于硬件指令集和操作系统权限控制，无法直接操作指令寄存器。</p>
+<p>需要结合<strong>寄存器的功能与权限属性</strong>判断：不同寄存器的操作权限，取决于其是否涉及系统级资源、硬件控制或特权操作。</p>
+<p>以下是常见寄存器的权限分类示例：</p>
+<ol>
+<li><p><strong>需核心态执行操作的寄存器</strong>：</p>
+<ul>
+<li><strong>程序状态字寄存器（PSW）</strong>：存储中断开关、核心态/用户态标志等系统状态，修改需核心态权限。</li>
+<li><strong>I/O地址寄存器/控制寄存器</strong>：控制硬件设备（如磁盘、网卡）的读写，操作需核心态。</li>
+<li><strong>内存管理寄存器（如页表基址寄存器）</strong>：管理内存地址映射，直接影响系统内存安全，仅核心态可修改。</li>
+<li><strong>中断向量表寄存器</strong>：配置中断处理入口，属于系统级配置，需核心态权限。</li>
+</ul>
+</li>
+<li><p><strong>用户态可操作的寄存器</strong>：</p>
+<ul>
+<li><strong>通用数据寄存器（如AX、BX）</strong>：仅存储进程私有数据，用户态可自由读写。</li>
+<li><strong>栈指针寄存器（SP）</strong>：仅管理当前进程的栈空间，用户态可修改（需符合进程自身内存范围）。</li>
+</ul>
+</li>
+</ol>
+<p>简单来说：<strong>若寄存器关联系统全局资源、硬件控制或特权状态，则其操作仅能在核心态执行；若仅关联进程私有数据/执行流程，则用户态可操作</strong>。</p>
+<h3 id="微内核"><a href="#微内核" class="headerlink" title="微内核"></a>微内核</h3><p>微内核是一种操作系统架构设计，将传统内核的功能分解为多个独立的服务模块。</p>
+<p><strong>核心特点</strong>：</p>
+<ul>
+<li><strong>功能最小化</strong>：内核仅保留最基本的功能（进程管理、内存管理、中断处理），其他功能（文件系统、设备驱动、网络协议栈）以独立服务进程运行在用户态</li>
+<li><strong>模块化设计</strong>：各服务模块相对独立，通过消息传递进行通信</li>
+<li><strong>隔离性强</strong>：服务进程运行在用户态，故障隔离，一个服务崩溃不会导致整个系统瘫痪</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>✅ <strong>可靠性高</strong>：内核代码量少，bug少；服务进程故障隔离，系统稳定性强</li>
+<li>✅ <strong>易于扩展</strong>：新增功能只需添加新的服务进程，无需修改内核</li>
+<li>✅ <strong>可移植性好</strong>：内核与硬件关联少，易于移植到不同平台</li>
+<li>✅ <strong>安全性好</strong>：服务进程权限受限，恶意代码影响范围小</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>❌ <strong>性能开销大</strong>：用户态与内核态频繁切换，消息传递开销大，系统调用延迟增加</li>
+<li>❌ <strong>实现复杂</strong>：需要完善的进程间通信（IPC）机制，系统设计复杂</li>
+<li>❌ <strong>调试困难</strong>：分布式架构导致问题诊断困难</li>
+</ul>
+<p><strong>对比宏内核</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>微内核</th>
+<th>宏内核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>内核大小</strong></td>
+<td>小（仅基本功能）</td>
+<td>大（集成所有功能）</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>低（频繁上下文切换）</td>
+<td>高（直接函数调用）</td>
+</tr>
+<tr>
+<td><strong>可靠性</strong></td>
+<td>高（故障隔离）</td>
+<td>低（一个模块崩溃影响全系统）</td>
+</tr>
+<tr>
+<td><strong>易维护性</strong></td>
+<td>高（模块独立）</td>
+<td>低（耦合度高）</td>
+</tr>
+<tr>
+<td><strong>代表系统</strong></td>
+<td>QNX、MINIX、Mach</td>
+<td>Linux、Windows、macOS</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>典型应用</strong>：</p>
+<ul>
+<li>实时系统（QNX）：需要高可靠性和实时性</li>
+<li>嵌入式系统：资源受限，需要灵活扩展</li>
+<li>关键任务系统：故障隔离要求高</li>
+</ul>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>算法/概念</th>
+<th>是否考大题</th>
+<th>分值定位</th>
+<th>必须掌握的最简要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>银行家算法</td>
+<td>✅ 一定考</td>
+<td>14-15 分</td>
+<td>填 Need、Work 表，写安全序列，判安全状态</td>
+</tr>
+<tr>
+<td>死锁 4 必要条件</td>
+<td>❌ 只选/判</td>
+<td>1-2 分</td>
+<td>互斥、占有且等待、非抢占、循环等待——缺一则不可能死锁</td>
+</tr>
+<tr>
+<td>死锁预防（破 4 条件）</td>
+<td>❌ 只选/简</td>
+<td>1-3 分</td>
+<td>破“占有且等待”：一次性分配；破“循环等待”：资源序号法</td>
+</tr>
+<tr>
+<td>死锁避免（含银行家）</td>
+<td>❌ 概念小题</td>
+<td>1-2 分</td>
+<td>避免 = 运行时检查，银行家属此类；预防 = 事先破条件</td>
+</tr>
+<tr>
+<td>死锁检测 &amp; 恢复</td>
+<td>❌ 只选/简</td>
+<td>0-2 分</td>
+<td>检测：化简资源分配图；恢复：终止进程/抢占资源</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h4 id="死锁四条件"><a href="#死锁四条件" class="headerlink" title="死锁四条件"></a>死锁四条件</h4><ul>
+<li>互斥：资源不可共享，只能由一个进程使用</li>
+<li>占有且等待：进程已获得某些资源，又申请新资源</li>
+<li>非抢占：进程所获得的资源在未使用完之前不能被抢占</li>
+<li>循环等待：若干进程形成一种头尾相接的循环等待资源关系</li>
+</ul>
+<p><img src="/2026/01/06/osFinalReview/1.webp" alt="1" width="1327" height="653" loading="lazy"></p>
+<hr>
+<h4 id="资源分配图"><a href="#资源分配图" class="headerlink" title="资源分配图"></a>资源分配图</h4><p><img src="/2026/01/06/osFinalReview/2.webp" alt="2" width="1302" height="795" loading="lazy"></p>
+<hr>
+<h4 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h4><p><strong>银行家算法是避免死锁的算法</strong></p>
+<div class="note success flat"><p>银行家算法的核心思想是：在进程申请资源时，先判断系统是否安全，再决定是否分配资源。</p>
+<p>先假装备份资源给进程，跑一遍模拟完成序列，若能找到让所有进程都顺利结束的分配方案（安全序列），才允许真正分配；否则拒绝，避免死锁。</p>
+<blockquote>
+<p>安全状态：系统中的所有进程都能按照某种顺序完成，即系统处于安全状态。<br>申请的总资源数 ≤ 可用资源数 + 已分配资源数<br>单次申请的资源数 ≤ 进程尚需资源数 ≤ 可用资源数</p>
+</blockquote>
+</div>
+<hr>
+<p>这道题可以做个引子</p>
+<p><img src="/2026/01/06/osFinalReview/3.webp" alt="3" width="1233" height="189" loading="lazy"></p>
+<p>要解决这个问题，需利用<mark class="hl-label orange">死锁避免的资源分配原则</mark>（银行家算法的核心逻辑）：<br>当每个进程对资源的最大需求为<code>m</code>，系统资源总数为<code>R</code>时，避免死锁的最大进程数<code>N</code>需满足：<br><code>N × (m-1) &lt; R</code>（让每个进程都差1个资源无法满足，此时系统剩余至少1个资源，可先满足任意一个进程，避免死锁）</p>
+<p>解析：</p>
+<p>已知：每个进程需求<code>m=3</code>，系统打印机总数<code>R=11</code>。</p>
+<p>代入公式：<code>N × (3-1) &lt; 11</code> → <code>2N &lt; 11</code> → <code>N &lt; 5.5</code>。</p>
+<p>由于进程数<code>N</code>为整数，因此<code>N</code>不超过<strong>5</strong>时，系统不会死锁。</p>
+<p>答案：5</p>
+<hr>
+<p>核心四向量：</p>
+<ul>
+<li><code>Available</code>：可用资源向量，表示系统中每种资源可用的数量</li>
+<li><code>Max</code>：最大<mark class="hl-label blue">需求</mark>矩阵，表示每个进程对每种资源的最大需求量</li>
+<li><code>Allocation</code>：分配矩阵，表示系统当前已分配给每个进程的资源数</li>
+<li><code>Need</code>：需求矩阵，表示每个进程尚需的资源数</li>
+</ul>
+<mark class="hl-label orange">Need[i,j]=Max[i,j]-Allocation[i,j]</mark>
+<hr>
+<p><img src="/2026/01/06/osFinalReview/4.webp" alt="4" width="1468" height="935" loading="lazy"></p>
+<p><img src="/2026/01/06/osFinalReview/5.webp" alt="5" width="1432" height="656" loading="lazy"></p>
+<p>T1时刻安全吗？</p>
+<p><img src="/2026/01/06/osFinalReview/6.webp" alt="6" width="1198" height="626" loading="lazy"></p>
+<p>由此可得安全序列 {B, A, C, D}</p>
+<div class="note danger flat"><p>安全序列并不唯一！！！</p>
+<p>{B, D, C ,A}  {B,C,D,A}  {B, C, A, D}都是可以的！！！</p>
+</div>
+<p>若此时进程A发出请求Request（1, 0, 1）,资源分配数据就会变成如下情况。</p>
+<p><img src="/2026/01/06/osFinalReview/7.webp" alt="7" width="1108" height="546" loading="lazy"></p>
+<blockquote>
+<p>Available(0,1,1)不能满足任何进程的需要，故进入不安全状态，系统不分配资源。</p>
+</blockquote>
+<hr>
+<h3 id="同步互斥模型与最少PV操作"><a href="#同步互斥模型与最少PV操作" class="headerlink" title="同步互斥模型与最少PV操作"></a>同步互斥模型与最少PV操作</h3><h4 id="进程特征"><a href="#进程特征" class="headerlink" title="进程特征"></a>进程特征</h4><ul>
+<li>动态性：进程是程序的一次执行过程，它是临时的、有生命期的。表现在它由创建而产生，完成任务后被撤消。</li>
+<li>并发性：进程是可以并发执行的。系统中的各个进程可以按照自己独立的、不可预知的速度推进。</li>
+<li>调度性：进程是系统进行资源分配和调度的一个独立单位</li>
+<li>异步性：各进程向前推进的速度不可预知</li>
+<li>结构性：进程有一定的结构（程序+数据+PCB）</li>
+</ul>
+<h4 id="同步互斥模型"><a href="#同步互斥模型" class="headerlink" title="同步互斥模型"></a>同步互斥模型</h4><ul>
+<li><strong>同步</strong>：多个进程按一定顺序执行，前驱关系制约执行顺序（如生产者必须先生产，消费者才能消费）</li>
+<li><strong>互斥</strong>：多个进程对共享资源的访问需互斥进行，同一时刻只有一个进程可访问临界资源</li>
+</ul>
+<p><strong>实现工具</strong>：信号量机制</p>
+<ul>
+<li>同步用信号量表示资源/事件状态（如<code>empty</code>、<code>full</code>）</li>
+<li>互斥用信号量保护临界区（如<code>mutex</code>）</li>
+</ul>
+<p><strong>典型场景</strong>：</p>
+<ul>
+<li>生产者-消费者：需同步（控制生产/消费顺序）+ 互斥（保护缓冲区）</li>
+<li>读者-写者：需互斥（读写不能同时进行）+ 同步（多读者可并发）</li>
+<li>哲学家进餐：需互斥（筷子独占）+ 同步（避免死锁的进餐顺序）</li>
+</ul>
+<hr>
+<h4 id="最少PV操作"><a href="#最少PV操作" class="headerlink" title="最少PV操作"></a>最少PV操作</h4><p>首先需要明确一下PV操作的概念</p>
+<ul>
+<li><strong>P操作（wait）</strong>：信号量减1，若信号量&lt;0则进程阻塞</li>
+<li><strong>V操作（signal）</strong>：信号量加1，若有阻塞进程则唤醒一个</li>
+</ul>
+<p>生产者-消费者模型中的三信号量：</p>
+<ul>
+<li><code>empty</code>：空缓冲区数量（初值=缓冲区大小）</li>
+<li><code>full</code>：满缓冲区数量（初值=0）</li>
+<li><code>mutex</code>：互斥信号量（初值=1）</li>
+</ul>
+<p><strong>关键优化</strong>：若缓冲区容量=1，<code>empty</code>和<code>full</code>的PV操作已隐含互斥关系，可省略<code>mutex</code>信号量</p>
+<hr>
+<p><strong>例题1：标准生产者-消费者（缓冲区大小=n）</strong></p>
+<p>信号量初值：<code>empty=n, full=0, mutex=1</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">生产者进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    生产数据item;</span><br><span class="line">    P(empty);      // 等待空缓冲区</span><br><span class="line">    P(mutex);      // 进入临界区</span><br><span class="line">    &#123;</span><br><span class="line">      将item放入缓冲区;</span><br><span class="line">    &#125;</span><br><span class="line">    V(mutex);      // 离开临界区</span><br><span class="line">    V(full);       // 通知消费者有满缓冲区</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">消费者进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    P(full);       // 等待满缓冲区</span><br><span class="line">    P(mutex);      // 进入临界区</span><br><span class="line">    &#123;</span><br><span class="line">      从缓冲区取出item;</span><br><span class="line">    &#125;</span><br><span class="line">    V(mutex);      // 离开临界区</span><br><span class="line">    V(empty);      // 通知生产者有空缓冲区</span><br><span class="line">    消费数据item;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>例题2：单缓冲区优化（缓冲区大小=1）</strong></p>
+<p>信号量初值：<code>empty=1, full=0</code>（<strong>省略mutex</strong>）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">生产者进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    生产数据item;</span><br><span class="line">    P(empty);      // 等待缓冲区为空</span><br><span class="line">    &#123;</span><br><span class="line">      将item放入缓冲区;</span><br><span class="line">    &#125;</span><br><span class="line">    V(full);       // 通知消费者缓冲区满</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">消费者进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    P(full);       // 等待缓冲区满</span><br><span class="line">    &#123;</span><br><span class="line">      从缓冲区取出item;</span><br><span class="line">    &#125;</span><br><span class="line">    V(empty);      // 通知生产者缓冲区空</span><br><span class="line">    消费数据item;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>为什么可省mutex？</strong> 当缓冲区=1时，生产者P(empty)后缓冲区被占用，消费者必须等待P(full)；消费者P(full)后才能取数据，生产者必须等待V(empty)。两者天然互斥，无需额外mutex。</p>
+<hr>
+<p><strong>例题3：读者-写者问题（优先级：读者优先）</strong></p>
+<p>信号量初值：<code>rw_mutex=1, read_mutex=1, read_count=0</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">读者进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    P(read_mutex);</span><br><span class="line">    &#123;</span><br><span class="line">      read_count++;</span><br><span class="line">      if(read_count == 1) &#123;</span><br><span class="line">        P(rw_mutex);  // 第一个读者锁定资源</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    V(read_mutex);</span><br><span class="line">    </span><br><span class="line">    &#123;</span><br><span class="line">      读取数据;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    P(read_mutex);</span><br><span class="line">    &#123;</span><br><span class="line">      read_count--;</span><br><span class="line">      if(read_count == 0) &#123;</span><br><span class="line">        V(rw_mutex);  // 最后一个读者释放资源</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    V(read_mutex);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">写者进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    P(rw_mutex);      // 独占资源</span><br><span class="line">    &#123;</span><br><span class="line">      写入数据;</span><br><span class="line">    &#125;</span><br><span class="line">    V(rw_mutex);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>关键点</strong>：<code>read_count</code>记录当前读者数，只有第一个读者才真正P(rw_mutex)，最后一个读者才V(rw_mutex)，允许多读者并发。</p>
+<hr>
+<p><strong>例题4：哲学家进餐（避免死锁）</strong></p>
+<p>信号量初值：<code>chopstick[5]=&#123;1,1,1,1,1&#125;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">哲学家i进程：&#123;</span><br><span class="line">  while(true) &#123;</span><br><span class="line">    &#123;</span><br><span class="line">      思考;</span><br><span class="line">    &#125;</span><br><span class="line">    P(chopstick[i]);           // 拿左筷子</span><br><span class="line">    P(chopstick[(i+1)%5]);     // 拿右筷子</span><br><span class="line">    &#123;</span><br><span class="line">      进餐;</span><br><span class="line">    &#125;</span><br><span class="line">    V(chopstick[i]);           // 放左筷子</span><br><span class="line">    V(chopstick[(i+1)%5]);     // 放右筷子</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>死锁风险</strong>：若所有哲学家同时拿左筷子，都在等右筷子→死锁。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>方案A：最多4个哲学家同时进餐（加一个信号量<code>dining=4</code>）</li>
+<li>方案B：奇数号哲学家先拿左筷子，偶数号先拿右筷子（破循环等待）</li>
+<li>方案C：拿筷子前先获得互斥锁（一次性拿两根）</li>
+</ul>
+<hr>
+<h3 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h3><h4 id="高中低级调度"><a href="#高中低级调度" class="headerlink" title="高中低级调度"></a>高中低级调度</h4><p>三级调度是操作系统进程管理的核心机制，负责不同粒度的资源分配决策。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>调度级别</th>
+<th>调度对象</th>
+<th>触发时机</th>
+<th>主要职责</th>
+<th>批处理系统</th>
+<th>分时系统</th>
+<th>实时系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>高级调度</strong>（作业调度）</td>
+<td>作业</td>
+<td>作业提交时</td>
+<td>从后备队列选作业进入内存，创建进程</td>
+<td>✅ 必须</td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+</tr>
+<tr>
+<td><strong>中级调度</strong>（内存调度）</td>
+<td>进程</td>
+<td>内存不足时</td>
+<td>将进程在内存与外存间对换，控制并发度</td>
+<td>❌ 无</td>
+<td>✅ 必须</td>
+<td>✅ 必须</td>
+</tr>
+<tr>
+<td><strong>低级调度</strong>（进程调度）</td>
+<td>进程</td>
+<td>时间片用尽/I/O等</td>
+<td>从就绪队列选进程进入CPU执行</td>
+<td>✅ 必须</td>
+<td>✅ 必须</td>
+<td>✅ 必须</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>关键理解</strong>：</p>
+<ul>
+<li><strong>高级调度</strong>：只在批处理系统中存在，因为分时/实时系统用户交互式提交，无需后备队列管理</li>
+<li><strong>中级调度</strong>：分时和实时系统必须有，用于虚拟内存管理；批处理系统内存充足，无需对换</li>
+<li><strong>低级调度</strong>：所有系统都必须有，是CPU资源分配的最基本机制</li>
+</ul>
+<hr>
+<h4 id="带权周转时间"><a href="#带权周转时间" class="headerlink" title="带权周转时间"></a>带权周转时间</h4><p><img src="/2026/01/06/osFinalReview/8.webp" alt="8" width="1280" height="689" loading="lazy"></p>
+<p><img src="/2026/01/06/osFinalReview/9.webp" alt="9" width="1536" height="879" loading="lazy"></p>
+<hr>
+<h4 id="进程调度算法"><a href="#进程调度算法" class="headerlink" title="进程调度算法"></a>进程调度算法</h4><ul>
+<li>先来先服务（FCFS）：先到先得</li>
+<li>最短作业优先（SJF）：优先执行短作业</li>
+<li>最短剩余时间优先（SRTN）：优先执行<code>剩余</code>时间最短的作业</li>
+<li>优先级调度：优先级高的优先执行</li>
+<li>多级反馈队列：优先级高的队列优先级高，优先级低的队列优先级低</li>
+<li>时间片轮转（RR）：每个进程分配固定时间片，时间片用完后进程被挂起，等待下一轮调度</li>
+</ul>
+<hr>
+<h4 id="FCFS-First-Come-First-Serve"><a href="#FCFS-First-Come-First-Serve" class="headerlink" title="FCFS(First Come First Serve)"></a>FCFS(First Come First Serve)</h4><p><img src="/2026/01/06/osFinalReview/10.webp" alt="10" width="1603" height="1003" loading="lazy"></p>
+<p><img src="/2026/01/06/osFinalReview/11.webp" alt="11" width="1454" height="827" loading="lazy"></p>
+<h4 id="SJF-Shortest-Job-First"><a href="#SJF-Shortest-Job-First" class="headerlink" title="SJF(Shortest Job First)"></a>SJF(Shortest Job First)</h4><p><img src="/2026/01/06/osFinalReview/12.webp" alt="12" width="1423" height="845" loading="lazy"></p>
+<p><img src="/2026/01/06/osFinalReview/13.webp" alt="13" width="1381" height="640" loading="lazy"></p>
+<h4 id="SRTN-Shortest-Remaining-Time-Next"><a href="#SRTN-Shortest-Remaining-Time-Next" class="headerlink" title="SRTN(Shortest Remaining Time Next)"></a>SRTN(Shortest Remaining Time Next)</h4><p><img src="/2026/01/06/osFinalReview/14.webp" alt="14" width="1833" height="811" loading="lazy"></p>
+<h4 id="优先级调度"><a href="#优先级调度" class="headerlink" title="优先级调度"></a>优先级调度</h4><p>优先级算法分为非抢占式有优先级和抢占式有优先级两种。</p>
+<ul>
+<li><strong>非抢占式有优先级</strong>：优先级高（数值小，这是UNIX的表示方式）的进程先执行，优先级低的进程后执行，优先级相同的进程按FCFS执行</li>
+<li><strong>抢占式有优先级</strong>：优先级高的进程可抢占优先级低的进程，优先级相同的进程按FCFS执行</li>
+</ul>
+<p>同时优先级又分为两种，一种是静态优先级，一种是动态优先级。</p>
+<ul>
+<li><strong>静态优先级</strong>：优先级在进程创建时确定，且在进程运行期间不会改变</li>
+<li><strong>动态优先级</strong>：优先级在进程运行期间会改变，如进程等待时间越长，优先级越高</li>
+</ul>
+<p><img src="/2026/01/06/osFinalReview/15.webp" alt="15" width="1127" height="883" loading="lazy"></p>
+<h4 id="时间片轮转"><a href="#时间片轮转" class="headerlink" title="时间片轮转"></a>时间片轮转</h4><p>时间片是一个小的时间单位，通常为10～100 ms数量级。</p>
+<p>所有就绪进程按先入先出的原则排成一个队列，每次调度时，把CPU分配给队首进程，令其执行一个时间片，时间片用完时，调度程序将该进程送往就绪队列的末尾，再把CPU分配给新的队首进程，让它也执行一个时间片。</p>
+<p>时间片选择过大: 当时间片的选择超过任何一个程序所需要的执行时间长度，则完全退化为FCFS<br>时间片选择过小：则进程切换所用的系统消耗将太多,降低系统效率。</p>
+<p><img src="/2026/01/06/osFinalReview/16.webp" alt="16" width="944" height="483" loading="lazy"></p>
+<p><img src="/2026/01/06/osFinalReview/17.webp" alt="17" width="715" height="510" loading="lazy"></p>
+<hr>
+<h2 id="北京信息科技大学-2020-2021-学年第一学期"><a href="#北京信息科技大学-2020-2021-学年第一学期" class="headerlink" title="北京信息科技大学 2020 - 2021 学年第一学期"></a>北京信息科技大学 2020 - 2021 学年第一学期</h2><h3 id="分时操作系统调度方法"><a href="#分时操作系统调度方法" class="headerlink" title="分时操作系统调度方法"></a>分时操作系统调度方法</h3><p><img src="/2026/01/06/osFinalReview/18.webp" alt="18" width="1033" height="93" loading="lazy"></p>
+<p>答案：D 时间片轮转<br>解析：</p>
+<ol>
+<li>分时操作系统的核心是让多个用户逻辑上同时使用系统，需公平分配CPU资源。时间片轮转是其专用调度策略：系统将CPU时间划分为固定时长的“时间片”，按就绪进程的顺序依次分配时间片，时间片耗尽则切换进程，以此保证多用户的响应及时性。</li>
+<li>其他选项的问题：<ul>
+<li>先进先出/先来先服务（A、B）：属于非抢占式调度，无法快速切换进程，不能满足分时系统的多用户响应需求；</li>
+<li>优先级（C）：仅按优先级调度会导致低优先级进程长期等待，无法实现多用户公平共享CPU资源，不符合分时系统的设计目标。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="分页系统页面置换算法"><a href="#分页系统页面置换算法" class="headerlink" title="分页系统页面置换算法"></a>分页系统页面置换算法</h3><p><img src="/2026/01/06/osFinalReview/19.webp" alt="19" width="1292" height="137" loading="lazy"></p>
+<p>答案：B 6μs<br>解析：</p>
+<ol>
+<li>基本分页系统中，页面访问需两步主存存取：<ul>
+<li>第一步：访问主存中的页表，获取页对应的物理块号，耗时3μs；</li>
+<li>第二步：根据物理块号访问主存中的目标页面，耗时3μs。</li>
+</ul>
+</li>
+<li>总耗时为两次主存存取的时间之和，即3μs + 3μs = 6μs。</li>
+</ol>
+<hr>
+<h3 id="进程三态"><a href="#进程三态" class="headerlink" title="进程三态"></a>进程三态</h3><p><img src="/2026/01/06/osFinalReview/20.webp" alt="20" width="973" height="99" loading="lazy"></p>
+<p>答案：B 执行了P操作<br>解析：</p>
+<ol>
+<li>进程状态转换逻辑：<ul>
+<li>P操作（申请资源）：若执行P操作时，信号量的值小于0，进程会因无法获取资源而从运行态转为阻塞态，进入该信号量的等待队列。</li>
+</ul>
+</li>
+<li>其他选项分析：<ul>
+<li>A V操作（释放资源）：会唤醒阻塞态进程，不会使运行态转阻塞态；</li>
+<li>C 时间片用完：进程会从运行态转为就绪态，等待下一次时间片分配；</li>
+<li>D 执行终止：进程会直接结束，并非转为阻塞态。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="分页抖动"><a href="#分页抖动" class="headerlink" title="分页抖动"></a>分页抖动</h3><p><img src="/2026/01/06/osFinalReview/21.webp" alt="21" width="933" height="90" loading="lazy"></p>
+<p>答案：C 请求分页<br>解析：</p>
+<ol>
+<li><p>抖动现象的产生条件：抖动（颠簸）是指系统频繁地进行页面换入换出，导致CPU利用率急剧下降的现象，仅出现在<strong>请求分页存储管理</strong>中。因为请求分页是基于“部分装入”的虚拟存储技术，进程运行时会动态请求页面，若内存中可用帧不足，就会频繁置换页面，引发抖动。</p>
+</li>
+<li><p>其他选项的排除：</p>
+<ul>
+<li>固定分区、可变分区：属于连续分配方式，进程需整体装入内存，无页面置换操作，不会产生抖动；</li>
+<li>基本分页：是实存管理，进程的所有页面需全部装入内存才能运行，也不存在页面换入换出，不会出现抖动。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="等待时间"><a href="#等待时间" class="headerlink" title="等待时间"></a>等待时间</h3><p><img src="/2026/01/06/osFinalReview/22.webp" alt="22" width="1065" height="94" loading="lazy"></p>
+<p>答案：C 等待时间<br>解析：</p>
+<ol>
+<li>各选项定义：</li>
+</ol>
+<ul>
+<li>等待时间：指作业进入后备队列后，等待作业调度程序选中的时间间隔，与题干描述一致；</li>
+<li>响应时间：通常指从用户提交请求到系统首次产生响应的时间；</li>
+<li>周转时间：作业从提交到完成的总时间（包括等待、运行等阶段）；</li>
+<li>运行时间：作业在CPU上实际执行的时间。</li>
+</ul>
+<hr>
+<h3 id="段式存储管理最大长度"><a href="#段式存储管理最大长度" class="headerlink" title="段式存储管理最大长度"></a>段式存储管理最大长度</h3><p><img src="/2026/01/06/osFinalReview/23.webp" alt="23" width="1246" height="137" loading="lazy"></p>
+<p>答案：A 2^{24}</p>
+<p>解析：<br>段式存储的地址结构分为“段号”和“段内偏移”两部分：</p>
+<ol>
+<li>地址总长度为32位，其中8位表示段号，则段内偏移的位数为 (32 - 8 = 24) 位；</li>
+<li>段内偏移的位数决定了每段的最大长度，24位对应的最大地址空间为 (2^{24}) 字节。</li>
+</ol>
+<hr>
+<h3 id="实时操作系统"><a href="#实时操作系统" class="headerlink" title="实时操作系统"></a>实时操作系统</h3><p><img src="/2026/01/06/osFinalReview/24.webp" alt="24" width="1104" height="88" loading="lazy"></p>
+<p>答案：A 实时性和可靠性<br>解析：<br>实时操作系统的核心目标是“在规定时间内完成任务”，因此设计时需优先保证：</p>
+<ol>
+<li>实时性：系统能对外部事件做出及时响应，满足任务的时间约束；</li>
+<li>可靠性：实时系统常应用于工业控制、医疗设备等关键场景，必须保证运行稳定、故障影响可控。</li>
+</ol>
+<p>其他选项的排除：</p>
+<ul>
+<li>灵活性、兼容性、共享性并非实时系统的核心需求；</li>
+<li>并发性是多任务系统的共性特征，并非实时系统的首要设计考量。</li>
+</ul>
+<hr>
+<h3 id="缓冲技术"><a href="#缓冲技术" class="headerlink" title="缓冲技术"></a>缓冲技术</h3><p><img src="/2026/01/06/osFinalReview/25.webp" alt="25" width="1157" height="99" loading="lazy"></p>
+<p>答案：D 缓冲技术</p>
+<p>解析：<br>缓冲技术的核心作用是协调速度不匹配的设备之间的数据传输：</p>
+<ol>
+<li>当CPU输出数据时，先将数据写入缓冲区，CPU可继续执行其他任务；</li>
+<li>打印机从缓冲区中逐步读取数据进行打印，无需等待CPU直接传输，从而解决了CPU与打印机的速度差异矛盾。</li>
+</ol>
+<p>其他选项的排除：</p>
+<ul>
+<li>并行技术：用于多个设备同时工作，无法解决速度不匹配问题；</li>
+<li>中断技术：用于设备完成操作后通知CPU，不能缓冲数据以协调速度；</li>
+<li>共享技术：是资源复用的方式，与速度协调无关。</li>
+</ul>
+<hr>
+<h4 id="缓冲技术-vs-中断技术对比"><a href="#缓冲技术-vs-中断技术对比" class="headerlink" title="缓冲技术 vs 中断技术对比"></a>缓冲技术 vs 中断技术对比</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>缓冲技术</th>
+<th>中断技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>核心作用</strong></td>
+<td>协调速度不匹配的设备间的数据传输</td>
+<td>设备完成操作后通知CPU进行处理</td>
+</tr>
+<tr>
+<td><strong>解决问题</strong></td>
+<td>CPU与I/O设备速度差异（如CPU快、打印机慢）</td>
+<td>CPU与设备的异步通信问题</td>
+</tr>
+<tr>
+<td><strong>工作原理</strong></td>
+<td>数据先写入缓冲区，设备从缓冲区读取，CPU无需等待</td>
+<td>设备完成操作后发送中断信号，CPU响应中断进行处理</td>
+</tr>
+<tr>
+<td><strong>CPU效率</strong></td>
+<td>✅ 高（CPU可继续执行其他任务）</td>
+<td>✅ 高（CPU无需轮询查询设备状态）</td>
+</tr>
+<tr>
+<td><strong>数据存储</strong></td>
+<td>✅ 有（缓冲区存储数据）</td>
+<td>❌ 无（仅通知机制）</td>
+</tr>
+<tr>
+<td><strong>典型场景</strong></td>
+<td>打印机输出、磁盘读写、网络数据传输</td>
+<td>键盘输入、鼠标点击、设备完成通知</td>
+</tr>
+<tr>
+<td><strong>是否必须</strong></td>
+<td>当设备速度差异大时必须</td>
+<td>所有I/O操作都需要</td>
+</tr>
+<tr>
+<td><strong>缺点</strong></td>
+<td>占用内存空间；缓冲区满时CPU需等待</td>
+<td>中断处理开销大；频繁中断会降低效率</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>关键理解</strong>：</p>
+<ul>
+<li>缓冲和中断是<strong>互补关系</strong>，不是替代关系</li>
+<li>缓冲解决的是<strong>速度不匹配</strong>，中断解决的是<strong>异步通信</strong></li>
+<li>实际I/O系统通常<strong>同时使用</strong>两种技术：缓冲区存储数据，中断通知CPU处理</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="文件系统基本功能"><a href="#文件系统基本功能" class="headerlink" title="文件系统基本功能"></a>文件系统基本功能</h3><p><img src="/2026/01/06/osFinalReview/26.webp" alt="26" width="1245" height="105" loading="lazy"></p>
+<p>答案：B 实现对文件的按名存取<br>解析：<br>从用户角度，文件系统的核心价值是简化文件操作：用户无需了解文件的物理存储位置（如磁盘扇区），只需通过文件名即可完成文件的创建、读取、修改等操作，即“按名存取”。</p>
+<p>其他选项的排除：</p>
+<ul>
+<li>实现虚拟存储：是存储管理的功能，并非文件系统的基本功能；</li>
+<li>提高外存读写速度：是文件系统的优化目标之一，但不是面向用户的基本功能；</li>
+<li>用于存储系统文件：文件系统可存储各类文件（包括用户文件），并非仅用于系统文件。</li>
+</ul>
+<hr>
+<h3 id="信号量初值"><a href="#信号量初值" class="headerlink" title="信号量初值"></a>信号量初值</h3><p><img src="/2026/01/06/osFinalReview/27.webp" alt="27" width="1312" height="150" loading="lazy"></p>
+<p>答案：C 3</p>
+<p>解析：<br>信号量用于管理共享资源时，其初值通常等于资源的可用数量：<br>本题中共享资源是3台打印机，因此信号量初值应定义为3，代表初始状态下有3台打印机可供进程申请使用。</p>
+<hr>
+<h3 id="逻辑地址空间"><a href="#逻辑地址空间" class="headerlink" title="逻辑地址空间"></a>逻辑地址空间</h3><p><img src="/2026/01/06/osFinalReview/28.webp" alt="28" width="973" height="50" loading="lazy"></p>
+<p>该表述<strong>错误</strong>。<br>解析：</p>
+<ol>
+<li>16位逻辑地址空间的总容量为 (2^{16}) 字节；</li>
+<li>页面大小为1KB，即 (2^{10}) 字节；</li>
+<li>逻辑页的最大数量 = 总逻辑地址空间容量 ÷ 页面大小 = (2^{16} ÷ 2^{10} = 2^{6} = 64) 个。</li>
+</ol>
+<p>因此用户进程最多可有64个逻辑页，并非32个。</p>
+<hr>
+<h3 id="用户态内核态"><a href="#用户态内核态" class="headerlink" title="用户态内核态"></a>用户态内核态</h3><p><img src="/2026/01/06/osFinalReview/29.webp" alt="29" width="877" height="43" loading="lazy"></p>
+<p>该表述<strong>错误</strong>。<br>解析：<br>处理机有“用户态”和“核心态”两种状态：</p>
+<ol>
+<li>用户程序默认在<strong>用户态</strong>下执行，此状态下无法直接访问系统资源；</li>
+<li>当执行系统调用时，需要切换到<strong>核心态</strong>（特权态），才能执行操作系统的内核代码、访问系统资源；</li>
+<li>系统调用执行完成后，处理机才会回到用户态。</li>
+</ol>
+<p>因此执行系统调用时，处理机状态是转为核心态，而非用户态。</p>
+<hr>
+<h3 id="多道批处理系统"><a href="#多道批处理系统" class="headerlink" title="多道批处理系统"></a>多道批处理系统</h3><p><img src="/2026/01/06/osFinalReview/30.webp" alt="30" width="717" height="56" loading="lazy"></p>
+<p>该表述<strong>正确</strong>。</p>
+<p>解析：</p>
+<ol>
+<li>多道批处理系统的特点：<ul>
+<li>并发执行：系统可同时加载多个作业到内存，通过进程调度使多个进程交替占用CPU，实现并发执行，提升了CPU利用率；</li>
+<li>交互性差：作业一旦提交，在完成前用户无法与作业进行交互（如输入指令、修改参数等），作业按批量自动处理。</li>
+</ul>
+</li>
+</ol>
+<p>因此多道批处理系统具备进程并发执行的能力，但交互性较弱。</p>
+<hr>
+<h3 id="虚拟设备"><a href="#虚拟设备" class="headerlink" title="虚拟设备"></a>虚拟设备</h3><p><img src="/2026/01/06/osFinalReview/31.webp" alt="31" width="927" height="53" loading="lazy"></p>
+<p>该表述<strong>正确</strong>。</p>
+<p>解析：<br>虚拟设备技术（典型如SPOOLing技术）的核心逻辑是：</p>
+<ol>
+<li>独占设备（如打印机）同一时间只能被一个进程使用，利用率低；</li>
+<li>通过在内存中开辟输入/输出缓冲区，将进程对独占设备的请求先缓存到缓冲区，再由系统统一调度设备处理，从而让多个进程“逻辑上同时使用”该设备，实现了独占设备向共享设备的转化。</li>
+</ol>
+<hr>
+<h3 id="临界区"><a href="#临界区" class="headerlink" title="临界区"></a>临界区</h3><p><img src="/2026/01/06/osFinalReview/32.webp" alt="32" width="963" height="55" loading="lazy"></p>
+<p>该表述<strong>错误</strong>。</p>
+<p>解析：<br>进程退出临界区时，会释放临界资源的同步信号量：</p>
+<ol>
+<li>若有其他进程等待进入临界区，系统会唤醒等待队列中的进程，被唤醒的进程会转为就绪态，等待CPU调度后进入临界区；</li>
+<li>进程无需进入阻塞态等待，阻塞态是进程无法获取资源时的状态，而此时资源已被释放。</li>
+</ol>
+<hr>
+<h3 id="内存碎片"><a href="#内存碎片" class="headerlink" title="内存碎片"></a>内存碎片</h3><p><img src="/2026/01/06/osFinalReview/33.webp" alt="33" width="1053" height="47" loading="lazy"></p>
+<p>该表述<strong>正确</strong>。</p>
+<p>解析：<br>分区式存储管理（包括固定分区和可变分区）的缺陷是易产生内存碎片：</p>
+<ol>
+<li>固定分区：分区大小固定，若进程大小与分区不匹配，会产生内部碎片（分区内未被利用的空间）；</li>
+<li>可变分区：随进程的分配与释放，内存中会出现多个分散的小空闲区域（外部碎片），这些碎片容量太小，无法满足后续进程的内存需求，导致资源浪费。</li>
+</ol>
+<hr>
+<h3 id="文件控制块FCB"><a href="#文件控制块FCB" class="headerlink" title="文件控制块FCB"></a>文件控制块FCB</h3><p><img src="/2026/01/06/osFinalReview/34.webp" alt="34" width="1237" height="251" loading="lazy"></p>
+<ol>
+<li><p>文件控制块的定义及与文件的关系<br>文件控制块（FCB）是操作系统为管理文件而设置的数据结构，用于存储文件的基本信息（如文件名、大小、存储位置等）。<br>它与文件的关系是：<strong>FCB是文件的“标识与管理载体”</strong>，每个文件对应唯一的FCB，操作系统通过FCB识别、操作文件。</p>
+</li>
+<li><p>两种文件控制块的特点<br>（1）左侧FCB的特点</p>
+<ul>
+<li><strong>信息集成化</strong>：将文件名、扩展名、属性、时间、日期、首块号、大小等所有文件信息直接存储在FCB中，信息完整且访问直接。</li>
+<li><strong>空间占用大</strong>：包含的字段较多，单个FCB占用内存/外存空间较大。</li>
+<li><strong>适用于简单文件系统</strong>：无需额外查找其他结构，适合文件数量较少、管理逻辑简单的系统（如早期DOS的FAT文件系统）。<br>（2）右侧FCB的特点</li>
+<li><strong>信息轻量化</strong>：仅存储文件名和I节点号，核心文件信息（如大小、存 储位置）存储在独立的“I节点”结构中。</li>
+<li><strong>空间占用小</strong>：FCB本身字段少，节省目录区空间，可存储更多文件 名。</li>
+<li><strong>适用于大型文件系统</strong>：通过I节点号间接关联文件信息，便于文件信 息的共享与修改（如Unix/Linux的文件系统），同时提升了目录管理的效率。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="多道程序优缺点"><a href="#多道程序优缺点" class="headerlink" title="多道程序优缺点"></a>多道程序优缺点</h3><p><img src="/2026/01/06/osFinalReview/35.webp" alt="35" width="1097" height="745" loading="lazy"></p>
+<p>从CPU、内存、I/O外设利用率及系统吞吐量角度，分析如下：</p>
+<ol>
+<li>单道程序（图a）的优缺点<br>优点：<ul>
+<li>管理简单：无需进程调度、内存分配等复杂逻辑，系统开销小。<br>缺点：</li>
+<li><strong>CPU利用率低</strong>：程序执行I/O操作时，CPU处于空闲状态（等待I/O完成），资源浪费严重。</li>
+<li><strong>I/O外设利用率低</strong>：同一时间仅一个设备（如磁盘）工作，其他I/O设备闲置。</li>
+<li><strong>内存利用率低</strong>：内存仅加载一个程序，剩余空间无法利用。</li>
+<li><strong>系统吞吐量低</strong>：单位时间内完成的作业数量少，整体效率低。</li>
+</ul>
+</li>
+<li>多道程序（图b）的优缺点<br>优点<ul>
+<li><strong>CPU利用率高</strong>：当一个程序执行I/O操作时，系统调度另一个程序占用CPU，减少CPU空闲时间。</li>
+<li><strong>I/O外设利用率高</strong>：多个I/O设备（如磁盘、磁带）可并行工作，提升设备使用效率。</li>
+<li><strong>内存利用率高</strong>：内存同时加载多个程序，充分利用内存空间。</li>
+<li><strong>系统吞吐量高</strong>：单位时间内完成的作业数量更多，系统整体效率提升。<br>缺点</li>
+<li>系统开销增加：需要进程调度、内存管理等机制，占用部分系统资源。</li>
+<li>管理复杂度提升：需处理进程并发、资源竞争等问题，系统设计与实现更复杂。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="PV-操作"><a href="#PV-操作" class="headerlink" title="PV 操作"></a>PV 操作</h3><p><img src="/2026/01/06/osFinalReview/36.webp" alt="36" width="1318" height="799" loading="lazy"></p>
+<p>(1) 进程间的制约关系</p>
+<ul>
+<li><strong>A和B</strong>：存在互斥关系，系统限制二者不能同时读文件F；</li>
+<li><strong>C和D</strong>：存在互斥关系，系统限制二者不能同时读文件F；</li>
+<li><strong>A和C</strong>：无制约关系，可同时读文件F；</li>
+<li><strong>B和D</strong>：无制约关系，可同时读文件F。</li>
+</ul>
+<p>(2) 信号量的定义</p>
+<p>定义2个信号量：</p>
+<ul>
+<li><code>S1</code>：用于控制进程A和B的互斥，含义是“文件F是否允许A/B读取”，初值为1（表示初始时可允许一个进程读取）；</li>
+<li><code>S2</code>：用于控制进程C和D的互斥，含义是“文件F是否允许C/D读取”，初值为1（表示初始时可允许一个进程读取）。</li>
+</ul>
+<p>(3) PV操作伪码</p>
+<ul>
+<li>[1]：<code>P(S1)</code></li>
+<li>[2]：<code>V(S1)</code></li>
+<li>[3]：<code>P(S1)</code></li>
+<li>[4]：<code>V(S1)</code></li>
+<li>[5]：<code>P(S2)</code></li>
+<li>[6]：<code>V(S2)</code></li>
+<li>[7]：<code>P(S2)</code></li>
+<li>[8]：<code>V(S2)</code></li>
+</ul>
+<hr>
+<h3 id="预防死锁与银行家算法"><a href="#预防死锁与银行家算法" class="headerlink" title="预防死锁与银行家算法"></a>预防死锁与银行家算法</h3><p><img src="/2026/01/06/osFinalReview/37.webp" alt="37" width="1300" height="329" loading="lazy"></p>
+<p>一、预防死锁（静态分配方式）的分析</p>
+<div class="note success flat"><p>静态分配要求进程在运行前一次性申请所需的<strong>全部资源</strong>（本题中每个进程最多需要3台刻录机）。</p>
+</div>
+<p>计算过程：<br>设同时运行的进程数为n，则需满足 <code>3n ≤ 19</code>。<br>由于n为整数，解得<code>nmax ​= 6（3×6=18≤19，若 n=7 则 3×7=21 &gt; 19）</code>。</p>
+<p>结论：</p>
+<ul>
+<li>能同时运行的最多进程数：6个；</li>
+<li>未分配的刻录机最少台数：( 19 - 18 = 1 )台。</li>
+</ul>
+<p>二、避免死锁（银行家算法）的分析</p>
+<p>银行家算法允许进程动态申请资源，需保证<code>“所有进程的最大需求之和 ≤ 可用资源 + 已分配资源”</code>，且能找到<strong>安全序列</strong>。</p>
+<p>本题中，每个进程的资源需求为：</p>
+<ul>
+<li>已分配：2台（运行较长时间内的需求）；</li>
+<li>最大需求：3台（即每个进程还需( 3-2=1 )台）。</li>
+</ul>
+<ol>
+<li><p>同时运行的最多进程数<br>设同时运行的进程数为( n )，需满足：</p>
+<ul>
+<li>已分配资源总量：( 2n )（每个进程先分配2台）；</li>
+<li>剩余可用资源：( 19 - 2n )；</li>
+<li>所有进程的剩余需求总量：( 1×n )（每个进程还需1台）。</li>
+</ul>
+<p>为保证安全，<mark class="hl-label orange">剩余可用资源需≥任意一个进程的剩余需求</mark>（本题中剩余需求均为1），且剩余可用资源需能满足至少一个进程完成（释放资源）。</p>
+<p>实际约束：2n ≤ 19（已分配资源不超过总资源），且剩余可用资源 19−2n ≥ 1（至少能满足一个进程的剩余需求）。</p>
+<p>联立得：2n ≤ 18 → nmax​=9（2×9=18≤19，剩余可用资源19−18=1，恰好满足一个进程的剩余需求）。</p>
+</li>
+<li><p>未分配的刻录机数量</p>
+<ul>
+<li>最少台数：当进程数最多（( n=9 )）时，已分配( 2×9=18 )台，未分配台数为( 19-18=1 )台；</li>
+<li>最多台数：当进程数最少（( n=1 )）时，已分配2台，未分配台数为( 19-2=17 )台。</li>
+</ul>
+</li>
+</ol>
+<p>最终结论</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>分配方式</th>
+<th>同时运行的最多进程数</th>
+<th>未分配刻录机最少台数</th>
+<th>未分配刻录机最多台数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>预防死锁（静态分配）</td>
+<td>6</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>避免死锁（银行家算法）</td>
+<td>9</td>
+<td>1</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h3 id="磁盘寻道"><a href="#磁盘寻道" class="headerlink" title="磁盘寻道"></a>磁盘寻道</h3><p><img src="/2026/01/06/osFinalReview/38.webp" alt="38" width="1300" height="151" loading="lazy"></p>
+<p>一、先来先服务（FCFS）算法</p>
+<ol>
+<li>寻道次序<br>当前磁头在 18 号柱面，按请求到达顺序处理：18 → 6 → 38 → 50 → 12 → 27 → 10</li>
+<li><p>寻道距离计算<br>18→6：∣18−6∣=12<br>6→38：∣6−38∣=32<br>38→50：∣38−50∣=12<br>50→12：∣50−12∣=38<br>12→27：∣12−27∣=15<br>27→10：∣27−10∣=17</p>
+<blockquote>
+<p>总寻道距离：12+32+12+38+15+17=126寻道时间：126×3=378ms</p>
+</blockquote>
+</li>
+</ol>
+<p>二、最短寻道优先（SSTF）算法</p>
+<ol>
+<li><p>寻道次序</p>
+<p>当前磁头在 18 号柱面，每次选择与当前柱面距离最近的请求：18 → 12 → 10 → 6 → 27 → 38 → 50</p>
+</li>
+<li><p>寻道距离计算<br>18→12：∣18−12∣=6<br>12→10：∣12−10∣=2<br>10→6：∣10−6∣=4<br>6→27：∣6−27∣=21<br>27→38：∣27−38∣=11<br>38→50：∣38−50∣=12</p>
+<blockquote>
+<p>总寻道距离：6+2+4+21+11+12=56寻道时间：56×3=168ms</p>
+</blockquote>
+</li>
+</ol>
+<p>三、两种算法的特点</p>
+<ol>
+<li><p>先来先服务（FCFS）</p>
+<ul>
+<li>优点：公平、实现简单，按请求顺序处理，无优先级偏差；</li>
+<li>缺点：寻道距离长、时间久，磁头可能频繁大范围移动，效率低。</li>
+</ul>
+</li>
+<li><p>最短寻道优先（SSTF）</p>
+<ul>
+<li>优点：寻道距离短、时间少，磁头移动更高效，能提升磁盘 I/O 性能；</li>
+<li>缺点：可能导致 “饥饿” 现象（距离远的请求长期得不到处理），缺乏全局公平性。</li>
+</ul>
+</li>
+</ol>
+<h3 id="作业调度算法"><a href="#作业调度算法" class="headerlink" title="作业调度算法"></a>作业调度算法</h3><p><img src="/2026/01/06/osFinalReview/39.webp" alt="39" width="1312" height="151" loading="lazy"></p>
+<p>一、先来先服务（FCFS）调度算法</p>
+<ol>
+<li>执行次序<br>J1 → J2 → J3</li>
+<li>计算周转时间与带权周转时间<br>周转时间 = 作业完成时间 - 作业到达时间（因同时到达，到达时间为0）；<br>带权周转时间 = 周转时间 ÷ 运行时间。</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>作业</th>
+<th>运行时间</th>
+<th>完成时间</th>
+<th>周转时间</th>
+<th>带权周转时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J1</td>
+<td>11</td>
+<td>11</td>
+<td>11</td>
+<td>(11÷11=1)</td>
+</tr>
+<tr>
+<td>J2</td>
+<td>5</td>
+<td>(11+5=16)</td>
+<td>16</td>
+<td>(16÷5=3.2)</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>8</td>
+<td>(16+8=24)</td>
+<td>24</td>
+<td>(24÷8=3)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>平均周转时间：(11+16+24)÷3 = 51÷3 = 17</li>
+<li>平均带权周转时间：(1+3.2+3)÷3 = 7.2÷3 = 2.4</li>
+</ul>
+<p>二、短作业优先（SJF）调度算法</p>
+<ol>
+<li>执行次序<br>按运行时间由短到长：J2 → J3 → J1</li>
+<li>计算周转时间与带权周转时间</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>作业</th>
+<th>运行时间</th>
+<th>完成时间</th>
+<th>周转时间</th>
+<th>带权周转时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J2</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>(5÷5=1)</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>8</td>
+<td>(5+8=13)</td>
+<td>13</td>
+<td>(13÷8=1.625)</td>
+</tr>
+<tr>
+<td>J1</td>
+<td>11</td>
+<td>(13+11=24)</td>
+<td>24</td>
+<td>(24÷11≈2.18)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>平均周转时间：((5+13+24)÷3 = 42÷3 = 14)</li>
+<li>平均带权周转时间：((1+1.625+2.18)÷3 ≈ 4.805÷3 ≈ 1.60)</li>
+</ul>
+<p>三、算法性能比较</p>
+<ul>
+<li><strong>平均周转时间</strong>：SJF（14）优于FCFS（17）；</li>
+<li><strong>平均带权周转时间</strong>：SJF（≈1.60）优于FCFS（2.4）；</li>
+<li>结论：短作业优先算法能有效降低作业的平均等待/周转时间，提升系统吞吐量，但可能导致长作业“饥饿”；先来先服务算法公平性强，但对短作业的响应效率较低。</li>
+</ul>
+<hr>
+<h3 id="页面置换算法"><a href="#页面置换算法" class="headerlink" title="页面置换算法"></a>页面置换算法</h3><p><img src="/2026/01/06/osFinalReview/40.webp" alt="40" width="1293" height="167" loading="lazy"></p>
+<p>一、先进先出法（FIFO）的缺页次数计算<br>内存块数为3，初始为空，页面走向：0、1、3、2、5、4、2、1、4、0。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>页面走向</th>
+<th>内存块状态</th>
+<th>是否缺页</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>[0, 空, 空]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>1</td>
+<td>[0, 1, 空]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>3</td>
+<td>[0, 1, 3]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>2</td>
+<td>[2, 1, 3]（换0）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>5</td>
+<td>[2, 5, 3]（换1）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>4</td>
+<td>[2, 5, 4]（换3）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>2</td>
+<td>[2, 5, 4]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>1</td>
+<td>[1, 5, 4]（换2）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>4</td>
+<td>[1, 5, 4]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>0</td>
+<td>[1, 0, 4]（换5）</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>缺页次数</strong>：共8次。</p>
+<p>OPT置换“未来最久不使用”的页面，页面走向：0、1、3、2、5、4、2、1、4、0。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>页面走向</th>
+<th>内存块状态</th>
+<th>是否缺页</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>[0, 空, 空]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>1</td>
+<td>[0, 1, 空]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>3</td>
+<td>[0, 1, 3]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>2</td>
+<td>[0, 1, 2]（换3，3不再使用）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>5</td>
+<td>[5, 1, 2]（换0，0最后使用）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>4</td>
+<td>[4, 1, 2]（换5，5不再使用）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>2</td>
+<td>[4, 1, 2]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>1</td>
+<td>[4, 1, 2]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>4</td>
+<td>[4, 1, 2]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>0</td>
+<td>[0, 1, 2]（换谁都可以）</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>缺页次数</strong>：共7次。</p>
+<hr>
+<p><strong>FIFO算法</strong>：</p>
+<ul>
+<li>优点：实现简单，仅需记录页面进入内存的顺序</li>
+<li>缺点：可能出现”Belady异常”（内存块数增加时，缺页次数反而上升），置换效率不高</li>
+</ul>
+<p><strong>OPT算法</strong>：</p>
+<ul>
+<li>优点：理论上缺页次数最少，置换效率最优</li>
+<li>缺点：无法实际实现（需要预知页面的未来走向），仅作为算法性能的理论参考</li>
+</ul>
+<ol>
+<li><p>FIFO算法</p>
+<ul>
+<li>优点：实现简单，仅需记录页面进入内存的顺序；</li>
+<li>缺点：可能出现“Belady异常”（内存块数增加时，缺页次数反而上升），置换效率不高（未考虑页面的实际使用频率）。</li>
+</ul>
+</li>
+<li><p>OPT算法</p>
+<ul>
+<li>优点：理论上缺页次数最少，置换效率最优；</li>
+<li>缺点：无法实际实现（需要预知页面的未来走向），仅作为算法性能的理论参考。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="无来源的另一套"><a href="#无来源的另一套" class="headerlink" title="无来源的另一套"></a>无来源的另一套</h2><h3 id="多道批处理系统的目的"><a href="#多道批处理系统的目的" class="headerlink" title="多道批处理系统的目的"></a>多道批处理系统的目的</h3><p><img src="/2026/01/06/osFinalReview/41.webp" alt="41" width="986" height="78" loading="lazy"></p>
+<p>答案：A 充分利用CPU，提高了输入输出设备和内存的利用率</p>
+<p>解析：<br>多道程序设计技术的核心目标是让多个程序并发执行，当一个程序进行I/O操作时，CPU可调度另一个程序运行，从而减少CPU空闲时间；同时内存可加载多个程序，I/O设备也能并行工作，最终提升CPU、内存、I/O设备的利用率。</p>
+<p>其他选项排除：</p>
+<ul>
+<li>B：多道批处理系统交互性差，并非提升交互能力；</li>
+<li>C：实时响应速度是实时操作系统的目标，与多道批处理无关；</li>
+<li>D：代码共享并非多道程序设计的核心目的。</li>
+</ul>
+<hr>
+<h3 id="分页技术地址大小"><a href="#分页技术地址大小" class="headerlink" title="分页技术地址大小"></a>分页技术地址大小</h3><p><img src="/2026/01/06/osFinalReview/42.webp" alt="42" width="862" height="84" loading="lazy"></p>
+<p>答案：C) 12</p>
+<p>解析：<br>页内地址的位数由页大小决定，页大小为 (4KB = 2^{12}) 字节，因此需要12位二进制数来表示页内的偏移地址（即页内地址为12位）。</p>
+<hr>
+<h3 id="进程三态转换"><a href="#进程三态转换" class="headerlink" title="进程三态转换"></a>进程三态转换</h3><p><img src="/2026/01/06/osFinalReview/43.webp" alt="43" width="874" height="75" loading="lazy"></p>
+<p>答案：B 资源释放</p>
+<p>解析：</p>
+<ul>
+<li>进程处于阻塞态是因为等待某资源（如I/O完成、资源分配）；</li>
+<li>当其他进程释放该资源时，阻塞态的进程会被唤醒，转为就绪态，等待CPU调度。</li>
+</ul>
+<p>其他选项排除：</p>
+<ul>
+<li>A：资源申请会使进程从运行态/就绪态转为阻塞态；</li>
+<li>C：时间片到会使进程从运行态转为就绪态；</li>
+<li>D：进程调度是将就绪态进程转为运行态。</li>
+</ul>
+<hr>
+<h3 id="页面置换算法-1"><a href="#页面置换算法-1" class="headerlink" title="页面置换算法"></a>页面置换算法</h3><p><img src="/2026/01/06/osFinalReview/44.webp" alt="44" width="950" height="83" loading="lazy"></p>
+<p>答案：B 先进先出法</p>
+<p>解析：<br>先进先出法（FIFO）是经典的页面置换算法之一，其逻辑是置换内存中最早进入的页面。</p>
+<p>其他选项排除：</p>
+<ul>
+<li>A：多级反馈队列法是进程调度算法，用于CPU资源的调度；</li>
+<li>C：银行家算法是避免死锁的资源分配算法，并非页面置换算法；</li>
+<li>D：电梯算法是磁盘调度算法，用于优化磁盘寻道。</li>
+</ul>
+<hr>
+<h3 id="高响应比算法"><a href="#高响应比算法" class="headerlink" title="高响应比算法"></a>高响应比算法</h3><p><img src="/2026/01/06/osFinalReview/45.webp" alt="45" width="934" height="84" loading="lazy"></p>
+<p>答案：D 高响应比优先</p>
+<p>解析：<br>高响应比优先算法的响应比公式为：<strong>响应比 =（等待时间 + 运行时间）÷ 运行时间</strong>。</p>
+<ul>
+<li>对短进程：运行时间短，响应比高，能优先调度；</li>
+<li>对长进程：等待时间增加后，响应比会逐渐提高，避免“饥饿”，兼顾了长进程。<br>但该算法需要实时计算每个进程的响应比，系统开销较大。</li>
+</ul>
+<p>其他选项排除：</p>
+<ul>
+<li>A. 轮转法：按时间片公平调度，但未区分进程长短；</li>
+<li>B. 短作业优先：优先短进程，但长进程易“饥饿”；</li>
+<li>C. 最短剩余时间优先：是短作业优先的抢占式版本，同样易导致长进程“饥饿”。</li>
+</ul>
+<h3 id="高响应比算法-1"><a href="#高响应比算法-1" class="headerlink" title="高响应比算法"></a>高响应比算法</h3><p><img src="/2026/01/06/osFinalReview/45.webp" alt="45" width="934" height="84" loading="lazy"></p>
+<p>答案：D 高响应比优先</p>
+<p><strong>核心思想</strong>：</p>
+<p>高响应比优先（HRRN）算法综合考虑进程的等待时间和运行时间，通过计算响应比来决定调度顺序，既照顾短进程，也避免长进程”饥饿”。</p>
+<p><strong>响应比公式</strong>：</p>
+<p><img src="/2026/01/06/osFinalReview/46.webp" alt="46" width="473" height="71" loading="lazy"></p>
+<p><strong>算法特点</strong>：</p>
+<ul>
+<li><strong>对短进程有利</strong>：运行时间短，分母小，响应比高，优先调度</li>
+<li><strong>对长进程公平</strong>：等待时间越长，响应比越高，最终也能被调度，避免”饥饿”</li>
+<li><strong>非抢占式</strong>：进程一旦开始运行，不会被中断，直到完成</li>
+<li><strong>系统开销大</strong>：每次调度都需计算所有就绪进程的响应比</li>
+</ul>
+<p><strong>与其他算法的对比</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FCFS</td>
+<td>公平、实现简单</td>
+<td>长进程等待久，平均周转时间长</td>
+<td>批处理系统</td>
+</tr>
+<tr>
+<td>SJF</td>
+<td>平均周转时间最短</td>
+<td>长进程易”饥饿”</td>
+<td>批处理系统</td>
+</tr>
+<tr>
+<td>HRRN</td>
+<td>兼顾公平性和效率</td>
+<td>需实时计算响应比，开销大</td>
+<td>批处理系统</td>
+</tr>
+<tr>
+<td>RR</td>
+<td>公平、响应快</td>
+<td>上下文切换开销大</td>
+<td>分时系统</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>例题</strong>：</p>
+<p>已知三个进程同时到达，运行时间分别为8ms、4ms、2ms。采用HRRN调度，计算调度顺序和平均周转时间。</p>
+<p><strong>解析</strong>：</p>
+<p>初始状态（t=0）：</p>
+<ul>
+<li>P1：等待=0，运行=8，响应比=(0+8)/8=1.0</li>
+<li>P2：等待=0，运行=4，响应比=(0+4)/4=1.0</li>
+<li>P3：等待=0，运行=2，响应比=(0+2)/2=1.0</li>
+</ul>
+<p>响应比相同，按到达顺序选P1执行。</p>
+<p>P1执行完毕（t=8）：</p>
+<ul>
+<li>P2：等待=8，运行=4，响应比=(8+4)/4=3.0</li>
+<li>P3：等待=8，运行=2，响应比=(8+2)/2=5.0</li>
+</ul>
+<p>P3响应比最高，选P3执行。</p>
+<p>P3执行完毕（t=10）：</p>
+<ul>
+<li>P2：等待=10，运行=4，响应比=(10+4)/4=3.5</li>
+</ul>
+<p>P2执行完毕（t=14）。</p>
+<p><strong>调度结果</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>进程</th>
+<th>运行时间</th>
+<th>完成时间</th>
+<th>周转时间</th>
+<th>带权周转时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td>8</td>
+<td>8</td>
+<td>8</td>
+<td>8/8=1.0</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>2</td>
+<td>10</td>
+<td>10</td>
+<td>10/2=5.0</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>4</td>
+<td>14</td>
+<td>14</td>
+<td>14/4=3.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>平均周转时间：(8+10+14)/3 = 10.67ms</li>
+<li>平均带权周转时间：(1.0+5.0+3.5)/3 = 3.17</li>
+</ul>
+<p><strong>其他选项排除</strong>：</p>
+<ul>
+<li>A. 轮转法：按时间片公平调度，但未区分进程长短，平均周转时间较长</li>
+<li>B. 短作业优先：优先短进程，但长进程易”饥饿”，不够公平</li>
+<li>C. 最短剩余时间优先：是短作业优先的抢占式版本，同样易导致长进程”饥饿”</li>
+</ul>
+<hr>
+<h3 id="外部碎片"><a href="#外部碎片" class="headerlink" title="外部碎片"></a>外部碎片</h3><p><img src="/2026/01/06/osFinalReview/49.webp" alt="49" width="570" height="89" loading="lazy"></p>
+<p>答案：B）分段式存储管理</p>
+<p>解析：</p>
+<ul>
+<li><strong>外部碎片</strong>是指内存中分散的、无法被利用的小空闲区域，通常由动态分配/释放内存导致。</li>
+<li>分段式存储管理中，进程按逻辑段分配连续内存，当段被释放后，会在内存中形成分散的小空闲区，即外部碎片。</li>
+</ul>
+<p>其他选项排除：</p>
+<ul>
+<li>A）分页式存储管理：内存按固定页大小分配，仅产生内部碎片（页内未利用空间）；</li>
+<li>C）固定分区式存储管理：分区大小固定，产生内部碎片；</li>
+<li>D）段页式存储管理：结合分段与分页，内存按页分配，仅产生内部碎片。</li>
+</ul>
+<hr>
+<h3 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h3><p><img src="/2026/01/06/osFinalReview/47.webp" alt="47" width="882" height="74" loading="lazy"></p>
+<p>答案：A 普通文件</p>
+<p>解析：<br>在Unix/Linux系统中，<code>gcc</code>编译C程序生成的<code>a.out</code>是<strong>可执行的二进制文件</strong>，属于<strong>普通文件</strong>（普通文件包含文本、二进制数据等，是系统中最常见的文件类型）。</p>
+<p>其他选项排除：</p>
+<ul>
+<li>B）ASCII文件：是文本文件，而<code>a.out</code>是二进制文件，不属于ASCII文件；</li>
+<li>C）目录文件：用于管理文件和子目录，<code>a.out</code>是可执行文件，不是目录；</li>
+<li>D）特别文件：对应硬件设备（如磁盘、终端），<code>a.out</code>是用户生成的可执行文件，不属于特别文件。</li>
+</ul>
+<hr>
+<h3 id="SPOOLing（假脱机）技术"><a href="#SPOOLing（假脱机）技术" class="headerlink" title="SPOOLing（假脱机）技术"></a>SPOOLing（假脱机）技术</h3><p><img src="/2026/01/06/osFinalReview/48.webp" alt="48" width="610" height="95" loading="lazy"></p>
+<p>答案：D 实现了虚存管理</p>
+<p>解析：<br>SPOOLing（假脱机）技术的核心是<strong>将独占设备（如打印机）转化为共享设备</strong>，通过磁盘上的输入/输出缓冲区暂存数据，其作用是提升设备利用率，与“虚存管理”（内存扩展技术）无关。</p>
+<p>其他选项分析：</p>
+<ul>
+<li>A）正确：SPOOLing利用磁盘（共享设备）模拟独占设备，让多个进程逻辑上同时使用；</li>
+<li>B）正确：SPOOLing需要管理缓冲区、调度设备等，增加了系统复杂度；</li>
+<li>C）正确：SPOOLing需在磁盘上开辟缓冲区，会占用一定磁盘空间。</li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</a><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/osFinalReviewTopImg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/04/computerNetFinalReview/" title="计算机网络期末复习"><img class="cover" src="/imgs/ArticleTopImgs/computerNetFinalReviewTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a><a class="pagination-related" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习"><img class="cover" src="/imgs/ArticleTopImgs/MachineCollectionFinalReviewTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">机器学习与数据挖掘期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习"><img class="cover" src="/imgs/ArticleTopImgs/MachineCollectionFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-09</div><div class="info-item-2">机器学习与数据挖掘期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a><a class="pagination-related" href="/2026/01/04/computerNetFinalReview/" title="计算机网络期末复习"><img class="cover" src="/imgs/ArticleTopImgs/computerNetFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-04</div><div class="info-item-2">计算机网络期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a><a class="pagination-related" href="/2025/12/24/dataCollectionFinalReview/" title="数据采集实践期末复习"><img class="cover" src="/imgs/ArticleTopImgs/dataCollectionFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-24</div><div class="info-item-2">数据采集实践期末复习</div></div><div class="info-2"><div class="info-item-1">数据采集期末复习</div></div></div></a><a class="pagination-related" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img class="cover" src="/imgs/ArticleTopImgs/SASTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-18</div><div class="info-item-2">《数据分析方法（第二版）》重要概念</div></div><div class="info-2"><div class="info-item-1">统分期末复习</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipapi.co/json/',
+    'https://freegeoip.app/json/',
+    'https://ipinfo.io/json'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    fetch(currentApi)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.webp" title="1.gif" class="announcementImg"/><br/>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。<br/>总之祝大家2026新春快乐！！！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%9F%E6%9C%AB%E9%A2%98%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">期末题型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%9F%E6%9C%AB%E2%80%9C%E5%BF%85%E8%80%83-%E5%BF%85%E4%BC%9A%E2%80%9D%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">期末“必考&#x2F;必会”核心知识点速查表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A%E8%AE%A1%E7%AE%97%E5%A4%A7%E9%A2%98%E6%95%B4%E5%90%88"><span class="toc-number">3.</span> <span class="toc-text">作业计算大题整合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9%E9%80%9F%E8%BF%87"><span class="toc-number">4.</span> <span class="toc-text">核心知识点速过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">4.1.</span> <span class="toc-text">操作系统的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FCB%E4%B8%8EI%E8%8A%82%E7%82%B9"><span class="toc-number">4.2.</span> <span class="toc-text">FCB与I节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81-%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">4.3.</span> <span class="toc-text">用户态&#x2F;内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E5%86%85%E6%A0%B8"><span class="toc-number">4.4.</span> <span class="toc-text">微内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">4.5.</span> <span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E5%9B%9B%E6%9D%A1%E4%BB%B6"><span class="toc-number">4.5.1.</span> <span class="toc-text">死锁四条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE"><span class="toc-number">4.5.2.</span> <span class="toc-text">资源分配图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="toc-number">4.5.3.</span> <span class="toc-text">银行家算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9C%80%E5%B0%91PV%E6%93%8D%E4%BD%9C"><span class="toc-number">4.6.</span> <span class="toc-text">同步互斥模型与最少PV操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%89%B9%E5%BE%81"><span class="toc-number">4.6.1.</span> <span class="toc-text">进程特征</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.6.2.</span> <span class="toc-text">同步互斥模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E5%B0%91PV%E6%93%8D%E4%BD%9C"><span class="toc-number">4.6.3.</span> <span class="toc-text">最少PV操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">4.7.</span> <span class="toc-text">调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%B8%AD%E4%BD%8E%E7%BA%A7%E8%B0%83%E5%BA%A6"><span class="toc-number">4.7.1.</span> <span class="toc-text">高中低级调度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6%E6%9D%83%E5%91%A8%E8%BD%AC%E6%97%B6%E9%97%B4"><span class="toc-number">4.7.2.</span> <span class="toc-text">带权周转时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">4.7.3.</span> <span class="toc-text">进程调度算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FCFS-First-Come-First-Serve"><span class="toc-number">4.7.4.</span> <span class="toc-text">FCFS(First Come First Serve)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SJF-Shortest-Job-First"><span class="toc-number">4.7.5.</span> <span class="toc-text">SJF(Shortest Job First)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SRTN-Shortest-Remaining-Time-Next"><span class="toc-number">4.7.6.</span> <span class="toc-text">SRTN(Shortest Remaining Time Next)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E8%B0%83%E5%BA%A6"><span class="toc-number">4.7.7.</span> <span class="toc-text">优先级调度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%89%87%E8%BD%AE%E8%BD%AC"><span class="toc-number">4.7.8.</span> <span class="toc-text">时间片轮转</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%97%E4%BA%AC%E4%BF%A1%E6%81%AF%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6-2020-2021-%E5%AD%A6%E5%B9%B4%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F"><span class="toc-number">5.</span> <span class="toc-text">北京信息科技大学 2020 - 2021 学年第一学期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%B0%83%E5%BA%A6%E6%96%B9%E6%B3%95"><span class="toc-number">5.1.</span> <span class="toc-text">分时操作系统调度方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E7%B3%BB%E7%BB%9F%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">5.2.</span> <span class="toc-text">分页系统页面置换算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%89%E6%80%81"><span class="toc-number">5.3.</span> <span class="toc-text">进程三态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E6%8A%96%E5%8A%A8"><span class="toc-number">5.4.</span> <span class="toc-text">分页抖动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4"><span class="toc-number">5.5.</span> <span class="toc-text">等待时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6"><span class="toc-number">5.6.</span> <span class="toc-text">段式存储管理最大长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">5.7.</span> <span class="toc-text">实时操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E6%8A%80%E6%9C%AF"><span class="toc-number">5.8.</span> <span class="toc-text">缓冲技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E6%8A%80%E6%9C%AF-vs-%E4%B8%AD%E6%96%AD%E6%8A%80%E6%9C%AF%E5%AF%B9%E6%AF%94"><span class="toc-number">5.8.1.</span> <span class="toc-text">缓冲技术 vs 中断技术对比</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="toc-number">5.9.</span> <span class="toc-text">文件系统基本功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%88%9D%E5%80%BC"><span class="toc-number">5.10.</span> <span class="toc-text">信号量初值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">5.11.</span> <span class="toc-text">逻辑地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">5.12.</span> <span class="toc-text">用户态内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E9%81%93%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">5.13.</span> <span class="toc-text">多道批处理系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E8%AE%BE%E5%A4%87"><span class="toc-number">5.14.</span> <span class="toc-text">虚拟设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA"><span class="toc-number">5.15.</span> <span class="toc-text">临界区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%A2%8E%E7%89%87"><span class="toc-number">5.16.</span> <span class="toc-text">内存碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%8E%A7%E5%88%B6%E5%9D%97FCB"><span class="toc-number">5.17.</span> <span class="toc-text">文件控制块FCB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">5.18.</span> <span class="toc-text">多道程序优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PV-%E6%93%8D%E4%BD%9C"><span class="toc-number">5.19.</span> <span class="toc-text">PV 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%E4%B8%8E%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="toc-number">5.20.</span> <span class="toc-text">预防死锁与银行家算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%AF%BB%E9%81%93"><span class="toc-number">5.21.</span> <span class="toc-text">磁盘寻道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">5.22.</span> <span class="toc-text">作业调度算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">5.23.</span> <span class="toc-text">页面置换算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%9D%A5%E6%BA%90%E7%9A%84%E5%8F%A6%E4%B8%80%E5%A5%97"><span class="toc-number">6.</span> <span class="toc-text">无来源的另一套</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E9%81%93%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="toc-number">6.1.</span> <span class="toc-text">多道批处理系统的目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E6%8A%80%E6%9C%AF%E5%9C%B0%E5%9D%80%E5%A4%A7%E5%B0%8F"><span class="toc-number">6.2.</span> <span class="toc-text">分页技术地址大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%89%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="toc-number">6.3.</span> <span class="toc-text">进程三态转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95-1"><span class="toc-number">6.4.</span> <span class="toc-text">页面置换算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E5%93%8D%E5%BA%94%E6%AF%94%E7%AE%97%E6%B3%95"><span class="toc-number">6.5.</span> <span class="toc-text">高响应比算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E5%93%8D%E5%BA%94%E6%AF%94%E7%AE%97%E6%B3%95-1"><span class="toc-number">6.6.</span> <span class="toc-text">高响应比算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E7%A2%8E%E7%89%87"><span class="toc-number">6.7.</span> <span class="toc-text">外部碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.8.</span> <span class="toc-text">文件类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SPOOLing%EF%BC%88%E5%81%87%E8%84%B1%E6%9C%BA%EF%BC%89%E6%8A%80%E6%9C%AF"><span class="toc-number">6.9.</span> <span class="toc-text">SPOOLing（假脱机）技术</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs"><img src="/imgs/ArticleTopImgs/HMNodejsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙Nodejs"/ width="3120" height="2080" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs">鸿蒙Nodejs</a><time datetime="2026-02-13T06:40:21.000Z" title="发表于 2026-02-13 14:40:21">2026-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/03/HarmonyVScode/" title="VScode的鸿蒙化尝试"><img src="/imgs/ArticleTopImgs/HarmonyVScodeTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VScode的鸿蒙化尝试"/ width="1670" height="961" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/03/HarmonyVScode/" title="VScode的鸿蒙化尝试">VScode的鸿蒙化尝试</a><time datetime="2026-02-03T06:52:55.000Z" title="发表于 2026-02-03 14:52:55">2026-02-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/01/KimiCode/" title="KimiCode"><img src="/imgs/ArticleTopImgs/KimiCodeTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="KimiCode"/ width="403" height="237" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/01/KimiCode/" title="KimiCode">KimiCode</a><time datetime="2026-02-01T06:20:33.000Z" title="发表于 2026-02-01 14:20:33">2026-02-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习"><img src="/imgs/ArticleTopImgs/MachineCollectionFinalReviewTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="机器学习与数据挖掘期末复习"/ width="627" height="418" loading="lazy"></a><div class="content"><a class="title" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习">机器学习与数据挖掘期末复习</a><time datetime="2026-01-09T06:46:13.000Z" title="发表于 2026-01-09 14:46:13">2026-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/06/osFinalReview/" title="操作系统期末复习"><img src="/imgs/ArticleTopImgs/osFinalReviewTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统期末复习"/ width="1254" height="836" loading="lazy"></a><div class="content"><a class="title" href="/2026/01/06/osFinalReview/" title="操作系统期末复习">操作系统期末复习</a><time datetime="2026-01-06T05:10:37.000Z" title="发表于 2026-01-06 13:10:37">2026-01-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><script type="text/javascript" src="https://unpkg.com/mermaid@undefined/dist/mermaid.min.js" id="maid-script"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaid-options'));
+  mermaid.initialize(options);
+}</script><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 网络监控器 - 帮助定位503问题--><script src="/js/network-monitor.js"></script><script src="/js/topimg-monitor.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 基础懒加载功能（兼容旧版）--><script src="/js/lazy-loading.js"></script><!-- 原生懒加载优化 - 解决布局偏移问题--><script src="/js/lazy-loading-native.js"></script><!-- 图片懒加载刷新按钮功能--><script src="/js/lazy-image-refresh.js"></script><!-- 视频懒加载刷新按钮功能--><script src="/js/lazy-video-refresh.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/%5Bobject%20Object%5D').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe-optimized.js"></script><script defer src="/js/jquery-3.6.0.min.js"></script><script defer src="/js/rightmenu.js"></script><script defer src="/js/happy-title.js"></script><script defer src="/js/lazy-loading-optimized.js"></script><script defer src="/js/lightbox-enhanced.js"></script><script async data-pjax src="//cn.vercount.one/js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/24/typewriter/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/TypeWriteTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-24</span><a class="blog-slider__title" href="2025/06/24/typewriter/" alt="">Butterfly主题实现简介打字机</a><div class="blog-slider__text">详细介绍如何在Hexo的Butterfly主题中添加炫酷的打字机效果，包含完整的实现代码和配置方法。</div><a class="blog-slider__button" href="2025/06/24/typewriter/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/yiduoTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/11/01/ThoughtsOnVibeCoding/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-11-01</span><a class="blog-slider__title" href="2025/11/01/ThoughtsOnVibeCoding/" alt="">在虚构与现实之间，守住那束灵感之光</a><div class="blog-slider__text">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</div><a class="blog-slider__button" href="2025/11/01/ThoughtsOnVibeCoding/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/RCPTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
