@@ -1,8 +1,8 @@
 /**
  * VS Code 风格智能文档导航栏
- * 常驻在页面顶部，跟随原生 header 一起移动
+ * 将标题和进度条注入原生 header，完全跟随其显隐
  * @author XBXyftx
- * @version 4.0.0
+ * @version 5.0.0
  */
 
 (function() {
@@ -12,20 +12,17 @@
   const CONFIG = {
     // 原生导航栏选择器
     nativeNavSelector: '#nav',
-    // 原 header 高度（用于初始定位）
-    headerHeight: 60,
     // 容器选择器
     containerSelector: '#article-container',
     // 最大标题长度
-    maxTitleLength: 40,
-    maxParentTitleLength: 25
+    maxTitleLength: 50,
+    maxParentTitleLength: 30
   };
 
   // ==================== 图标库 ====================
   const ICONS = {
-    chevronRight: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
-    hash: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
-    arrowUp: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`
+    chevronRight: `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+    hash: `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`
   };
 
   // ==================== 状态管理 ====================
@@ -33,8 +30,8 @@
     headings: [],
     currentHeading: null,
     parentHeading: null,
-    navbar: null,
-    isCollapsed: false  // 是否已收起（贴近顶部）
+    navContainer: null,
+    isInitialized: false
   };
 
   // ==================== 工具函数 ====================
@@ -88,210 +85,175 @@
     return null;
   }
 
-  // ==================== DOM 构建 ====================
-  function createNavbar() {
-    const navbar = document.createElement('div');
-    navbar.className = 'vscode-smart-navbar';
-    navbar.id = 'vscodeSmartNavbar';
-    
-    // 强制内联样式确保可见
-    navbar.style.opacity = '1';
-    navbar.style.visibility = 'visible';
-    navbar.style.display = 'block';
-    
-    navbar.innerHTML = `
-      <div class="smart-navbar-content">
-        <div class="breadcrumb-path" id="breadcrumbPath">
-          <span class="nav-text">正在读取...</span>
-        </div>
-        <div class="nav-actions">
-          <button class="nav-back-top" id="navBackTop" title="返回顶部">
-            ${ICONS.arrowUp}
-          </button>
-        </div>
-      </div>
-      <div class="reading-progress" id="readingProgress"></div>
+  // ==================== 创建标题元素 ====================
+  function createBreadcrumbElement() {
+    const div = document.createElement('div');
+    div.className = 'vscode-breadcrumb-in-nav';
+    div.id = 'vscodeBreadcrumbInNav';
+    div.innerHTML = `
+      <span class="nav-breadcrumb-content" id="navBreadcrumbContent">
+        <span class="nav-text">正在读取...</span>
+      </span>
     `;
-    
-    return navbar;
+    return div;
   }
 
-  function updateNavbarContent() {
-    const pathEl = document.getElementById('breadcrumbPath');
-    if (!pathEl || !state.currentHeading) return;
+  // ==================== 创建进度条元素 ====================
+  function createProgressElement() {
+    const div = document.createElement('div');
+    div.className = 'vscode-progress-in-nav';
+    div.id = 'vscodeProgressInNav';
+    div.innerHTML = `<div class="reading-progress-bar" id="readingProgressBar"></div>`;
+    return div;
+  }
+
+  // ==================== 更新标题内容 ====================
+  function updateBreadcrumbContent() {
+    const contentEl = document.getElementById('navBreadcrumbContent');
+    if (!contentEl || !state.currentHeading) return;
+
+    // 根据屏幕宽度动态调整
+    const screenWidth = window.innerWidth;
+    let parentMaxLength = CONFIG.maxParentTitleLength;
+    let currentMaxLength = CONFIG.maxTitleLength;
+    
+    // 小屏幕时进一步缩短父标题，优先保障当前标题
+    if (screenWidth < 1200) {
+      parentMaxLength = 15;
+      currentMaxLength = 25;
+    }
+    if (screenWidth < 900) {
+      parentMaxLength = 10;
+    }
 
     const parts = [];
     if (state.parentHeading) {
       parts.push(`
-        <span class="nav-parent" title="${state.parentHeading.text}">
-          ${truncate(state.parentHeading.text, CONFIG.maxParentTitleLength)}
+        <span class="nav-parent-title" title="${state.parentHeading.text}">
+          ${truncate(state.parentHeading.text, parentMaxLength)}
         </span>
         <span class="nav-separator">${ICONS.chevronRight}</span>
       `);
     }
     parts.push(`
-      <span class="nav-current" title="${state.currentHeading.text}">
+      <span class="nav-current-title" title="${state.currentHeading.text}">
         ${ICONS.hash}
-        ${truncate(state.currentHeading.text, CONFIG.maxTitleLength)}
+        ${truncate(state.currentHeading.text, currentMaxLength)}
       </span>
     `);
-    pathEl.innerHTML = parts.join('');
+
+    contentEl.innerHTML = parts.join('');
   }
 
-  function updateReadingProgress() {
-    const progressEl = document.getElementById('readingProgress');
-    if (!progressEl) return;
+  // ==================== 更新进度条 ====================
+  function updateProgress() {
+    const bar = document.getElementById('readingProgressBar');
+    if (!bar) return;
+
     const scrollTop = window.pageYOffset;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    progressEl.style.width = `${Math.min((scrollTop / docHeight) * 100, 100)}%`;
+    const progress = Math.min((scrollTop / docHeight) * 100, 100);
+    bar.style.width = `${progress}%`;
   }
 
-  // ==================== 位置管理 ====================
-  function updatePosition() {
-    const navbar = document.getElementById('vscodeSmartNavbar');
-    if (!navbar) return;
-
-    const scrollY = window.pageYOffset;
-    const nativeNav = document.querySelector(CONFIG.nativeNavSelector);
-    
-    // 获取当前 nav 的位置
-    let navBottom = CONFIG.headerHeight;
-    if (nativeNav) {
-      const rect = nativeNav.getBoundingClientRect();
-      navBottom = Math.max(0, rect.bottom);
-    }
-
-    // 当 nav 被卷出视口（或接近顶部）时，导航栏贴近顶部
-    if (navBottom <= 0 || scrollY > CONFIG.headerHeight) {
-      navbar.classList.add('is-collapsed');
-      state.isCollapsed = true;
-    } else {
-      navbar.classList.remove('is-collapsed');
-      state.isCollapsed = false;
-    }
-    
-    // 确保始终可见（防止其他脚本覆盖）
-    if (navbar.style.opacity !== '1') {
-      navbar.style.setProperty('opacity', '1', 'important');
-      navbar.style.setProperty('visibility', 'visible', 'important');
-    }
-  }
-
-  // ==================== 滚动监听 ====================
+  // ==================== 更新当前标题 ====================
   function updateCurrentHeading() {
     const scrollPosition = window.pageYOffset + 120;
     let currentHeading = null;
-    
+
     for (const heading of state.headings) {
-      if (heading.element) {
-        if (heading.element.offsetTop <= scrollPosition) {
-          currentHeading = heading;
-        } else {
-          break;
-        }
+      if (heading.element && heading.element.offsetTop <= scrollPosition) {
+        currentHeading = heading;
+      } else {
+        break;
       }
     }
 
     if (currentHeading && (!state.currentHeading || state.currentHeading.id !== currentHeading.id)) {
       state.currentHeading = currentHeading;
       state.parentHeading = getParentHeading(currentHeading);
-      updateNavbarContent();
+      updateBreadcrumbContent();
     }
   }
 
+  // ==================== 滚动处理 ====================
   function handleScroll() {
-    updatePosition();
     updateCurrentHeading();
-    updateReadingProgress();
-  }
-
-  // ==================== 平滑滚动 ====================
-  function scrollToHeading(id) {
-    const heading = state.headings.find(h => h.id === id);
-    if (!heading || !heading.element) return;
-
-    const offset = state.isCollapsed ? 50 : 110;
-    const targetPosition = heading.element.offsetTop - offset;
-    
-    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-    history.pushState(null, null, `#${id}`);
-  }
-
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // ==================== 事件绑定 ====================
-  function bindEvents() {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    document.getElementById('navBackTop')?.addEventListener('click', scrollToTop);
-    document.getElementById('breadcrumbPath')?.addEventListener('click', (e) => {
-      const target = e.target.closest('.nav-parent, .nav-current');
-      if (target && state.currentHeading) scrollToHeading(state.currentHeading.id);
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.key === 'Home') {
-        e.preventDefault();
-        scrollToTop();
-      }
-    });
+    updateProgress();
   }
 
   // ==================== 初始化 ====================
   function init() {
-    console.log('[VS Code Smart Navbar] Initializing...');
-    
+    if (state.isInitialized) return;
+
     const container = document.querySelector(CONFIG.containerSelector);
     if (!container) {
-      console.log('[VS Code Smart Navbar] No container found');
+      console.log('[VS Code Nav] No article container found');
       return;
     }
 
     state.headings = parseHeadings();
-    console.log('[VS Code Smart Navbar] Found', state.headings.length, 'headings');
-    
     if (state.headings.length === 0) {
-      console.log('[VS Code Smart Navbar] No headings, aborting');
+      console.log('[VS Code Nav] No headings found');
       return;
     }
 
-    const navbar = createNavbar();
-    document.body.insertBefore(navbar, document.body.firstChild);
-    state.navbar = navbar;
+    // 查找原生导航栏
+    const nativeNav = document.querySelector(CONFIG.nativeNavSelector);
+    if (!nativeNav) {
+      console.log('[VS Code Nav] Native nav not found');
+      return;
+    }
+
+    state.navContainer = nativeNav;
+
+    // 创建并插入标题元素
+    const breadcrumb = createBreadcrumbElement();
+    nativeNav.appendChild(breadcrumb);
+
+    // 创建并插入进度条（在导航栏下方）
+    const progress = createProgressElement();
+    nativeNav.parentNode.insertBefore(progress, nativeNav.nextSibling);
+
+    // 初始更新
+    updateCurrentHeading();
+    updateProgress();
+
+    // 监听滚动
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
-    console.log('[VS Code Smart Navbar] Navbar inserted');
+    // 监听窗口大小变化，重新计算标题截断
+    window.addEventListener('resize', () => {
+      updateBreadcrumbContent();
+    }, { passive: true });
 
-    // 初始位置计算
-    setTimeout(() => {
-      updatePosition();
-      updateCurrentHeading();
-      updateReadingProgress();
-      console.log('[VS Code Smart Navbar] Position updated, isCollapsed:', state.isCollapsed);
-    }, 100);
-
-    bindEvents();
-
-    console.log('[VS Code Smart Navbar] Initialized successfully');
+    state.isInitialized = true;
+    console.log('[VS Code Nav] Initialized with', state.headings.length, 'headings');
   }
 
+  // ==================== 销毁 ====================
   function destroy() {
-    if (state.navbar) {
-      state.navbar.remove();
-      state.navbar = null;
-    }
+    const breadcrumb = document.getElementById('vscodeBreadcrumbInNav');
+    const progress = document.getElementById('vscodeProgressInNav');
+    if (breadcrumb) breadcrumb.remove();
+    if (progress) progress.remove();
+    
     state.headings = [];
     state.currentHeading = null;
     state.parentHeading = null;
+    state.isInitialized = false;
   }
 
   // ==================== 导出 ====================
-  window.VSCodeSmartNavbar = { init, destroy, refresh: () => { destroy(); init(); }, scrollToHeading, scrollToTop };
+  window.VSCodeNavInjector = { init, destroy, refresh: () => { destroy(); init(); } };
 
+  // 自动初始化
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
+  // PJAX 支持
   document.addEventListener('pjax:complete', () => setTimeout(init, 100));
 })();
