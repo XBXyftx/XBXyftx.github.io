@@ -34,7 +34,8 @@
 }
 
 /* ==================== 导航栏容器 ==================== */
-.vscode-smart-navbar {
+/* 使用 html body 前缀提高选择器优先级 */
+html body .vscode-smart-navbar {
   position: fixed;
   left: 0;
   right: 0;
@@ -55,14 +56,14 @@
               transform 0.5s ease,
               background-color 0.3s ease;
   
-  /* 确保始终可见 */
+  /* 确保始终可见 - 最高优先级 */
   opacity: 1 !important;
   visibility: visible !important;
   display: block !important;
 }
 
 /* 收起状态：贴近顶部 */
-.vscode-smart-navbar.is-collapsed {
+html body .vscode-smart-navbar.is-collapsed {
   top: 0;
 }
 

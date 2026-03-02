@@ -94,6 +94,11 @@
     navbar.className = 'vscode-smart-navbar';
     navbar.id = 'vscodeSmartNavbar';
     
+    // 强制内联样式确保可见
+    navbar.style.opacity = '1';
+    navbar.style.visibility = 'visible';
+    navbar.style.display = 'block';
+    
     navbar.innerHTML = `
       <div class="smart-navbar-content">
         <div class="breadcrumb-path" id="breadcrumbPath">
@@ -163,6 +168,12 @@
     } else {
       navbar.classList.remove('is-collapsed');
       state.isCollapsed = false;
+    }
+    
+    // 确保始终可见（防止其他脚本覆盖）
+    if (navbar.style.opacity !== '1') {
+      navbar.style.setProperty('opacity', '1', 'important');
+      navbar.style.setProperty('visibility', 'visible', 'important');
     }
   }
 
@@ -247,6 +258,11 @@
     const navbar = createNavbar();
     document.body.insertBefore(navbar, document.body.firstChild);
     state.navbar = navbar;
+    
+    // 再次强制设置可见性（防止其他脚本覆盖）
+    navbar.style.setProperty('opacity', '1', 'important');
+    navbar.style.setProperty('visibility', 'visible', 'important');
+    navbar.style.setProperty('display', 'block', 'important');
     
     console.log('[VS Code Smart Navbar] Navbar inserted, initial top:', navbar.style.top);
 
