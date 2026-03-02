@@ -50,21 +50,22 @@
   flex-shrink: 0;
 }
 
-/* ==================== 移动端：简短标题在左侧 ==================== */
+/* ==================== 移动端：简短标题在右侧 ==================== */
 .nav-breadcrumb-mobile {
   position: absolute;
-  left: 60px;  /* Logo右侧 */
+  right: 45px;  /* 靠近右侧菜单按钮 */
   top: 50%;
   transform: translateY(-50%);
   z-index: 100;
-  max-width: calc(50% - 80px);  /* 留出右侧空间 */
+  max-width: calc(100% - 120px);  /* 留出Logo和菜单按钮空间 */
   
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
   font-size: 13px;
   font-weight: 500;
   color: var(--light-grey, #eee);
   white-space: nowrap;
-  pointer-events: auto;  /* 可点击 */
+  pointer-events: auto;
+  text-align: right;  /* 右对齐 */
 }
 
 .mobile-breadcrumb-text {
