@@ -38,12 +38,12 @@
   position: fixed;
   left: 0;
   right: 0;
-  z-index: 90;
+  z-index: 1001;  /* 确保在最上层 */
   
   /* 初始位置：在原生 header 下方 */
   top: var(--vsn-header-height);
   
-  /* 背景样式 */
+  /* 背景样式 - 不透明确保可见 */
   background: var(--vsn-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -54,6 +54,11 @@
   transition: top 0.5s ease, 
               transform 0.5s ease,
               background-color 0.3s ease;
+  
+  /* 确保始终可见 */
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 /* 收起状态：贴近顶部 */

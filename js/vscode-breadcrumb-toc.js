@@ -228,26 +228,39 @@
 
   // ==================== 初始化 ====================
   function init() {
+    console.log('[VS Code Smart Navbar] Initializing...');
+    
     const container = document.querySelector(CONFIG.containerSelector);
-    if (!container) return;
+    if (!container) {
+      console.log('[VS Code Smart Navbar] No container found');
+      return;
+    }
 
     state.headings = parseHeadings();
-    if (state.headings.length === 0) return;
+    console.log('[VS Code Smart Navbar] Found', state.headings.length, 'headings');
+    
+    if (state.headings.length === 0) {
+      console.log('[VS Code Smart Navbar] No headings, aborting');
+      return;
+    }
 
     const navbar = createNavbar();
     document.body.insertBefore(navbar, document.body.firstChild);
     state.navbar = navbar;
+    
+    console.log('[VS Code Smart Navbar] Navbar inserted, initial top:', navbar.style.top);
 
     // 初始位置计算
     setTimeout(() => {
       updatePosition();
       updateCurrentHeading();
       updateReadingProgress();
+      console.log('[VS Code Smart Navbar] Position updated, isCollapsed:', state.isCollapsed);
     }, 100);
 
     bindEvents();
 
-    console.log('[VS Code Smart Navbar] Initialized with', state.headings.length, 'headings');
+    console.log('[VS Code Smart Navbar] Initialized successfully');
   }
 
   function destroy() {
