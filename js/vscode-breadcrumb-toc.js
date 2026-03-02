@@ -259,12 +259,7 @@
     document.body.insertBefore(navbar, document.body.firstChild);
     state.navbar = navbar;
     
-    // 再次强制设置可见性（防止其他脚本覆盖）
-    navbar.style.setProperty('opacity', '1', 'important');
-    navbar.style.setProperty('visibility', 'visible', 'important');
-    navbar.style.setProperty('display', 'block', 'important');
-    
-    console.log('[VS Code Smart Navbar] Navbar inserted, initial top:', navbar.style.top);
+    console.log('[VS Code Smart Navbar] Navbar inserted');
 
     // 初始位置计算
     setTimeout(() => {
