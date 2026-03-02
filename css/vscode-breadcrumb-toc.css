@@ -1,0 +1,275 @@
+/**
+ * VS Code 风格智能文档导航栏样式
+ * 常驻在原生header下方，跟随原生header一起出现/消失
+ * @author XBXyftx
+ * @version 3.0.0
+ */
+
+/* ==================== CSS 变量 ==================== */
+:root {
+  --vsn-bg: rgba(30, 30, 30, 0.95);
+  --vsn-bg-hover: rgba(42, 45, 46, 0.98);
+  --vsn-border: rgba(255, 255, 255, 0.1);
+  --vsn-text: #cccccc;
+  --vsn-text-active: #ffffff;
+  --vsn-accent: #4fc1ff;
+  --vsn-accent-hover: #73d0ff;
+  --vsn-shadow: rgba(0, 0, 0, 0.4);
+  --vsn-progress-bg: #333;
+  --vsn-progress-fill: #4fc1ff;
+  --vsn-nav-height: 60px;
+}
+
+/* 浅色主题适配 */
+@media (prefers-color-scheme: light) {
+  :root {
+    --vsn-bg: rgba(255, 255, 255, 0.95);
+    --vsn-bg-hover: rgba(240, 240, 240, 0.98);
+    --vsn-border: rgba(0, 0, 0, 0.1);
+    --vsn-text: #424242;
+    --vsn-text-active: #1565c0;
+    --vsn-accent: #1565c0;
+    --vsn-accent-hover: #1976d2;
+    --vsn-shadow: rgba(0, 0, 0, 0.15);
+    --vsn-progress-bg: #e0e0e0;
+    --vsn-progress-fill: #1565c0;
+  }
+}
+
+/* ==================== 导航栏容器 ==================== */
+.vscode-smart-navbar {
+  position: fixed;
+  top: var(--vsn-nav-height);
+  left: 0;
+  right: 0;
+  z-index: 90;
+  
+  /* 背景色移到容器上，确保左右两侧颜色一致 */
+  background: var(--vsn-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--vsn-border);
+  box-shadow: 0 2px 12px var(--vsn-shadow);
+  
+  /* 初始隐藏 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  pointer-events: none;
+  
+  /* 过渡动画 */
+  transition: opacity 0.25s ease,
+              visibility 0.25s ease,
+              transform 0.25s ease;
+}
+
+/* 可见状态 */
+.vscode-smart-navbar.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ==================== 内容区域 ==================== */
+.smart-navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* 背景和边框移到外层容器，这里只保留布局 */
+}
+
+/* ==================== 面包屑路径 ==================== */
+.breadcrumb-path {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-parent {
+  color: var(--vsn-text);
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.breadcrumb-path:hover .nav-parent {
+  opacity: 1;
+}
+
+.nav-separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--vsn-text);
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.nav-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--vsn-accent);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+  transition: color 0.15s ease;
+}
+
+.nav-current:hover {
+  color: var(--vsn-accent-hover);
+}
+
+.nav-current svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.nav-text {
+  color: var(--vsn-text);
+  opacity: 0.6;
+}
+
+/* ==================== 操作按钮 ==================== */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.nav-back-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--vsn-border);
+  border-radius: 4px;
+  color: var(--vsn-text);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nav-back-top:hover {
+  background: var(--vsn-bg-hover);
+  border-color: var(--vsn-accent);
+  color: var(--vsn-accent);
+}
+
+.nav-back-top svg {
+  transition: transform 0.15s ease;
+}
+
+.nav-back-top:hover svg {
+  transform: translateY(-2px);
+}
+
+/* ==================== 阅读进度条 ==================== */
+.reading-progress {
+  height: 2px;
+  background: var(--vsn-progress-fill);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 1024px) {
+  .smart-navbar-content {
+    padding: 0 16px;
+  }
+  
+  .nav-current {
+    max-width: 300px;
+  }
+  
+  .nav-parent {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vscode-smart-navbar {
+    top: 50px; /* 移动端导航栏高度 */
+  }
+  
+  .smart-navbar-content {
+    height: 36px;
+    padding: 0 12px;
+  }
+  
+  .breadcrumb-path {
+    font-size: 12px;
+  }
+  
+  .nav-current {
+    max-width: 200px;
+  }
+  
+  /* 移动端简化：只显示当前标题 */
+  .nav-parent,
+  .nav-separator {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-current {
+    max-width: 150px;
+  }
+}
+
+/* ==================== 主题强制覆盖 ==================== */
+[data-theme="dark"] .vscode-smart-navbar,
+html[data-theme="dark"] .vscode-smart-navbar {
+  --vsn-bg: rgba(30, 30, 30, 0.95);
+  --vsn-bg-hover: rgba(42, 45, 46, 0.98);
+  --vsn-border: rgba(255, 255, 255, 0.1);
+  --vsn-text: #cccccc;
+  --vsn-text-active: #ffffff;
+  --vsn-accent: #4fc1ff;
+  --vsn-accent-hover: #73d0ff;
+  --vsn-shadow: rgba(0, 0, 0, 0.4);
+  --vsn-progress-bg: #333;
+  --vsn-progress-fill: #4fc1ff;
+}
+
+[data-theme="light"] .vscode-smart-navbar,
+html[data-theme="light"] .vscode-smart-navbar {
+  --vsn-bg: rgba(255, 255, 255, 0.95);
+  --vsn-bg-hover: rgba(240, 240, 240, 0.98);
+  --vsn-border: rgba(0, 0, 0, 0.1);
+  --vsn-text: #424242;
+  --vsn-text-active: #1565c0;
+  --vsn-accent: #1565c0;
+  --vsn-accent-hover: #1976d2;
+  --vsn-shadow: rgba(0, 0, 0, 0.15);
+  --vsn-progress-bg: #e0e0e0;
+  --vsn-progress-fill: #1565c0;
+}
+
+/* ==================== 打印样式 ==================== */
+@media print {
+  .vscode-smart-navbar {
+    display: none;
+  }
+}
