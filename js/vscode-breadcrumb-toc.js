@@ -1,8 +1,8 @@
 /**
  * VS Code 风格智能文档导航栏
- * 常驻在原生header下方，跟随原生header一起出现/消失
+ * 常驻在页面顶部，跟随原生 header 一起移动
  * @author XBXyftx
- * @version 3.0.0
+ * @version 4.0.0
  */
 
 (function() {
@@ -10,17 +10,12 @@
 
   // ==================== 配置项 ====================
   const CONFIG = {
-    // 原生header选择器
+    // 原生导航栏选择器
     nativeNavSelector: '#nav',
-    pageHeaderSelector: '#page-header',
-    
-    // 选择器
+    // 原 header 高度（用于初始定位）
+    headerHeight: 60,
+    // 容器选择器
     containerSelector: '#article-container',
-    postTitleSelector: '#post-info h1',
-    
-    // 显示阈值（滚动超过多少像素后开始显示）
-    showThreshold: 100,
-    
     // 最大标题长度
     maxTitleLength: 40,
     maxParentTitleLength: 25
@@ -38,24 +33,18 @@
     headings: [],
     currentHeading: null,
     parentHeading: null,
-    isSticky: false,
     navbar: null,
-    headerObserver: null
+    isCollapsed: false  // 是否已收起（贴近顶部）
   };
 
   // ==================== 工具函数 ====================
   function generateSlug(text) {
-    return text
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .substring(0, 50);
+    return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').substring(0, 50);
   }
 
   function generateUniqueId(text, existingIds) {
     let baseId = generateSlug(text);
-    let id = baseId;
-    let counter = 1;
+    let id = baseId, counter = 1;
     while (existingIds.has(id)) {
       id = `${baseId}-${counter}`;
       counter++;
@@ -65,8 +54,7 @@
   }
 
   function truncate(text, maxLength) {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength - 1) + '…';
+    return text.length <= maxLength ? text : text.substring(0, maxLength - 1) + '…';
   }
 
   // ==================== 标题解析 ====================
@@ -75,25 +63,16 @@
     if (!container) return [];
 
     const headingElements = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    const headings = [];
-    const existingIds = new Set();
+    const headings = [], existingIds = new Set();
 
     headingElements.forEach((el) => {
       if (!el.id) {
-        const text = el.textContent.trim();
-        el.id = generateUniqueId(text, existingIds);
+        el.id = generateUniqueId(el.textContent.trim(), existingIds);
       }
-      
       const level = parseInt(el.tagName.charAt(1));
       const text = el.textContent.trim();
       if (!text) return;
-
-      headings.push({
-        id: el.id,
-        level,
-        text,
-        element: el
-      });
+      headings.push({ id: el.id, level, text, element: el });
     });
 
     return headings;
@@ -103,11 +82,8 @@
     if (!currentHeading) return null;
     const currentIndex = state.headings.findIndex(h => h.id === currentHeading.id);
     if (currentIndex <= 0) return null;
-    
     for (let i = currentIndex - 1; i >= 0; i--) {
-      if (state.headings[i].level < currentHeading.level) {
-        return state.headings[i];
-      }
+      if (state.headings[i].level < currentHeading.level) return state.headings[i];
     }
     return null;
   }
@@ -140,7 +116,6 @@
     if (!pathEl || !state.currentHeading) return;
 
     const parts = [];
-    
     if (state.parentHeading) {
       parts.push(`
         <span class="nav-parent" title="${state.parentHeading.text}">
@@ -149,66 +124,56 @@
         <span class="nav-separator">${ICONS.chevronRight}</span>
       `);
     }
-    
     parts.push(`
       <span class="nav-current" title="${state.currentHeading.text}">
         ${ICONS.hash}
         ${truncate(state.currentHeading.text, CONFIG.maxTitleLength)}
       </span>
     `);
-
     pathEl.innerHTML = parts.join('');
   }
 
   function updateReadingProgress() {
     const progressEl = document.getElementById('readingProgress');
     if (!progressEl) return;
-
     const scrollTop = window.pageYOffset;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / docHeight) * 100;
-    
-    progressEl.style.width = `${Math.min(progress, 100)}%`;
+    progressEl.style.width = `${Math.min((scrollTop / docHeight) * 100, 100)}%`;
   }
 
-  // ==================== Sticky 状态管理 ====================
-  function updateStickyState() {
+  // ==================== 位置管理 ====================
+  function updatePosition() {
     const navbar = document.getElementById('vscodeSmartNavbar');
     if (!navbar) return;
 
     const scrollY = window.pageYOffset;
-    const pageHeader = document.querySelector(CONFIG.pageHeaderSelector);
-    
-    if (!pageHeader) return;
-
-    // 获取原生导航栏高度
     const nativeNav = document.querySelector(CONFIG.nativeNavSelector);
-    const navHeight = nativeNav ? nativeNav.offsetHeight : 60;
     
-    // 检查原生header是否固定在顶部
-    const isNavFixed = pageHeader.classList.contains('nav-fixed') && 
-                       pageHeader.classList.contains('nav-visible');
-    
-    if (scrollY > CONFIG.showThreshold && isNavFixed) {
-      // 只有当滚动超过阈值 且 原生导航栏固定时才显示
-      navbar.classList.add('is-visible');
-      navbar.style.top = navHeight + 'px';
+    // 获取当前 nav 的位置
+    let navBottom = CONFIG.headerHeight;
+    if (nativeNav) {
+      const rect = nativeNav.getBoundingClientRect();
+      navBottom = Math.max(0, rect.bottom);
+    }
+
+    // 当 nav 被卷出视口（或接近顶部）时，导航栏贴近顶部
+    if (navBottom <= 0 || scrollY > CONFIG.headerHeight) {
+      navbar.classList.add('is-collapsed');
+      state.isCollapsed = true;
     } else {
-      // 其他情况都隐藏
-      navbar.classList.remove('is-visible');
+      navbar.classList.remove('is-collapsed');
+      state.isCollapsed = false;
     }
   }
 
   // ==================== 滚动监听 ====================
   function updateCurrentHeading() {
-    const scrollPosition = window.pageYOffset + 150; // 考虑导航栏高度
-    
+    const scrollPosition = window.pageYOffset + 120;
     let currentHeading = null;
     
     for (const heading of state.headings) {
       if (heading.element) {
-        const offsetTop = heading.element.offsetTop;
-        if (offsetTop <= scrollPosition) {
+        if (heading.element.offsetTop <= scrollPosition) {
           currentHeading = heading;
         } else {
           break;
@@ -224,7 +189,7 @@
   }
 
   function handleScroll() {
-    updateStickyState();
+    updatePosition();
     updateCurrentHeading();
     updateReadingProgress();
   }
@@ -234,66 +199,25 @@
     const heading = state.headings.find(h => h.id === id);
     if (!heading || !heading.element) return;
 
-    const navbarHeight = 100; // 考虑两个导航栏的高度
-    const targetPosition = heading.element.offsetTop - navbarHeight;
+    const offset = state.isCollapsed ? 50 : 110;
+    const targetPosition = heading.element.offsetTop - offset;
     
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    });
-
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     history.pushState(null, null, `#${id}`);
   }
 
   function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
-
-  // ==================== 监听原生header变化 ====================
-  function initHeaderObserver() {
-    const pageHeader = document.querySelector(CONFIG.pageHeaderSelector);
-    if (!pageHeader) return;
-    
-    // 初始化状态
-    setTimeout(() => {
-      updateStickyState();
-    }, 100);
-    
-    // 监听class变化
-    state.headerObserver = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          updateStickyState();
-        }
-      });
-    });
-    
-    state.headerObserver.observe(pageHeader, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // ==================== 事件绑定 ====================
   function bindEvents() {
-    // 滚动监听
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // 返回顶部按钮
     document.getElementById('navBackTop')?.addEventListener('click', scrollToTop);
-
-    // 点击面包屑跳转
     document.getElementById('breadcrumbPath')?.addEventListener('click', (e) => {
       const target = e.target.closest('.nav-parent, .nav-current');
-      if (target && state.currentHeading) {
-        scrollToHeading(state.currentHeading.id);
-      }
+      if (target && state.currentHeading) scrollToHeading(state.currentHeading.id);
     });
-
-    // 键盘快捷键
     document.addEventListener('keydown', (e) => {
       if (e.ctrlKey && e.key === 'Home') {
         e.preventDefault();
@@ -310,63 +234,40 @@
     state.headings = parseHeadings();
     if (state.headings.length === 0) return;
 
-    // 创建导航栏并插入到body开头
     const navbar = createNavbar();
     document.body.insertBefore(navbar, document.body.firstChild);
     state.navbar = navbar;
 
-    // 初始化
-    updateCurrentHeading();
-    updateReadingProgress();
-    initHeaderObserver();
-    bindEvents();
-
-    // 初始状态更新
+    // 初始位置计算
     setTimeout(() => {
-      updateStickyState();
-    }, 200);
+      updatePosition();
+      updateCurrentHeading();
+      updateReadingProgress();
+    }, 100);
+
+    bindEvents();
 
     console.log('[VS Code Smart Navbar] Initialized with', state.headings.length, 'headings');
   }
 
   function destroy() {
-    if (state.headerObserver) {
-      state.headerObserver.disconnect();
-      state.headerObserver = null;
-    }
-    
     if (state.navbar) {
       state.navbar.remove();
       state.navbar = null;
     }
-    
     state.headings = [];
     state.currentHeading = null;
     state.parentHeading = null;
   }
 
   // ==================== 导出 ====================
-  window.VSCodeSmartNavbar = {
-    init,
-    destroy,
-    refresh() {
-      destroy();
-      init();
-    },
-    scrollToHeading,
-    scrollToTop
-  };
+  window.VSCodeSmartNavbar = { init, destroy, refresh: () => { destroy(); init(); }, scrollToHeading, scrollToTop };
 
-  // 自动初始化
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
-  // PJAX 支持
-  document.addEventListener('pjax:complete', () => {
-    setTimeout(init, 100);
-  });
-
+  document.addEventListener('pjax:complete', () => setTimeout(init, 100));
 })();

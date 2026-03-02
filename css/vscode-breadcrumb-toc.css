@@ -1,8 +1,8 @@
 /**
  * VS Code 风格智能文档导航栏样式
- * 常驻在原生header下方，跟随原生header一起出现/消失
+ * 常驻显示，跟随原生 header 一起移动
  * @author XBXyftx
- * @version 3.0.0
+ * @version 4.0.0
  */
 
 /* ==================== CSS 变量 ==================== */
@@ -15,12 +15,10 @@
   --vsn-accent: #4fc1ff;
   --vsn-accent-hover: #73d0ff;
   --vsn-shadow: rgba(0, 0, 0, 0.4);
-  --vsn-progress-bg: #333;
   --vsn-progress-fill: #4fc1ff;
-  --vsn-nav-height: 60px;
+  --vsn-header-height: 60px;
 }
 
-/* 浅色主题适配 */
 @media (prefers-color-scheme: light) {
   :root {
     --vsn-bg: rgba(255, 255, 255, 0.95);
@@ -31,7 +29,6 @@
     --vsn-accent: #1565c0;
     --vsn-accent-hover: #1976d2;
     --vsn-shadow: rgba(0, 0, 0, 0.15);
-    --vsn-progress-bg: #e0e0e0;
     --vsn-progress-fill: #1565c0;
   }
 }
@@ -39,36 +36,29 @@
 /* ==================== 导航栏容器 ==================== */
 .vscode-smart-navbar {
   position: fixed;
-  top: var(--vsn-nav-height);
   left: 0;
   right: 0;
   z-index: 90;
   
-  /* 背景色移到容器上，确保左右两侧颜色一致 */
+  /* 初始位置：在原生 header 下方 */
+  top: var(--vsn-header-height);
+  
+  /* 背景样式 */
   background: var(--vsn-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--vsn-border);
   box-shadow: 0 2px 12px var(--vsn-shadow);
   
-  /* 初始隐藏 */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  pointer-events: none;
-  
-  /* 过渡动画 */
-  transition: opacity 0.25s ease,
-              visibility 0.25s ease,
-              transform 0.25s ease;
+  /* 与原生 header 相同的动画曲线 */
+  transition: top 0.5s ease, 
+              transform 0.5s ease,
+              background-color 0.3s ease;
 }
 
-/* 可见状态 */
-.vscode-smart-navbar.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
+/* 收起状态：贴近顶部 */
+.vscode-smart-navbar.is-collapsed {
+  top: 0;
 }
 
 /* ==================== 内容区域 ==================== */
@@ -80,7 +70,6 @@
   padding: 0 20px;
   max-width: 1400px;
   margin: 0 auto;
-  /* 背景和边框移到外层容器，这里只保留布局 */
 }
 
 /* ==================== 面包屑路径 ==================== */
@@ -194,6 +183,10 @@
 
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 1024px) {
+  :root {
+    --vsn-header-height: 55px;
+  }
+  
   .smart-navbar-content {
     padding: 0 16px;
   }
@@ -208,8 +201,8 @@
 }
 
 @media (max-width: 768px) {
-  .vscode-smart-navbar {
-    top: 50px; /* 移动端导航栏高度 */
+  :root {
+    --vsn-header-height: 50px;
   }
   
   .smart-navbar-content {
@@ -225,7 +218,6 @@
     max-width: 200px;
   }
   
-  /* 移动端简化：只显示当前标题 */
   .nav-parent,
   .nav-separator {
     display: none;
@@ -249,7 +241,6 @@ html[data-theme="dark"] .vscode-smart-navbar {
   --vsn-accent: #4fc1ff;
   --vsn-accent-hover: #73d0ff;
   --vsn-shadow: rgba(0, 0, 0, 0.4);
-  --vsn-progress-bg: #333;
   --vsn-progress-fill: #4fc1ff;
 }
 
@@ -263,7 +254,6 @@ html[data-theme="light"] .vscode-smart-navbar {
   --vsn-accent: #1565c0;
   --vsn-accent-hover: #1976d2;
   --vsn-shadow: rgba(0, 0, 0, 0.15);
-  --vsn-progress-bg: #e0e0e0;
   --vsn-progress-fill: #1565c0;
 }
 
