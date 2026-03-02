@@ -53,7 +53,7 @@
 /* ==================== 移动端：简短标题在右侧 ==================== */
 .nav-breadcrumb-mobile {
   position: absolute;
-  right: 85px;  /* 靠近右侧菜单按钮 */
+  right: 65px;  /* 靠近右侧菜单按钮 */
   top: 50%;
   transform: translateY(-50%);
   z-index: 100;
