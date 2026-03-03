@@ -232,27 +232,43 @@
         lastRefreshTime.delete(video);
     }
 
+    // 跟踪正在处理中的视频，防止重复处理
+    const processingVideos = new WeakSet();
+
     /**
      * 为视频添加刷新按钮
      * @param {HTMLVideoElement} video - 视频元素
      */
     function addRefreshButton(video) {
-        // 检查是否已经添加过
-        if (video.parentElement && video.parentElement.classList.contains('lazy-video-container')) {
+        // 检查是否正在处理中
+        if (processingVideos.has(video)) {
             return;
         }
 
-        // 创建容器包裹视频
-        const container = document.createElement('div');
-        container.className = 'lazy-video-container';
-        
-        // 将视频放入容器
-        video.parentNode.insertBefore(container, video);
-        container.appendChild(video);
+        // 检查是否已经添加过（使用closest检查祖先元素）
+        if (video.closest('.lazy-video-container')) {
+            return;
+        }
 
-        // 创建并添加刷新按钮
-        const refreshBtn = createRefreshButton(video);
-        container.appendChild(refreshBtn);
+        // 标记为正在处理
+        processingVideos.add(video);
+
+        try {
+            // 创建容器包裹视频
+            const container = document.createElement('div');
+            container.className = 'lazy-video-container';
+            
+            // 将视频放入容器
+            video.parentNode.insertBefore(container, video);
+            container.appendChild(video);
+
+            // 创建并添加刷新按钮
+            const refreshBtn = createRefreshButton(video);
+            container.appendChild(refreshBtn);
+        } finally {
+            // 移除处理标记
+            processingVideos.delete(video);
+        }
     }
 
     /**
@@ -267,8 +283,8 @@
             return;
         }
         
-        // 检查是否已经有刷新按钮
-        if (video.parentElement?.classList.contains('lazy-video-container')) {
+        // 检查是否已经有刷新按钮（使用closest检查祖先元素）
+        if (video.closest('.lazy-video-container')) {
             return;
         }
 
@@ -337,6 +353,9 @@
         videos.forEach(loadVideo);
     }
 
+    // 跟踪已处理的视频
+    const preparedVideos = new WeakSet();
+
     /**
      * 准备视频（添加懒加载属性和占位符）
      */
@@ -358,9 +377,13 @@
                         video.closest('.avatar') || 
                         video.closest('.aside-card')) return;
 
-                    // 排除已处理的视频
+                    // 排除已处理的视频（检查class和WeakSet）
                     if (video.classList.contains('lazy-video') ||
-                        video.classList.contains('lazy-loaded')) return;
+                        video.classList.contains('lazy-loaded') ||
+                        preparedVideos.has(video)) return;
+
+                    // 标记为已处理
+                    preparedVideos.add(video);
 
                     // 保存原始src
                     if (video.src && !video.src.includes('data:')) {

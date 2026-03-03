@@ -230,27 +230,43 @@
         lastRefreshTime.delete(img);
     }
 
+    // 跟踪正在处理中的图片，防止重复处理
+    const processingImages = new WeakSet();
+
     /**
      * 为图片添加刷新按钮
      * @param {HTMLImageElement} img - 图片元素
      */
     function addRefreshButton(img) {
-        // 检查是否已经添加过
-        if (img.parentElement && img.parentElement.classList.contains('lazy-image-container')) {
+        // 检查是否正在处理中
+        if (processingImages.has(img)) {
             return;
         }
 
-        // 创建容器包裹图片
-        const container = document.createElement('div');
-        container.className = 'lazy-image-container';
-        
-        // 将图片放入容器
-        img.parentNode.insertBefore(container, img);
-        container.appendChild(img);
+        // 检查是否已经添加过（包括检查父元素或祖先元素中是否已有容器）
+        if (img.closest('.lazy-image-container')) {
+            return;
+        }
 
-        // 创建并添加刷新按钮
-        const refreshBtn = createRefreshButton(img);
-        container.appendChild(refreshBtn);
+        // 标记为正在处理
+        processingImages.add(img);
+
+        try {
+            // 创建容器包裹图片
+            const container = document.createElement('div');
+            container.className = 'lazy-image-container';
+            
+            // 将图片放入容器
+            img.parentNode.insertBefore(container, img);
+            container.appendChild(img);
+
+            // 创建并添加刷新按钮
+            const refreshBtn = createRefreshButton(img);
+            container.appendChild(refreshBtn);
+        } finally {
+            // 移除处理标记
+            processingImages.delete(img);
+        }
     }
 
     /**
@@ -265,8 +281,8 @@
             return;
         }
         
-        // 检查是否已经有刷新按钮
-        if (img.parentElement?.classList.contains('lazy-image-container')) {
+        // 检查是否已经有刷新按钮（使用closest检查祖先元素）
+        if (img.closest('.lazy-image-container')) {
             return;
         }
 
