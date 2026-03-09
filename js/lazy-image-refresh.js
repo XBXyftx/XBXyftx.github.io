@@ -220,8 +220,9 @@
      * @param {HTMLImageElement} img - 图片元素
      */
     function removeRefreshButton(img) {
-        const container = img.parentElement;
-        if (container && container.classList.contains('lazy-image-container')) {
+        // 使用 closest 查找最近的 lazy-image-container 祖先元素
+        const container = img.closest('.lazy-image-container');
+        if (container) {
             // 将图片移出容器
             container.parentNode.insertBefore(img, container);
             container.remove();
@@ -324,7 +325,7 @@
         
         lazyImages.forEach(img => {
             // 跳过已处理的图片（已经有刷新按钮的）
-            if (img.parentElement?.classList.contains('lazy-image-container')) {
+            if (img.closest('.lazy-image-container')) {
                 return;
             }
             

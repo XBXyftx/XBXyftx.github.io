@@ -222,8 +222,9 @@
      * @param {HTMLVideoElement} video - 视频元素
      */
     function removeRefreshButton(video) {
-        const container = video.parentElement;
-        if (container && container.classList.contains('lazy-video-container')) {
+        // 使用 closest 查找最近的 lazy-video-container 祖先元素
+        const container = video.closest('.lazy-video-container');
+        if (container) {
             // 将视频移出容器
             container.parentNode.insertBefore(video, container);
             container.remove();
@@ -456,7 +457,7 @@
         
         lazyVideos.forEach(video => {
             // 跳过已处理的视频（已经有刷新按钮的）
-            if (video.parentElement?.classList.contains('lazy-video-container')) {
+            if (video.closest('.lazy-video-container')) {
                 return;
             }
             
