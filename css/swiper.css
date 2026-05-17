@@ -1,0 +1,8 @@
+#swiper_container{
+    background: linear-gradient(
+        to bottom right,
+        rgba(15, 30, 64, 0.6),  /* 夜空蓝 */
+        rgba(0, 0, 0, 0.6),     /* 黑色 */
+        rgba(102, 51, 153, 0.6)  /* 极光紫 */
+    );
+}

@@ -1,0 +1,23 @@
+<h1 id="🔒-私密文章系统快速使用指南"><a href="#🔒-私密文章系统快速使用指南" class="headerlink" title="🔒 私密文章系统快速使用指南"></a>🔒 私密文章系统快速使用指南</h1><h2 id="🚀-快速开始"><a href="#🚀-快速开始" class="headerlink" title="🚀 快速开始"></a>🚀 快速开始</h2><h3 id="1-修改密码"><a href="#1-修改密码" class="headerlink" title="1. 修改密码"></a>1. 修改密码</h3><p><strong>⚠️ 重要：首先修改默认密码！</strong></p>
+<p>编辑 <code>source/coffer/index.md</code> 文件，找到：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">correctPassword</span>: <span class="string">&#x27;mySecretPassword2024&#x27;</span>, <span class="comment">// 请修改这个密码！</span></span><br></pre></td></tr></table></figure><br>将密码改为你自己的安全密码。</p>
+<h3 id="2-添加私密文章"><a href="#2-添加私密文章" class="headerlink" title="2. 添加私密文章"></a>2. 添加私密文章</h3><p>在 <code>source/coffer/private-posts/</code> 目录中创建 <code>.md</code> 文件：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 我的私密文章</span><br><span class="line">date: 2025-05-28 10:30:00</span><br><span class="line">tags: [标签1, 标签2]</span><br><span class="line">categories: [分类]</span><br><span class="line"><span class="section">description: 文章描述</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section"># 文章内容</span></span><br><span class="line"></span><br><span class="line">这里写你的私密内容...</span><br></pre></td></tr></table></figure>
+<h3 id="3-生成和访问"><a href="#3-生成和访问" class="headerlink" title="3. 生成和访问"></a>3. 生成和访问</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成静态文件</span></span><br><span class="line">hexo generate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动本地服务器</span></span><br><span class="line">hexo server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问 http://localhost:4000/coffer/</span></span><br></pre></td></tr></table></figure>
+<h2 id="🔑-默认密码"><a href="#🔑-默认密码" class="headerlink" title="🔑 默认密码"></a>🔑 默认密码</h2><p>当前默认密码：<code>mySecretPassword2024</code></p>
+<p><strong>请立即修改为你自己的密码！</strong></p>
+<h2 id="📁-文件结构"><a href="#📁-文件结构" class="headerlink" title="📁 文件结构"></a>📁 文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">source/coffer/</span><br><span class="line">├── index.md              # 主页面（包含密码配置）</span><br><span class="line">├── private-posts/         # 私密文章目录</span><br><span class="line">│   ├── *.md              # 你的私密文章</span><br><span class="line">├── private-posts.json    # 自动生成的文章列表</span><br><span class="line">└── README.md             # 详细说明文档</span><br></pre></td></tr></table></figure>
+<h2 id="✨-功能特性"><a href="#✨-功能特性" class="headerlink" title="✨ 功能特性"></a>✨ 功能特性</h2><ul>
+<li>🔒 密码保护访问</li>
+<li>📱 响应式设计</li>
+<li>🔍 搜索和筛选</li>
+<li>🏷️ 标签管理</li>
+<li>📖 全屏阅读</li>
+<li>🎨 现代化UI</li>
+</ul>
+<h2 id="🛡️-安全提醒"><a href="#🛡️-安全提醒" class="headerlink" title="🛡️ 安全提醒"></a>🛡️ 安全提醒</h2><ul>
+<li>使用强密码</li>
+<li>定期更换密码</li>
+<li>不要在公共场所输入密码</li>
+<li>注意：这是客户端验证，不是真正的服务器端安全</li>
+</ul>
+<h2 id="📞-获取帮助"><a href="#📞-获取帮助" class="headerlink" title="📞 获取帮助"></a>📞 获取帮助</h2><p>如有问题，请查看 <code>README.md</code> 获取详细说明。 </p>

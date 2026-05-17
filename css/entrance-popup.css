@@ -1,0 +1,173 @@
+/* 入场弹窗样式 */
+.entrance-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10001; /* 确保在最上层，高于其他元素 */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.entrance-popup.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  /* 完全透明，不影响主要内容阅读 */
+}
+
+.popup-content {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  max-width: 320px;
+  min-width: 280px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 10000; /* 确保弹窗在最上层 */
+}
+
+.entrance-popup.show .popup-content {
+  transform: translateY(0);
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.popup-close {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.popup-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.popup-body {
+  padding: 16px;
+}
+
+.popup-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .popup-content {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    min-width: auto;
+  }
+  
+  .popup-text {
+    font-size: 13px;
+  }
+  
+  .popup-header {
+    padding: 10px 12px;
+  }
+  
+  .popup-body {
+    padding: 12px;
+  }
+}
+
+/* 小屏幕移动设备 */
+@media (max-width: 480px) {
+  .popup-content {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .popup-text {
+    font-size: 12px;
+  }
+  
+  .popup-title {
+    font-size: 13px;
+  }
+}
+
+/* 暗色模式适配 */
+[data-theme="dark"] .popup-content {
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .popup-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 动画效果 */
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.entrance-popup.show .popup-content {
+  animation: slideInFromTop 0.4s ease-out;
+}
+
+/* 防止弹窗影响主要内容 */
+.entrance-popup .popup-overlay {
+  pointer-events: none;
+}
+
+.entrance-popup .popup-content {
+  pointer-events: auto;
+} 

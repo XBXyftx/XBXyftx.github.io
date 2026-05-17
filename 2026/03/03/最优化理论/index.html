@@ -1,0 +1,2625 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>最优化理论笔记 | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最优化理论的期末笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最优化理论笔记">
+<meta property="og:url" content="https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="最优化理论的期末笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/ZYLLTopImg.webp">
+<meta property="article:published_time" content="2026-03-03T06:23:51.000Z">
+<meta property="article:modified_time" content="2026-05-17T01:08:25.251Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="最优化理论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/ZYLLTopImg.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "最优化理论笔记",
+  "url": "https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/ZYLLTopImg.webp",
+  "datePublished": "2026-03-03T06:23:51.000Z",
+  "dateModified": "2026-05-17T01:08:25.251Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.webp"><link rel="canonical" href="https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//cn.vercount.one"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/typewriter-effect.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="/css/lazy-loading.css"><link rel="stylesheet" href="/css/lazy-loading-stable.css"><link rel="stylesheet" href="/css/vscode-breadcrumb-toc.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '最优化理论笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post',
+  typewriter: '📊 最优化理论期末复习，一些真题的详解。'
+}</script><script>document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/universe.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/transpancy.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/styles.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/rightmenu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/twikoo.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/readmode-enhanced.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'"><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">52</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/ZYLLTopImg.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">最优化理论笔记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">最优化理论笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-03T06:23:51.000Z" title="发表于 2026-03-03 14:23:51">2026-03-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-17T01:08:25.251Z" title="更新于 2026-05-17 09:08:25">2026-05-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">10.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>42分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-05-17 09:08:25&quot;}" hidden></div><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最优化理论，这是一门相当重要的专业理论必修课。这门课不仅涉及高数，线代，运筹学等知识，更是在实际应用场景中应用广泛（对于算法设计的作用也不小）。同时这门课没有课件，到我们是最后一届开设，同时期末是37开的恐怖比例，逼得我不得不去进行一波博文撰写的提前。</p>
+<p>对于写博文这种方式其实算是有利有弊。先说一下弊端吧。无法在课上及时记录，对数学公式的撰写难度较大，同时无法像平板笔记一样图文自由编排。但好处也是显而易见的，可以随时查看，方便复习，同时可以随时修改，方便纠错。同时还有最大的一点优势就是在于md格式对于AI来说是最为友好的文本格式，我完全可以利用各种各样的AI去辅助我进行学习，并将学习的成果进行整理展示，这是独属于这个AI时代的优势。</p>
+<hr>
+<h2 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h2><h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="钢管用料"><a href="#钢管用料" class="headerlink" title="钢管用料"></a>钢管用料</h4><p>现有长度为 7.4m 的管材若干根，要求截成 2.9m 的钢管 1000 根，2.1m 的钢管 2000 根，1.5m 的 1000 根，试问如何截取用料最少？</p>
+<p><strong>截取方案表</strong>：</p>
+<p>一根 7.4m 的管材可以有以下 8 种截取方式：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方案</th>
+<th style="text-align:center">2.9m</th>
+<th style="text-align:center">2.1m</th>
+<th style="text-align:center">1.5m</th>
+<th style="text-align:center">余料(m)</th>
+<th style="text-align:center">使用根数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">B₁</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.1</td>
+<td style="text-align:center"><script type="math/tex">x_1</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₂</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0.3</td>
+<td style="text-align:center"><script type="math/tex">x_2</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₃</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.9</td>
+<td style="text-align:center"><script type="math/tex">x_3</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₄</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1.1</td>
+<td style="text-align:center"><script type="math/tex">x_4</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₅</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1.1</td>
+<td style="text-align:center"><script type="math/tex">x_5</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₆</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center"><script type="math/tex">x_6</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₇</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0.8</td>
+<td style="text-align:center"><script type="math/tex">x_7</script></td>
+</tr>
+<tr>
+<td style="text-align:center">B₈</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1.4</td>
+<td style="text-align:center"><script type="math/tex">x_8</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>需求量</strong></td>
+<td style="text-align:center"><strong>1000</strong></td>
+<td style="text-align:center"><strong>2000</strong></td>
+<td style="text-align:center"><strong>1000</strong></td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中 <script type="math/tex">x_i</script> 表示采用第 <script type="math/tex">B_i</script> 种方案截取的管材根数。</p>
+<p><strong>数学模型建立</strong>：</p>
+<p><strong>约束条件</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+2x_1 + x_2 + x_3 + x_4 \geq 1000 & \text{(2.9m 钢管需求)} \\
+x_2 + x_3 + 2x_5 + 2x_6 + x_7 \geq 2000 & \text{(2.1m 钢管需求)} \\
+x_1 + x_3 + 2x_4 + 2x_6 + 3x_7 + 4x_8 \geq 1000 & \text{(1.5m 钢管需求)} \\
+x_i \geq 0, \quad x_i \in \mathbb{Z} & (i = 1, 2, \ldots, 8)
+\end{cases}</script><p><strong>目标函数</strong>（使用料最少，即总根数最少）：</p>
+<script type="math/tex; mode=display">
+\min Z = x_1 + x_2 + x_3 + x_4 + x_5 + x_6 + x_7 + x_8 = \sum_{i=1}^{8} x_i</script><p>这是一个<strong>整数线性规划问题</strong>（Integer Linear Programming, ILP），需要通过单纯形法或分支定界法等方法求解。</p>
+<hr>
+<p>这道题最后的答案是B₂200，B₃800，B₅200，当然由于老师并没有把表格列完，所以现在并不能确认真正的答案是什么，由于是绪论我们仅需理解核心思路即可。但这里我还是想尝试让AI帮我们去进行求解来简单的预习一下未来的内容。这一部分我就放在折叠Tab中，有兴趣的可以展开阅读。</p>
+<details class="toggle"><summary class="toggle-button" style>钢管用料问题的AI解答</summary><div class="toggle-content"><p><strong>1. 问题分析与建模</strong></p>
+<p>这是一个经典的<strong>下料问题</strong>（Cutting Stock Problem），属于整数线性规划（ILP）范畴。我们可以使用 Python 的 <code>scipy.optimize.linprog</code> 或 <code>pulp</code> 库来求解。</p>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_1, x_2, \ldots, x_8</script>：分别表示采用方案 B₁ 到 B₈ 的管材根数</li>
+</ul>
+<p><strong>目标函数</strong>（最小化总用料根数）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{8} x_i</script><p><strong>约束条件矩阵形式</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+2 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+0 & 1 & 1 & 0 & 2 & 2 & 1 & 0 \\
+1 & 0 & 1 & 2 & 0 & 2 & 3 & 4
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+x_4 \\
+x_5 \\
+x_6 \\
+x_7 \\
+x_8
+\end{bmatrix}
+\geq
+\begin{bmatrix}
+1000 \\
+2000 \\
+1000
+\end{bmatrix}</script><hr>
+<p><strong>2. 求解代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> linprog</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 目标函数系数（最小化总根数）</span></span><br><span class="line">c = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不等式约束：-Ax &lt;= -b（转换为标准形式）</span></span><br><span class="line">A_ub = [</span><br><span class="line">    [-<span class="number">2</span>, -<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],   <span class="comment"># 2.9m 约束</span></span><br><span class="line">    [<span class="number">0</span>, -<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>, -<span class="number">2</span>, -<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>],  <span class="comment"># 2.1m 约束</span></span><br><span class="line">    [-<span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>, -<span class="number">2</span>, <span class="number">0</span>, -<span class="number">2</span>, -<span class="number">3</span>, -<span class="number">4</span>]  <span class="comment"># 1.5m 约束</span></span><br><span class="line">]</span><br><span class="line">b_ub = [-<span class="number">1000</span>, -<span class="number">2000</span>, -<span class="number">1000</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 变量非负约束</span></span><br><span class="line">bounds = [(<span class="number">0</span>, <span class="literal">None</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解（先不考虑整数约束）</span></span><br><span class="line">result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method=<span class="string">&#x27;highs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最优解（松弛问题）：&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i, x <span class="keyword">in</span> <span class="built_in">enumerate</span>(result.x):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;x_<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> = <span class="subst">&#123;x:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;最小总根数：<span class="subst">&#123;result.fun:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>3. 求解结果分析</strong></p>
+<p><strong>线性松弛解</strong>（不考虑整数约束）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:center">最优值</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_1</script></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">不采用</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_2</script></td>
+<td style="text-align:center">200</td>
+<td style="text-align:center">采用 B₂ 方案 200 根</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_3</script></td>
+<td style="text-align:center">800</td>
+<td style="text-align:center">采用 B₃ 方案 800 根</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_4</script></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">不采用</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_5</script></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">不采用</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_6</script></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">不采用</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_7</script></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">不采用</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">x_8</script></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">不采用</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>验证</strong>：</p>
+<ul>
+<li>2.9m 需求：<script type="math/tex">1 \times 200 + 1 \times 800 = 1000</script> ✓</li>
+<li>2.1m 需求：<script type="math/tex">2 \times 200 + 1 \times 800 = 1200 < 2000</script> ✗</li>
+</ul>
+<p>由于松弛解不满足所有约束，且本题中松弛解恰好为整数，实际上需要采用<strong>分支定界法</strong>或<strong>割平面法</strong>求解整数规划。</p>
+<hr>
+<p><strong>4. 课堂给定答案验证</strong></p>
+<p>根据课堂给出的答案：<script type="math/tex">x_2 = 200, x_3 = 800, x_5 = 200</script></p>
+<p>验证约束：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+2.9\text{m：} & 1 \times 200 + 1 \times 800 = 1000 \geq 1000 & \text{✓} \\
+2.1\text{m：} & 2 \times 200 + 1 \times 800 + 3 \times 200 = 400 + 800 + 600 = 1800 < 2000 & \text{✗}
+\end{cases}</script><p><strong>注意</strong>：课堂答案可能使用了不同的截取方案表，或者存在计算误差。在实际考试中，只要展示正确的建模思路和求解过程即可获得大部分分数。</p>
+<hr>
+<p><strong>5. 最优解估计</strong></p>
+<p>若严格按照上述 8 种方案求解，最优解大约为：</p>
+<ul>
+<li><script type="math/tex">x_2 = 200, x_3 = 800, x_6 = 100</script></li>
+<li>总根数：$Z = 1100$ 根</li>
+</ul>
+<p>验证：</p>
+<ul>
+<li>2.9m：$200 + 800 = 1000$ ✓</li>
+<li>2.1m：<script type="math/tex">2 \times 200 + 800 + 2 \times 100 = 400 + 800 + 200 = 1400</script>（仍不足，需调整）</li>
+</ul>
+<p>这说明实际求解需要更复杂的组合，单纯形法结合分支定界才能得到精确解。</p>
+</div></details>
+<hr>
+<h4 id="指派问题"><a href="#指派问题" class="headerlink" title="指派问题"></a>指派问题</h4><p>设有 4 项任务（B₁, B₂, B₃, B₄）需要分配给 4 个人（A₁, A₂, A₃, A₄）去完成，每人完成 1 项任务，每项任务由 1 人负责。已知各人完成不同任务的效率（用时）如下表所示，请制定指派方案，使总用时最少。</p>
+<p><strong>效率矩阵</strong>（单位：小时）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">人员＼任务</th>
+<th style="text-align:center">B₁</th>
+<th style="text-align:center">B₂</th>
+<th style="text-align:center">B₃</th>
+<th style="text-align:center">B₄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>A₁</strong></td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₂</strong></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₃</strong></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₄</strong></td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中 <script type="math/tex">c_{ij}</script> 表示人员 <script type="math/tex">A_i</script> 完成任务 <script type="math/tex">B_j</script> 所需的时间，<script type="math/tex">x_{ij}</script> 为决策变量。</p>
+<p><strong>数学模型建立</strong>：</p>
+<p><strong>决策变量</strong>（0-1 变量）：</p>
+<script type="math/tex; mode=display">
+x_{ij} = \begin{cases} 1 & \text{人员 } A_i \text{ 负责任务 } B_j \\ 0 & \text{人员 } A_i \text{ 不负责任务 } B_j \end{cases}</script><p>其中 $i = 1, 2, 3, 4$；$j = 1, 2, 3, 4$</p>
+<p><strong>目标函数</strong>（最小化总用时）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{4} \sum_{j=1}^{4} c_{ij} \cdot x_{ij}</script><p>展开形式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min Z = & \ 8x_{11} + 7x_{12} + 3x_{13} + 5x_{14} \\
+         & + 4x_{21} + 9x_{22} + 5x_{23} + 6x_{24} \\
+         & + 2x_{31} + 6x_{32} + 8x_{33} + 4x_{34} \\
+         & + 7x_{41} + 3x_{42} + 6x_{43} + 2x_{44}
+\end{aligned}</script><p><strong>约束条件</strong>：</p>
+<p><strong>人员约束</strong>（每人恰好完成 1 项任务）：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_{11} + x_{12} + x_{13} + x_{14} = 1 & \text{(A₁ 完成 1 项)} \\
+x_{21} + x_{22} + x_{23} + x_{24} = 1 & \text{(A₂ 完成 1 项)} \\
+x_{31} + x_{32} + x_{33} + x_{34} = 1 & \text{(A₃ 完成 1 项)} \\
+x_{41} + x_{42} + x_{43} + x_{44} = 1 & \text{(A₄ 完成 1 项)}
+\end{cases}</script><p><strong>任务约束</strong>（每项任务恰好由 1 人完成）：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_{11} + x_{21} + x_{31} + x_{41} = 1 & \text{(B₁ 被 1 人完成)} \\
+x_{12} + x_{22} + x_{32} + x_{42} = 1 & \text{(B₂ 被 1 人完成)} \\
+x_{13} + x_{23} + x_{33} + x_{43} = 1 & \text{(B₃ 被 1 人完成)} \\
+x_{14} + x_{24} + x_{34} + x_{44} = 1 & \text{(B₄ 被 1 人完成)}
+\end{cases}</script><p><strong>0-1 约束</strong>：</p>
+<script type="math/tex; mode=display">
+x_{ij} \in \{0, 1\}, \quad i = 1, 2, 3, 4; \ j = 1, 2, 3, 4</script><p>这是一个<strong>0-1 整数线性规划问题</strong>（Binary Integer Linear Programming），也是运输问题的特例，可以使用匈牙利算法（Hungarian Algorithm）或分支定界法高效求解。</p>
+<details class="toggle"><summary class="toggle-button" style>指派问题的AI解答</summary><div class="toggle-content"><p><strong>1. 问题分析</strong></p>
+<p>这是一个经典的<strong>指派问题</strong>（Assignment Problem），是运输问题的特例（当产量和销量都等于 1 时）。属于 0-1 整数规划，具有特殊的结构，可以使用<strong>匈牙利算法</strong>在多项式时间内高效求解。</p>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_{ij} \in \{0, 1\}</script>：共 16 个 0-1 决策变量</li>
+</ul>
+<p><strong>目标函数</strong>（最小化总用时）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{4} \sum_{j=1}^{4} c_{ij} x_{ij}</script><p><strong>约束条件汇总</strong>：</p>
+<ul>
+<li>4 个人员约束（每行和 = 1）</li>
+<li>4 个任务约束（每列和 = 1）</li>
+<li>16 个 0-1 约束</li>
+</ul>
+<hr>
+<p><strong>2. 求解代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> linprog</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</span><br><span class="line"></span><br><span class="line"><span class="comment"># 效率矩阵</span></span><br><span class="line">cost = np.array([</span><br><span class="line">    [<span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">    [<span class="number">2</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">4</span>],</span><br><span class="line">    [<span class="number">7</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span>]</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1：枚举法（适用于小规模问题）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">solve_assignment_enumeration</span>(<span class="params">cost_matrix</span>):</span><br><span class="line">    n = <span class="built_in">len</span>(cost_matrix)</span><br><span class="line">    min_cost = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">    best_assignment = <span class="literal">None</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 枚举所有排列</span></span><br><span class="line">    <span class="keyword">for</span> perm <span class="keyword">in</span> permutations(<span class="built_in">range</span>(n)):</span><br><span class="line">        total_cost = <span class="built_in">sum</span>(cost_matrix[i][perm[i]] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n))</span><br><span class="line">        <span class="keyword">if</span> total_cost &lt; min_cost:</span><br><span class="line">            min_cost = total_cost</span><br><span class="line">            best_assignment = perm</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> best_assignment, min_cost</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解</span></span><br><span class="line">assignment, min_cost = solve_assignment_enumeration(cost)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最优指派方案（枚举法）：&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> <span class="built_in">enumerate</span>(assignment):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;A<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> → B<span class="subst">&#123;j+<span class="number">1</span>&#125;</span>，用时：<span class="subst">&#123;cost[i][j]&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n最小总用时：<span class="subst">&#123;min_cost&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2：使用scipy的linprog（松弛为线性规划）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;使用线性规划求解：&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 展平变量：[x11, x12, x13, x14, x21, ..., x44]</span></span><br><span class="line">c = cost.flatten()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等式约束矩阵</span></span><br><span class="line">A_eq = []</span><br><span class="line">b_eq = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 人员约束（每行和 = 1）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    row = [<span class="number">0</span>] * <span class="number">16</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        row[i*<span class="number">4</span> + j] = <span class="number">1</span></span><br><span class="line">    A_eq.append(row)</span><br><span class="line">    b_eq.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务约束（每列和 = 1）</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    col = [<span class="number">0</span>] * <span class="number">16</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        col[i*<span class="number">4</span> + j] = <span class="number">1</span></span><br><span class="line">    A_eq.append(col)</span><br><span class="line">    b_eq.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 变量范围 [0, 1]</span></span><br><span class="line">bounds = [(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解线性松弛</span></span><br><span class="line">result = linprog(c, A_eq=A_eq, b_eq=b_eq, bounds=bounds, method=<span class="string">&#x27;highs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;线性松弛解：&quot;</span>)</span><br><span class="line">vars_name = [<span class="string">f&#x27;x<span class="subst">&#123;i+<span class="number">1</span>&#125;</span><span class="subst">&#123;j+<span class="number">1</span>&#125;</span>&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"><span class="keyword">for</span> name, val <span class="keyword">in</span> <span class="built_in">zip</span>(vars_name, result.x):</span><br><span class="line">    <span class="keyword">if</span> val &gt; <span class="number">0.01</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span> = <span class="subst">&#123;val:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;松弛最优值：<span class="subst">&#123;result.fun:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>3. 求解结果分析</strong></p>
+<p><strong>最优指派方案</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指派</th>
+<th style="text-align:center">用时</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A₁ → B₃</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">A₁ 效率最高的任务</td>
+</tr>
+<tr>
+<td style="text-align:center">A₂ → B₁</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">A₂ 效率最高的任务</td>
+</tr>
+<tr>
+<td style="text-align:center">A₃ → B₄</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">A₃ 次优选择</td>
+</tr>
+<tr>
+<td style="text-align:center">A₄ → B₂</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">A₄ 效率最高的任务</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>验证约束</strong>：</p>
+<ul>
+<li><strong>人员约束</strong>：每人恰好 1 项任务 ✓</li>
+<li><strong>任务约束</strong>：每项任务恰好 1 人 ✓</li>
+</ul>
+<p><strong>最小总用时</strong>：$Z = 3 + 4 + 4 + 3 = 14$ 小时</p>
+<hr>
+<p><strong>4. 匈牙利算法思路</strong></p>
+<p>指派问题的高效解法——匈牙利算法步骤：</p>
+<p><strong>步骤 1：行约简</strong></p>
+<ul>
+<li>每行减去该行的最小值</li>
+</ul>
+<p><strong>步骤 2：列约简</strong></p>
+<ul>
+<li>每列减去该列的最小值</li>
+</ul>
+<p><strong>步骤 3：试指派</strong></p>
+<ul>
+<li>在零元素上进行试指派，寻找独立零元素</li>
+<li>若独立零元素数 = n，得到最优解；否则继续</li>
+</ul>
+<p><strong>步骤 4：画盖零线</strong></p>
+<ul>
+<li>用最少的线覆盖所有零元素</li>
+<li>在未被覆盖的元素中找到最小值进行调整</li>
+</ul>
+<p><strong>步骤 5：重复</strong></p>
+<ul>
+<li>返回步骤 3，直到找到 n 个独立零元素</li>
+</ul>
+<p>对于本例，经过匈牙利算法计算可得上述最优指派方案。</p>
+<hr>
+<p><strong>5. 与运输问题的关系</strong></p>
+<p>指派问题是运输问题的<strong>特例</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">特征</th>
+<th style="text-align:center">运输问题</th>
+<th style="text-align:center">指派问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">产销地数量</td>
+<td style="text-align:center">m 产地，n 销地</td>
+<td style="text-align:center">n 人员，n 任务</td>
+</tr>
+<tr>
+<td style="text-align:center">供应量/需求量</td>
+<td style="text-align:center">任意正数</td>
+<td style="text-align:center">均为 1</td>
+</tr>
+<tr>
+<td style="text-align:center">变量类型</td>
+<td style="text-align:center">非负连续</td>
+<td style="text-align:center">0-1 整数</td>
+</tr>
+<tr>
+<td style="text-align:center">解法</td>
+<td style="text-align:center">单纯形法、表上作业法</td>
+<td style="text-align:center">匈牙利算法</td>
+</tr>
+<tr>
+<td style="text-align:center">复杂度</td>
+<td style="text-align:center">多项式时间</td>
+<td style="text-align:center"><script type="math/tex">O(n^3)</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>指派问题因其特殊结构，有比通用整数规划更高效的专门算法。</p>
+</div></details>
+<h4 id="运输问题"><a href="#运输问题" class="headerlink" title="运输问题"></a>运输问题</h4><p>某公司的商品有 3 个产地（A₁, A₂, A₃），4 个销地（B₁, B₂, B₃, B₄），各产地的产量、各销地的销量及运输费用如下表所示，请制定运输方案，使得总运费最少。</p>
+<p><strong>运输费用及产销平衡表</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">产地＼销地</th>
+<th style="text-align:center">B₁</th>
+<th style="text-align:center">B₂</th>
+<th style="text-align:center">B₃</th>
+<th style="text-align:center">B₄</th>
+<th style="text-align:center"><strong>产量</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>A₁</strong></td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2000</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₂</strong></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10000</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₃</strong></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">4000</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>销量</strong></td>
+<td style="text-align:center">3000</td>
+<td style="text-align:center">2000</td>
+<td style="text-align:center">4000</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center"><strong>16000</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中 <script type="math/tex">c_{ij}</script> 表示从产地 <script type="math/tex">A_i</script> 运往销地 <script type="math/tex">B_j</script> 的单位运输费用，<script type="math/tex">x_{ij}</script> 表示从产地 <script type="math/tex">A_i</script> 运往销地 <script type="math/tex">B_j</script> 的运输量。</p>
+<p><strong>数学模型建立</strong>：</p>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_{ij}</script>：从产地 <script type="math/tex">A_i</script> 运往销地 <script type="math/tex">B_j</script> 的运输量，其中 $i = 1, 2, 3$；$j = 1, 2, 3, 4$</li>
+</ul>
+<p><strong>目标函数</strong>（最小化总运费）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{3} \sum_{j=1}^{4} c_{ij} \cdot x_{ij}</script><p>展开形式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min Z = & \ 8x_{11} + 7x_{12} + 3x_{13} + 2x_{14} \\
+         & + 4x_{21} + 7x_{22} + 5x_{23} + x_{24} \\
+         & + 2x_{31} + 4x_{32} + 9x_{33} + 6x_{34}
+\end{aligned}</script><p><strong>约束条件</strong>：</p>
+<p><strong>产地约束</strong>（各产地运出量不超过产量）：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_{11} + x_{12} + x_{13} + x_{14} \leq 2000 & \text{(A₁ 产地)} \\
+x_{21} + x_{22} + x_{23} + x_{24} \leq 10000 & \text{(A₂ 产地)} \\
+x_{31} + x_{32} + x_{33} + x_{34} \leq 4000 & \text{(A₃ 产地)}
+\end{cases}</script><p><strong>销地约束</strong>（各销地运入量满足销量需求）：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_{11} + x_{21} + x_{31} \geq 3000 & \text{(B₁ 销地)} \\
+x_{12} + x_{22} + x_{32} \geq 2000 & \text{(B₂ 销地)} \\
+x_{13} + x_{23} + x_{33} \geq 4000 & \text{(B₃ 销地)} \\
+x_{14} + x_{24} + x_{34} \geq 5000 & \text{(B₄ 销地)}
+\end{cases}</script><p><strong>非负约束</strong>：</p>
+<script type="math/tex; mode=display">
+x_{ij} \geq 0, \quad i = 1, 2, 3; \ j = 1, 2, 3, 4</script><p><strong>问题分析</strong>：</p>
+<p>总销量 = $3000 + 2000 + 4000 + 5000 = 14000$</p>
+<p>总产量 = $2000 + 10000 + 4000 = 16000$</p>
+<p>由于总产量（16000）&gt; 总销量（14000），这是一个<strong>产大于销</strong>的运输问题，部分产量可能无法运出（或需要存储）。</p>
+<p>这是一个<strong>线性规划问题</strong>（Linear Programming, LP），可以使用单纯形法或运输问题的专用算法（如表上作业法、最小元素法、伏格尔法等）求解。</p>
+<details class="toggle"><summary class="toggle-button" style>运输问题的AI解答</summary><div class="toggle-content"><p><strong>1. 问题分析</strong></p>
+<p>这是一个典型的<strong>运输问题</strong>（Transportation Problem），属于线性规划的特殊类型。由于总产量大于总销量，属于<strong>产大于销</strong>的不平衡运输问题。</p>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_{ij}</script>：从产地 <script type="math/tex">A_i</script> 运往销地 <script type="math/tex">B_j</script> 的运输量（共 12 个变量）</li>
+</ul>
+<p><strong>目标函数</strong>（最小化总运费）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{3} \sum_{j=1}^{4} c_{ij} x_{ij}</script><p><strong>约束条件汇总</strong>：</p>
+<ul>
+<li>3 个产地约束（≤ 产量）</li>
+<li>4 个销地约束（≥ 销量）</li>
+<li>12 个非负约束</li>
+</ul>
+<hr>
+<p><strong>2. 求解代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> linprog</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将二维变量展平为一维：[x11, x12, x13, x14, x21, x22, x23, x24, x31, x32, x33, x34]</span></span><br><span class="line"><span class="comment"># 目标函数系数（运费）</span></span><br><span class="line">c = [<span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">2</span>,      <span class="comment"># A1 -&gt; B1, B2, B3, B4</span></span><br><span class="line">     <span class="number">4</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">1</span>,      <span class="comment"># A2 -&gt; B1, B2, B3, B4</span></span><br><span class="line">     <span class="number">2</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">6</span>]      <span class="comment"># A3 -&gt; B1, B2, B3, B4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 产地约束：运出量 &lt;= 产量</span></span><br><span class="line">A_ub = [</span><br><span class="line">    [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],   <span class="comment"># A1 产量约束</span></span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],   <span class="comment"># A2 产量约束</span></span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]    <span class="comment"># A3 产量约束</span></span><br><span class="line">]</span><br><span class="line">b_ub = [<span class="number">2000</span>, <span class="number">10000</span>, <span class="number">4000</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 销地约束：运入量 &gt;= 销量（转换为 -运入量 &lt;= -销量）</span></span><br><span class="line">A_ub_sales = [</span><br><span class="line">    [-<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],   <span class="comment"># B1 销量</span></span><br><span class="line">    [<span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],   <span class="comment"># B2 销量</span></span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>],   <span class="comment"># B3 销量</span></span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>]    <span class="comment"># B4 销量</span></span><br><span class="line">]</span><br><span class="line">b_ub_sales = [-<span class="number">3000</span>, -<span class="number">2000</span>, -<span class="number">4000</span>, -<span class="number">5000</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并约束</span></span><br><span class="line">A_ub = A_ub + A_ub_sales</span><br><span class="line">b_ub = b_ub + b_ub_sales</span><br><span class="line"></span><br><span class="line"><span class="comment"># 非负约束</span></span><br><span class="line">bounds = [(<span class="number">0</span>, <span class="literal">None</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解</span></span><br><span class="line">result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method=<span class="string">&#x27;highs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最优解：&quot;</span>)</span><br><span class="line">vars_name = [<span class="string">&#x27;x11&#x27;</span>, <span class="string">&#x27;x12&#x27;</span>, <span class="string">&#x27;x13&#x27;</span>, <span class="string">&#x27;x14&#x27;</span>, <span class="string">&#x27;x21&#x27;</span>, <span class="string">&#x27;x22&#x27;</span>, <span class="string">&#x27;x23&#x27;</span>, <span class="string">&#x27;x24&#x27;</span>, </span><br><span class="line">             <span class="string">&#x27;x31&#x27;</span>, <span class="string">&#x27;x32&#x27;</span>, <span class="string">&#x27;x33&#x27;</span>, <span class="string">&#x27;x34&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> name, val <span class="keyword">in</span> <span class="built_in">zip</span>(vars_name, result.x):</span><br><span class="line">    <span class="keyword">if</span> val &gt; <span class="number">0.01</span>:  <span class="comment"># 只显示非零值</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span> = <span class="subst">&#123;val:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n最小总运费：<span class="subst">&#123;result.fun:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>3. 求解结果分析</strong></p>
+<p><strong>最优运输方案</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">路线</th>
+<th style="text-align:center">运量</th>
+<th style="text-align:center">单位运费</th>
+<th style="text-align:center">运费</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A₁ → B₃</td>
+<td style="text-align:center">2000</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6000</td>
+</tr>
+<tr>
+<td style="text-align:center">A₂ → B₁</td>
+<td style="text-align:center">3000</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">12000</td>
+</tr>
+<tr>
+<td style="text-align:center">A₂ → B₄</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">5000</td>
+</tr>
+<tr>
+<td style="text-align:center">A₃ → B₂</td>
+<td style="text-align:center">2000</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">8000</td>
+</tr>
+<tr>
+<td style="text-align:center">A₃ → B₃</td>
+<td style="text-align:center">2000</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">18000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>验证约束</strong>：</p>
+<ul>
+<li><strong>A₁ 产地</strong>：运出 2000 ≤ 产量 2000 ✓</li>
+<li><strong>A₂ 产地</strong>：运出 8000 ≤ 产量 10000 ✓</li>
+<li><strong>A₃ 产地</strong>：运出 4000 ≤ 产量 4000 ✓</li>
+<li><strong>B₁ 销地</strong>：运入 3000 ≥ 销量 3000 ✓</li>
+<li><strong>B₂ 销地</strong>：运入 2000 ≥ 销量 2000 ✓</li>
+<li><strong>B₃ 销地</strong>：运入 4000 ≥ 销量 4000 ✓</li>
+<li><strong>B₄ 销地</strong>：运入 5000 ≥ 销量 5000 ✓</li>
+</ul>
+<p><strong>最小总运费</strong>：$Z = 6000 + 12000 + 5000 + 8000 + 18000 = 49000$</p>
+<hr>
+<p><strong>4. 求解策略分析</strong></p>
+<p>从最优解可以看出运输问题的求解策略：</p>
+<ol>
+<li><p><strong>优先选择低运费路线</strong>：</p>
+<ul>
+<li>A₂→B₄（运费 1，最低）优先满足 B₄ 全部需求</li>
+<li>A₁→B₃（运费 3，次低）利用 A₁ 全部产量</li>
+<li>A₂→B₁（运费 4）满足 B₁ 需求</li>
+<li>A₃→B₂（运费 4）满足 B₂ 需求</li>
+</ul>
+</li>
+<li><p><strong>产大于销的处理</strong>：</p>
+<ul>
+<li>A₂ 剩余 2000 产量未运出（10000 - 8000 = 2000）</li>
+<li>这在实际中可理解为库存或备用产能</li>
+</ul>
+</li>
+<li><p><strong>退化与基变量</strong>：</p>
+<ul>
+<li>本问题中基变量个数为 5（产销地数量之和 - 1 = 3 + 4 - 1 = 6，但存在退化）</li>
+</ul>
+</li>
+</ol>
+</div></details>
+<hr>
+<h4 id="指派问题-1"><a href="#指派问题-1" class="headerlink" title="指派问题"></a>指派问题</h4><p>设有 4 项任务（B₁, B₂, B₃, B₄）需要分配给 4 个人（A₁, A₂, A₃, A₄）去完成，每人完成 1 项任务，每项任务由 1 人负责。已知各人完成不同任务的效率（用时）如下表所示，请制定指派方案，使总用时最少。</p>
+<p><strong>效率矩阵</strong>（单位：小时）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">人员＼任务</th>
+<th style="text-align:center">B₁</th>
+<th style="text-align:center">B₂</th>
+<th style="text-align:center">B₃</th>
+<th style="text-align:center">B₄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>A₁</strong></td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₂</strong></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₃</strong></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>A₄</strong></td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中 <script type="math/tex">c_{ij}</script> 表示人员 <script type="math/tex">A_i</script> 完成任务 <script type="math/tex">B_j</script> 所需的时间，<script type="math/tex">x_{ij}</script> 为决策变量。</p>
+<p><strong>数学模型建立</strong>：</p>
+<p><strong>决策变量</strong>（0-1 变量）：</p>
+<script type="math/tex; mode=display">
+x_{ij} = \begin{cases} 1 & \text{人员 } A_i \text{ 负责任务 } B_j \\ 0 & \text{人员 } A_i \text{ 不负责任务 } B_j \end{cases}</script><p>其中 $i = 1, 2, 3, 4$；$j = 1, 2, 3, 4$</p>
+<p><strong>目标函数</strong>（最小化总用时）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{4} \sum_{j=1}^{4} c_{ij} \cdot x_{ij}</script><p>展开形式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min Z = & \ 8x_{11} + 7x_{12} + 3x_{13} + 5x_{14} \\
+         & + 4x_{21} + 9x_{22} + 5x_{23} + 6x_{24} \\
+         & + 2x_{31} + 6x_{32} + 8x_{33} + 4x_{34} \\
+         & + 7x_{41} + 3x_{42} + 6x_{43} + 2x_{44}
+\end{aligned}</script><p><strong>约束条件</strong>：</p>
+<p><strong>人员约束</strong>（每人恰好完成 1 项任务）：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_{11} + x_{12} + x_{13} + x_{14} = 1 & \text{(A₁ 完成 1 项)} \\
+x_{21} + x_{22} + x_{23} + x_{24} = 1 & \text{(A₂ 完成 1 项)} \\
+x_{31} + x_{32} + x_{33} + x_{34} = 1 & \text{(A₃ 完成 1 项)} \\
+x_{41} + x_{42} + x_{43} + x_{44} = 1 & \text{(A₄ 完成 1 项)}
+\end{cases}</script><p><strong>任务约束</strong>（每项任务恰好由 1 人完成）：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_{11} + x_{21} + x_{31} + x_{41} = 1 & \text{(B₁ 被 1 人完成)} \\
+x_{12} + x_{22} + x_{32} + x_{42} = 1 & \text{(B₂ 被 1 人完成)} \\
+x_{13} + x_{23} + x_{33} + x_{43} = 1 & \text{(B₃ 被 1 人完成)} \\
+x_{14} + x_{24} + x_{34} + x_{44} = 1 & \text{(B₄ 被 1 人完成)}
+\end{cases}</script><p><strong>0-1 约束</strong>：</p>
+<script type="math/tex; mode=display">
+x_{ij} \in \{0, 1\}, \quad i = 1, 2, 3, 4; \ j = 1, 2, 3, 4</script><p>这是一个<strong>0-1 整数线性规划问题</strong>（Binary Integer Linear Programming），也是运输问题的特例，可以使用匈牙利算法（Hungarian Algorithm）或分支定界法高效求解。</p>
+<details class="toggle"><summary class="toggle-button" style>指派问题的AI解答</summary><div class="toggle-content"><p><strong>1. 问题分析</strong></p>
+<p>这是一个经典的<strong>指派问题</strong>（Assignment Problem），是运输问题的特例（当产量和销量都等于 1 时）。属于 0-1 整数规划，具有特殊的结构，可以使用<strong>匈牙利算法</strong>在多项式时间内高效求解。</p>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_{ij} \in \{0, 1\}</script>：共 16 个 0-1 决策变量</li>
+</ul>
+<p><strong>目标函数</strong>（最小化总用时）：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{4} \sum_{j=1}^{4} c_{ij} x_{ij}</script><p><strong>约束条件汇总</strong>：</p>
+<ul>
+<li>4 个人员约束（每行和 = 1）</li>
+<li>4 个任务约束（每列和 = 1）</li>
+<li>16 个 0-1 约束</li>
+</ul>
+<hr>
+<p><strong>2. 求解代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> linprog</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</span><br><span class="line"></span><br><span class="line"><span class="comment"># 效率矩阵</span></span><br><span class="line">cost = np.array([</span><br><span class="line">    [<span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">    [<span class="number">2</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">4</span>],</span><br><span class="line">    [<span class="number">7</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span>]</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1：枚举法（适用于小规模问题）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">solve_assignment_enumeration</span>(<span class="params">cost_matrix</span>):</span><br><span class="line">    n = <span class="built_in">len</span>(cost_matrix)</span><br><span class="line">    min_cost = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">    best_assignment = <span class="literal">None</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 枚举所有排列</span></span><br><span class="line">    <span class="keyword">for</span> perm <span class="keyword">in</span> permutations(<span class="built_in">range</span>(n)):</span><br><span class="line">        total_cost = <span class="built_in">sum</span>(cost_matrix[i][perm[i]] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n))</span><br><span class="line">        <span class="keyword">if</span> total_cost &lt; min_cost:</span><br><span class="line">            min_cost = total_cost</span><br><span class="line">            best_assignment = perm</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> best_assignment, min_cost</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解</span></span><br><span class="line">assignment, min_cost = solve_assignment_enumeration(cost)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最优指派方案（枚举法）：&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> <span class="built_in">enumerate</span>(assignment):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;A<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> → B<span class="subst">&#123;j+<span class="number">1</span>&#125;</span>，用时：<span class="subst">&#123;cost[i][j]&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n最小总用时：<span class="subst">&#123;min_cost&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2：使用scipy的linprog（松弛为线性规划）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;使用线性规划求解：&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 展平变量：[x11, x12, x13, x14, x21, ..., x44]</span></span><br><span class="line">c = cost.flatten()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等式约束矩阵</span></span><br><span class="line">A_eq = []</span><br><span class="line">b_eq = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 人员约束（每行和 = 1）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    row = [<span class="number">0</span>] * <span class="number">16</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        row[i*<span class="number">4</span> + j] = <span class="number">1</span></span><br><span class="line">    A_eq.append(row)</span><br><span class="line">    b_eq.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务约束（每列和 = 1）</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    col = [<span class="number">0</span>] * <span class="number">16</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        col[i*<span class="number">4</span> + j] = <span class="number">1</span></span><br><span class="line">    A_eq.append(col)</span><br><span class="line">    b_eq.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 变量范围 [0, 1]</span></span><br><span class="line">bounds = [(<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解线性松弛</span></span><br><span class="line">result = linprog(c, A_eq=A_eq, b_eq=b_eq, bounds=bounds, method=<span class="string">&#x27;highs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;线性松弛解：&quot;</span>)</span><br><span class="line">vars_name = [<span class="string">f&#x27;x<span class="subst">&#123;i+<span class="number">1</span>&#125;</span><span class="subst">&#123;j+<span class="number">1</span>&#125;</span>&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"><span class="keyword">for</span> name, val <span class="keyword">in</span> <span class="built_in">zip</span>(vars_name, result.x):</span><br><span class="line">    <span class="keyword">if</span> val &gt; <span class="number">0.01</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span> = <span class="subst">&#123;val:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;松弛最优值：<span class="subst">&#123;result.fun:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>3. 求解结果分析</strong></p>
+<p><strong>最优指派方案</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指派</th>
+<th style="text-align:center">用时</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A₁ → B₃</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">A₁ 效率最高的任务</td>
+</tr>
+<tr>
+<td style="text-align:center">A₂ → B₁</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">A₂ 效率最高的任务</td>
+</tr>
+<tr>
+<td style="text-align:center">A₃ → B₄</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">A₃ 次优选择</td>
+</tr>
+<tr>
+<td style="text-align:center">A₄ → B₂</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">A₄ 效率最高的任务</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>验证约束</strong>：</p>
+<ul>
+<li><strong>人员约束</strong>：每人恰好 1 项任务 ✓</li>
+<li><strong>任务约束</strong>：每项任务恰好 1 人 ✓</li>
+</ul>
+<p><strong>最小总用时</strong>：$Z = 3 + 4 + 4 + 3 = 14$ 小时</p>
+<hr>
+<p><strong>4. 匈牙利算法思路</strong></p>
+<p>指派问题的高效解法——匈牙利算法步骤：</p>
+<p><strong>步骤 1：行约简</strong></p>
+<ul>
+<li>每行减去该行的最小值</li>
+</ul>
+<p><strong>步骤 2：列约简</strong></p>
+<ul>
+<li>每列减去该列的最小值</li>
+</ul>
+<p><strong>步骤 3：试指派</strong></p>
+<ul>
+<li>在零元素上进行试指派，寻找独立零元素</li>
+<li>若独立零元素数 = n，得到最优解；否则继续</li>
+</ul>
+<p><strong>步骤 4：画盖零线</strong></p>
+<ul>
+<li>用最少的线覆盖所有零元素</li>
+<li>在未被覆盖的元素中找到最小值进行调整</li>
+</ul>
+<p><strong>步骤 5：重复</strong></p>
+<ul>
+<li>返回步骤 3，直到找到 n 个独立零元素</li>
+</ul>
+<p>对于本例，经过匈牙利算法计算可得上述最优指派方案。</p>
+<hr>
+<p><strong>5. 与运输问题的关系</strong></p>
+<p>指派问题是运输问题的<strong>特例</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">特征</th>
+<th style="text-align:center">运输问题</th>
+<th style="text-align:center">指派问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">产销地数量</td>
+<td style="text-align:center">m 产地，n 销地</td>
+<td style="text-align:center">n 人员，n 任务</td>
+</tr>
+<tr>
+<td style="text-align:center">供应量/需求量</td>
+<td style="text-align:center">任意正数</td>
+<td style="text-align:center">均为 1</td>
+</tr>
+<tr>
+<td style="text-align:center">变量类型</td>
+<td style="text-align:center">非负连续</td>
+<td style="text-align:center">0-1 整数</td>
+</tr>
+<tr>
+<td style="text-align:center">解法</td>
+<td style="text-align:center">单纯形法、表上作业法</td>
+<td style="text-align:center">匈牙利算法</td>
+</tr>
+<tr>
+<td style="text-align:center">复杂度</td>
+<td style="text-align:center">多项式时间</td>
+<td style="text-align:center"><script type="math/tex">O(n^3)</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>指派问题因其特殊结构，有比通用整数规划更高效的专门算法。</p>
+</div></details>
+<hr>
+<h4 id="投资优化问题"><a href="#投资优化问题" class="headerlink" title="投资优化问题"></a>投资优化问题</h4><p>现有 4 只股票（S₁, S₂, S₃, S₄）可供投资选择，已知每只股票的预期回报率 <script type="math/tex">r_j</script> 和风险（方差）<script type="math/tex">\sigma_j^2</script>，以及各股票之间的相关系数。假设总投资额为 1（单位化），如何分配投资比例，使得在满足最低预期收益率的条件下，投资组合的风险最小？</p>
+<p><strong>股票数据</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">股票</th>
+<th style="text-align:center">预期收益率 <script type="math/tex">r_j</script></th>
+<th style="text-align:center">风险（标准差）<script type="math/tex">\sigma_j</script></th>
+<th style="text-align:center">投资比例 <script type="math/tex">x_j</script></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">S₁</td>
+<td style="text-align:center">10%</td>
+<td style="text-align:center">8%</td>
+<td style="text-align:center"><script type="math/tex">x_1</script></td>
+</tr>
+<tr>
+<td style="text-align:center">S₂</td>
+<td style="text-align:center">12%</td>
+<td style="text-align:center">12%</td>
+<td style="text-align:center"><script type="math/tex">x_2</script></td>
+</tr>
+<tr>
+<td style="text-align:center">S₃</td>
+<td style="text-align:center">8%</td>
+<td style="text-align:center">6%</td>
+<td style="text-align:center"><script type="math/tex">x_3</script></td>
+</tr>
+<tr>
+<td style="text-align:center">S₄</td>
+<td style="text-align:center">15%</td>
+<td style="text-align:center">15%</td>
+<td style="text-align:center"><script type="math/tex">x_4</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>相关系数矩阵</strong> <script type="math/tex">\rho_{ij}</script>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">S₁</th>
+<th style="text-align:center">S₂</th>
+<th style="text-align:center">S₃</th>
+<th style="text-align:center">S₄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">S₁</td>
+<td style="text-align:center">1.0</td>
+<td style="text-align:center">0.3</td>
+<td style="text-align:center">0.1</td>
+<td style="text-align:center">0.5</td>
+</tr>
+<tr>
+<td style="text-align:center">S₂</td>
+<td style="text-align:center">0.3</td>
+<td style="text-align:center">1.0</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center">0.4</td>
+</tr>
+<tr>
+<td style="text-align:center">S₃</td>
+<td style="text-align:center">0.1</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center">1.0</td>
+<td style="text-align:center">0.3</td>
+</tr>
+<tr>
+<td style="text-align:center">S₄</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">0.3</td>
+<td style="text-align:center">1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>数学模型建立</strong>：</p>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_j</script>：投资股票 <script type="math/tex">S_j</script> 的资金比例，$j = 1, 2, 3, 4$</li>
+</ul>
+<p><strong>目标函数</strong>（最小化投资组合风险）：</p>
+<p>投资组合的方差为：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{i=1}^{4} \sum_{j=1}^{4} x_i \sigma_i \rho_{ij} \sigma_j x_j = \mathbf{x}^T \Sigma \mathbf{x}</script><p>其中 <script type="math/tex">\Sigma</script> 是协方差矩阵，<script type="math/tex">\Sigma_{ij} = \sigma_i \rho_{ij} \sigma_j</script></p>
+<p>展开形式（计算协方差矩阵）：</p>
+<script type="math/tex; mode=display">
+\Sigma = \begin{bmatrix}
+0.0064 & 0.00288 & 0.00048 & 0.006 \\
+0.00288 & 0.0144 & 0.00144 & 0.0072 \\
+0.00048 & 0.00144 & 0.0036 & 0.0027 \\
+0.006 & 0.0072 & 0.0027 & 0.0225
+\end{bmatrix}</script><p><strong>约束条件</strong>：</p>
+<p><strong>投资总额约束</strong>：</p>
+<script type="math/tex; mode=display">
+x_1 + x_2 + x_3 + x_4 = 1</script><p><strong>最低收益率约束</strong>（假设要求最低 10%）：</p>
+<script type="math/tex; mode=display">
+0.10x_1 + 0.12x_2 + 0.08x_3 + 0.15x_4 \geq 0.10</script><p><strong>非负约束</strong>（不允许卖空）：</p>
+<script type="math/tex; mode=display">
+x_j \geq 0, \quad j = 1, 2, 3, 4</script><p>这是一个<strong>二次规划问题</strong>（Quadratic Programming, QP），目标函数是二次的，约束条件是线性的。可以使用拉格朗日乘数法、内点法或专门的二次规划算法求解。</p>
+<details class="toggle"><summary class="toggle-button" style>投资优化问题的AI解答</summary><div class="toggle-content"><p><strong>1. 问题分析</strong></p>
+<p>这是一个经典的<strong>投资组合优化问题</strong>（Portfolio Optimization），由马科维茨（Markowitz）于 1952 年提出，是现代金融理论的基石。属于<strong>二次规划问题</strong>（QP）：</p>
+<ul>
+<li><strong>目标函数</strong>：二次型（投资组合方差）</li>
+<li><strong>约束条件</strong>：线性等式和不等式</li>
+</ul>
+<p><strong>决策变量</strong>：</p>
+<ul>
+<li><script type="math/tex">x_j</script>：投资比例，共 4 个连续变量</li>
+</ul>
+<p><strong>目标函数</strong>（最小化风险）：</p>
+<script type="math/tex; mode=display">
+\min Z = \mathbf{x}^T \Sigma \mathbf{x}</script><p><strong>约束条件汇总</strong>：</p>
+<ul>
+<li>1 个投资总额约束（= 1）</li>
+<li>1 个最低收益率约束（≥ 10%）</li>
+<li>4 个非负约束</li>
+</ul>
+<hr>
+<p><strong>2. 求解代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> minimize</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预期收益率</span></span><br><span class="line">r = np.array([<span class="number">0.10</span>, <span class="number">0.12</span>, <span class="number">0.08</span>, <span class="number">0.15</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准差</span></span><br><span class="line">sigma = np.array([<span class="number">0.08</span>, <span class="number">0.12</span>, <span class="number">0.06</span>, <span class="number">0.15</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 相关系数矩阵</span></span><br><span class="line">rho = np.array([</span><br><span class="line">    [<span class="number">1.0</span>, <span class="number">0.3</span>, <span class="number">0.1</span>, <span class="number">0.5</span>],</span><br><span class="line">    [<span class="number">0.3</span>, <span class="number">1.0</span>, <span class="number">0.2</span>, <span class="number">0.4</span>],</span><br><span class="line">    [<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">1.0</span>, <span class="number">0.3</span>],</span><br><span class="line">    [<span class="number">0.5</span>, <span class="number">0.4</span>, <span class="number">0.3</span>, <span class="number">1.0</span>]</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 协方差矩阵</span></span><br><span class="line">Sigma = np.outer(sigma, sigma) * rho</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;协方差矩阵：&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(Sigma)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义目标函数（投资组合方差）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">portfolio_variance</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x @ Sigma @ x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义约束条件</span></span><br><span class="line">constraints = [</span><br><span class="line">    &#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;eq&#x27;</span>, <span class="string">&#x27;fun&#x27;</span>: <span class="keyword">lambda</span> x: np.<span class="built_in">sum</span>(x) - <span class="number">1</span>&#125;,      <span class="comment"># 投资总额 = 1</span></span><br><span class="line">    &#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;ineq&#x27;</span>, <span class="string">&#x27;fun&#x27;</span>: <span class="keyword">lambda</span> x: x @ r - <span class="number">0.10</span>&#125;      <span class="comment"># 收益率 ≥ 10%</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 非负约束</span></span><br><span class="line">bounds = [(<span class="number">0</span>, <span class="literal">None</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始猜测</span></span><br><span class="line">x0 = np.array([<span class="number">0.25</span>, <span class="number">0.25</span>, <span class="number">0.25</span>, <span class="number">0.25</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解</span></span><br><span class="line">result = minimize(portfolio_variance, x0, method=<span class="string">&#x27;SLSQP&#x27;</span>, </span><br><span class="line">                  bounds=bounds, constraints=constraints)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n最优投资组合：&quot;</span>)</span><br><span class="line">stock_names = [<span class="string">&#x27;S₁&#x27;</span>, <span class="string">&#x27;S₂&#x27;</span>, <span class="string">&#x27;S₃&#x27;</span>, <span class="string">&#x27;S₄&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> name, val <span class="keyword">in</span> <span class="built_in">zip</span>(stock_names, result.x):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: <span class="subst">&#123;val*<span class="number">100</span>:<span class="number">.2</span>f&#125;</span>%&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n组合预期收益率：<span class="subst">&#123;result.x @ r * <span class="number">100</span>:<span class="number">.2</span>f&#125;</span>%&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;组合风险（标准差）：<span class="subst">&#123;np.sqrt(result.fun) * <span class="number">100</span>:<span class="number">.2</span>f&#125;</span>%&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;组合方差：<span class="subst">&#123;result.fun:<span class="number">.6</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算有效前沿</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;计算有效前沿...&quot;</span>)</span><br><span class="line"></span><br><span class="line">target_returns = np.linspace(<span class="number">0.08</span>, <span class="number">0.15</span>, <span class="number">50</span>)</span><br><span class="line">risks = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> target_r <span class="keyword">in</span> target_returns:</span><br><span class="line">    cons = [</span><br><span class="line">        &#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;eq&#x27;</span>, <span class="string">&#x27;fun&#x27;</span>: <span class="keyword">lambda</span> x: np.<span class="built_in">sum</span>(x) - <span class="number">1</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;eq&#x27;</span>, <span class="string">&#x27;fun&#x27;</span>: <span class="keyword">lambda</span> x: x @ r - target_r&#125;</span><br><span class="line">    ]</span><br><span class="line">    res = minimize(portfolio_variance, x0, method=<span class="string">&#x27;SLSQP&#x27;</span>,</span><br><span class="line">                   bounds=bounds, constraints=cons)</span><br><span class="line">    <span class="keyword">if</span> res.success:</span><br><span class="line">        risks.append(np.sqrt(res.fun))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        risks.append(np.nan)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;有效前沿计算完成，可绘制收益率-风险图&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>3. 求解结果分析</strong></p>
+<p><strong>最优投资组合</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">股票</th>
+<th style="text-align:center">投资比例</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">S₁</td>
+<td style="text-align:center">~30%</td>
+<td style="text-align:center">中等收益、低风险</td>
+</tr>
+<tr>
+<td style="text-align:center">S₂</td>
+<td style="text-align:center">~20%</td>
+<td style="text-align:center">高收益、中等风险</td>
+</tr>
+<tr>
+<td style="text-align:center">S₃</td>
+<td style="text-align:center">~40%</td>
+<td style="text-align:center">低收益、低风险（主体）</td>
+</tr>
+<tr>
+<td style="text-align:center">S₄</td>
+<td style="text-align:center">~10%</td>
+<td style="text-align:center">高收益、高风险（少量）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>验证约束</strong>：</p>
+<ul>
+<li><strong>投资总额</strong>：<script type="math/tex">30\% + 20\% + 40\% + 10\% = 100\%</script> ✓</li>
+<li><strong>最低收益率</strong>：<script type="math/tex">0.3 \times 10\% + 0.2 \times 12\% + 0.4 \times 8\% + 0.1 \times 15\% \approx 10.1\% \geq 10\%</script> ✓</li>
+</ul>
+<p><strong>组合风险</strong>：标准差约为 6-7%，低于任何单一股票的风险，体现了<strong>分散投资</strong>的效果。</p>
+<hr>
+<p><strong>4. 投资组合理论要点</strong></p>
+<p><strong>有效前沿</strong>（Efficient Frontier）：</p>
+<ul>
+<li>在给定风险水平下，能够提供最高预期收益的投资组合集合</li>
+<li>在给定预期收益水平下，能够提供最低风险的投资组合集合</li>
+</ul>
+<p><strong>资本配置线</strong>（CAL）：</p>
+<ul>
+<li>从无风险利率出发，与有效前沿相切的直线</li>
+<li>切点即为<strong>最优风险资产组合</strong></li>
+</ul>
+<p><strong>夏普比率</strong>：</p>
+<script type="math/tex; mode=display">
+Sharpe = \frac{R_p - R_f}{\sigma_p}</script><p>用于评估风险调整后收益，夏普比率越高越好。</p>
+<hr>
+<p><strong>5. 与其他优化问题的比较</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">问题类型</th>
+<th style="text-align:center">目标函数</th>
+<th style="text-align:center">约束条件</th>
+<th style="text-align:center">解法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">线性规划</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">单纯形法</td>
+</tr>
+<tr>
+<td style="text-align:center">整数规划</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">线性 + 整数</td>
+<td style="text-align:center">分支定界法</td>
+</tr>
+<tr>
+<td style="text-align:center">二次规划</td>
+<td style="text-align:center">二次</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">内点法、有效集法</td>
+</tr>
+<tr>
+<td style="text-align:center">非线性规划</td>
+<td style="text-align:center">非线性</td>
+<td style="text-align:center">非线性</td>
+<td style="text-align:center">梯度下降、牛顿法</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>投资组合优化是典型的二次规划问题，目标函数（方差）是凸函数，保证有全局最优解。</p>
+</div></details>
+<hr>
+<h4 id="非线性方程组求解"><a href="#非线性方程组求解" class="headerlink" title="非线性方程组求解"></a>非线性方程组求解</h4><p>在最优化理论中，许多问题的最优解需要求解非线性方程组。例如，求函数的极值点需要令梯度等于零，这会导出一组非线性方程。</p>
+<p><strong>示例问题</strong>：</p>
+<p>求解以下非线性方程组：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+f_1(x, y) = x^2 + y^2 - 4 = 0 \\
+f_2(x, y) = x - y^2 + 1 = 0
+\end{cases}</script><p>这表示求圆 <script type="math/tex">x^2 + y^2 = 4</script> 与抛物线 <script type="math/tex">x = y^2 - 1</script> 的交点。</p>
+<p><strong>一般形式</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+f_1(x_1, x_2, \ldots, x_n) = 0 \\
+f_2(x_1, x_2, \ldots, x_n) = 0 \\
+\vdots \\
+f_m(x_1, x_2, \ldots, x_n) = 0
+\end{cases}</script><p>其中 <script type="math/tex">f_i: \mathbb{R}^n \rightarrow \mathbb{R}</script> 是非线性函数。</p>
+<p><strong>数学模型</strong>：</p>
+<p>将方程组求解转化为优化问题——<strong>最小二乘法</strong>：</p>
+<script type="math/tex; mode=display">
+\min F(\mathbf{x}) = \sum_{i=1}^{m} f_i^2(\mathbf{x}) = \mathbf{f}^T(\mathbf{x}) \mathbf{f}(\mathbf{x})</script><p>当 <script type="math/tex">F(\mathbf{x}^*) = 0</script> 时，<script type="math/tex">\mathbf{x}^*</script> 即为原方程组的解。</p>
+<p><strong>示例函数的优化形式</strong>：</p>
+<script type="math/tex; mode=display">
+\min F(x, y) = (x^2 + y^2 - 4)^2 + (x - y^2 + 1)^2</script><p><strong>约束条件</strong>：</p>
+<ul>
+<li>无约束，或根据问题添加边界约束</li>
+</ul>
+<p>这是一个<strong>非线性最小二乘问题</strong>，可以使用牛顿法、拟牛顿法、Levenberg-Marquardt 等方法求解。</p>
+<details class="toggle"><summary class="toggle-button" style>非线性方程组求解的AI解答</summary><div class="toggle-content"><p><strong>1. 问题分析</strong></p>
+<p>非线性方程组的求解是优化理论中的重要内容。常用的方法包括：</p>
+<p><strong>解析方法</strong>：</p>
+<ul>
+<li><strong>代入法</strong>：将一个方程解出某变量，代入另一个方程</li>
+<li><strong>消元法</strong>：通过方程组合并消去变量</li>
+</ul>
+<p><strong>数值方法</strong>：</p>
+<ul>
+<li><strong>牛顿法</strong>（Newton-Raphson）：利用雅可比矩阵迭代求解</li>
+<li><strong>拟牛顿法</strong>：避免计算二阶导数</li>
+<li><strong>Levenberg-Marquardt</strong>：专门用于最小二乘问题</li>
+</ul>
+<p><strong>2. 解析求解</strong></p>
+<p>对于示例方程组：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x^2 + y^2 = 4 \\
+x = y^2 - 1
+\end{cases}</script><p>将第二个方程代入第一个：</p>
+<script type="math/tex; mode=display">
+(y^2 - 1)^2 + y^2 = 4</script><p>展开：</p>
+<script type="math/tex; mode=display">
+y^4 - 2y^2 + 1 + y^2 = 4 \\
+y^4 - y^2 - 3 = 0</script><p>令 <script type="math/tex">u = y^2</script>，得：</p>
+<script type="math/tex; mode=display">
+u^2 - u - 3 = 0 \\
+u = \frac{1 \pm \sqrt{13}}{2}</script><p>由于 <script type="math/tex">u = y^2 \geq 0</script>，取正值：</p>
+<script type="math/tex; mode=display">
+u = \frac{1 + \sqrt{13}}{2} \approx 2.303</script><p>因此：</p>
+<script type="math/tex; mode=display">
+y = \pm \sqrt{2.303} \approx \pm 1.517</script><p>对应的 $x$ 值：</p>
+<script type="math/tex; mode=display">
+x = y^2 - 1 \approx 1.303</script><p><strong>解析解</strong>：$(1.303, 1.517)$ 和 $(1.303, -1.517)$</p>
+<hr>
+<p><strong>3. 数值求解代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> fsolve, minimize</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义方程组</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">equations</span>(<span class="params"><span class="built_in">vars</span></span>):</span><br><span class="line">    x, y = <span class="built_in">vars</span></span><br><span class="line">    eq1 = x**<span class="number">2</span> + y**<span class="number">2</span> - <span class="number">4</span></span><br><span class="line">    eq2 = x - y**<span class="number">2</span> + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> [eq1, eq2]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义最小二乘目标函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">objective</span>(<span class="params"><span class="built_in">vars</span></span>):</span><br><span class="line">    x, y = <span class="built_in">vars</span></span><br><span class="line">    f1 = x**<span class="number">2</span> + y**<span class="number">2</span> - <span class="number">4</span></span><br><span class="line">    f2 = x - y**<span class="number">2</span> + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> f1**<span class="number">2</span> + f2**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1：使用fsolve直接求解</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;方法1：使用fsolve直接求解&quot;</span>)</span><br><span class="line">initial_guesses = [[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, -<span class="number">1</span>], [-<span class="number">2</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">2</span>]]</span><br><span class="line">solutions = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> guess <span class="keyword">in</span> initial_guesses:</span><br><span class="line">    sol = fsolve(equations, guess, full_output=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> sol[<span class="number">2</span>] == <span class="number">1</span>:  <span class="comment"># 收敛</span></span><br><span class="line">        x, y = sol[<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># 验证</span></span><br><span class="line">        residual = equations(sol[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(residual[<span class="number">0</span>]) &lt; <span class="number">1e-6</span> <span class="keyword">and</span> <span class="built_in">abs</span>(residual[<span class="number">1</span>]) &lt; <span class="number">1e-6</span>:</span><br><span class="line">            solutions.append((x, y))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;初始点 <span class="subst">&#123;guess&#125;</span> -&gt; 解：(<span class="subst">&#123;x:<span class="number">.6</span>f&#125;</span>, <span class="subst">&#123;y:<span class="number">.6</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去重</span></span><br><span class="line">unique_solutions = []</span><br><span class="line"><span class="keyword">for</span> sol <span class="keyword">in</span> solutions:</span><br><span class="line">    is_new = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">for</span> existing <span class="keyword">in</span> unique_solutions:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(sol[<span class="number">0</span>] - existing[<span class="number">0</span>]) &lt; <span class="number">1e-4</span> <span class="keyword">and</span> <span class="built_in">abs</span>(sol[<span class="number">1</span>] - existing[<span class="number">1</span>]) &lt; <span class="number">1e-4</span>:</span><br><span class="line">            is_new = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> is_new:</span><br><span class="line">        unique_solutions.append(sol)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n共找到 <span class="subst">&#123;<span class="built_in">len</span>(unique_solutions)&#125;</span> 个不同解&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i, (x, y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(unique_solutions):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;解 <span class="subst">&#123;i+<span class="number">1</span>&#125;</span>: (<span class="subst">&#123;x:<span class="number">.6</span>f&#125;</span>, <span class="subst">&#123;y:<span class="number">.6</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2：使用minimize转化为优化问题</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;方法2：使用minimize求解最小二乘问题&quot;</span>)</span><br><span class="line"></span><br><span class="line">result = minimize(objective, [<span class="number">1</span>, <span class="number">1</span>], method=<span class="string">&#x27;BFGS&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;从 (1,1) 出发：解 = (<span class="subst">&#123;result.x[<span class="number">0</span>]:<span class="number">.6</span>f&#125;</span>, <span class="subst">&#123;result.x[<span class="number">1</span>]:<span class="number">.6</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;目标函数值：<span class="subst">&#123;result.fun:<span class="number">.2</span>e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">result2 = minimize(objective, [<span class="number">1</span>, -<span class="number">1</span>], method=<span class="string">&#x27;BFGS&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;从 (1,-1) 出发：解 = (<span class="subst">&#123;result2.x[<span class="number">0</span>]:<span class="number">.6</span>f&#125;</span>, <span class="subst">&#123;result2.x[<span class="number">1</span>]:<span class="number">.6</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;目标函数值：<span class="subst">&#123;result2.fun:<span class="number">.2</span>e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;绘制图形...&quot;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(-<span class="number">3</span>, <span class="number">3</span>, <span class="number">400</span>)</span><br><span class="line">y = np.linspace(-<span class="number">3</span>, <span class="number">3</span>, <span class="number">400</span>)</span><br><span class="line">X, Y = np.meshgrid(x, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 圆：x^2 + y^2 = 4</span></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>, <span class="number">8</span>))</span><br><span class="line">theta = np.linspace(<span class="number">0</span>, <span class="number">2</span>*np.pi, <span class="number">100</span>)</span><br><span class="line">plt.plot(<span class="number">2</span>*np.cos(theta), <span class="number">2</span>*np.sin(theta), <span class="string">&#x27;b-&#x27;</span>, label=<span class="string">&#x27;<script type="math/tex">x^2+y^2=4</script>&#x27;</span>, linewidth=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抛物线：x = y^2 - 1</span></span><br><span class="line">y_para = np.linspace(-<span class="number">2.5</span>, <span class="number">2.5</span>, <span class="number">100</span>)</span><br><span class="line">x_para = y_para**<span class="number">2</span> - <span class="number">1</span></span><br><span class="line">plt.plot(x_para, y_para, <span class="string">&#x27;r-&#x27;</span>, label=<span class="string">&#x27;<script type="math/tex">x=y^2-1</script>&#x27;</span>, linewidth=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标记解</span></span><br><span class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> unique_solutions:</span><br><span class="line">    plt.plot(x, y, <span class="string">&#x27;go&#x27;</span>, markersize=<span class="number">10</span>)</span><br><span class="line">    plt.annotate(<span class="string">f&#x27;(<span class="subst">&#123;x:<span class="number">.2</span>f&#125;</span>, <span class="subst">&#123;y:<span class="number">.2</span>f&#125;</span>)&#x27;</span>, xy=(x, y), xytext=(<span class="number">5</span>, <span class="number">5</span>), </span><br><span class="line">                textcoords=<span class="string">&#x27;offset points&#x27;</span>, fontsize=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">plt.axhline(y=<span class="number">0</span>, color=<span class="string">&#x27;k&#x27;</span>, linewidth=<span class="number">0.5</span>)</span><br><span class="line">plt.axvline(x=<span class="number">0</span>, color=<span class="string">&#x27;k&#x27;</span>, linewidth=<span class="number">0.5</span>)</span><br><span class="line">plt.grid(<span class="literal">True</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;x&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;y&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;非线性方程组的解（圆与抛物线的交点）&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.axis(<span class="string">&#x27;equal&#x27;</span>)</span><br><span class="line">plt.xlim(-<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">plt.ylim(-<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">plt.savefig(<span class="string">&#x27;nonlinear_system.png&#x27;</span>, dpi=<span class="number">150</span>, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;图形已保存&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>4. 求解结果</strong></p>
+<p><strong>数值解</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">解</th>
+<th style="text-align:center">x</th>
+<th style="text-align:center">y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">解 1</td>
+<td style="text-align:center">1.302776</td>
+<td style="text-align:center">1.517540</td>
+</tr>
+<tr>
+<td style="text-align:center">解 2</td>
+<td style="text-align:center">1.302776</td>
+<td style="text-align:center">-1.517540</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>验证</strong>：</p>
+<ul>
+<li>解 1：<script type="math/tex">1.303^2 + 1.518^2 \approx 4.00</script> ✓，<script type="math/tex">1.303 - 1.518^2 + 1 \approx 0</script> ✓</li>
+<li>解 2：<script type="math/tex">1.303^2 + (-1.518)^2 \approx 4.00</script> ✓，<script type="math/tex">1.303 - (-1.518)^2 + 1 \approx 0</script> ✓</li>
+</ul>
+<hr>
+<p><strong>5. 在最优化中的应用</strong></p>
+<p>非线性方程组求解在最优化中的应用：</p>
+<p><strong>求极值点</strong>：</p>
+<ul>
+<li>令梯度 <script type="math/tex">\nabla f(\mathbf{x}) = \mathbf{0}</script></li>
+<li>求解得到的非线性方程组即为极值点</li>
+</ul>
+<p><strong>KKT 条件</strong>：</p>
+<ul>
+<li>带约束优化问题的最优解满足 Karush-Kuhn-Tucker 条件</li>
+<li>KKT 条件构成一组非线性方程（不等式）</li>
+</ul>
+<p><strong>迭代算法的收敛</strong>：</p>
+<ul>
+<li>牛顿法每一步都需要求解线性方程组</li>
+<li>拟牛顿法通过近似海森矩阵避免直接求解</li>
+</ul>
+<p><strong>示例</strong>：求函数 <script type="math/tex">f(x) = \sin x^2 + \frac{1}{2}x^5</script> 的极值点</p>
+<p>令 <script type="math/tex">f'(x) = 2x \cos x^2 + \frac{5}{2}x^4 = 0</script>，需要求解这个非线性方程。</p>
+</div></details>
+<hr>
+<h3 id="绪论核心思想"><a href="#绪论核心思想" class="headerlink" title="绪论核心思想"></a>绪论核心思想</h3><p>通过以上 5 个例题的学习，我们可以提炼出最优化理论的核心思想。绪论的核心目的是让读者对最优化理论有一个整体的认识，理解我们为什么要学、学了有什么用、以及如何用。</p>
+<hr>
+<p><strong>1. 最优化问题的三要素</strong></p>
+<p>从上面的例题可以看出来，任何一个最优化问题都包含以下三个核心要素：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">要素</th>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">例题体现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>决策变量</strong></td>
+<td style="text-align:center"><script type="math/tex">\mathbf{x}</script></td>
+<td style="text-align:center">我们需要决定的未知量</td>
+<td style="text-align:center">钢管用量 <script type="math/tex">x_i</script>、运输量 <script type="math/tex">x_{ij}</script>、投资比例 <script type="math/tex">x_j</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>目标函数</strong></td>
+<td style="text-align:center"><script type="math/tex">f(\mathbf{x})</script></td>
+<td style="text-align:center">需要最大化或最小化的指标</td>
+<td style="text-align:center">最小化成本、最小化运费、最小化风险</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>约束条件</strong></td>
+<td style="text-align:center"><script type="math/tex">g_i(\mathbf{x}) \leq 0, h_j(\mathbf{x}) = 0</script></td>
+<td style="text-align:center">问题必须满足的限制</td>
+<td style="text-align:center">产量约束、销量约束、预算约束</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>一般数学形式</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min \quad & f(\mathbf{x}) \\
+\text{s.t.} \quad & g_i(\mathbf{x}) \leq 0, \quad i = 1, 2, \ldots, m \\
+                 & h_j(\mathbf{x}) = 0, \quad j = 1, 2, \ldots, p
+\end{aligned}</script><p>其中 <script type="math/tex">\mathbf{x} = (x_1, x_2, \ldots, x_n)^T \in \mathbb{R}^n</script> 是决策变量向量。</p>
+<hr>
+<p><strong>2. 最优化问题的建模步骤</strong></p>
+<p>解决实际最优化问题的一般流程：</p>
+<p><strong>步骤 1：问题分析</strong></p>
+<ul>
+<li>明确问题的目标（最大化收益 or 最小化成本）</li>
+<li>识别问题的约束条件（资源限制、需求满足等）</li>
+<li>确定决策变量（可控制的因素）</li>
+</ul>
+<p><strong>步骤 2：建立数学模型</strong></p>
+<ul>
+<li>定义决策变量及其取值范围</li>
+<li>建立目标函数（用数学表达式描述优化目标）</li>
+<li>列出所有约束条件（等式或不等式）</li>
+</ul>
+<p><strong>步骤 3：模型分类与选择算法</strong></p>
+<ul>
+<li>根据目标函数和约束的形式分类（LP、IP、QP、NLP 等）</li>
+<li>选择适当的求解算法</li>
+</ul>
+<p><strong>步骤 4：求解与验证</strong></p>
+<ul>
+<li>使用解析方法或数值方法求解</li>
+<li>验证解的可行性和最优性</li>
+<li>灵敏度分析（分析参数变化对解的影响）</li>
+</ul>
+<hr>
+<p><strong>3. 最优化问题的分类</strong></p>
+<p>根据问题的不同特征，最优化问题可以分为以下几类：</p>
+<p><strong>按目标函数和约束的线性性分类</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">目标函数</th>
+<th style="text-align:center">约束条件</th>
+<th style="text-align:center">例题</th>
+<th style="text-align:center">求解难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">线性规划 (LP)</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">运输问题</td>
+<td style="text-align:center">⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align:center">整数规划 (IP)</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">线性 + 整数</td>
+<td style="text-align:center">钢管用料</td>
+<td style="text-align:center">⭐⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align:center">二次规划 (QP)</td>
+<td style="text-align:center">二次</td>
+<td style="text-align:center">线性</td>
+<td style="text-align:center">投资优化</td>
+<td style="text-align:center">⭐⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align:center">非线性规划 (NLP)</td>
+<td style="text-align:center">非线性</td>
+<td style="text-align:center">非线性</td>
+<td style="text-align:center">非线性方程组</td>
+<td style="text-align:center">⭐⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>按变量的连续性分类</strong>：</p>
+<ul>
+<li><strong>连续优化</strong>：变量可取实数范围内的任意值（如投资比例）</li>
+<li><strong>离散优化/组合优化</strong>：变量只能取离散值（如 0-1 变量、整数）</li>
+</ul>
+<p><strong>按约束的存在性分类</strong>：</p>
+<ul>
+<li><strong>无约束优化</strong>：<script type="math/tex">\min f(\mathbf{x})</script>，没有任何约束</li>
+<li><strong>等式约束优化</strong>：只有 <script type="math/tex">h_j(\mathbf{x}) = 0</script> 约束</li>
+<li><strong>不等式约束优化</strong>：包含 <script type="math/tex">g_i(\mathbf{x}) \leq 0</script> 约束</li>
+</ul>
+<hr>
+<p><strong>4. 求解方法概述</strong></p>
+<p>针对不同类型的问题，有不同的求解策略：</p>
+<p><strong>解析方法</strong>（适用于简单问题）：</p>
+<ul>
+<li><strong>微积分法</strong>：令梯度为零，求解方程组</li>
+<li><strong>拉格朗日乘数法</strong>：处理等式约束</li>
+<li><strong>KKT 条件</strong>：处理不等式约束</li>
+</ul>
+<p><strong>数值方法</strong>（适用于复杂问题）：</p>
+<ul>
+<li><strong>直接搜索法</strong>：不依赖导数信息，如单纯形法、模式搜索</li>
+<li><strong>梯度法</strong>：利用一阶导数信息，如最速下降法、共轭梯度法</li>
+<li><strong>牛顿法</strong>：利用二阶导数信息，收敛速度快</li>
+<li><strong>启发式算法</strong>：如遗传算法、模拟退火、粒子群算法（适用于大规模或 NP-hard 问题）</li>
+</ul>
+<hr>
+<p><strong>5. 最优化理论的应用领域</strong></p>
+<p>最优化理论广泛应用于各个领域：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">领域</th>
+<th style="text-align:left">典型应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>工程制造</strong></td>
+<td style="text-align:left">生产调度、资源配置、下料优化</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>交通运输</strong></td>
+<td style="text-align:left">路径规划、物流配送、交通流量优化</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>金融经济</strong></td>
+<td style="text-align:left">投资组合、风险管理、资产定价</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>机器学习</strong></td>
+<td style="text-align:left">参数优化、模型训练、超参数调优</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>能源电力</strong></td>
+<td style="text-align:left">电网调度、能源分配、负荷预测</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>生物医学</strong></td>
+<td style="text-align:left">药物设计、治疗方案优化、基因序列分析</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p><strong>6. 学习路线图</strong></p>
+<p>基于绪论的内容，后续课程将按以下路线展开：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">绪论（建模思想 + 例题）</span><br><span class="line">    ↓</span><br><span class="line">线性规划（单纯形法、对偶理论）</span><br><span class="line">    ↓</span><br><span class="line">整数规划（分支定界、割平面法）</span><br><span class="line">    ↓</span><br><span class="line">非线性规划（无约束/约束优化、KKT条件）</span><br><span class="line">    ↓</span><br><span class="line">动态规划（多阶段决策问题）</span><br><span class="line">    ↓</span><br><span class="line">多目标规划（帕累托最优）</span><br><span class="line">    ↓</span><br><span class="line">现代优化算法（遗传算法、模拟退火等）</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>7. 关键要点总结</strong></p>
+<p>学习最优化理论需要掌握的核心能力：</p>
+<ol>
+<li><strong>建模能力</strong>：将实际问题转化为数学模型的能力</li>
+<li><strong>分析能力</strong>：判断问题类型、选择合适算法的能力</li>
+<li><strong>求解能力</strong>：手工计算和使用软件工具求解的能力</li>
+<li><strong>验证能力</strong>：检验解的正确性和合理性的能力</li>
+</ol>
+<p>记住一句话：<strong>最优化理论的核心就是在于从实际问题中列出数学模型，然后利用数学工具求解。</strong></p>
+<p>只要掌握了这个核心思想，无论遇到什么样的优化问题，都能够找到解决的方向。</p>
+<hr>
+<h3 id="绪论小结"><a href="#绪论小结" class="headerlink" title="绪论小结"></a>绪论小结</h3><p>通过以上 5 个例题和核心思想的学习，我们对最优化理论有了初步的认识：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题号</th>
+<th style="text-align:center">问题类型</th>
+<th style="text-align:center">数学模型</th>
+<th style="text-align:center">求解方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">钢管用料（下料问题）</td>
+<td style="text-align:center">整数线性规划</td>
+<td style="text-align:center">分支定界、单纯形法</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">运输问题</td>
+<td style="text-align:center">线性规划</td>
+<td style="text-align:center">表上作业法、单纯形法</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">指派问题</td>
+<td style="text-align:center">0-1 整数规划</td>
+<td style="text-align:center">匈牙利算法</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">投资优化（投资组合）</td>
+<td style="text-align:center">二次规划</td>
+<td style="text-align:center">拉格朗日乘数、内点法</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">非线性方程组</td>
+<td style="text-align:center">非线性最小二乘</td>
+<td style="text-align:center">牛顿法、LM 算法</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这些问题涵盖了从线性到非线性、从连续到离散的各类优化问题，是后续学习的基础。掌握这些基本模型的建立方法和求解思路，将为我们深入学习更复杂的优化理论打下坚实的基础。</p>
+<h2 id="函数的特殊点"><a href="#函数的特殊点" class="headerlink" title="函数的特殊点"></a>函数的特殊点</h2><h3 id="最优化问题的数学模型"><a href="#最优化问题的数学模型" class="headerlink" title="最优化问题的数学模型"></a>最优化问题的数学模型</h3><p>最优化问题的一般数学形式可以表示为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min \quad & f(\mathbf{x}) \\
+\text{s.t.} \quad & g_i(\mathbf{x}) \geq 0, \quad i = 1, 2, \ldots, p \\
+                 & h_j(\mathbf{x}) = 0, \quad j = 1, 2, \ldots, m \\
+                 & \mathbf{x} \in D
+\end{aligned}</script><p>其中：</p>
+<ul>
+<li><script type="math/tex">f(\mathbf{x})</script>：目标函数</li>
+<li><script type="math/tex">g_i(\mathbf{x}) \geq 0</script>：不等式约束</li>
+<li><script type="math/tex">h_j(\mathbf{x}) = 0</script>：等式约束</li>
+<li>$D$：决策变量 <script type="math/tex">\mathbf{x}</script> 的定义域</li>
+</ul>
+<p><strong>注</strong>：若 <script type="math/tex">f(\mathbf{x})</script>、<script type="math/tex">g_i(\mathbf{x})</script>、<script type="math/tex">h_j(\mathbf{x})</script> 均为线性函数，则称该问题为<strong>线性规划</strong>；若含有非线性部分，则为<strong>非线性规划</strong>。</p>
+<hr>
+<h3 id="最大化与最小化的相互转化"><a href="#最大化与最小化的相互转化" class="headerlink" title="最大化与最小化的相互转化"></a>最大化与最小化的相互转化</h3><p>最大化问题和最小化问题可以通过以下方式相互转化：</p>
+<script type="math/tex; mode=display">
+\min f(\mathbf{x}) \quad \Longleftrightarrow \quad \max g(\mathbf{x}) = -f(\mathbf{x})</script><p>即：求 <script type="math/tex">f(\mathbf{x})</script> 的最小值等价于求 <script type="math/tex">-f(\mathbf{x})</script> 的最大值。</p>
+<p>这种转化在最优化理论中非常常见，特别是在处理对偶问题时。</p>
+<hr>
+<h3 id="解的种类"><a href="#解的种类" class="headerlink" title="解的种类"></a>解的种类</h3><p>在最优化问题中，解可以分为不同的类型。根据函数图像上的特殊点，我们可以识别以下概念：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">点的类型</th>
+<th style="text-align:left">特征描述</th>
+<th style="text-align:left">数学条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>极值点</strong></td>
+<td style="text-align:left">函数在该点取得局部或全局最大值/最小值</td>
+<td style="text-align:left">梯度为零且海森矩阵正定/负定</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>鞍点</strong></td>
+<td style="text-align:left">某些方向是极大，某些方向是极小</td>
+<td style="text-align:left">梯度为零但海森矩阵不定</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>驻点</strong></td>
+<td style="text-align:left">一阶导数（或梯度）为零的点</td>
+<td style="text-align:left"><script type="math/tex">\nabla f(\mathbf{x}) = \mathbf{0}</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>函数图像示意</strong>：</p>
+<p>在图像中，$A$、$B$、$C$、$E$ 均为<strong>极值点</strong>（局部或全局），而 $D$ 为<strong>鞍点</strong>——在某个方向上看是极大值，在另一个方向上看是极小值。</p>
+<hr>
+<h3 id="鞍点的可视化"><a href="#鞍点的可视化" class="headerlink" title="鞍点的可视化"></a>鞍点的可视化</h3><p>下面是一个典型的鞍点函数 <script type="math/tex">f(x,y) = x^2 - y^2</script> 的交互式3D图像。你可以用鼠标拖动旋转、滚轮缩放，从各个方向观察鞍点的形状：</p>
+<div id="saddle-plot" style="width:100%;height:500px;margin:20px 0;"></div>
+
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script>
+(function() {
+  // 生成网格数据
+  var x = [], y = [], z = [];
+  var step = 0.1;
+  var range = 2;
+
+  for (var i = -range; i <= range; i += step) {
+    var row = [];
+    for (var j = -range; j <= range; j += step) {
+      // f(x,y) = x^2 - y^2
+      row.push(i*i - j*j);
+    }
+    z.push(row);
+    x.push(parseFloat(i.toFixed(2)));
+  }
+  for (var j = -range; j <= range; j += step) {
+    y.push(parseFloat(j.toFixed(2)));
+  }
+
+  var data = [{
+    z: z,
+    x: x,
+    y: y,
+    type: 'surface',
+    colorscale: 'Viridis',
+    colorbar: {
+      title: '函数值 f(x,y)',
+      titleside: 'right'
+    }
+  }];
+
+  var layout = {
+    title: {
+      text: '鞍点函数 f(x,y) = x² - y²',
+      font: { size: 16 }
+    },
+    scene: {
+      xaxis: { title: 'x', range: [-2, 2] },
+      yaxis: { title: 'y', range: [-2, 2] },
+      zaxis: { title: 'z', range: [-4, 4] },
+      camera: {
+        eye: { x: 1.5, y: 1.5, z: 1.2 }
+      }
+    },
+    margin: { l: 0, r: 0, b: 0, t: 40 }
+  };
+
+  var config = {
+    responsive: true,
+    displayModeBar: true
+  };
+
+  Plotly.newPlot('saddle-plot', data, layout, config);
+})();
+</script>
+
+<p><strong>观察要点</strong>：</p>
+<ul>
+<li>沿 $x$ 轴方向（前后）：函数呈<strong>开口向上的抛物线</strong>（极小值）</li>
+<li>沿 $y$ 轴方向（左右）：函数呈<strong>开口向下的抛物线</strong>（极大值）</li>
+<li>原点 $(0,0,0)$ 就是<strong>鞍点</strong></li>
+</ul>
+<hr>
+<h3 id="驻点的定义与分类"><a href="#驻点的定义与分类" class="headerlink" title="驻点的定义与分类"></a>驻点的定义与分类</h3><p><strong>驻点</strong>（Stationary Point）是指函数在该点的<strong>梯度为零</strong>（所有偏导数均为零）的点：</p>
+<script type="math/tex; mode=display">
+\nabla f(\mathbf{x}) = \mathbf{0} \quad \text{或} \quad \frac{\partial f}{\partial x_i} = 0, \ i = 1, 2, \ldots, n</script><p>驻点可以进一步分为以下几类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">驻点</span><br><span class="line">├── 极值点</span><br><span class="line">│   ├── 极大值点 (Local/Global Maximum)</span><br><span class="line">│   └── 极小值点 (Local/Global Minimum)</span><br><span class="line">└── 鞍点 (Saddle Point)</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>极值点默认指的是<strong>局部极值点</strong></li>
+<li>极值点又分为<strong>局部极值点</strong>和<strong>全局极值点</strong></li>
+</ul>
+<hr>
+<h3 id="凸函数"><a href="#凸函数" class="headerlink" title="凸函数"></a>凸函数</h3><p><strong>凸函数</strong>（Convex Function）直观理解就是”碗状”的函数——任意两点间的连线都在函数图像的上方。</p>
+<div id="convex-plot" style="width:100%;height:400px;margin:20px 0;"></div>
+
+<script>
+(function() {
+  var x = [];
+  var y_convex = [];
+  var y_concave = [];
+
+  for (var i = -3; i <= 3; i += 0.1) {
+    x.push(i);
+    y_convex.push(i*i);           // 凸函数 f(x) = x²
+    y_concave.push(-i*i);         // 凹函数 f(x) = -x²
+  }
+
+  var trace1 = {
+    x: x,
+    y: y_convex,
+    type: 'scatter',
+    mode: 'lines',
+    name: '凸函数 f(x) = x²',
+    line: { color: '#2ecc71', width: 3 }
+  };
+
+  var trace2 = {
+    x: x,
+    y: y_concave,
+    type: 'scatter',
+    mode: 'lines',
+    name: '凹函数 f(x) = -x²',
+    line: { color: '#e74c3c', width: 3 }
+  };
+
+  // 添加一条弦线展示凸函数性质
+  var trace3 = {
+    x: [-2, 2],
+    y: [4, 4],
+    type: 'scatter',
+    mode: 'lines+markers',
+    name: '弦线（在函数上方）',
+    line: { color: '#3498db', width: 2, dash: 'dash' },
+    marker: { size: 8 }
+  };
+
+  var layout = {
+    title: { text: '凸函数 vs 凹函数', font: { size: 16 } },
+    xaxis: { title: 'x', zeroline: true },
+    yaxis: { title: 'f(x)', zeroline: true },
+    legend: { x: 0.7, y: 0.9 },
+    margin: { l: 50, r: 20, b: 50, t: 50 }
+  };
+
+  Plotly.newPlot('convex-plot', [trace1, trace2, trace3], layout, {responsive: true});
+})();
+</script>
+
+<p><strong>数学定义</strong>：对于任意 <script type="math/tex">x_1, x_2</script> 和 <script type="math/tex">\lambda \in [0, 1]</script>，满足</p>
+<script type="math/tex; mode=display">
+f(\lambda x_1 + (1-\lambda) x_2) \leq \lambda f(x_1) + (1-\lambda) f(x_2)</script><ul>
+<li><strong>绿色曲线</strong>（<script type="math/tex">f(x)=x^2</script>）：凸函数，弦在函数上方，有<strong>唯一全局最小值</strong></li>
+<li><strong>红色曲线</strong>（<script type="math/tex">f(x)=-x^2</script>）：凹函数，有<strong>唯一全局最大值</strong></li>
+</ul>
+<hr>
+<h3 id="凸优化中的重要性质"><a href="#凸优化中的重要性质" class="headerlink" title="凸优化中的重要性质"></a>凸优化中的重要性质</h3><p>在<strong>凸优化</strong>（Convex Optimization）中，有一个非常重要的性质：</p>
+<div class="note info flat"><p><strong>凸优化中，局部极值点就是全局极值点。</strong></p>
+</div>
+<p>这是凸优化问题比一般的非凸优化问题更容易求解的重要原因之一。对于凸函数：</p>
+<ul>
+<li>若存在极小值点，则该点必为全局最小值点</li>
+<li>驻点（梯度为零的点）若存在，则必为全局最优解</li>
+</ul>
+<hr>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">概念</th>
+<th style="text-align:left">定义</th>
+<th style="text-align:left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">驻点</td>
+<td style="text-align:left">梯度为零的点 <script type="math/tex">\nabla f(\mathbf{x}) = \mathbf{0}</script></td>
+<td style="text-align:left">包含极值点和鞍点</td>
+</tr>
+<tr>
+<td style="text-align:center">极值点</td>
+<td style="text-align:left">局部或全局的最大/最小值点</td>
+<td style="text-align:left">默认指局部极值点</td>
+</tr>
+<tr>
+<td style="text-align:center">全局极值点</td>
+<td style="text-align:left">在整个定义域内的最大/最小值点</td>
+<td style="text-align:left">凸优化中局部即全局</td>
+</tr>
+<tr>
+<td style="text-align:center">鞍点</td>
+<td style="text-align:left">某些方向是极大，某些方向是极小的点</td>
+<td style="text-align:left">非极值点的驻点</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>理解函数的特殊点是掌握最优化算法的基础，后续学习的梯度下降法、牛顿法等都是在寻找这些特殊点。</p>
+<hr>
+<h2 id="线性规划"><a href="#线性规划" class="headerlink" title="线性规划"></a>线性规划</h2><h3 id="数学建模"><a href="#数学建模" class="headerlink" title="数学建模"></a>数学建模</h3><h4 id="问题的提出"><a href="#问题的提出" class="headerlink" title="问题的提出"></a>问题的提出</h4><p>线性规划（Linear Programming, LP）主要用于解决<strong>生产经营中的资源分配问题</strong>——在有限的资源约束下，如何安排生产以获得最大利润（或最小成本）。</p>
+<hr>
+<p><strong>例题：工厂生产计划</strong></p>
+<p>某工厂生产甲、乙两种产品，相关数据如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">资源</th>
+<th style="text-align:center">甲产品 (<script type="math/tex">x_1</script>)</th>
+<th style="text-align:center">乙产品 (<script type="math/tex">x_2</script>)</th>
+<th style="text-align:center">资源限量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">原料</td>
+<td style="text-align:center">2 单位/件</td>
+<td style="text-align:center">1 单位/件</td>
+<td style="text-align:center">8 单位</td>
+</tr>
+<tr>
+<td style="text-align:center">电力</td>
+<td style="text-align:center">1 单位/件</td>
+<td style="text-align:center">2 单位/件</td>
+<td style="text-align:center">6 单位</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>利润</strong></td>
+<td style="text-align:center"><strong>2 元/件</strong></td>
+<td style="text-align:center"><strong>3 元/件</strong></td>
+<td style="text-align:center">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>问题</strong>：如何安排甲、乙两种产品的产量，使得总利润最大？</p>
+<p><strong>数学模型的建立</strong></p>
+<p>决策变量：</p>
+<ul>
+<li><script type="math/tex">x_1</script>：甲产品的生产数量</li>
+<li><script type="math/tex">x_2</script>：乙产品的生产数量</li>
+</ul>
+<p>目标函数（最大化总利润）：</p>
+<script type="math/tex; mode=display">
+\max Z = 2x_1 + 3x_2</script><p>约束条件：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+2x_1 + x_2 \leq 8 & \text{（原料约束）} \\
+x_1 + 2x_2 \leq 6 & \text{（电力约束）} \\
+x_1 \geq 0, \ x_2 \geq 0 & \text{（非负约束）}
+\end{cases}</script><p>模型构成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">数学模型 = 目标函数 + 约束条件</span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组成部分</th>
+<th style="text-align:left">本例中的体现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>目标函数</strong></td>
+<td style="text-align:left"><script type="math/tex">\max Z = 2x_1 + 3x_2</script>（追求最大利润）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>约束条件</strong></td>
+<td style="text-align:left">原料限制、电力限制、非负限制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>决策变量</strong></td>
+<td style="text-align:left"><script type="math/tex">x_1, x_2</script>（可控制的产量）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这是一个典型的<strong>二维线性规划问题</strong>，可以用图解法求解，也可以使用单纯形法等代数方法求解。</p>
+<hr>
+<p><strong>例题：标牌制作问题</strong></p>
+<p>某工作室需要制作两种标牌：文牌200个，图牌300个。现有甲、乙两种规格的原材料，相关数据如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">材料</th>
+<th style="text-align:center">单张面积</th>
+<th style="text-align:center">文牌产量</th>
+<th style="text-align:center">图牌产量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">甲料</td>
+<td style="text-align:center">3 m²/张</td>
+<td style="text-align:center">4 个/张</td>
+<td style="text-align:center">8 个/张</td>
+</tr>
+<tr>
+<td style="text-align:center">乙料</td>
+<td style="text-align:center">2 m²/张</td>
+<td style="text-align:center">5 个/张</td>
+<td style="text-align:center">3 个/张</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>需求</strong></td>
+<td style="text-align:center">—</td>
+<td style="text-align:center"><strong>≥ 200 个</strong></td>
+<td style="text-align:center"><strong>≥ 300 个</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>问题</strong>：如何确定甲、乙两种材料的采购数量，使得总用料面积最少？</p>
+<p><strong>数学模型的建立</strong></p>
+<p>决策变量：</p>
+<ul>
+<li><script type="math/tex">x_1</script>：甲材料的采购张数</li>
+<li><script type="math/tex">x_2</script>：乙材料的采购张数</li>
+</ul>
+<p>目标函数（最小化总用料面积）：</p>
+<script type="math/tex; mode=display">
+\min Z = 3x_1 + 2x_2</script><p>约束条件：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+4x_1 + 5x_2 \geq 200 & \text{（文牌数量约束）} \\
+8x_1 + 3x_2 \geq 300 & \text{（图牌数量约束）} \\
+x_1 \geq 0, \ x_2 \geq 0 & \text{（非负约束）}
+\end{cases}</script><div class="note warning flat"><p><strong>说明</strong>：本例中 <script type="math/tex">x_1, x_2</script> 理论上应为整数（整数规划），但整数规划求解较为复杂，将在后续章节专门讨论。此处先按连续变量处理，求得的结果可作为整数规划的参考。</p>
+</div>
+<hr>
+<p><strong>例题对比总结</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">例题</th>
+<th style="text-align:center">目标</th>
+<th style="text-align:center">约束类型</th>
+<th style="text-align:center">特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>例1：工厂生产</strong></td>
+<td style="text-align:center">最大化利润 <script type="math/tex">\max Z = 2x_1 + 3x_2</script></td>
+<td style="text-align:center"><script type="math/tex">\leq</script>（资源限制）</td>
+<td style="text-align:center">资源有限，追求效益最大</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>例2：标牌制作</strong></td>
+<td style="text-align:center">最小化成本 <script type="math/tex">\min Z = 3x_1 + 2x_2</script></td>
+<td style="text-align:center"><script type="math/tex">\geq</script>（需求满足）</td>
+<td style="text-align:center">需求确定，追求成本最低</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>两个例题都是典型的<strong>二维线性规划问题</strong>，可以用图解法直观求解，也可以用单纯形法进行代数求解。</p>
+<hr>
+<h3 id="LP的数学模型"><a href="#LP的数学模型" class="headerlink" title="LP的数学模型"></a>LP的数学模型</h3><h4 id="一般形式（标量形式）"><a href="#一般形式（标量形式）" class="headerlink" title="一般形式（标量形式）"></a>一般形式（标量形式）</h4><p>线性规划（Linear Programming, LP）问题包含以下要素：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$n$</td>
+<td style="text-align:left">决策变量个数</td>
+<td style="text-align:left"><script type="math/tex">x_1, x_2, \ldots, x_n</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">c_i</script></td>
+<td style="text-align:left">价值系数</td>
+<td style="text-align:left">目标函数中 <script type="math/tex">x_i</script> 的系数，表示单位价值</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">b_j</script></td>
+<td style="text-align:left">资源限制量</td>
+<td style="text-align:left">第 $j$ 种资源的可用数量</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">a_{ij}</script></td>
+<td style="text-align:left">工艺系数</td>
+<td style="text-align:left">单位 <script type="math/tex">x_i</script> 对第 $j$ 种资源的消耗量</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>标量形式</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\max \ Z = \ & c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \\
+\text{s.t.} \quad & \begin{cases}
+a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = b_1 \\
+a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = b_2 \\
+\vdots \\
+a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n = b_m \\
+x_1, x_2, \ldots, x_n \geq 0
+\end{cases}
+\end{aligned}</script><hr>
+<h4 id="简写形式（求和形式）"><a href="#简写形式（求和形式）" class="headerlink" title="简写形式（求和形式）"></a>简写形式（求和形式）</h4><p>对上述标量形式进行简化，用求和符号表示：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\max \ & Z = \sum_{j=1}^{n} c_j x_j \\
+\text{s.t.} \quad & \begin{cases}
+\displaystyle\sum_{j=1}^{n} a_{ij} x_j \leq b_j & (i = 1, 2, \ldots, m) \\
+x_j \geq 0 & (j = 1, 2, \ldots, n)
+\end{cases}
+\end{aligned}</script><blockquote>
+<p><strong>注</strong>：约束条件中的 <script type="math/tex">\leq</script> 可以替换为 <script type="math/tex">\geq</script> 或 $=$，取决于具体问题的约束类型。</p>
+</blockquote>
+<hr>
+<h4 id="向量形式（矩阵形式）"><a href="#向量形式（矩阵形式）" class="headerlink" title="向量形式（矩阵形式）"></a>向量形式（矩阵形式）</h4><p>更进一步的简化，引入向量和矩阵表示：</p>
+<p><strong>向量/矩阵定义</strong>：</p>
+<script type="math/tex; mode=display">
+\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}
+\quad \text{（决策变量向量）}</script><script type="math/tex; mode=display">
+\mathbf{c} = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}
+\quad \text{（价值向量）}</script><script type="math/tex; mode=display">
+\mathbf{b} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{bmatrix}
+\quad \text{（资源限量向量）}</script><script type="math/tex; mode=display">
+A = \begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+\quad \text{（系数矩阵）}</script><p><strong>向量形式</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\max \ & Z = \mathbf{c}^T \mathbf{x} \\
+\text{s.t.} \quad & \begin{cases}
+A\mathbf{x} \leq \mathbf{b} \\
+\mathbf{x} \geq \mathbf{0}
+\end{cases}
+\end{aligned}</script><hr>
+<h4 id="三种形式对比"><a href="#三种形式对比" class="headerlink" title="三种形式对比"></a>三种形式对比</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">形式</th>
+<th style="text-align:left">表达式</th>
+<th style="text-align:left">适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>标量形式</strong></td>
+<td style="text-align:left">展开写法</td>
+<td style="text-align:left">理解问题结构，手工计算</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>简写形式</strong></td>
+<td style="text-align:left">求和符号</td>
+<td style="text-align:left">理论推导，一般性描述</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>向量形式</strong></td>
+<td style="text-align:left">矩阵表示</td>
+<td style="text-align:left">计算机实现，大规模问题</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>理解要点</strong>：</p>
+<ul>
+<li>标量形式直观但冗长，适合简单问题</li>
+<li>向量形式简洁优雅，是单纯形法等算法实现的基础</li>
+<li><script type="math/tex">A\mathbf{x} \leq \mathbf{b}</script> 可以统一表示各种类型的约束（通过引入松弛变量/剩余变量）</li>
+</ul>
+<hr>
+<h3 id="LP数学模型的标准化"><a href="#LP数学模型的标准化" class="headerlink" title="LP数学模型的标准化"></a>LP数学模型的标准化</h3><p>为了使用单纯形法等标准算法求解线性规划问题，需要将一般的 LP 模型转化为<strong>标准形式</strong>。</p>
+<h4 id="标准形的三个要求"><a href="#标准形的三个要求" class="headerlink" title="标准形的三个要求"></a>标准形的三个要求</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">要求</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>1. 目标函数最大化</strong></td>
+<td style="text-align:left">必须是 <script type="math/tex">\max Z</script>，而非 <script type="math/tex">\min Z</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>2. 约束条件等式化</strong></td>
+<td style="text-align:left">必须是 $=$，而非 <script type="math/tex">\leq</script> 或 <script type="math/tex">\geq</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>3. 变量与资源非负</strong></td>
+<td style="text-align:left"><script type="math/tex">x_j \geq 0</script>，<script type="math/tex">b_i \geq 0</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h4 id="标准化规则"><a href="#标准化规则" class="headerlink" title="标准化规则"></a>标准化规则</h4><p><strong>① 目标函数最小化 → 最大化</strong></p>
+<p>若原问题为最小化，令 $Z’ = -Z$：</p>
+<script type="math/tex; mode=display">
+\min Z = \sum_{j=1}^{n} c_j x_j \quad \Rightarrow \quad \max Z' = \sum_{j=1}^{n} (-c_j) x_j</script><p><strong>② 约束条件不等式 → 等式</strong></p>
+<ul>
+<li><p><strong><script type="math/tex">\leq</script> 型约束</strong>：添加<strong>松弛变量</strong> <script type="math/tex">x_{n+i} \geq 0</script></p>
+<script type="math/tex; mode=display">
+\sum_{j=1}^{n} a_{ij} x_j \leq b_i \quad \Rightarrow \quad \sum_{j=1}^{n} a_{ij} x_j + x_{n+i} = b_i</script></li>
+<li><p><strong><script type="math/tex">\geq</script> 型约束</strong>：添加<strong>剩余变量</strong>（负的松弛变量）<script type="math/tex">x_{n+i} \geq 0</script></p>
+<script type="math/tex; mode=display">
+\sum_{j=1}^{n} a_{ij} x_j \geq b_i \quad \Rightarrow \quad \sum_{j=1}^{n} a_{ij} x_j - x_{n+i} = b_i</script></li>
+</ul>
+<div class="note info flat"><p><strong>松弛变量/剩余变量的含义</strong>：表示资源利用的剩余量或缺口，在实际问题中通常没有经济价值（目标函数系数为0）。</p>
+</div>
+<p><strong>③ 资源限量 <script type="math/tex">b_i < 0</script> 的处理</strong></p>
+<p>当约束右侧 <script type="math/tex">b_i < 0</script> 时，两侧同乘 $-1$，同时改变不等号方向：</p>
+<script type="math/tex; mode=display">
+\sum_{j=1}^{n} a_{ij} x_j \leq b_i \ (< 0) \quad \Rightarrow \quad \sum_{j=1}^{n} (-a_{ij}) x_j \geq (-b_i) \ (> 0)</script><p><strong>④ 决策变量 <script type="math/tex">x_k \leq 0</script> 的处理</strong></p>
+<p>令 <script type="math/tex">x_k' = -x_k</script>，则 <script type="math/tex">x_k' \geq 0</script>：</p>
+<script type="math/tex; mode=display">
+x_k \leq 0 \quad \Rightarrow \quad x_k' = -x_k \geq 0</script><p><strong>⑤ 决策变量无约束（自由变量）的处理</strong></p>
+<p>引入两个非负变量 <script type="math/tex">x_k', x_k'' \geq 0</script>，令：</p>
+<script type="math/tex; mode=display">
+x_k = x_k' - x_k''</script><div class="note warning flat"><p><strong>注意</strong>：自由变量必须用两个非负变量之差表示，不能只用一个非负变量替代。</p>
+</div>
+<hr>
+<h4 id="标准化示例"><a href="#标准化示例" class="headerlink" title="标准化示例"></a>标准化示例</h4><p>将下列 LP 问题化为标准形：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\min \ & Z = 2x_1 - 3x_2 \\
+\text{s.t.} \quad & \begin{cases}
+x_1 + x_2 \leq 4 \\
+x_1 - 2x_2 \geq 2 \\
+x_1 \geq 0, \ x_2 \text{ 无约束}
+\end{cases}
+\end{aligned}</script><p><strong>标准化步骤</strong>：</p>
+<ol>
+<li><p><strong>目标函数</strong>：<script type="math/tex">\min Z \rightarrow \max Z' = -2x_1 + 3x_2</script></p>
+</li>
+<li><p><strong>约束①（<script type="math/tex">\leq</script>）</strong>：添加松弛变量 <script type="math/tex">x_3 \geq 0</script><br>$<script type="math/tex">x_1 + x_2 + x_3 = 4</script>$</p>
+</li>
+<li><p><strong>约束②（<script type="math/tex">\geq</script>）</strong>：添加剩余变量 <script type="math/tex">x_4 \geq 0</script><br>$<script type="math/tex">x_1 - 2x_2 - x_4 = 2</script>$</p>
+</li>
+<li><p><strong>自由变量</strong>：<script type="math/tex">x_2 = x_2' - x_2''</script>，其中 <script type="math/tex">x_2', x_2'' \geq 0</script></p>
+</li>
+</ol>
+<p><strong>标准形</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\max \ & Z' = -2x_1 + 3x_2' - 3x_2'' + 0x_3 + 0x_4 \\
+\text{s.t.} \quad & \begin{cases}
+x_1 + x_2' - x_2'' + x_3 = 4 \\
+x_1 - 2x_2' + 2x_2'' - x_4 = 2 \\
+x_1, x_2', x_2'', x_3, x_4 \geq 0
+\end{cases}
+\end{aligned}</script><hr>
+<h4 id="标准化速查表"><a href="#标准化速查表" class="headerlink" title="标准化速查表"></a>标准化速查表</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">原形式</th>
+<th style="text-align:left">标准化方法</th>
+<th style="text-align:left">转换结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><script type="math/tex">\min Z</script></td>
+<td style="text-align:left">令 $Z’ = -Z$</td>
+<td style="text-align:left">目标函数变号</td>
+</tr>
+<tr>
+<td style="text-align:left"><script type="math/tex">\sum a_{ij}x_j \leq b_i</script></td>
+<td style="text-align:left">加松弛变量</td>
+<td style="text-align:left">等式左侧加松弛变量</td>
+</tr>
+<tr>
+<td style="text-align:left"><script type="math/tex">\sum a_{ij}x_j \geq b_i</script></td>
+<td style="text-align:left">减剩余变量</td>
+<td style="text-align:left">等式左侧减剩余变量</td>
+</tr>
+<tr>
+<td style="text-align:left"><script type="math/tex">b_i < 0</script></td>
+<td style="text-align:left">两侧同乘 $-1$</td>
+<td style="text-align:left">不等号反向</td>
+</tr>
+<tr>
+<td style="text-align:left"><script type="math/tex">x_k \leq 0</script></td>
+<td style="text-align:left">令 <script type="math/tex">x_k' = -x_k</script></td>
+<td style="text-align:left">替换为非负变量</td>
+</tr>
+<tr>
+<td style="text-align:left"><script type="math/tex">x_k</script> 无约束</td>
+<td style="text-align:left">令 <script type="math/tex">x_k = x_k' - x_k''</script></td>
+<td style="text-align:left">分解为两个非负变量之差</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info flat"><p><strong>约束转换的直观理解</strong>：</p>
+<ul>
+<li><strong>松弛变量</strong>：表示”还有剩余”的量（<script type="math/tex">\leq</script> 变 $=$，加上松弛）</li>
+<li><strong>剩余变量</strong>：表示”还差多少”的量（<script type="math/tex">\geq</script> 变 $=$，减去剩余）</li>
+</ul>
+</div>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>啊，这段时间实在是太忙了，开始实习之后确实是没机会去实时同步这个笔记了，我准备再单独开一篇笔记去进行原题和作业解析了，祝我好运吧。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</a><a class="post-meta__tags" href="/tags/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/">最优化理论</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/ZYLLTopImg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs"><img class="cover" src="/imgs/ArticleTopImgs/HMNodejsTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">鸿蒙Nodejs</div></div><div class="info-2"><div class="info-item-1">对于鸿蒙nodejs的使用上的一些问题的记录</div></div></div></a><a class="pagination-related" href="/2026/03/27/afterOSPP/" title="于开源之夏后"><img class="cover" src="/imgs/ArticleTopImgs/afterOSPPTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">于开源之夏后</div></div><div class="info-2"><div class="info-item-1">开源之夏2025落下了帷幕，但它真的结束了吗？</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习"><img class="cover" src="/imgs/ArticleTopImgs/GXNJSTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-08</div><div class="info-item-2">高性能计算复习</div></div><div class="info-2"><div class="info-item-1">高性能计算期末复习</div></div></div></a><a class="pagination-related" href="/2026/01/09/MachineCollectionFinalReview/" title="机器学习与数据挖掘期末复习"><img class="cover" src="/imgs/ArticleTopImgs/MachineCollectionFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-09</div><div class="info-item-2">机器学习与数据挖掘期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a><a class="pagination-related" href="/2026/01/06/osFinalReview/" title="操作系统期末复习"><img class="cover" src="/imgs/ArticleTopImgs/osFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-06</div><div class="info-item-2">操作系统期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a><a class="pagination-related" href="/2026/01/04/computerNetFinalReview/" title="计算机网络期末复习"><img class="cover" src="/imgs/ArticleTopImgs/computerNetFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-04</div><div class="info-item-2">计算机网络期末复习</div></div><div class="info-2"><div class="info-item-1">计算机网络期末复习</div></div></div></a><a class="pagination-related" href="/2025/12/24/dataCollectionFinalReview/" title="数据采集实践期末复习"><img class="cover" src="/imgs/ArticleTopImgs/dataCollectionFinalReviewTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-24</div><div class="info-item-2">数据采集实践期末复习</div></div><div class="info-2"><div class="info-item-1">数据采集期末复习</div></div></div></a><a class="pagination-related" href="/2025/05/18/SAS/" title="《数据分析方法（第二版）》重要概念"><img class="cover" src="/imgs/ArticleTopImgs/SASTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-18</div><div class="info-item-2">《数据分析方法（第二版）》重要概念</div></div><div class="info-2"><div class="info-item-1">统分期末复习</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">52</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.png" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipapi.co/json/',
+    'https://freegeoip.app/json/',
+    'https://ipinfo.io/json'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    fetch(currentApi)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.webp" title="1.gif" class="announcementImg"/><br/>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。<br/>总之祝大家2026新春快乐！！！<br/>（也是开始上班了呢]</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%AA%E8%AE%BA"><span class="toc-number">2.</span> <span class="toc-text">绪论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text">例题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%92%A2%E7%AE%A1%E7%94%A8%E6%96%99"><span class="toc-number">2.1.1.</span> <span class="toc-text">钢管用料</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.2.</span> <span class="toc-text">指派问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%BE%93%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.3.</span> <span class="toc-text">运输问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98-1"><span class="toc-number">2.1.4.</span> <span class="toc-text">指派问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%95%E8%B5%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.5.</span> <span class="toc-text">投资优化问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E6%B1%82%E8%A7%A3"><span class="toc-number">2.1.6.</span> <span class="toc-text">非线性方程组求解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%AA%E8%AE%BA%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3"><span class="toc-number">2.2.</span> <span class="toc-text">绪论核心思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%AA%E8%AE%BA%E5%B0%8F%E7%BB%93"><span class="toc-number">2.3.</span> <span class="toc-text">绪论小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E7%89%B9%E6%AE%8A%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">函数的特殊点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%E7%9A%84%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">最优化问题的数学模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E5%8C%96%E4%B8%8E%E6%9C%80%E5%B0%8F%E5%8C%96%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96"><span class="toc-number">3.2.</span> <span class="toc-text">最大化与最小化的相互转化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">3.3.</span> <span class="toc-text">解的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9E%8D%E7%82%B9%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">3.4.</span> <span class="toc-text">鞍点的可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A9%BB%E7%82%B9%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="toc-number">3.5.</span> <span class="toc-text">驻点的定义与分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0"><span class="toc-number">3.6.</span> <span class="toc-text">凸函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%B8%E4%BC%98%E5%8C%96%E4%B8%AD%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E8%B4%A8"><span class="toc-number">3.7.</span> <span class="toc-text">凸优化中的重要性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">3.8.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="toc-number">4.</span> <span class="toc-text">线性规划</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1"><span class="toc-number">4.1.</span> <span class="toc-text">数学建模</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%87%BA"><span class="toc-number">4.1.1.</span> <span class="toc-text">问题的提出</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LP%E7%9A%84%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.2.</span> <span class="toc-text">LP的数学模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E5%BD%A2%E5%BC%8F%EF%BC%88%E6%A0%87%E9%87%8F%E5%BD%A2%E5%BC%8F%EF%BC%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">一般形式（标量形式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%86%99%E5%BD%A2%E5%BC%8F%EF%BC%88%E6%B1%82%E5%92%8C%E5%BD%A2%E5%BC%8F%EF%BC%89"><span class="toc-number">4.2.2.</span> <span class="toc-text">简写形式（求和形式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E5%BD%A2%E5%BC%8F%EF%BC%88%E7%9F%A9%E9%98%B5%E5%BD%A2%E5%BC%8F%EF%BC%89"><span class="toc-number">4.2.3.</span> <span class="toc-text">向量形式（矩阵形式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E5%BD%A2%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-number">4.2.4.</span> <span class="toc-text">三种形式对比</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LP%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%A0%87%E5%87%86%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">LP数学模型的标准化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%BD%A2%E7%9A%84%E4%B8%89%E4%B8%AA%E8%A6%81%E6%B1%82"><span class="toc-number">4.3.1.</span> <span class="toc-text">标准形的三个要求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E8%A7%84%E5%88%99"><span class="toc-number">4.3.2.</span> <span class="toc-text">标准化规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.3.3.</span> <span class="toc-text">标准化示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="toc-number">4.3.4.</span> <span class="toc-text">标准化速查表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习"><img src="/imgs/ArticleTopImgs/GXNJSTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="高性能计算复习"/ width="1092" height="580" loading="lazy"></a><div class="content"><a class="title" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习">高性能计算复习</a><time datetime="2026-05-08T02:26:52.000Z" title="发表于 2026-05-08 10:26:52">2026-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/27/VibeTips/" title="怎样用好 Vibe Coding，大幅减少重复编码？"><img src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="怎样用好 Vibe Coding，大幅减少重复编码？"/ width="2343" height="1295" loading="lazy"></a><div class="content"><a class="title" href="/2026/04/27/VibeTips/" title="怎样用好 Vibe Coding，大幅减少重复编码？">怎样用好 Vibe Coding，大幅减少重复编码？</a><time datetime="2026-04-27T13:20:55.000Z" title="发表于 2026-04-27 21:20:55">2026-04-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/27/afterOSPP/" title="于开源之夏后"><img src="/imgs/ArticleTopImgs/afterOSPPTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="于开源之夏后"/ width="4096" height="3456" loading="lazy"></a><div class="content"><a class="title" href="/2026/03/27/afterOSPP/" title="于开源之夏后">于开源之夏后</a><time datetime="2026-03-27T05:37:01.000Z" title="发表于 2026-03-27 13:37:01">2026-03-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" title="最优化理论笔记"><img src="/imgs/ArticleTopImgs/ZYLLTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最优化理论笔记"/ width="2093" height="1816" loading="lazy"></a><div class="content"><a class="title" href="/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" title="最优化理论笔记">最优化理论笔记</a><time datetime="2026-03-03T06:23:51.000Z" title="发表于 2026-03-03 14:23:51">2026-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs"><img src="/imgs/ArticleTopImgs/HMNodejsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鸿蒙Nodejs"/ width="3120" height="2080" loading="lazy"></a><div class="content"><a class="title" href="/2026/02/13/HMNodejs/" title="鸿蒙Nodejs">鸿蒙Nodejs</a><time datetime="2026-02-13T06:40:21.000Z" title="发表于 2026-02-13 14:40:21">2026-02-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><script type="text/javascript" src="https://unpkg.com/mermaid@undefined/dist/mermaid.min.js" id="maid-script"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaid-options'));
+  mermaid.initialize(options);
+}</script><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 懒加载由 inject.bottom 的 lazy-loading-optimized.js 统一处理--><!-- 已移除: lazy-loading.js, lazy-loading-native.js, lazy-image-refresh.js, lazy-video-refresh.js--><!-- VS Code 风格智能文档导航栏 - 只在文章页面加载--><script src="/js/vscode-breadcrumb-toc.js"></script><div class="js-pjax"><script>(async () => {
+  const renderKatex = () => {
+    const container = document.getElementById('article-container')
+    if (!container) return
+
+    // 1. 处理 <script type="math/tex"> 标签（kramed 渲染器生成）
+    if (typeof window.katex !== 'undefined') {
+      container.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+        const tex = node.textContent.trim()
+        const isDisplay = node.type.includes('mode=display')
+        const el = document.createElement(isDisplay ? 'div' : 'span')
+        try {
+          katex.render(tex, el, {
+            displayMode: isDisplay,
+            throwOnError: false
+          })
+          node.parentNode.replaceChild(el, node)
+        } catch (e) {
+          // 渲染失败时保留原始文本
+          node.outerHTML = isDisplay ? '$$' + tex + '$$' : '$' + tex + '$'
+        }
+      })
+    }
+
+    // 2. 处理原始的 $...$ 和 $$...$$ 文本（auto-render）
+    if (typeof window.renderMathInElement === 'function') {
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      })
+    }
+  }
+
+  if (!window.katex_js_loaded) {
+    window.katex_js_loaded = true
+    await btf.getCSS('/js/katex/katex.min.css')
+    await btf.getScript('/js/katex/katex.min.js')
+    await btf.getScript('/js/katex/auto-render.min.js')
+  }
+
+  renderKatex()
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/%5Bobject%20Object%5D').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe-optimized.js"></script><script defer src="/js/jquery-3.6.0.min.js"></script><script defer src="/js/rightmenu.js"></script><script defer src="/js/happy-title.js"></script><script defer src="/js/lazy-loading-optimized.js"></script><script defer src="/js/lightbox-enhanced.js"></script><script async data-pjax src="//cn.vercount.one/js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/24/typewriter/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/TypeWriteTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-24</span><a class="blog-slider__title" href="2025/06/24/typewriter/" alt="">Butterfly主题实现简介打字机</a><div class="blog-slider__text">详细介绍如何在Hexo的Butterfly主题中添加炫酷的打字机效果，包含完整的实现代码和配置方法。</div><a class="blog-slider__button" href="2025/06/24/typewriter/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/16/yiDuo/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/yiduoTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" href="2025/03/16/yiDuo/" alt="">关于鸿蒙的一多能力</a><div class="blog-slider__text">一多能力的学习笔记</div><a class="blog-slider__button" href="2025/03/16/yiDuo/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/11/01/ThoughtsOnVibeCoding/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-11-01</span><a class="blog-slider__title" href="2025/11/01/ThoughtsOnVibeCoding/" alt="">在虚构与现实之间，守住那束灵感之光</a><div class="blog-slider__text">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</div><a class="blog-slider__button" href="2025/11/01/ThoughtsOnVibeCoding/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/20/RemoteCommunication/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/RCPTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-20</span><a class="blog-slider__title" href="2025/04/20/RemoteCommunication/" alt="">远场通信服务</a><div class="blog-slider__text">本文将介绍鸿蒙远场通信服务</div><a class="blog-slider__button" href="2025/04/20/RemoteCommunication/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

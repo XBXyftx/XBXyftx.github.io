@@ -1,0 +1,198 @@
+/**
+ * 稳定的图片懒加载样式
+ * 解决布局偏移问题
+ */
+
+/* ============================================
+   1. 图片容器稳定化
+   ============================================ */
+
+#article-container img {
+  aspect-ratio: attr(width) / attr(height);
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+#article-container img[data-aspect-ratio]:not([width]):not([height]) {
+  width: 100%;
+  padding-bottom: attr(data-aspect-ratio %);
+}
+
+/* ============================================
+   2. 懒加载占位符
+   ============================================ */
+
+.lazy-placeholder-stable {
+  aspect-ratio: attr(width) / attr(height);
+  height: auto;
+  background: linear-gradient(
+    90deg,
+    rgba(147, 112, 219, 0.1) 0%,
+    rgba(138, 43, 226, 0.2) 50%,
+    rgba(147, 112, 219, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: lazyShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  display: block;
+}
+
+#article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+  min-height: 200px;
+  background: linear-gradient(
+    90deg,
+    rgba(147, 112, 219, 0.1) 0%,
+    rgba(138, 43, 226, 0.2) 50%,
+    rgba(147, 112, 219, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: lazyShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ============================================
+   3. 加载状态过渡效果
+   ============================================ */
+
+.lazy-loading {
+  opacity: 0.6;
+  filter: blur(3px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.lazy-loaded {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.6s ease-out;
+}
+
+.lazy-error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px dashed rgba(255, 0, 0, 0.3);
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lazy-error::after {
+  content: '图片加载失败';
+  color: rgba(255, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+@keyframes lazyShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
+   4. 目录锚点跳转优化
+   ============================================ */
+
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+  scroll-margin-top: 90px;
+  scroll-snap-margin-top: 90px;
+  scroll-behavior: smooth;
+}
+
+#article-container h1:hover::before,
+#article-container h2:hover::before,
+#article-container h3:hover::before,
+#article-container h4:hover::before,
+#article-container h5:hover::before,
+#article-container h6:hover::before {
+  content: '#';
+  position: absolute;
+  left: -20px;
+  color: var(--main);
+  opacity: 0.5;
+}
+
+/* ============================================
+   5. 排除特定区域的图片
+   ============================================ */
+
+#page-header img,
+.avatar img,
+.related-post-item img,
+.aside-card img,
+.footer img,
+#sidebar-menus img {
+  aspect-ratio: auto !important;
+  min-height: auto !important;
+  background: none !important;
+  animation: none !important;
+}
+
+/* ============================================
+   6. 深色模式适配
+   ============================================ */
+
+[data-theme='dark'] .lazy-placeholder-stable,
+[data-theme='dark'] #article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+  background: linear-gradient(
+    90deg,
+    rgba(75, 0, 130, 0.15) 0%,
+    rgba(138, 43, 226, 0.25) 50%,
+    rgba(75, 0, 130, 0.15) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* ============================================
+   7. 移动端优化
+   ============================================ */
+
+@media (max-width: 768px) {
+  .lazy-placeholder-stable,
+  #article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+    animation: none;
+    background: rgba(147, 112, 219, 0.15);
+  }
+
+  #article-container h1,
+  #article-container h2,
+  #article-container h3,
+  #article-container h4,
+  #article-container h5,
+  #article-container h6 {
+    scroll-margin-top: 70px;
+    scroll-snap-margin-top: 70px;
+  }
+}
+
+/* ============================================
+   8. 减少动画偏好
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .lazy-placeholder-stable,
+  #article-container img[loading="lazy"]:not([width]):not([height]):not(.lazy-loaded) {
+    animation: none;
+  }
+
+  .lazy-loading,
+  .lazy-loaded {
+    transition: none;
+  }
+
+  #article-container h1,
+  #article-container h2,
+  #article-container h3,
+  #article-container h4,
+  #article-container h5,
+  #article-container h6 {
+    scroll-behavior: auto;
+  }
+}

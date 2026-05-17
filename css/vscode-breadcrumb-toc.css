@@ -1,0 +1,204 @@
+/**
+ * VS Code 风格智能文档导航栏
+ * @author XBXyftx
+ * @version 5.2.0
+ */
+
+/* ==================== 桌面端：标题在中央 ==================== */
+.nav-breadcrumb-desktop {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  max-width: 40%;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--light-grey, #eee);
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.breadcrumb-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bc-parent {
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.bc-sep {
+  opacity: 0.4;
+}
+
+.bc-current {
+  color: #4fc1ff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bc-current svg {
+  flex-shrink: 0;
+}
+
+/* ==================== 移动端：简短标题在右侧 ==================== */
+.nav-breadcrumb-mobile {
+  position: absolute;
+  right: 65px;  /* 靠近右侧菜单按钮 */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  max-width: calc(100% - 120px);  /* 留出Logo和菜单按钮空间 */
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--light-grey, #eee);
+  white-space: nowrap;
+  pointer-events: auto;
+  text-align: right;  /* 右对齐 */
+}
+
+.mobile-breadcrumb-text {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-current-title {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #4fc1ff;
+  background: rgba(79, 193, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(79, 193, 255, 0.2);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mobile-current-title:hover {
+  background: rgba(79, 193, 255, 0.2);
+}
+
+.mobile-current-title svg {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+}
+
+/* ==================== 进度条 ==================== */
+.nav-progress-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  z-index: 101;
+  pointer-events: none;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4fc1ff, #73d0ff);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ==================== 响应式显示控制 ==================== */
+@media (min-width: 769px) {
+  .nav-breadcrumb-mobile {
+    display: none !important;
+  }
+  
+  .nav-breadcrumb-desktop {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-breadcrumb-desktop {
+    display: none !important;
+  }
+  
+  .nav-breadcrumb-mobile {
+    display: block;
+  }
+  
+  .nav-progress-bar {
+    bottom: 0;
+  }
+}
+
+/* ==================== 桌面端响应式调整 ==================== */
+@media (max-width: 1200px) {
+  .nav-breadcrumb-desktop {
+    font-size: 14px;
+    max-width: 35%;
+  }
+  
+  .bc-parent {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-breadcrumb-desktop {
+    max-width: 30%;
+  }
+  
+  .bc-parent {
+    display: none;
+  }
+  
+  .bc-sep {
+    display: none;
+  }
+}
+
+/* ==================== 主题适配 ==================== */
+[data-theme="light"] .nav-breadcrumb-desktop,
+html[data-theme="light"] .nav-breadcrumb-desktop {
+  color: #333;
+  text-shadow: none;
+}
+
+[data-theme="light"] .bc-current,
+html[data-theme="light"] .bc-current {
+  color: #1565c0;
+}
+
+[data-theme="light"] .nav-breadcrumb-mobile,
+html[data-theme="light"] .nav-breadcrumb-mobile {
+  color: #333;
+}
+
+[data-theme="light"] .mobile-current-title,
+html[data-theme="light"] .mobile-current-title {
+  color: #1565c0;
+  background: rgba(21, 101, 192, 0.1);
+  border-color: rgba(21, 101, 192, 0.2);
+}
+
+[data-theme="light"] .progress-fill,
+html[data-theme="light"] .progress-fill {
+  background: linear-gradient(90deg, #1565c0, #1976d2);
+}
+
+/* ==================== 打印 ==================== */
+@media print {
+  .nav-breadcrumb-desktop,
+  .nav-breadcrumb-mobile,
+  .nav-progress-bar {
+    display: none !important;
+  }
+}

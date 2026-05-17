@@ -1,0 +1,163 @@
+<h1 id="入场弹窗功能使用说明"><a href="#入场弹窗功能使用说明" class="headerlink" title="入场弹窗功能使用说明"></a>入场弹窗功能使用说明</h1><h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><p>入场弹窗功能会在用户进入网站或跳转到新页面时，在右上角显示一个精美的弹窗，展示来自预设文本数组中的随机内容。弹窗具有以下特点：</p>
+<ul>
+<li>✅ 响应式设计，完美适配PC端和移动端</li>
+<li>✅ 渐变背景，美观大方</li>
+<li>✅ 3秒自动关闭</li>
+<li>✅ 提供手动关闭按钮</li>
+<li>✅ 支持ESC键关闭</li>
+<li>✅ 不覆盖主要内容</li>
+<li>✅ 支持暗色模式</li>
+<li>✅ 可根据页面类型和特殊日期显示不同内容</li>
+</ul>
+<h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><pre><code>themes/butterfly/source/
+├── css/
+│   └── entrance-popup.css          # 弹窗样式文件
+├── js/
+│   ├── entrance-popup-config.js    # 配置文件（可自定义）
+│   ├── entrance-popup.js          # 主要逻辑文件
+│   └── entrance-popup-README.md   # 使用说明（本文件）
+</code></pre><h2 id="自定义配置"><a href="#自定义配置" class="headerlink" title="自定义配置"></a>自定义配置</h2><h3 id="1-修改弹窗文本"><a href="#1-修改弹窗文本" class="headerlink" title="1. 修改弹窗文本"></a>1. 修改弹窗文本</h3><p>编辑 <code>themes/butterfly/source/js/entrance-popup-config.js</code> 文件：</p>
+<pre><code class="lang-javascript">// 默认文本数组
+texts: [
+  &#39;欢迎来到我的博客！希望您在这里找到有价值的内容～&#39;,
+  &#39;感谢您的访问！记得收藏本站以便下次再来哦～&#39;,
+  // 在这里添加更多文本...
+],
+</code></pre>
+<h3 id="2-调整弹窗行为"><a href="#2-调整弹窗行为" class="headerlink" title="2. 调整弹窗行为"></a>2. 调整弹窗行为</h3><pre><code class="lang-javascript">// 弹窗显示配置
+settings: {
+  autoCloseTime: 3000,     // 自动关闭时间（毫秒）
+  showOnEveryPage: true,   // 是否在每个页面都显示
+  animationDelay: 500,     // 页面加载后延迟显示时间（毫秒）
+  enableEscapeClose: true, // 是否允许按ESC键关闭
+  enableOverlayClose: false, // 是否允许点击遮罩层关闭
+  title: &#39;温馨提示&#39;,       // 弹窗标题
+},
+</code></pre>
+<h3 id="3-设置页面特定文本"><a href="#3-设置页面特定文本" class="headerlink" title="3. 设置页面特定文本"></a>3. 设置页面特定文本</h3><pre><code class="lang-javascript">// 特定页面配置
+pageSpecific: {
+  // 首页特定文本
+  home: [
+    &#39;欢迎来到XBXyftx的博客！&#39;,
+    // 更多首页文本...
+  ],
+  // 文章页面特定文本
+  post: [
+    &#39;感谢您阅读我的文章！&#39;,
+    // 更多文章页面文本...
+  ],
+  // 归档页面特定文本
+  archive: [
+    &#39;这里汇集了我的所有文章～&#39;,
+    // 更多归档页面文本...
+  ]
+},
+</code></pre>
+<h3 id="4-设置节日特殊文本"><a href="#4-设置节日特殊文本" class="headerlink" title="4. 设置节日特殊文本"></a>4. 设置节日特殊文本</h3><pre><code class="lang-javascript">// 节日/特殊日期配置
+seasonal: {
+  // 春节
+  &#39;spring-festival&#39;: {
+    dates: [&#39;02-01&#39;, &#39;02-15&#39;], // 日期范围 (MM-DD格式)
+    texts: [
+      &#39;新春快乐！祝您在新的一年里技术更进一步！&#39;,
+      // 更多春节文本...
+    ]
+  },
+  // 程序员节
+  &#39;programmer-day&#39;: {
+    dates: [&#39;10-24&#39;],
+    texts: [
+      &#39;程序员节快乐！致敬每一位辛勤的代码工作者！&#39;,
+      // 更多程序员节文本...
+    ]
+  }
+},
+</code></pre>
+<h2 id="样式自定义"><a href="#样式自定义" class="headerlink" title="样式自定义"></a>样式自定义</h2><h3 id="1-修改弹窗颜色"><a href="#1-修改弹窗颜色" class="headerlink" title="1. 修改弹窗颜色"></a>1. 修改弹窗颜色</h3><p>编辑 <code>themes/butterfly/source/css/entrance-popup.css</code> 文件：</p>
+<pre><code class="lang-css">.popup-content {
+  /* 修改背景渐变 */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 暗色模式 */
+[data-theme=&quot;dark&quot;] .popup-content {
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+}
+</code></pre>
+<h3 id="2-调整弹窗大小"><a href="#2-调整弹窗大小" class="headerlink" title="2. 调整弹窗大小"></a>2. 调整弹窗大小</h3><pre><code class="lang-css">.popup-content {
+  max-width: 320px;  /* 最大宽度 */
+  min-width: 280px;  /* 最小宽度 */
+}
+</code></pre>
+<h3 id="3-修改动画效果"><a href="#3-修改动画效果" class="headerlink" title="3. 修改动画效果"></a>3. 修改动画效果</h3><pre><code class="lang-css">.entrance-popup {
+  /* 修改过渡时间 */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup-content {
+  /* 修改初始位置 */
+  transform: translateY(-20px);
+}
+</code></pre>
+<h2 id="控制弹窗显示"><a href="#控制弹窗显示" class="headerlink" title="控制弹窗显示"></a>控制弹窗显示</h2><h3 id="1-手动控制弹窗"><a href="#1-手动控制弹窗" class="headerlink" title="1. 手动控制弹窗"></a>1. 手动控制弹窗</h3><pre><code class="lang-javascript">// 显示弹窗
+window.EntrancePopup.show();
+
+// 隐藏弹窗
+window.EntrancePopup.hide();
+
+// 获取当前配置
+const config = window.EntrancePopup.getConfig();
+
+// 获取当前文本数组
+const texts = window.EntrancePopup.getTexts();
+</code></pre>
+<h3 id="2-根据条件控制显示"><a href="#2-根据条件控制显示" class="headerlink" title="2. 根据条件控制显示"></a>2. 根据条件控制显示</h3><p>在 <code>entrance-popup-config.js</code> 中修改 <code>shouldShowPopup</code> 函数：</p>
+<pre><code class="lang-javascript">// 检查是否应该显示弹窗
+function shouldShowPopup() {
+  const config = getConfig();
+
+  // 例：只在首页显示
+  if (getCurrentPageType() !== &#39;home&#39;) {
+    return false;
+  }
+
+  // 例：检查本地存储，一天只显示一次
+  const today = new Date().toDateString();
+  const lastShown = localStorage.getItem(&#39;popup-last-shown&#39;);
+  if (lastShown === today) {
+    return false;
+  }
+  localStorage.setItem(&#39;popup-last-shown&#39;, today);
+
+  return config.showOnEveryPage;
+}
+</code></pre>
+<h2 id="兼容性说明"><a href="#兼容性说明" class="headerlink" title="兼容性说明"></a>兼容性说明</h2><ul>
+<li>支持现代浏览器（Chrome 60+、Firefox 60+、Safari 12+、Edge 79+）</li>
+<li>兼容移动设备（iOS Safari、Android Chrome）</li>
+<li>支持键盘操作（ESC键关闭）</li>
+<li>适配不同屏幕尺寸</li>
+</ul>
+<h2 id="故障排除"><a href="#故障排除" class="headerlink" title="故障排除"></a>故障排除</h2><h3 id="1-弹窗不显示"><a href="#1-弹窗不显示" class="headerlink" title="1. 弹窗不显示"></a>1. 弹窗不显示</h3><ul>
+<li>检查浏览器控制台是否有JavaScript错误</li>
+<li>确认配置文件路径正确</li>
+<li>检查 <code>showOnEveryPage</code> 配置是否为 <code>true</code></li>
+</ul>
+<h3 id="2-样式显示异常"><a href="#2-样式显示异常" class="headerlink" title="2. 样式显示异常"></a>2. 样式显示异常</h3><ul>
+<li>检查CSS文件是否正确加载</li>
+<li>确认没有其他样式冲突</li>
+<li>检查暗色模式适配</li>
+</ul>
+<h3 id="3-移动端显示问题"><a href="#3-移动端显示问题" class="headerlink" title="3. 移动端显示问题"></a>3. 移动端显示问题</h3><ul>
+<li>检查CSS媒体查询是否正确</li>
+<li>确认viewport设置正确</li>
+<li>测试不同设备的显示效果</li>
+</ul>
+<h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><h3 id="v1-0-0"><a href="#v1-0-0" class="headerlink" title="v1.0.0"></a>v1.0.0</h3><ul>
+<li>初始版本发布</li>
+<li>支持基本的弹窗功能</li>
+<li>响应式设计</li>
+<li>支持自定义配置</li>
+</ul>
+<hr>
+<p>如有问题或建议，请在GitHub Issues中反馈。 </p>
