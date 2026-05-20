@@ -303,7 +303,7 @@ html nav#nav #toggle-menu {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('/img/scrollImg.jpg');
+    background-image: url('/img/scrollImg.webp');
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
@@ -481,7 +481,7 @@ body{
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('/img/loadImg.jpg');
+    background-image: url('/img/loadImg.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
