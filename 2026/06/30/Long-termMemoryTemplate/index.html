@@ -1,32 +1,30 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Long-termMemoryTemplate | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Vibe Coding经验分享">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Long-termMemoryTemplate | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一套面向AI编程的长期记忆文档模板——从上下文压缩、注意力缺陷到渐进式索引，详解每个目录的设计目标与使用方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Long-termMemoryTemplate">
 <meta property="og:url" content="https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/index.html">
 <meta property="og:site_name" content="XBXyftx">
-<meta property="og:description" content="Vibe Coding经验分享">
+<meta property="og:description" content="一套面向AI编程的长期记忆文档模板——从上下文压缩、注意力缺陷到渐进式索引，详解每个目录的设计目标与使用方法">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/VibeTipsTopImg.webp">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/LongTermTopImg.png">
 <meta property="article:published_time" content="2026-06-30T09:30:06.000Z">
-<meta property="article:modified_time" content="2026-06-30T09:31:03.048Z">
+<meta property="article:modified_time" content="2026-06-30T11:18:03.909Z">
 <meta property="article:author" content="XBXyftx">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="技术向">
 <meta property="article:tag" content="Agent">
 <meta property="article:tag" content="上下文工程">
-<meta property="article:tag" content="KimiCode">
-<meta property="article:tag" content="K2.6">
-<meta property="article:tag" content="DeepSeek-V4-Pro">
+<meta property="article:tag" content="Zcode">
 <meta property="article:tag" content="Skills">
 <meta property="article:tag" content="渐进式披露">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/VibeTipsTopImg.webp"><script type="application/ld+json">{
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/LongTermTopImg.png"><script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Long-termMemoryTemplate",
   "url": "https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/",
-  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/VibeTipsTopImg.webp",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/LongTermTopImg.png",
   "datePublished": "2026-06-30T09:30:06.000Z",
-  "dateModified": "2026-06-30T09:31:03.048Z",
+  "dateModified": "2026-06-30T11:18:03.909Z",
   "author": [
     {
       "@type": "Person",
@@ -165,9 +163,9 @@
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: 'Long-termMemoryTemplate',
   isHighlightShrink: false,
-  isToc: false,
+  isToc: true,
   pageType: 'post',
-  typewriter: '🤖 真正用好 Vibe Coding，不是把一句模糊需求丢给 AI 后坐等奇迹发生！本文结合作者从古法编程到工程级 Agent 开发的实践经验，系统梳理了模型与 Agent 选择、上下文工程、长期记忆、短期记忆、渐进式引导结构以及 Skills 的核心用法。通过鸿蒙开发、国产模型接入、AI 接力文档和开源 skill 案例，详细说明如何减少模型幻觉、降低重复沟通成本、提升代码生成质量。适合正在尝试用 AI 编程却总被“一坨 AI 味代码”折磨的开发者参考，帮助你把 AI 从随缘写代码的工具，真正训练成可靠的工程协作伙伴。'
+  typewriter: '🧠 大模型的能力不在于它能不能"捞起针"，而在于它能不能在浩瀚的上下文中快速"找到针"。本文从上下文压缩机制、注意力分散效应以及模型幻觉等工程痛点出发，系统介绍一套可迁移的项目长期记忆文档模板——Memory Methodology Template。文章将逐目录拆解 MEMORY.md、规则文件、AI交接区、需求与Bug归档、API规范、操作日志、架构热点等模块的设计理念、使用方法和预期目标。如果你正在用AI编程却总被上下文压缩后乱写、模型遗忘关键约束、多人/多模型接力断层所困扰，这套模板或许能帮你的AI从一个"随缘编码的工具"升级为一个"有案可查的工程师"。'
 }</script><script>document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/universe.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/transpancy.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/styles.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/rightmenu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/twikoo.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/readmode-enhanced.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'"><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
   const $loadingBox = document.getElementById('loading-box')
   const $body = document.body
@@ -202,7 +200,498 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/VibeTipsTopImg.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">Long-termMemoryTemplate</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Long-termMemoryTemplate</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-30T09:30:06.000Z" title="发表于 2026-06-30 17:30:06">2026-06-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-30T09:31:03.048Z" title="更新于 2026-06-30 17:31:03">2026-06-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">0</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-06-30 17:31:03&quot;}" hidden></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</a><a class="post-meta__tags" href="/tags/KimiCode/">KimiCode</a><a class="post-meta__tags" href="/tags/K2-6/">K2.6</a><a class="post-meta__tags" href="/tags/DeepSeek-V4-Pro/">DeepSeek-V4-Pro</a><a class="post-meta__tags" href="/tags/Skills/">Skills</a><a class="post-meta__tags" href="/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/">渐进式披露</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img class="cover" src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">模型杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/27/VibeTips/" title="怎样用好 Vibe Coding，大幅减少重复编码？"><img class="cover" src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-27</div><div class="info-item-2">怎样用好 Vibe Coding，大幅减少重复编码？</div></div><div class="info-2"><div class="info-item-1">Vibe Coding经验分享</div></div></div></a><a class="pagination-related" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img class="cover" src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-10</div><div class="info-item-2">模型杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a><a class="pagination-related" href="/2026/02/01/KimiCode/" title="KimiCode"><img class="cover" src="/imgs/ArticleTopImgs/KimiCodeTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-01</div><div class="info-item-2">KimiCode</div></div><div class="info-2"><div class="info-item-1">KimiCode初体验</div></div></div></a><a class="pagination-related" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp"><img class="cover" src="/imgs/ArticleTopImgs/AITrainingCampTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-13</div><div class="info-item-2">AITrainingCamp</div></div><div class="info-2"><div class="info-item-1">iflab的AI训练营！！！魔鬼训练！！！</div></div></div></a><a class="pagination-related" href="/2026/02/03/HarmonyVScode/" title="VScode的鸿蒙化尝试"><img class="cover" src="/imgs/ArticleTopImgs/HarmonyVScodeTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-03</div><div class="info-item-2">VScode的鸿蒙化尝试</div></div><div class="info-2"><div class="info-item-1">一个大胆的想法，一次勇敢的尝试</div></div></div></a><a class="pagination-related" href="/2025/11/01/ThoughtsOnVibeCoding/" title="在虚构与现实之间，守住那束灵感之光"><img class="cover" src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-01</div><div class="info-item-2">在虚构与现实之间，守住那束灵感之光</div></div><div class="info-2"><div class="info-item-1">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.webp" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/LongTermTopImg.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">Long-termMemoryTemplate</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Long-termMemoryTemplate</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-30T09:30:06.000Z" title="发表于 2026-06-30 17:30:06">2026-06-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-30T11:18:03.909Z" title="更新于 2026-06-30 19:18:03">2026-06-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-06-30 19:18:03&quot;}" hidden></div><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用AI编程的时间越长，我就越深刻地意识到一个问题——上下文，是AI编程中唯一真正稀缺的资源。</p>
+<p>你可能觉得模型智力不够、觉得它生成代码的质量差、觉得它总是忘记你十分钟前刚说过的话。但这些问题的根源，绝大多数都可以归结为两个字：上下文。上下文不够，模型不懂你的项目；上下文太长，模型的注意力被稀释；上下文压缩，关键信息丢失；切换模型或新开会话，一切归零。</p>
+<p>更致命的是，大模型有一个天然的结构性缺陷——上下文压缩。无论你的上下文窗口是200K还是1M，在一个工程级项目中迟早会溢出。一旦触发压缩，模型会自行决定保留什么、丢弃什么，而这个决定的依据并不是”对你来说什么最重要”，而是模型自身注意力机制下的统计学判断。压缩后它可能把 ArkTS / ArkUI 代码写成普通 TypeScript 或前端框架范式，也可能把 <code>@State</code>、<code>@Prop</code> 这类 ArkUI 状态装饰器的使用场景搞混，甚至凭空创造出一个看起来很合理但实际上根本不存在的 API。这些错误具有极强的隐蔽性——它们不一定会立刻报编译错，很多时候要到运行或联调阶段才会暴露，排查成本极高。</p>
+<p>所以，我现在越来越关注一个概念——“大海捞针”（Needle in a Haystack）。大模型的核心能力，不在于它能不能”捞起针”——能不能在一段文本中找到答案——而在于它能不能在一片越来越大的干草堆里<strong>快速找到那根针</strong>。上下文越长，干草堆越大，找到针的难度就越高。而良好组织、分层索引的文档体系，本质上就是把干草堆按类别压实成一个个小捆，让模型不必翻遍整座草山。</p>
+<blockquote>
+<p>大模型的能力体现在大海捞针时”找到针”的过程，而不在于”捞起针”这个动作本身。好的文档能让模型锁定针的位置，差的文档会让模型被干草淹没。</p>
+</blockquote>
+<p>这就是我为什么要做 <a target="_blank" rel="noopener" href="https://github.com/XBXyftx/memory-methodology-template">Memory Methodology Template</a> 这个仓库。它不是一套提示词合集，而是一套结构化的、可迁移的、渐进式索引的文档脚手架。它的核心目标就一个：<strong>让AI知道该去哪里找什么东西，而不是记住所有东西</strong>。</p>
+<style>
+.memory-repo-card {
+  position: relative;
+  margin: 1.6rem 0 1.9rem;
+  padding: 1px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(92, 124, 250, .95), rgba(34, 211, 238, .72), rgba(168, 85, 247, .88));
+  box-shadow: 0 18px 45px rgba(30, 41, 59, .18);
+  overflow: hidden;
+}
+.memory-repo-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .38), transparent 26%), radial-gradient(circle at 80% 10%, rgba(125, 211, 252, .28), transparent 24%);
+  pointer-events: none;
+}
+.memory-repo-card-inner {
+  position: relative;
+  padding: 1.35rem 1.45rem;
+  border-radius: 21px;
+  background: rgba(255, 255, 255, .9);
+  backdrop-filter: blur(18px);
+  color: #1e293b;
+}
+[data-theme='dark'] .memory-repo-card-inner {
+  background: rgba(15, 23, 42, .88);
+  color: #e2e8f0;
+}
+.memory-repo-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.memory-repo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin-bottom: .55rem;
+  padding: .28rem .66rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, .12);
+  color: #2563eb;
+  font-size: .78rem;
+  font-weight: 700;
+}
+[data-theme='dark'] .memory-repo-badge {
+  background: rgba(96, 165, 250, .18);
+  color: #93c5fd;
+}
+.memory-repo-title {
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  font-weight: 800;
+}
+.memory-repo-desc {
+  margin: .55rem 0 0;
+  max-width: 52rem;
+  color: #64748b;
+  line-height: 1.75;
+}
+[data-theme='dark'] .memory-repo-desc {
+  color: #cbd5e1;
+}
+.memory-repo-mark {
+  flex: 0 0 auto;
+  width: 3.3rem;
+  height: 3.3rem;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: white;
+  font-size: 1.55rem;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, .28);
+}
+.memory-repo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 1.15rem 0;
+}
+.memory-repo-metric {
+  padding: .78rem .85rem;
+  border: 1px solid rgba(148, 163, 184, .25);
+  border-radius: 15px;
+  background: rgba(248, 250, 252, .74);
+}
+[data-theme='dark'] .memory-repo-metric {
+  background: rgba(30, 41, 59, .62);
+  border-color: rgba(148, 163, 184, .18);
+}
+.memory-repo-metric strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+[data-theme='dark'] .memory-repo-metric strong {
+  color: #f8fafc;
+}
+.memory-repo-metric span {
+  display: block;
+  margin-top: .18rem;
+  color: #64748b;
+  font-size: .82rem;
+}
+[data-theme='dark'] .memory-repo-metric span {
+  color: #94a3b8;
+}
+.memory-repo-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .45rem;
+  margin: .9rem 0 1.05rem;
+  color: #475569;
+  font-size: .92rem;
+}
+[data-theme='dark'] .memory-repo-flow {
+  color: #cbd5e1;
+}
+.memory-repo-flow code {
+  padding: .24rem .48rem;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, .07);
+  color: inherit;
+}
+[data-theme='dark'] .memory-repo-flow code {
+  background: rgba(255, 255, 255, .08);
+}
+.memory-repo-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0 1.15rem;
+}
+.memory-repo-tags span {
+  padding: .32rem .62rem;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, .1);
+  color: #0369a1;
+  font-size: .82rem;
+  font-weight: 650;
+}
+[data-theme='dark'] .memory-repo-tags span {
+  background: rgba(14, 165, 233, .16);
+  color: #7dd3fc;
+}
+.memory-repo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  align-items: center;
+}
+.memory-repo-button {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .68rem .95rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2563eb, #0891b2);
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 800;
+  box-shadow: 0 12px 22px rgba(37, 99, 235, .22);
+}
+.memory-repo-note {
+  color: #64748b;
+  font-size: .9rem;
+}
+[data-theme='dark'] .memory-repo-note {
+  color: #94a3b8;
+}
+@media (max-width: 768px) {
+  .memory-repo-card-inner { padding: 1.05rem; }
+  .memory-repo-card-header { flex-direction: column-reverse; }
+  .memory-repo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+</style>
+
+<div class="memory-repo-card"><div class="memory-repo-card-inner"><div class="memory-repo-card-header"><div><div class="memory-repo-badge">🧠 Long-Term Memory · Template</div><h3 class="memory-repo-title">Memory Methodology Template</h3><p class="memory-repo-desc">一套面向 AI 编程的长期记忆文档脚手架，用渐进式索引把项目规则、需求、Bug、API 实践、架构热点和交接状态拆成可检索的小块，让模型少靠脑补，多靠证据。</p></div><div class="memory-repo-mark">⌁</div></div><div class="memory-repo-grid"><div class="memory-repo-metric"><strong>1 个</strong><span>全局入口 MEMORY.md</span></div><div class="memory-repo-metric"><strong>8 类</strong><span>分区索引目录</span></div><div class="memory-repo-metric"><strong>REQ / BUG</strong><span>唯一入口归档</span></div><div class="memory-repo-metric"><strong>Evidence</strong><span>证据驱动结论</span></div></div><div class="memory-repo-flow"><code>根索引</code><span>→</span><code>分区 README</code><span>→</span><code>条目入口</code><span>→</span><code>子文档证据</code></div><div class="memory-repo-tags"><span>上下文工程</span><span>AI Handover</span><span>渐进式索引</span><span>最小变更</span><span>证据优先</span></div><div class="memory-repo-actions"><a class="memory-repo-button" href="https://github.com/XBXyftx/memory-methodology-template" target="_blank" rel="noopener noreferrer">查看 GitHub 仓库 ↗</a><span class="memory-repo-note">适合用于新项目初始化、AI 接力、上下文压缩恢复和长期工程知识沉淀。</span></div></div></div>
+
+<div class="note success flat"><p>如果你正在用 AI 编程却总被上下文压缩后乱写、模型遗忘关键约束、多人/多模型接力断层所困扰，这套模板或许能帮你的 AI 从一个”随缘编码的工具”升级为一个”有案可查的工程师”。</p>
+</div>
+<h2 id="大模型的注意力缺陷与上下文困境"><a href="#大模型的注意力缺陷与上下文困境" class="headerlink" title="大模型的注意力缺陷与上下文困境"></a>大模型的注意力缺陷与上下文困境</h2><p>在深入模板设计之前，我想先聊聊”为什么”——为什么大模型需要这样一套文档体系？这要从两个根本性问题说起。</p>
+<h3 id="注意力不是无限的"><a href="#注意力不是无限的" class="headerlink" title="注意力不是无限的"></a>注意力不是无限的</h3><p>OpenAI在早期对长提示词的研究中就曾发现：当单个文档中的提示词长度过长、包含太多需要注意的重点时，模型的注意力反而会被分散到不同的点上，导致无法集中于核心目标。最终模型输出的内容经常偏离主题，甚至前后矛盾。</p>
+<p>这是个反直觉的结论。很多人觉得”提示词写得越长越详细越好”，但实际情况是——你写的每一条”重要提示”，都在争夺模型有限的注意力预算。当一份文档里有20个”注意”、30个”重点”时，模型大概率一个都记不住。</p>
+<blockquote>
+<p>注意力是稀缺资源。一份文档只应该告诉模型一件事，而不是一百件事。</p>
+</blockquote>
+<h3 id="上下文压缩是你的隐形敌人"><a href="#上下文压缩是你的隐形敌人" class="headerlink" title="上下文压缩是你的隐形敌人"></a>上下文压缩是你的隐形敌人</h3><p>另一个更隐蔽的问题是上下文压缩。无论你的模型支持多大的上下文窗口——200K、500K、甚至1M——在工程级项目中，你一定会在某个时刻触发压缩。一旦触发，模型会自行决定保留什么、丢弃什么。这个决定不经过你同意，也不会通知你，而且结果具有极大的随机性。</p>
+<p>压缩后常见的问题包括：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>问题类型</th>
+<th>表现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语法漂移</td>
+<td>模型忘记当前语言/框架的语法规则，开始用其他语言的范式编写</td>
+</tr>
+<tr>
+<td>接口幻觉</td>
+<td>模型凭空创造出听起来合理但实际上不存在的API或导入路径</td>
+</tr>
+<tr>
+<td>规则遗忘</td>
+<td>你明文规定的核心约束被当作”不重要信息”丢弃</td>
+</tr>
+<tr>
+<td>状态混乱</td>
+<td>模型对当前代码的实际状态产生错误的”记忆”</td>
+</tr>
+<tr>
+<td>逻辑断裂</td>
+<td>同一段逻辑的前后两部分使用完全不同的实现思路</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这些问题之所以致命，是因为它们往往不会直接报错——代码看起来”像模像样”，但运行时的行为完全不可控。</p>
+<h2 id="核心设计理念"><a href="#核心设计理念" class="headerlink" title="核心设计理念"></a>核心设计理念</h2><p>基于以上认知，Memory Methodology Template 的设计围绕以下几条核心理念展开：</p>
+<h3 id="第一原则：渐进式索引"><a href="#第一原则：渐进式索引" class="headerlink" title="第一原则：渐进式索引"></a>第一原则：渐进式索引</h3><p>这是一切的基石。模板的设计哲学可以浓缩为一句话：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">根索引 → 分区README → 条目入口 → 子文档证据</span><br><span class="line">每一层保持精简，细节向下沉淀。</span><br></pre></td></tr></table></figure>
+<p>类比一下：这套结构就像一本书的目录体系。<code>MEMORY.md</code> 是总目录，各个分区 README 是章节目录，条目入口是具体小节，子文档则是附录和参考文献。AI 不需要一次读完整本书——它只需要先看目录，定位到相关章节，再展开阅读。</p>
+<p>这样做的好处是显而易见的：</p>
+<ul>
+<li><strong>降低上下文消耗</strong>：AI 每次只读当前需要的那一小部分，不浪费 token</li>
+<li><strong>提高信息密度</strong>：每一步读到的都是精选过的、高信息密度的内容</li>
+<li><strong>降低压缩风险</strong>：单次读取的文档都很短，不容易触发压缩</li>
+</ul>
+<h3 id="第二原则：先索引，再阅读"><a href="#第二原则：先索引，再阅读" class="headerlink" title="第二原则：先索引，再阅读"></a>第二原则：先索引，再阅读</h3><p>这是写给 AI 的元规则。任何新会话或上下文压缩恢复后，AI 必须第一时间返回长期记忆目录，重读 <code>MEMORY.md</code> 和相关模块文档，绝不凭”残存记忆”继续工作。</p>
+<p>如果你觉得”这不是理所当然的吗”——不，实际情况是大多数模型在压缩后都会自信满满地凭残存记忆继续编代码。它们不会主动告诉你”我忘了”，只会默默地把接口写错、把规则忽略、把逻辑搞乱。</p>
+<h3 id="第三原则：稳定规则与实时状态分离"><a href="#第三原则：稳定规则与实时状态分离" class="headerlink" title="第三原则：稳定规则与实时状态分离"></a>第三原则：稳定规则与实时状态分离</h3><p>这一点特别重要。模板把文档明确分为两类：</p>
+<ul>
+<li><strong>稳定文档</strong>：<code>rules.md</code>、<code>document-authoring-rules.md</code>、各分区 README。这些是方法论和规范，不随具体任务变化。</li>
+<li><strong>实时状态文档</strong>：<code>AI-handover.md</code>、各 <code>REQ-*/</code> 和 <code>BUG-*/</code> 下的实施记录。这些反映当前进度，随任务推进持续更新。</li>
+</ul>
+<p>为什么要分离？因为如果让 AI 在同一个文档里既读”永久规则”又读”临时状态”，它会混淆两者的权重。分离之后，AI 知道稳定文档是铁律，状态文档是参考。</p>
+<h3 id="第四原则：需求与-Bug-各自拥有唯一入口"><a href="#第四原则：需求与-Bug-各自拥有唯一入口" class="headerlink" title="第四原则：需求与 Bug 各自拥有唯一入口"></a>第四原则：需求与 Bug 各自拥有唯一入口</h3><p>每个需求、每个 Bug 都有且只有一个入口文档（<code>REQ-XXXX.md</code> 或 <code>BUG-XXXX.md</code>），配套一个同名子目录存放证据材料。</p>
+<p>这样做避免了”一个需求分散在五个文档里，改了一处忘了改另一处”的常见问题。AI 只需要记住一个 ID，就能定位到所有相关信息。</p>
+<h3 id="第五原则：证据驱动"><a href="#第五原则：证据驱动" class="headerlink" title="第五原则：证据驱动"></a>第五原则：证据驱动</h3><p>所有结论必须基于可查证的证据——源码、日志、截图、用户反馈——而非推测、印象或 commit message。</p>
+<p>这个原则的关键在于：它不让 AI 去”猜”根因，而是要求它先收集证据再下判断。在我的实际使用中，这个原则显著降低了 AI 在调查 bug 时陷入”盲猜-验证-再盲猜”循环的概率。</p>
+<h2 id="目录结构总览"><a href="#目录结构总览" class="headerlink" title="目录结构总览"></a>目录结构总览</h2><p>模板的完整目录结构如下：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">portable-long-term-memory/</span><br><span class="line">├── MEMORY.md                          # 全局导航索引</span><br><span class="line">├── rules.md                           # 项目开发规则</span><br><span class="line">├── document-authoring-rules.md        # 文档编写与维护规则</span><br><span class="line">├── AI-handover.md                     # AI会话交接快照</span><br><span class="line">├── 00-index/                          # 顶层导航锚点</span><br><span class="line">│   └── README.md</span><br><span class="line">├── 01-onboarding/                     # AI新会话启动上下文</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   └── onboarding-prompt.md</span><br><span class="line">├── 02-requirements/                   # 需求与分析</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   ├── REQ-0000/README.md</span><br><span class="line">│   ├── REQ-0001/</span><br><span class="line">│   │   ├── README.md</span><br><span class="line">│   │   ├── 分析报告.md</span><br><span class="line">│   │   └── 实施记录.md</span><br><span class="line">│   └── V1/README.md</span><br><span class="line">├── 03-api-practices/                  # API使用规范</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   ├── api-practices.md</span><br><span class="line">│   └── feedback_callback_types.md</span><br><span class="line">├── 04-operations/                     # 操作记录</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   └── operation-log.md</span><br><span class="line">├── 05-reference/                      # 项目参考文档</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   ├── project-overview.md</span><br><span class="line">│   ├── analysis-001-architecture-flow-audit.md</span><br><span class="line">│   ├── analysis-002-current-architecture-hotspots.md</span><br><span class="line">│   ├── analysis-003-harmony-skills-lookup-guide.md</span><br><span class="line">│   ├── lessons-001-network-recovery.md</span><br><span class="line">│   ├── lessons-002-exception-isolation.md</span><br><span class="line">│   └── lessons-003-bugfix-feature-methodology.md</span><br><span class="line">├── 06-code-review-fixes/              # CR整改记录</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   ├── CR-001-sample-fix.md</span><br><span class="line">│   ├── CR-002-sample-fix.md</span><br><span class="line">│   └── CR-003-sample-fix.md</span><br><span class="line">└── 07-bug-reports/                    # Bug报告与修复</span><br><span class="line">    ├── README.md</span><br><span class="line">    ├── BUG-0001.md</span><br><span class="line">    ├── BUG-0001/</span><br><span class="line">    │   ├── analysis.md</span><br><span class="line">    │   ├── fix-plan.md</span><br><span class="line">    │   └── log01.md</span><br><span class="line">    ├── BUG-0002.md</span><br><span class="line">    └── BUG-0002/</span><br><span class="line">        ├── analysis.md</span><br><span class="line">        ├── fix-plan.md</span><br><span class="line">        └── log01.md</span><br></pre></td></tr></table></figure>
+<p>接下来我逐个目录讲解它的设计目标、使用方法和预期效果。</p>
+<h2 id="各目录详解"><a href="#各目录详解" class="headerlink" title="各目录详解"></a>各目录详解</h2><h3 id="MEMORY-md：全局导航总入口"><a href="#MEMORY-md：全局导航总入口" class="headerlink" title="MEMORY.md：全局导航总入口"></a>MEMORY.md：全局导航总入口</h3><p><code>MEMORY.md</code> 是整个长期记忆体系的唯一入口。AI 在任何新会话、任何上下文压缩恢复后，第一件事就是读这个文件。</p>
+<p>它的内容分为几个关键模块：</p>
+<ol>
+<li><p><strong>Must Read 清单</strong>：列出 AI 在开始任何工作前必须阅读的核心文档，包括项目规则、文档编写规则、AI 交接文档、项目概览、架构热点、Bug修复方法论、技能查找指引。</p>
+</li>
+<li><p><strong>Read by Task 路由表</strong>：根据当前任务类型（新会话交接、需求开发、Bug 修复、API 查询、参考资料），告诉 AI 应该从哪里开始阅读。这个表中的每一个链接都指向唯一入口，AI 不需要猜测 “我该去哪个目录找”。</p>
+</li>
+<li><p><strong>目录地图</strong>：所有分区目录和它们的一句话简介，供 AI 快速扫描。</p>
+</li>
+<li><p><strong>当前状态模板</strong>：项目名、版本、技术栈等基本元信息占位。</p>
+</li>
+<li><p><strong>核心原则</strong>：复用优先、最小变更、外部数据零信任、证据优先、不存敏感信息等贯穿始终的方法论。</p>
+</li>
+</ol>
+<p>这个文件的设计目标是：<strong>AI 读完 MEMORY.md 之后，应该知道当前项目是什么、规则在哪里、遇到问题该去哪里找、以及需要遵循什么基本原则</strong>。全程不需要自己猜。</p>
+<h3 id="rules-md：项目的宪法"><a href="#rules-md：项目的宪法" class="headerlink" title="rules.md：项目的宪法"></a>rules.md：项目的宪法</h3><p><code>rules.md</code> 是 AI 在项目中的行为准则。它定义了 AI 在开发、修改、归档等所有场景下必须遵守的规则。</p>
+<p>模板中包含18条规则，覆盖了从任务边界到验证回归的全流程。这里我挑几条最有代表性的讲一下：</p>
+<p><strong>规则2：禁止空 early return。</strong> 这条规则看似简单，实则解决了 AI 编写”看起来走了分支实际上什么都没做”的死代码的问题。它要求 AI 使用显式的分支和可见的终止路径，让代码逻辑一眼就能看清。</p>
+<p><strong>规则3：复用优先。</strong> AI 有一个常见的坏习惯——喜欢从头写。给它一个需求，它的第一反应往往是”让我写一个新的函数/组件”。规则3强制它先查现有工具类、状态字段、组件和接口，只有在已有方案确实无法满足时才允许新增代码。</p>
+<p><strong>规则8：外部数据零信任。</strong> 验证所有边界输入——null、数组、类型、范围、URL、标识符。这条规则在鸿蒙开发中尤为重要，因为很多崩溃的根因就是”后端返回了一个非预期的字段类型”，而 UI 层没有加守卫。</p>
+<p><strong>规则10：Bug 修复工作流。</strong> 记录 → 取证 → 隔离根因 → 最小修复 → 实施 → 验证 → 归档。这套流程确保 AI 不会一上来就改代码，而是先搞清楚到底哪里出了问题。</p>
+<p><strong>规则15：工具链不执行。</strong> 明确禁止 AI 在没有授权的情况下执行编译、打包、安装等操作。这条规则防止 AI 在调试过程中”顺手”运行一些不该运行的东西。</p>
+<p>这个文件不需要太长——重点在于每一条规则都足够具体、可执行，AI 读完就能立刻照着做。</p>
+<h3 id="document-authoring-rules-md：文档编写的元规则"><a href="#document-authoring-rules-md：文档编写的元规则" class="headerlink" title="document-authoring-rules.md：文档编写的元规则"></a>document-authoring-rules.md：文档编写的元规则</h3><p>如果说 <code>rules.md</code> 管的是 AI 怎么写代码，<code>document-authoring-rules.md</code> 管的就是人怎么维护这套长期记忆。</p>
+<p>它的核心内容包括：</p>
+<ul>
+<li><strong>命名规范</strong>：使用中性的、项目无关的命名（因为这是模板），带编号前缀以便索引排序。</li>
+<li><strong>入口策略</strong>：每个主题必须有且只有一个明确入口。如果主题内容膨胀，拆分子文档，而不是把入口文档无限延长。</li>
+<li><strong>链接策略</strong>：索引中的每一个链接都必须指向真实存在的文件或文件夹。占位链接必须明确标注为”待创建”。</li>
+<li><strong>归档策略</strong>：只保留事实性内容。不复制敏感源码细节、本地路径或真实标识符。如果要把真实案例转化为模板，必须替换识别性信息。</li>
+<li><strong>增长策略</strong>：根索引保持简短，通用化结论提升到参考文档或方法论文件中，一次性案例留在需求或 Bug 文件夹内。</li>
+</ul>
+<p>这个文件的定位是”给维护者看的”，不是给 AI 看的。它保证了这套文档体系本身不会随着时间推移而熵增。</p>
+<h3 id="AI-handover-md：会话交接快照"><a href="#AI-handover-md：会话交接快照" class="headerlink" title="AI-handover.md：会话交接快照"></a>AI-handover.md：会话交接快照</h3><p>这个文件是整个体系里”最短命”但”最高频”的文档。它的作用是在会话开始或模型切换时，为 AI 提供一个极简的项目快照。</p>
+<p>内容分五个部分：</p>
+<ol>
+<li><strong>项目快照</strong>：项目名、代码位置、版本、语言、技术栈、关键依赖——一张表说完。</li>
+<li><strong>必读清单</strong>：引导 AI 去读规则、交接文档、证据，而不是凭印象干活。</li>
+<li><strong>当前工作快照</strong>：列出当前进行中的需求和 Bug 及其状态，每个条目都有直达链接。</li>
+<li><strong>当前热点</strong>：列出当前版本最敏感的风险区域，以及对应需要关注的环节。</li>
+<li><strong>下一步行动</strong>：告诉 AI 接下来该做什么——读索引、找相关文档、收集证据、设计最小方案、验证、归档。</li>
+</ol>
+<p>这个文档的价值在于：当上下文压缩后 AI 回来，或者换了一个模型继续工作时，只需要花两分钟读这个文件，就能恢复到接近压缩前的状态。</p>
+<h3 id="00-index：顶层导航锚点"><a href="#00-index：顶层导航锚点" class="headerlink" title="00-index：顶层导航锚点"></a>00-index：顶层导航锚点</h3><p>这个目录最小也最简单。它的唯一作用是提供一个稳定的导航入口，指向全局索引 <code>MEMORY.md</code>。</p>
+<p>为什么需要它？因为在某些工具链或 Agent 中，AI 可能不知道从哪里开始。<code>00-index/README.md</code> 提供了最简单的路由表：去读 <code>MEMORY.md</code>、去读 <code>rules.md</code>、去查需求、去查 Bug。</p>
+<p>它的规则是：不存业务代码、不存私密信息，只做导航。</p>
+<h3 id="01-onboarding：AI-新会话启动区"><a href="#01-onboarding：AI-新会话启动区" class="headerlink" title="01-onboarding：AI 新会话启动区"></a>01-onboarding：AI 新会话启动区</h3><p>这个目录放的是 AI 接手一个新会话时最需要的最小上下文。</p>
+<p>核心文件是 <code>onboarding-prompt.md</code>，它包含：</p>
+<ul>
+<li><strong>项目快照占位</strong>：项目名、语言、技术栈、版本。</li>
+<li><strong>必读清单</strong>：按优先级列出 AI 必须阅读的文档。</li>
+<li><strong>工作规则</strong>：最小变更、复用优先、外部数据零信任、证据优先、不存敏感信息。</li>
+<li><strong>风险区域</strong>：状态漂移、弱校验、超大修改范围、缺失的验证、跨模块责任不清——这些都是实际项目中踩过坑的高风险区。</li>
+<li><strong>输出风格</strong>：交接文档应包含当前状态、未决问题、已收集证据、下一步行动和验证状态。</li>
+</ul>
+<p>这个目录的关键在于”最小化”——只放新会话启动绝对需要的内容，其他一切下沉到具体目录。</p>
+<h3 id="02-requirements：需求与分析"><a href="#02-requirements：需求与分析" class="headerlink" title="02-requirements：需求与分析"></a>02-requirements：需求与分析</h3><p>这是整个体系中内容最富集的目录之一。每个需求对应一个 <code>REQ-XXXX/</code> 子目录，包含：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>需求入口，总览状态、涉及模块、子文档索引</td>
+</tr>
+<tr>
+<td><code>分析报告.md</code></td>
+<td>范围界定、证据收集、根因分析、方案推荐</td>
+</tr>
+<tr>
+<td><code>实施记录.md</code></td>
+<td>决策记录、变更清单、验证结果、后续事项</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>此外还有一个版本维度的索引 <code>V1/README.md</code>，用于按版本追溯需求流。</p>
+<p>这个目录的设计目标是：<strong>一个需求的所有信息——从原始描述到分析到实施到验证——全部归拢在同一个目录下，通过 README 的一层路由即可定位到任何细节</strong>。</p>
+<h3 id="03-api-practices：API-使用规范与技术约束"><a href="#03-api-practices：API-使用规范与技术约束" class="headerlink" title="03-api-practices：API 使用规范与技术约束"></a>03-api-practices：API 使用规范与技术约束</h3><p>这个目录沉淀的是”写代码时不能踩的坑”。</p>
+<p>核心文件 <code>api-practices.md</code> 定义了 API 使用的通用模式：</p>
+<ol>
+<li>先读契约</li>
+<li>验证所有输入</li>
+<li>显式类型转换</li>
+<li>遇到非预期形状时 fail closed</li>
+<li>保持 UI 层和数据层同步</li>
+</ol>
+<p>它的重心在于：把”为什么这个 API 不能这么用”讲清楚，而不是罗列 API 参数表。对于鸿蒙这种训练语料少的领域，这个目录的价值极高——它告诉 AI “别用你训练数据里学到的前端写法，这里不适用”。</p>
+<h3 id="04-operations：操作记录与日志"><a href="#04-operations：操作记录与日志" class="headerlink" title="04-operations：操作记录与日志"></a>04-operations：操作记录与日志</h3><p>这个目录很小但很重要。核心文件 <code>operation-log.md</code> 记录了关键操作的时间线：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 2026-06-30: 创建模板结构</span><br><span class="line">- 2026-06-30: 添加索引、规则和参考占位</span><br></pre></td></tr></table></figure>
+<p>你可以把它理解为项目的”航(zuò)海(sǐ)日志”——什么时候做了什么关键操作、有没有回滚、为什么回滚。当几个月后回头排查一个历史问题时，操作日志往往能提供关键的时间线信息。</p>
+<h3 id="05-reference：项目参考文档"><a href="#05-reference：项目参考文档" class="headerlink" title="05-reference：项目参考文档"></a>05-reference：项目参考文档</h3><p>这是内容最丰富的目录，存放的是”不太会变但很有用”的参考信息：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project-overview.md</code></td>
+<td>项目的抽象事实——名称、版本、技术栈、仓库布局、主要入口点</td>
+</tr>
+<tr>
+<td><code>analysis-001-architecture-flow-audit.md</code></td>
+<td>针对某条架构链路的聚焦分析</td>
+</tr>
+<tr>
+<td><code>analysis-002-current-architecture-hotspots.md</code></td>
+<td>当前版本的风险热点地图</td>
+</tr>
+<tr>
+<td><code>analysis-003-harmony-skills-lookup-guide.md</code></td>
+<td>领域技能查找指引——什么场景该加载哪个 skill</td>
+</tr>
+<tr>
+<td><code>lessons-001~003</code></td>
+<td>可复用的经验教训——网络恢复、异常隔离、Bug修复方法论</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这个目录的设计哲学是：<strong>一次分析，永久复用</strong>。每当你和 AI 花了大量时间排查清楚一个架构问题或总结出一个方法论，就把它沉淀到这里，以后遇到类似问题直接链接。</p>
+<h3 id="06-code-review-fixes：CR-整改记录"><a href="#06-code-review-fixes：CR-整改记录" class="headerlink" title="06-code-review-fixes：CR 整改记录"></a>06-code-review-fixes：CR 整改记录</h3><p>这个目录按 <code>CR-XXX</code> 编号存放 Code Review 中发现的问题和修复摘要。每个记录包含：</p>
+<ul>
+<li><strong>问题描述</strong>：Review 中提出了什么</li>
+<li><strong>修复方案</strong>：最小改动是什么，什么保持不变</li>
+<li><strong>涉及文件</strong>：改了哪些文件</li>
+<li><strong>验证方式</strong>：怎么确认修复有效</li>
+</ul>
+<p>它的存在价值在于：当类似的问题在后续 Review 中再次出现时，可以直接引用既有记录，而不是重新分析一遍。</p>
+<h3 id="07-bug-reports：Bug-报告与修复"><a href="#07-bug-reports：Bug-报告与修复" class="headerlink" title="07-bug-reports：Bug 报告与修复"></a>07-bug-reports：Bug 报告与修复</h3><p>Bug 管理是整个文档体系中结构最严谨的模块。每个 Bug 有：</p>
+<ul>
+<li><strong>一个唯一入口文件</strong> <code>BUG-XXXX.md</code>：包含状态、描述、环境、复现步骤、根因摘要、修复摘要、验证状态。</li>
+<li><strong>一个同名子目录</strong> <code>BUG-XXXX/</code>：存放深度分析、修复计划、日志文件、截图等证据材料。</li>
+</ul>
+<p>Bug 的状态流转遵循明确的定义：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>To triage</td>
+<td>已记录，尚未分析</td>
+</tr>
+<tr>
+<td>Investigating</td>
+<td>根因分析进行中</td>
+</tr>
+<tr>
+<td>Ready to implement</td>
+<td>方案已确定，等待编码</td>
+</tr>
+<tr>
+<td>Fixed, pending verification</td>
+<td>代码已修改，等待验证</td>
+</tr>
+<tr>
+<td>Verified</td>
+<td>已通过验证</td>
+</tr>
+<tr>
+<td>Rolled back</td>
+<td>错误修复已回滚</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这套结构解决了一个非常实际的问题：当你同时追踪多个 Bug 时，每个 Bug 的调查进度、证据链和修复状态都清晰可查，不会出现”这个 Bug 我上周是不是已经修好了”的尴尬。</p>
+<h2 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h2><p>了解了每个目录的作用之后，再来看这套模板在实际开发中的完整使用流程：</p>
+<h3 id="阶段一：首次接入"><a href="#阶段一：首次接入" class="headerlink" title="阶段一：首次接入"></a>阶段一：首次接入</h3><ol>
+<li>将模板复制到项目工作区</li>
+<li>用项目实际信息替换所有 <code>&lt;placeholder&gt;</code></li>
+<li>在 <code>AI-handover.md</code> 中填写当前项目快照</li>
+<li>在 <code>project-overview.md</code> 中记录项目架构和主要入口点</li>
+<li>在 <code>operation-log.md</code> 记录初始化操作</li>
+</ol>
+<h3 id="阶段二：需求开发"><a href="#阶段二：需求开发" class="headerlink" title="阶段二：需求开发"></a>阶段二：需求开发</h3><ol>
+<li>在 <code>02-requirements/</code> 下创建 <code>REQ-XXXX/</code> 目录</li>
+<li>在 <code>README.md</code> 中记录需求原始描述和范围</li>
+<li>进行分析，将结论写入 <code>分析报告.md</code></li>
+<li>AI 设计方案，人工审核</li>
+<li>AI 实施修改，完成后更新 <code>实施记录.md</code></li>
+<li>更新 <code>AI-handover.md</code> 中的当前工作快照</li>
+</ol>
+<h3 id="阶段三：Bug-修复"><a href="#阶段三：Bug-修复" class="headerlink" title="阶段三：Bug 修复"></a>阶段三：Bug 修复</h3><ol>
+<li>在 <code>07-bug-reports/</code> 下创建 <code>BUG-XXXX.md</code> 和同名子目录</li>
+<li>记录现象、环境、复现步骤</li>
+<li>收集日志和截图放入子目录</li>
+<li>隔离根因，写入 <code>analysis.md</code></li>
+<li>设计最小修复方案，写入 <code>fix-plan.md</code></li>
+<li>实施修复</li>
+<li>验证并更新状态为 Verified</li>
+<li>如果发现是可复用的教训，沉淀到 <code>05-reference/</code></li>
+</ol>
+<h3 id="阶段四：上下文压缩恢复"><a href="#阶段四：上下文压缩恢复" class="headerlink" title="阶段四：上下文压缩恢复"></a>阶段四：上下文压缩恢复</h3><ol>
+<li>AI 检测到上下文压缩后，第一时间返回长期记忆目录</li>
+<li>重读 <code>MEMORY.md</code> → <code>AI-handover.md</code></li>
+<li>根据当前任务类型，重读对应的分区 README</li>
+<li>确认当前代码状态后再继续工作</li>
+</ol>
+<blockquote>
+<p>这套流程的核心思想就一句：把大模型当成一个每次睡醒都会失忆的同事。你需要给它留一张工位上的便签，告诉它项目是什么、资料在哪、昨天做到哪了、今天要干什么。</p>
+</blockquote>
+<h2 id="常见误区"><a href="#常见误区" class="headerlink" title="常见误区"></a>常见误区</h2><p>最后聊聊我在实际使用中观察到的一些常见误区：</p>
+<div class="note warning flat"><p><strong>把所有的规则都塞进一个超长文档。</strong> 这是最常见的错误。一个 5000 行的提示词文件不是”全面”，而是”无效”。模型读完前三段的时候注意力已经被稀释到无法聚焦任何一条规则了。</p>
+</div>
+<p><strong>只写目录不写更新规则。</strong> 文档体系最大的敌人是熵增。如果没有明确的更新规则（谁改、什么时候改、改完后怎么同步索引），这套结构在两个月内就会变成一堆过时的废话。</p>
+<p><strong>把临时想法和稳定规范混在一起。</strong> 临时调试笔记、想法草稿、未经验证的假设，这些东西应该放在各自主题的子目录里，不要污染入口文档和索引。</p>
+<p><strong>让 AI 自己脑补项目 API。</strong> AI 在缺少上下文时会自动调用它训练数据中的”经验”，而这个经验很可能跟你的项目完全不沾边。对于鸿蒙这种小众技术栈，一定要在规则文件中明确约束”只允许使用项目中已经出现过的 API”。</p>
+<p><strong>只记录成功方案，不记录失败尝试。</strong> 有时候，”这个方案行不通以及为什么行不通”比”最终用了什么方案”更有价值。失败的尝试记录能防止 AI 在下一次遇到类似问题时重复走弯路。</p>
+<h2 id="最后总结"><a href="#最后总结" class="headerlink" title="最后总结"></a>最后总结</h2><p>长期记忆本质上不是一堆越写越长的提示词，而是一套给 AI 使用的项目资料库。它需要有入口、有索引、有分层、有操作日志，也要有明确的更新规则。</p>
+<p>回到”大海捞针”这个比喻：我们给 AI 堆上下文，就像往干草堆里扔更多的干草——草堆变大了，但针的密度变低了，找到针的难度反而增加了。而一套良好设计的长期记忆体系，是在草堆里插上路标、画上地图、建好索引。AI 不需要翻遍整座草山，它只需要看路标，走到正确的位置，拿起那根针。</p>
+<p>如果说普通的提示词是在”临时指挥”AI，那么长期记忆就是在给一个会失忆的同事搭建工位。资料放在哪里、遇到问题先读什么、做完事情记录到哪里——这些看似琐碎的规则，才是让 AI 能够长期、稳定、高质量地参与工程开发的基础。</p>
+<p>这套模板我已经开源到了 GitHub：<a target="_blank" rel="noopener" href="https://github.com/XBXyftx/memory-methodology-template">memory-methodology-template</a>。它是一个起点，不是一个终点。你可以根据自己的项目结构、技术栈和团队习惯进行调整。唯一不变的核心原则是：</p>
+<blockquote>
+<p>不是让 AI 记住所有东西，而是让 AI 知道该去哪里找东西。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</a><a class="post-meta__tags" href="/tags/Zcode/">Zcode</a><a class="post-meta__tags" href="/tags/Skills/">Skills</a><a class="post-meta__tags" href="/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/">渐进式披露</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/LongTermTopImg.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img class="cover" src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">模型杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/27/VibeTips/" title="怎样用好 Vibe Coding，大幅减少重复编码？"><img class="cover" src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-27</div><div class="info-item-2">怎样用好 Vibe Coding，大幅减少重复编码？</div></div><div class="info-2"><div class="info-item-1">Vibe Coding经验分享</div></div></div></a><a class="pagination-related" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img class="cover" src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-10</div><div class="info-item-2">模型杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a><a class="pagination-related" href="/2025/09/13/AITrainingCamp/" title="AITrainingCamp"><img class="cover" src="/imgs/ArticleTopImgs/AITrainingCampTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-13</div><div class="info-item-2">AITrainingCamp</div></div><div class="info-2"><div class="info-item-1">iflab的AI训练营！！！魔鬼训练！！！</div></div></div></a><a class="pagination-related" href="/2026/02/01/KimiCode/" title="KimiCode"><img class="cover" src="/imgs/ArticleTopImgs/KimiCodeTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-01</div><div class="info-item-2">KimiCode</div></div><div class="info-2"><div class="info-item-1">KimiCode初体验</div></div></div></a><a class="pagination-related" href="/2025/11/01/ThoughtsOnVibeCoding/" title="在虚构与现实之间，守住那束灵感之光"><img class="cover" src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-01</div><div class="info-item-2">在虚构与现实之间，守住那束灵感之光</div></div><div class="info-2"><div class="info-item-1">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</div></div></div></a><a class="pagination-related" href="/2025/09/27/AITrainingCamp2/" title="AITrainingCamp2"><img class="cover" src="/imgs/ArticleTopImgs/AITrainingCampTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-27</div><div class="info-item-2">AITrainingCamp2</div></div><div class="info-2"><div class="info-item-1">熟练使用CC了，该开始大展身手了！</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.webp" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
 (function() {
   // IP地址获取API列表（按优先级排序）
   const ipApis = [
@@ -371,7 +860,7 @@
   
   // 每分钟更新一次问候语
   setInterval(updateGreeting, 60000);
-})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.webp" title="1.gif" class="announcementImg"/><br/>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。<br/>总之祝大家2026新春快乐！！！<br/>（也是开始上班了呢]</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/06/30/Long-termMemoryTemplate/" title="Long-termMemoryTemplate"><img src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Long-termMemoryTemplate"/ width="2343" height="1295" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/30/Long-termMemoryTemplate/" title="Long-termMemoryTemplate">Long-termMemoryTemplate</a><time datetime="2026-06-30T09:30:06.000Z" title="发表于 2026-06-30 17:30:06">2026-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="模型杂谈"/ width="532" height="501" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/10/ModelMusings/" title="模型杂谈">模型杂谈</a><time datetime="2026-06-10T02:01:44.000Z" title="发表于 2026-06-10 10:01:44">2026-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程期末复习"><img src="/imgs/ArticleTopImgs/RJGCQMFXTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软件工程期末复习"/ width="906" height="644" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程期末复习">软件工程期末复习</a><time datetime="2026-06-04T12:53:53.000Z" title="发表于 2026-06-04 20:53:53">2026-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="最优化理论期末复习"><img src="/imgs/ArticleTopImgs/ZYLLTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最优化理论期末复习"/ width="2093" height="1816" loading="lazy"></a><div class="content"><a class="title" href="/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="最优化理论期末复习">最优化理论期末复习</a><time datetime="2026-05-19T11:09:16.000Z" title="发表于 2026-05-19 19:09:16">2026-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习"><img src="/imgs/ArticleTopImgs/GXNJSTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="高性能计算复习"/ width="1092" height="580" loading="lazy"></a><div class="content"><a class="title" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习">高性能计算复习</a><time datetime="2026-05-08T02:26:52.000Z" title="发表于 2026-05-08 10:26:52">2026-05-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><script type="text/javascript" src="https://unpkg.com/mermaid@undefined/dist/mermaid.min.js" id="maid-script"></script><script>if (window.mermaid) {
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.webp" title="1.gif" class="announcementImg"/><br/>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。<br/>总之祝大家2026新春快乐！！！<br/>（也是开始上班了呢]</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">Memory Methodology Template</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%BC%BA%E9%99%B7%E4%B8%8E%E4%B8%8A%E4%B8%8B%E6%96%87%E5%9B%B0%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">大模型的注意力缺陷与上下文困境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8D%E6%98%AF%E6%97%A0%E9%99%90%E7%9A%84"><span class="toc-number">2.1.</span> <span class="toc-text">注意力不是无限的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9%E6%98%AF%E4%BD%A0%E7%9A%84%E9%9A%90%E5%BD%A2%E6%95%8C%E4%BA%BA"><span class="toc-number">2.2.</span> <span class="toc-text">上下文压缩是你的隐形敌人</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">核心设计理念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E5%8E%9F%E5%88%99%EF%BC%9A%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%B4%A2%E5%BC%95"><span class="toc-number">3.1.</span> <span class="toc-text">第一原则：渐进式索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E5%8E%9F%E5%88%99%EF%BC%9A%E5%85%88%E7%B4%A2%E5%BC%95%EF%BC%8C%E5%86%8D%E9%98%85%E8%AF%BB"><span class="toc-number">3.2.</span> <span class="toc-text">第二原则：先索引，再阅读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E5%8E%9F%E5%88%99%EF%BC%9A%E7%A8%B3%E5%AE%9A%E8%A7%84%E5%88%99%E4%B8%8E%E5%AE%9E%E6%97%B6%E7%8A%B6%E6%80%81%E5%88%86%E7%A6%BB"><span class="toc-number">3.3.</span> <span class="toc-text">第三原则：稳定规则与实时状态分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E5%8E%9F%E5%88%99%EF%BC%9A%E9%9C%80%E6%B1%82%E4%B8%8E-Bug-%E5%90%84%E8%87%AA%E6%8B%A5%E6%9C%89%E5%94%AF%E4%B8%80%E5%85%A5%E5%8F%A3"><span class="toc-number">3.4.</span> <span class="toc-text">第四原则：需求与 Bug 各自拥有唯一入口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E5%8E%9F%E5%88%99%EF%BC%9A%E8%AF%81%E6%8D%AE%E9%A9%B1%E5%8A%A8"><span class="toc-number">3.5.</span> <span class="toc-text">第五原则：证据驱动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%80%BB%E8%A7%88"><span class="toc-number">4.</span> <span class="toc-text">目录结构总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%9B%AE%E5%BD%95%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">各目录详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MEMORY-md%EF%BC%9A%E5%85%A8%E5%B1%80%E5%AF%BC%E8%88%AA%E6%80%BB%E5%85%A5%E5%8F%A3"><span class="toc-number">5.1.</span> <span class="toc-text">MEMORY.md：全局导航总入口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rules-md%EF%BC%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%AA%E6%B3%95"><span class="toc-number">5.2.</span> <span class="toc-text">rules.md：项目的宪法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#document-authoring-rules-md%EF%BC%9A%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E7%9A%84%E5%85%83%E8%A7%84%E5%88%99"><span class="toc-number">5.3.</span> <span class="toc-text">document-authoring-rules.md：文档编写的元规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AI-handover-md%EF%BC%9A%E4%BC%9A%E8%AF%9D%E4%BA%A4%E6%8E%A5%E5%BF%AB%E7%85%A7"><span class="toc-number">5.4.</span> <span class="toc-text">AI-handover.md：会话交接快照</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#00-index%EF%BC%9A%E9%A1%B6%E5%B1%82%E5%AF%BC%E8%88%AA%E9%94%9A%E7%82%B9"><span class="toc-number">5.5.</span> <span class="toc-text">00-index：顶层导航锚点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#01-onboarding%EF%BC%9AAI-%E6%96%B0%E4%BC%9A%E8%AF%9D%E5%90%AF%E5%8A%A8%E5%8C%BA"><span class="toc-number">5.6.</span> <span class="toc-text">01-onboarding：AI 新会话启动区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-requirements%EF%BC%9A%E9%9C%80%E6%B1%82%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-number">5.7.</span> <span class="toc-text">02-requirements：需求与分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-api-practices%EF%BC%9AAPI-%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83%E4%B8%8E%E6%8A%80%E6%9C%AF%E7%BA%A6%E6%9D%9F"><span class="toc-number">5.8.</span> <span class="toc-text">03-api-practices：API 使用规范与技术约束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-operations%EF%BC%9A%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95%E4%B8%8E%E6%97%A5%E5%BF%97"><span class="toc-number">5.9.</span> <span class="toc-text">04-operations：操作记录与日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#05-reference%EF%BC%9A%E9%A1%B9%E7%9B%AE%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-number">5.10.</span> <span class="toc-text">05-reference：项目参考文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#06-code-review-fixes%EF%BC%9ACR-%E6%95%B4%E6%94%B9%E8%AE%B0%E5%BD%95"><span class="toc-number">5.11.</span> <span class="toc-text">06-code-review-fixes：CR 整改记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#07-bug-reports%EF%BC%9ABug-%E6%8A%A5%E5%91%8A%E4%B8%8E%E4%BF%AE%E5%A4%8D"><span class="toc-number">5.12.</span> <span class="toc-text">07-bug-reports：Bug 报告与修复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text">使用流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%80%EF%BC%9A%E9%A6%96%E6%AC%A1%E6%8E%A5%E5%85%A5"><span class="toc-number">6.1.</span> <span class="toc-text">阶段一：首次接入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%8C%EF%BC%9A%E9%9C%80%E6%B1%82%E5%BC%80%E5%8F%91"><span class="toc-number">6.2.</span> <span class="toc-text">阶段二：需求开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%89%EF%BC%9ABug-%E4%BF%AE%E5%A4%8D"><span class="toc-number">6.3.</span> <span class="toc-text">阶段三：Bug 修复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E5%9B%9B%EF%BC%9A%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9%E6%81%A2%E5%A4%8D"><span class="toc-number">6.4.</span> <span class="toc-text">阶段四：上下文压缩恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA"><span class="toc-number">7.</span> <span class="toc-text">常见误区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">最后总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/06/30/Long-termMemoryTemplate/" title="Long-termMemoryTemplate"><img src="/imgs/ArticleTopImgs/LongTermTopImg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Long-termMemoryTemplate"/ loading="lazy"></a><div class="content"><a class="title" href="/2026/06/30/Long-termMemoryTemplate/" title="Long-termMemoryTemplate">Long-termMemoryTemplate</a><time datetime="2026-06-30T09:30:06.000Z" title="发表于 2026-06-30 17:30:06">2026-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="模型杂谈"/ width="532" height="501" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/10/ModelMusings/" title="模型杂谈">模型杂谈</a><time datetime="2026-06-10T02:01:44.000Z" title="发表于 2026-06-10 10:01:44">2026-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程期末复习"><img src="/imgs/ArticleTopImgs/RJGCQMFXTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软件工程期末复习"/ width="906" height="644" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程期末复习">软件工程期末复习</a><time datetime="2026-06-04T12:53:53.000Z" title="发表于 2026-06-04 20:53:53">2026-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="最优化理论期末复习"><img src="/imgs/ArticleTopImgs/ZYLLTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最优化理论期末复习"/ width="2093" height="1816" loading="lazy"></a><div class="content"><a class="title" href="/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="最优化理论期末复习">最优化理论期末复习</a><time datetime="2026-05-19T11:09:16.000Z" title="发表于 2026-05-19 19:09:16">2026-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习"><img src="/imgs/ArticleTopImgs/GXNJSTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="高性能计算复习"/ width="1092" height="580" loading="lazy"></a><div class="content"><a class="title" href="/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/" title="高性能计算复习">高性能计算复习</a><time datetime="2026-05-08T02:26:52.000Z" title="发表于 2026-05-08 10:26:52">2026-05-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><script type="text/javascript" src="https://unpkg.com/mermaid@undefined/dist/mermaid.min.js" id="maid-script"></script><script>if (window.mermaid) {
   var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaid-options'));
   mermaid.initialize(options);
 }</script><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
@@ -392,7 +881,7 @@ if (String(snum).length == 1) { snum = "0" + snum; }
 document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
 document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
 } 
-setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 懒加载由 inject.bottom 的 lazy-loading-optimized.js 统一处理--><!-- 已移除: lazy-loading.js, lazy-loading-native.js, lazy-image-refresh.js, lazy-video-refresh.js--><!-- VS Code 风格智能文档导航栏 - 只在文章页面加载--><script src="/js/vscode-breadcrumb-toc.js"></script><div class="js-pjax"><script>(() => {
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 懒加载由 inject.bottom 的 lazy-loading-optimized.js 统一处理--><!-- 已移除: lazy-loading.js, lazy-loading-native.js, lazy-image-refresh.js, lazy-video-refresh.js--><!-- VS Code 风格智能文档导航栏 - 只在文章页面加载--><script src="/js/vscode-breadcrumb-toc.js"></script><div class="js-pjax"><script>(() => {
   const runMermaid = ele => {
     window.loadMermaid = true
     const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
