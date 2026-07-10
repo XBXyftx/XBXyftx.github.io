@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AgentsMusings | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于26年6月初的一些模型杂谈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AgentsMusings">
+<meta property="og:url" content="https://xbxyftx.top/2026/07/10/AgentsMusings/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="关于26年6月初的一些模型杂谈">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp">
+<meta property="article:published_time" content="2026-07-10T02:19:47.000Z">
+<meta property="article:modified_time" content="2026-07-10T07:34:00.601Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="技术向">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="ClaudeCode">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="SubAgent">
+<meta property="article:tag" content="Skills">
+<meta property="article:tag" content="KimiCode">
+<meta property="article:tag" content="Zcode">
+<meta property="article:tag" content="Vibe Coding">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AgentsMusings",
+  "url": "https://xbxyftx.top/2026/07/10/AgentsMusings/",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp",
+  "datePublished": "2026-07-10T02:19:47.000Z",
+  "dateModified": "2026-07-10T07:34:00.601Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://github.com/XBXyftx"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.webp"><link rel="canonical" href="https://xbxyftx.top/2026/07/10/AgentsMusings/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//cn.vercount.one"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/typewriter-effect.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="/css/lazy-loading.css"><link rel="stylesheet" href="/css/lazy-loading-stable.css"><link rel="stylesheet" href="/css/vscode-breadcrumb-toc.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AgentsMusings',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post',
+  typewriter: ''
+}</script><script>document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/universe.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/transpancy.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/styles.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/rightmenu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/twikoo.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/readmode-enhanced.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'"><script src="/js/header-universe.js"></script><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="cat__scene"><div class="cat__main"><div class="cat__body"></div><div class="cat__body"></div><div class="cat__tail"></div><div class="cat__head"></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  preloader.initLoading()
+  
+  // 设置10秒超时
+  const loadingTimeout = setTimeout(() => {
+    preloader.endLoading()
+  }, 10000)
+  
+  window.addEventListener('load', () => {
+    clearTimeout(loadingTimeout)
+    preloader.endLoading()
+  })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">AgentsMusings</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">AgentsMusings</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-10T02:19:47.000Z" title="发表于 2026-07-10 10:19:47">2026-07-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-10T07:34:00.601Z" title="更新于 2026-07-10 15:34:00">2026-07-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-07-10 15:34:00&quot;}" hidden></div><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>当前的 AI 编程市场，早就不只是比谁家的大模型参数更大、跑分更高了。模型能力正在快速趋同，真正把它们送进开发者工作流、让它们能读代码、跑命令、改文件、调用工具、拆解任务甚至协作交付的，是一层层不断进化的 Agent。过去我们更多是在和聊天框里的 LLM 对话：提出问题、复制代码、自己验证；而现在，越来越多的时间是在把一个相对完整的任务交给 Agent，再和它一起审方案、看过程、做决策、兜底结果。</p>
+<p>最近在工作中，我也高频切换使用了多款编程 Agent：有时让它们在成熟项目中阅读上下文、定位 Bug、补齐需求；有时让它们执行测试、修改文件、整理文档和提交记录；也有时会把同一个任务交给不同产品，观察它们面对复杂工程时到底会怎样思考、怎样调用工具，又会在哪些地方卡住。Claude Code、Codex、Kimi Code，以及其他正在快速迭代的 Agent 产品，底层可能接入的是相近甚至相同梯队的模型，但实际用起来却有着非常明显的差异。</p>
+<p>这种差异并不只来自模型本身。终端、IDE 插件、桌面端等不同形态会改变 Agent 能看到什么、能操作什么，也会影响开发者介入的时机；上下文管理、规则与 Skills、子 Agent 调度、任务规划、权限设计和工具生态，则共同决定了一个 Agent 是只能“帮你写几段代码”，还是能真正进入工程开发的流程。很多时候，同一个模型换一个 Agent 外壳，最终的操作路径、代码质量、排障效率甚至使用体验都会完全不同。</p>
+<p>所以这篇文章想结合我最近的实际使用体验，聊聊这些 Agent 各自的特点、适用场景和一些踩坑感受。这里不会刻意给谁排一个绝对高下，毕竟每个人的技术栈、项目规模、预算和工作习惯都不同；更重要的是理解它们的能力边界，选择适合当前任务的工具，并在关键决策上始终保留人的判断。毕竟 Agent 再强，也只是把模型能力延伸到工程世界的工具——用得顺手、用得明白，才能真正帮我们把事情做好。</p>
+<h2 id="Agents"><a href="#Agents" class="headerlink" title="Agents"></a>Agents</h2><h3 id="Claude-Code"><a href="#Claude-Code" class="headerlink" title="Claude Code"></a>Claude Code</h3><p>哇哦，上来就是CC。我相信CC算是无数人真正开始Vibe Coding的启蒙导师了。当然也有可能是cursor或是Codex。但时至今日神话模型已经将AI的能力边界推到了一个难以想象的高度时，CC依旧是是绝大多数模型最好的Agent选择。</p>
+<p>无论是对于第三方API接入的友好程度，还是其上下文管理的精妙，还是其Harness工程的强力，CC都无疑是这个时代最好的Agent选择之一。</p>
+<p>当然，这里说的“最好”并不是指它每一项都绝对碾压其他产品。它贵、对网络和账号环境有要求、终端交互对新手也不算最友好；而且 CC 做得再好，底层模型的能力、当前项目的上下文质量以及使用者给出的任务边界，依旧会直接决定最终效果。但从“把一个强模型真正放进工程环境里干活”这件事来看，CC 的完成度确实很高。它不是简单套一个聊天框，让模型生成代码后由你自己复制粘贴；而是让模型能够读仓库、查规则、操作文件、执行命令、运行测试，再把整个过程放在一个可观察、可中断、可回滚的工作流里。</p>
+<p>尤其是随着各家模型的编码能力越来越接近以后，Agent 外壳和 Harness 的差距反而越来越明显。同一个模型接入不同的 Agent，可能会得到完全不同的结果：有的只能根据当前打开的文件补几行代码，有的能快速建立整个项目的认识；有的遇到报错会漫无目的地一路追到底，有的则能在证据足够时及时指出责任边界。CC 的价值就在于，它给模型提供的不只是工具数量，而是一套比较成熟的“做工程”的方法。</p>
+<h4 id="cc终端"><a href="#cc终端" class="headerlink" title="cc终端"></a>cc终端</h4><p>终端属于是我最喜欢的一种Agent形态了，虽然其相比于插件和APP来说其便捷性和易用性稍差，但它也是最接近真实开发工作流、能力最完整的一种形态。文件系统、Git、构建命令、日志、测试、包管理器，本来就都在终端里；CC 不需要在聊天框、编辑器和命令行之间来回切换，可以直接顺着开发者原本的操作路径阅读、修改和验证。对于一个需要跨多个目录、涉及配置、脚本、构建和测试的需求来说，这种连贯性比“在当前文件旁边帮你补全代码”重要得多。</p>
+<p><img src="/2026/07/10/AgentsMusings/1.webp" alt="1" width="401" height="69" loading="lazy"></p>
+<p>我平时更习惯把终端 CC 当成一个可以一起工作的同事，而不是一个一键交付机。小需求、明确的 Bug 修复，我会让它直接检查、修改并运行验证；但只要涉及公共组件、关键数据流、SDK 调用或比较大的改动范围，我一般都会先让它只读代码、梳理调用链、给出方案。重点看它第一轮输出的判断：它认为问题在哪里、准备改哪些文件、哪些结论已经有证据、哪些地方仍然需要确认。方向正确后再让它继续实现，往往比代码写完以后再花时间审一大坨 Diff 要轻松得多。</p>
+<p>这也算是我使用 Agent 后慢慢养成的习惯。很多人把“模型能不能一次性把需求做完”当成唯一标准，但真实项目里，最宝贵的能力有时不是一口气改完代码，而是能不能快速缩小问题范围、明确不确定性，并在自己不该继续深入的地方停下来。比如接口请求成功但数据为空、编译后的 SDK 内部逻辑不可见、后端返回与文档不一致时，CC 可以帮助我打印日志、验证客户端链路、整理可能性；但如果证据已经指向 SDK 或服务端，就应该及时带着结论找对应同事确认，而不是让它在黑盒里连续挖几十轮。终端的好处是整个调查过程都在眼前，觉得方向不对时一个 <code>Ctrl + C</code> 就可以打断、重新收束任务。</p>
+<p>CC 终端真正让我离不开的，还是它对上下文工程的支持。项目里的 <code>CLAUDE.md</code>、目录级规则、Skills、MCP、Hooks、长期记忆文档等，都可以把那些不会写在单次提示词里的隐性约束提前交给 Agent：项目怎么启动、哪些命令可以执行、代码应该遵循什么风格、哪些目录不能乱动、一次任务完成后还需要补哪些文档和验证。模型并不会天然理解一个项目的历史包袱与团队默契，规则越明确，后续需要反复纠偏的次数就越少。</p>
+<p>上下文压缩同样是一个很容易被忽视的问题。对话很长时，模型终究会面临信息取舍；如果关键的架构约束、接口约定和当前任务结论只存在于前面几十轮聊天记录里，压缩之后就可能被稀释甚至丢失。所以我现在会尽量把长期有效的规则沉淀到项目文档，把一次任务的重要结论写进交接或操作记录，让 Agent 每次都能从稳定的外部上下文重新建立认识，而不是指望它永远“记得”此前的所有讨论。</p>
+<p>另外，CC 的 Skills 和 SubAgent 也很有意思。Skills 可以把重复但有明确流程的事情固化下来，例如代码审查、文档同步、构建验证、特定平台的开发规范；SubAgent 则适合把真正能够并行的工作拆开：一个去搜相关实现和历史提交，一个去梳理模块调用关系，一个去审查测试与潜在影响，主 Agent 再负责汇总结论和实际修改。但这两个能力都不是开得越多越好。如果几个子 Agent 都在反复读取同一批文件、修改同一个模块，最后通常只会换来更高的上下文消耗和更难整合的结果。先想清楚任务是否真的可拆，再决定要不要并行，才是更稳妥的用法。</p>
+<p>总的来说，CC 终端的学习成本主要不在命令本身，而在于你需要学会怎样和一个能操作工程的 Agent 协作：什么时候给它足够的自主权，什么时候要求它先出方案，什么时候直接打断，以及怎样把自己的项目经验转化成它可以读取的规则。掌握这些以后，终端看起来那一点“不够图形化”的门槛，反而会变成可控性与效率。</p>
+<h4 id="VScc插件"><a href="#VScc插件" class="headerlink" title="VScc插件"></a>VScc插件</h4><p>VSCode 插件则是我在日常开发中用得最多的入口之一。终端版适合从全局推进任务，但人绝大多数时候仍然在 IDE 里看代码、跳转定义、分析报错和审查修改。插件把 CC 拉进编辑器之后，最大的提升不是“多了一个聊天框”，而是人和 Agent 可以对着同一份代码协作：当前打开的文件、选中的代码片段、报错位置、修改后的 Diff，都能更自然地成为对话上下文的一部分。</p>
+<p><img src="/2026/07/10/AgentsMusings/2.webp" alt="2" width="717" height="218" loading="lazy"></p>
+<p>处理比较局部的需求时，这种体验尤其舒服。比如一个 UI 表现不对、某个方法的状态更新有问题、需要理解一段历史代码，选中对应区域直接让它解释、分析或者给出重构建议，会比在终端里反复描述文件路径、类名和行号顺畅很多。它修改完后，我也可以马上利用 IDE 的 Diff 和跳转能力逐处检查，而不是只看 Agent 最后一段“已完成”的总结。这种高频、短链路的人机协作，插件确实更贴近日常编码节奏。</p>
+<p>但插件也并不能取代终端，而且坦白说，我个人并不算特别喜欢长期把它作为主力入口。首先是更新速度的问题。终端版往往更快拿到新的能力、交互和模型支持；插件端则还要跟着 VSCode 的扩展机制和版本节奏走，有时新功能已经发布了，插件还得等一段时间才能稳定落地。对于正处于高频迭代期的 Agent 产品来说，这种“总是慢半拍”的感觉其实挺明显的。</p>
+<p>其次就是稳定性和性能。项目稍微大一点、对话稍微长一点，或者同时开着一堆语言服务、调试工具和其他扩展时，插件就比较容易卡顿、响应迟缓，偶尔还会冒出一些莫名其妙的 Bug。IDE 本身已经在做索引、补全、调试、跑终端和加载各种插件，再叠加一个持续维护上下文、展示执行过程、频繁调用工具的 Agent，内存占用自然也不算低。有时候只是想让它看一眼代码，却要先等界面转半天，最后反而不如直接开终端输入一句指令来得干脆。</p>
+<p>另外，IDE 给人的视野天然偏向当前文件和当前问题，很容易让人误以为需求只影响眼前的几十行代码；而真正的工程任务可能还涉及配置文件、构建脚本、数据模型、测试、Git 状态甚至外部工具。遇到需要大范围检索、执行完整构建、处理多个模块的任务时，我还是更愿意让终端版 CC 把过程完整展开。对我来说，VSCC 和终端不是谁替代谁的关系：插件更适合贴着局部代码快速协作，终端更适合站在仓库和工具链的全局视角推进工作；只是从更新速度、稳定性、性能和可控性来看，我最终还是更偏向终端。</p>
+<h4 id="DeskTop"><a href="#DeskTop" class="headerlink" title="DeskTop"></a>DeskTop</h4><p><img src="/2026/07/10/AgentsMusings/3.webp" alt="3" width="624" height="568" loading="lazy"></p>
+<p>（谁不想看一只可爱的小Claude敲键盘呢）</p>
+<p>Desktop 形态的定位又和前两者有些不同。终端与插件天然围绕代码文件展开，而 Desktop 更像一个适合整理任务、承接多模态信息和做前置讨论的工作台。需求文档、截图、设计稿、报错日志、会议结论这些内容，很多时候并不适合一股脑塞进终端；先在 Desktop 里把背景、问题和目标讲清楚，让模型帮忙梳理疑点、比较方案、形成一个可执行的任务描述，再进入代码仓库实施，整体会更顺一些。</p>
+<p>我更愿意把它用于“编码之前”和“编码之后”的环节。编码之前，拿它分析需求、读文档、结合图片讨论实现方式；编码之后，拿它复盘一次修改、检查方案是否遗漏边界条件、整理汇报或交接内容。它降低了非终端用户接触 Agent 的门槛，也让 Agent 不必永远只盯着代码。但如果要对成熟项目做深度修改、连续运行命令并追踪完整验证链路，终端形态依旧是我最信任的主场。</p>
+<p>所以无论是 cc 终端、VSCC 插件还是 Desktop，我觉得它们的本质都不是三套互相竞争的产品，而是 CC 适应不同工作节奏的三个入口。真正值得关注的并不是“哪个入口最酷”，而是我们有没有把合适的任务交给合适的入口：需要全局探索和工程执行时就走终端，需要围绕代码细节频繁协作时就留在 IDE，需要先消化资料、讨论和收束需求时就用 Desktop。把它们组合起来，CC 才能从一个厉害的代码生成器，慢慢变成真正参与工程工作的 Agent。</p>
+<h3 id="Codex"><a href="#Codex" class="headerlink" title="Codex"></a>Codex</h3><h4 id="Codex终端"><a href="#Codex终端" class="headerlink" title="Codex终端"></a>Codex终端</h4><h4 id="VSCodex插件"><a href="#VSCodex插件" class="headerlink" title="VSCodex插件"></a>VSCodex插件</h4><h4 id="CodexDeskTop"><a href="#CodexDeskTop" class="headerlink" title="CodexDeskTop"></a>CodexDeskTop</h4><h3 id="Zcode"><a href="#Zcode" class="headerlink" title="Zcode"></a>Zcode</h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/XBXyftx">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">https://xbxyftx.top</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">此文章版权归XBXyftx所有，如有转载，请註明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/ClaudeCode/">ClaudeCode</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/SubAgent/">SubAgent</a><a class="post-meta__tags" href="/tags/Skills/">Skills</a><a class="post-meta__tags" href="/tags/KimiCode/">KimiCode</a><a class="post-meta__tags" href="/tags/Zcode/">Zcode</a><a class="post-meta__tags" href="/tags/Vibe-Coding/">Vibe Coding</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/06/30/Long-termMemoryTemplate/" title="渐进式披露长期记忆文档模板"><img class="cover" src="/imgs/ArticleTopImgs/LongTermTopImg.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">渐进式披露长期记忆文档模板</div></div><div class="info-2"><div class="info-item-1">一套面向AI编程的长期记忆文档模板——从上下文压缩、注意力缺陷到渐进式索引，详解每个目录的设计目标与使用方法</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/30/Long-termMemoryTemplate/" title="渐进式披露长期记忆文档模板"><img class="cover" src="/imgs/ArticleTopImgs/LongTermTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-30</div><div class="info-item-2">渐进式披露长期记忆文档模板</div></div><div class="info-2"><div class="info-item-1">一套面向AI编程的长期记忆文档模板——从上下文压缩、注意力缺陷到渐进式索引，详解每个目录的设计目标与使用方法</div></div></div></a><a class="pagination-related" href="/2026/04/27/VibeTips/" title="怎样用好 Vibe Coding，大幅减少重复编码？"><img class="cover" src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-27</div><div class="info-item-2">怎样用好 Vibe Coding，大幅减少重复编码？</div></div><div class="info-2"><div class="info-item-1">Vibe Coding经验分享</div></div></div></a><a class="pagination-related" href="/2025/11/01/ThoughtsOnVibeCoding/" title="在虚构与现实之间，守住那束灵感之光"><img class="cover" src="/imgs/ArticleTopImgs/ThoughtsOnVibeCodingTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-01</div><div class="info-item-2">在虚构与现实之间，守住那束灵感之光</div></div><div class="info-2"><div class="info-item-1">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</div></div></div></a><a class="pagination-related" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img class="cover" src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-10</div><div class="info-item-2">模型杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a><a class="pagination-related" href="/2026/02/01/KimiCode/" title="KimiCode"><img class="cover" src="/imgs/ArticleTopImgs/KimiCodeTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-01</div><div class="info-item-2">KimiCode</div></div><div class="info-2"><div class="info-item-1">KimiCode初体验</div></div></div></a><a class="pagination-related" href="/2025/09/27/AITrainingCamp2/" title="AITrainingCamp2"><img class="cover" src="/imgs/ArticleTopImgs/AITrainingCampTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-27</div><div class="info-item-2">AITrainingCamp2</div></div><div class="info-2"><div class="info-item-1">熟练使用CC了，该开始大展身手了！</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.webp" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipapi.co/json/',
+    'https://freegeoip.app/json/',
+    'https://ipinfo.io/json'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    fetch(currentApi)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">welcome！<br/><img src="/imgs/gifs/1.webp" title="1.gif" class="announcementImg"/><br/>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。<br/>总之祝大家2026新春快乐！！！<br/>（也是开始上班了呢]</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Agents"><span class="toc-number">2.</span> <span class="toc-text">Agents</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Claude-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Claude Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cc%E7%BB%88%E7%AB%AF"><span class="toc-number">2.1.1.</span> <span class="toc-text">cc终端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VScc%E6%8F%92%E4%BB%B6"><span class="toc-number">2.1.2.</span> <span class="toc-text">VScc插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DeskTop"><span class="toc-number">2.1.3.</span> <span class="toc-text">DeskTop</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codex"><span class="toc-number">2.2.</span> <span class="toc-text">Codex</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Codex%E7%BB%88%E7%AB%AF"><span class="toc-number">2.2.1.</span> <span class="toc-text">Codex终端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VSCodex%E6%8F%92%E4%BB%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">VSCodex插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CodexDeskTop"><span class="toc-number">2.2.3.</span> <span class="toc-text">CodexDeskTop</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zcode"><span class="toc-number">2.3.</span> <span class="toc-text">Zcode</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/07/10/AgentsMusings/" title="AgentsMusings"><img src="/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AgentsMusings"/ width="538" height="440" loading="lazy"></a><div class="content"><a class="title" href="/2026/07/10/AgentsMusings/" title="AgentsMusings">AgentsMusings</a><time datetime="2026-07-10T02:19:47.000Z" title="发表于 2026-07-10 10:19:47">2026-07-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/30/Long-termMemoryTemplate/" title="渐进式披露长期记忆文档模板"><img src="/imgs/ArticleTopImgs/LongTermTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="渐进式披露长期记忆文档模板"/ width="1828" height="1732" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/30/Long-termMemoryTemplate/" title="渐进式披露长期记忆文档模板">渐进式披露长期记忆文档模板</a><time datetime="2026-06-30T09:30:06.000Z" title="发表于 2026-06-30 17:30:06">2026-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="模型杂谈"/ width="532" height="501" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/10/ModelMusings/" title="模型杂谈">模型杂谈</a><time datetime="2026-06-10T02:01:44.000Z" title="发表于 2026-06-10 10:01:44">2026-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程期末复习"><img src="/imgs/ArticleTopImgs/RJGCQMFXTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软件工程期末复习"/ width="906" height="644" loading="lazy"></a><div class="content"><a class="title" href="/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程期末复习">软件工程期末复习</a><time datetime="2026-06-04T12:53:53.000Z" title="发表于 2026-06-04 20:53:53">2026-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="最优化理论期末复习"><img src="/imgs/ArticleTopImgs/ZYLLTopImg.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最优化理论期末复习"/ width="2093" height="1816" loading="lazy"></a><div class="content"><a class="title" href="/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="最优化理论期末复习">最优化理论期末复习</a><time datetime="2026-05-19T11:09:16.000Z" title="发表于 2026-05-19 19:09:16">2026-05-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a></div><script type="text/javascript" src="https://unpkg.com/mermaid@undefined/dist/mermaid.min.js" id="maid-script"></script><script>if (window.mermaid) {
+  var options = JSON.parse(document.getElementById('maid-script').getAttribute('mermaid-options'));
+  mermaid.initialize(options);
+}</script><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 瀑布流JavaScript - 只在首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 懒加载由 inject.bottom 的 lazy-loading-optimized.js 统一处理--><!-- 已移除: lazy-loading.js, lazy-loading-native.js, lazy-image-refresh.js, lazy-video-refresh.js--><!-- VS Code 风格智能文档导航栏 - 只在文章页面加载--><script src="/js/vscode-breadcrumb-toc.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/%5Bobject%20Object%5D').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/js/universe-optimized.js"></script><script defer src="/js/jquery-3.6.0.min.js"></script><script defer src="/js/rightmenu.js"></script><script defer src="/js/happy-title.js"></script><script defer src="/js/lazy-loading-optimized.js"></script><script defer src="/js/lightbox-enhanced.js"></script><script async data-pjax src="//cn.vercount.one/js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/29/OpenSourceSummer2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/OpenSourceSummerTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-29</span><a class="blog-slider__title" href="2025/06/29/OpenSourceSummer2025/" alt="">开源之夏NowInOpenHarmony</a><div class="blog-slider__text">开源之夏2025项目开发笔记</div><a class="blog-slider__button" href="2025/06/29/OpenSourceSummer2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/04/V2/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/V2TopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-04</span><a class="blog-slider__title" href="2025/02/04/V2/" alt="">浅谈鸿蒙状态管理V1——&gt;V2</a><div class="blog-slider__text">用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。</div><a class="blog-slider__button" href="2025/02/04/V2/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/04/27/VibeTips/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2026-04-27</span><a class="blog-slider__title" href="2026/04/27/VibeTips/" alt="">怎样用好 Vibe Coding，大幅减少重复编码？</a><div class="blog-slider__text">Vibe Coding经验分享</div><a class="blog-slider__button" href="2026/04/27/VibeTips/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/06/30/Long-termMemoryTemplate/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/LongTermTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2026-06-30</span><a class="blog-slider__title" href="2026/06/30/Long-termMemoryTemplate/" alt="">渐进式披露长期记忆文档模板</a><div class="blog-slider__text">一套面向AI编程的长期记忆文档模板——从上下文压缩、注意力缺陷到渐进式索引，详解每个目录的设计目标与使用方法</div><a class="blog-slider__button" href="2026/06/30/Long-termMemoryTemplate/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper@1.0.12/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
