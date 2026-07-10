@@ -664,61 +664,26 @@ body{
     /* JS会控制宽度，这里不设置固定宽度 */
 }
 
-/* 手机端立即强制单列 - 避免闪烁 */
+/* 移动端由 CSS 单列布局负责；不再用属性选择器反复覆盖脚本状态。 */
 @media (max-width: 768px) {
-    /* 移动端瀑布流项目 - 最强保护 */
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item,
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style],
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item.positioned,
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="position"],
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="left"],
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item[style*="top"] {
+    #recent-posts.waterfall-masonry .waterfall-container {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+    }
+
+    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
         width: 100% !important;
         max-width: 100% !important;
         position: static !important;
         display: block !important;
-        margin: 0 0 20px 0 !important;
+        margin: 0 0 20px !important;
         padding: 0 !important;
-        left: auto !important;
-        top: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        opacity: 1 !important;
-        visibility: visible !important;
         transform: none !important;
-        transition: none !important;
-        float: none !important;
-        clear: none !important;
-        z-index: auto !important;
     }
-    
-    /* 移动端容器样式 - 最强保护 */
-    #recent-posts.waterfall-masonry .waterfall-container,
-    #recent-posts.waterfall-masonry .waterfall-container[style] {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative !important;
-        width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-    }
-    
-    /* 禁用所有可能的动画和过渡 */
-    #recent-posts.waterfall-masonry .waterfall-container .waterfall-item * {
-        animation: none !important;
-        transition: none !important;
-    }
-    
-    /* 仅禁用瀑布流相关的动画效果 */
-    #recent-posts.waterfall-masonry .waterfall-item {
-        animation: none !important;
-    }
-    
-    #recent-posts.waterfall-masonry .waterfall-container {
-        animation: none !important;
-    }
-    
+
     /* 轮播图层级修复 */
     #recent-posts.waterfall-masonry .blog-slider {
         z-index: 0 !important; /* 移动端也降低轮播图层级 */
@@ -890,22 +855,6 @@ body{
         line-height: 1.6;
         padding-top: 6px;
     }
-}
-
-/* 加载动画 */
-@keyframes waterfallFadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-#recent-posts.waterfall-masonry .waterfall-item.fade-in {
-    animation: waterfallFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .waterfall-item{
