@@ -5,15 +5,25 @@
  * local images. Dimensionless remote images still need a fallback block, but
  * only placeholders close to the viewport animate.
  */
+/*
+ * `width` and `height` attributes emitted during the build reserve layout
+ * space. `max-width` alone constrains only the rendered width; explicitly
+ * restoring auto height keeps the rendered image on that intrinsic ratio.
+ */
+#article-container img {
+  max-width: 100%;
+  height: auto;
+}
+
 #article-container img.lazy-placeholder {
-  min-height: 160px;
   background: linear-gradient(110deg, rgba(147, 112, 219, 0.12), rgba(138, 43, 226, 0.2), rgba(147, 112, 219, 0.12));
   background-size: 200% 100%;
   border-radius: 8px;
 }
 
-#article-container img.lazy-placeholder:not([width]) {
+#article-container img.lazy-placeholder:not([width]):not([height]) {
   width: 100%;
+  min-height: 160px;
 }
 
 #article-container img.lazy-placeholder-active {
@@ -30,7 +40,7 @@
   transition: opacity 300ms ease-out;
 }
 
-#article-container img.lazy-error {
+#article-container img.lazy-error:not([width]):not([height]) {
   min-height: 100px;
   border: 1px dashed rgba(255, 0, 0, 0.35);
   background: rgba(255, 0, 0, 0.08);
