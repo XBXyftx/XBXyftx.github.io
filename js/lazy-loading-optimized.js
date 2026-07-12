@@ -38,7 +38,7 @@
 
   const settleImage = (image, status) => {
     if (image.dataset.lazyState === 'settled') return;
-    if (image.dataset.lazyState === 'loading') activeLoadCount -= 1;
+    if (image.dataset.lazyState === 'loading') activeLoadCount = Math.max(0, activeLoadCount - 1);
     image.dataset.lazyState = 'settled';
     clearLoadingState(image);
     image.classList.add(status === 'loaded' ? 'lazy-loaded' : 'lazy-error');
