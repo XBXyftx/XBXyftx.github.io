@@ -684,38 +684,81 @@ document.addEventListener('DOMContentLoaded', () => {
       $tocPercentage = $cardTocLayout.querySelector('.toc-percentage')
       isExpand = $cardToc.classList.contains('is-expand')
 
-      // toc元素點擊 - 优化版：预加载目标区域图片后跳转
+      let cancelTocNavigation = () => {}
+
       const tocItemClickFn = e => {
         const target = e.target.closest('.toc-link')
         if (!target) return
 
         e.preventDefault()
-        
+
         const targetId = decodeURI(target.getAttribute('href')).replace('#', '')
         const targetEle = document.getElementById(targetId)
         if (!targetEle) return
 
-        // 关闭移动端目录
         if (window.innerWidth < 900) {
           $cardTocLayout.classList.remove('open')
         }
 
-        // 预加载目标区域的图片，确保跳转位置准确
-        const preloadAndScroll = async () => {
-          // 如果有预加载函数，先预加载图片
-          if (typeof window.lazyLoadPreload === 'function') {
-            await window.lazyLoadPreload(targetEle, 1000)
-          }
-          
-          // 给 DOM 一点时间更新
-          requestAnimationFrame(() => {
-            // 重新计算目标位置（因为图片加载后高度可能变化）
-            const targetPos = btf.getEleTop(targetEle)
-            btf.scrollToDest(targetPos, 300)
+        cancelTocNavigation()
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const header = document.getElementById('page-header')
+        const headerOffset = header?.classList.contains('nav-fixed') ? 70 : 0
+        const targetOffset = window.innerWidth <= 768 ? 70 : 90
+        const scrollOffset = Math.max(headerOffset, targetOffset)
+        const settleEvent = window.articleImageLazyLoad?.settleEvent || 'hexo:article-image-settled'
+        let cancelled = false
+        let correctionFrame = null
+        let settleTimer = null
+        let layoutObserver = null
+
+        const currentTargetTop = () => targetEle.getBoundingClientRect().top + window.scrollY - scrollOffset
+
+        const scrollToTarget = behavior => {
+          window.scrollTo({ top: Math.max(0, currentTargetTop()), behavior })
+        }
+
+        const cleanup = () => {
+          cancelled = true
+          if (correctionFrame !== null) window.cancelAnimationFrame(correctionFrame)
+          window.clearTimeout(settleTimer)
+          layoutObserver?.disconnect()
+          $article.removeEventListener(settleEvent, scheduleCorrection)
+          window.removeEventListener('wheel', cancelFromUser, { passive: true })
+          window.removeEventListener('touchstart', cancelFromUser, { passive: true })
+          window.removeEventListener('keydown', cancelFromUser)
+        }
+
+        const cancelFromUser = event => {
+          if (event.type === 'keydown' && !['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) return
+          cleanup()
+        }
+
+        const scheduleCorrection = () => {
+          if (cancelled || correctionFrame !== null) return
+          correctionFrame = window.requestAnimationFrame(() => {
+            correctionFrame = null
+            const targetTop = targetEle.getBoundingClientRect().top
+            if (Math.abs(targetTop - scrollOffset) > 2) scrollToTarget('auto')
           })
         }
 
-        preloadAndScroll()
+        $article.addEventListener(settleEvent, scheduleCorrection)
+        window.addEventListener('wheel', cancelFromUser, { passive: true })
+        window.addEventListener('touchstart', cancelFromUser, { passive: true })
+        window.addEventListener('keydown', cancelFromUser)
+
+        if ('ResizeObserver' in window) {
+          layoutObserver = new ResizeObserver(scheduleCorrection)
+          layoutObserver.observe($article)
+        }
+
+        cancelTocNavigation = cleanup
+        window.articleImageLazyLoad?.loadNear(targetEle)
+        scrollToTarget(reducedMotion ? 'auto' : 'smooth')
+        scheduleCorrection()
+        settleTimer = window.setTimeout(cleanup, 3500)
       }
 
       btf.addEventListenerPjax($cardToc, 'click', tocItemClickFn)

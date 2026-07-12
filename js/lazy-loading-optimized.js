@@ -1,178 +1,155 @@
 /**
- * 优化版图片懒加载
- * 使用 IntersectionObserver API，性能更好
- * 支持渐进式加载和占位符
+ * Article image lazy-loading coordinator.
+ *
+ * The build already emits intrinsic dimensions and native loading="lazy".
+ * This controller keeps that browser-native path, limits visual animation to
+ * images near the viewport, and exposes image-settlement events for TOC
+ * navigation to correct any remaining layout shift from dimensionless media.
  */
-(function() {
+(function () {
   'use strict';
-  
-  // 配置
-  const config = {
-    rootMargin: '100px 0px', // 提前100px开始加载
+
+  const CONFIG = {
+    rootMargin: '240px 0px',
     threshold: 0.01,
-    fadeInDuration: 600,  // 淡入持续时间（毫秒）
-    fadeInDelay: 50       // 淡入延迟（毫秒），避免突然变亮
+    settleEvent: 'hexo:article-image-settled'
   };
-  
-  // 检查是否支持 IntersectionObserver
-  const supportsIntersectionObserver = 'IntersectionObserver' in window;
-  
-  // 创建观察器
-  let observer = null;
-  
-  function createObserver() {
-    if (!supportsIntersectionObserver) {
-      // 降级方案：直接加载所有图片
-      loadAllImages();
+
+  let loadObserver = null;
+  let activePlaceholderObserver = null;
+  let activeLoadCount = 0;
+
+  const isArticleImage = image => image instanceof HTMLImageElement
+    && Boolean(image.closest('#article-container, .post-content'));
+
+  const collectImages = () => [...document.querySelectorAll('#article-container img, .post-content img')]
+    .filter(isArticleImage);
+
+  const dispatchSettled = (image, status) => {
+    image.dispatchEvent(new CustomEvent(CONFIG.settleEvent, {
+      bubbles: true,
+      detail: { image, status }
+    }));
+  };
+
+  const clearLoadingState = image => {
+    image.classList.remove('lazy-loading', 'lazy-placeholder', 'lazy-placeholder-active');
+  };
+
+  const settleImage = (image, status) => {
+    if (image.dataset.lazyState === 'settled') return;
+    if (image.dataset.lazyState === 'loading') activeLoadCount -= 1;
+    image.dataset.lazyState = 'settled';
+    clearLoadingState(image);
+    image.classList.add(status === 'loaded' ? 'lazy-loaded' : 'lazy-error');
+    dispatchSettled(image, status);
+  };
+
+  const trackImage = image => {
+    if (image.dataset.lazyState === 'settled') return;
+    if (image.complete) {
+      settleImage(image, image.naturalWidth > 0 ? 'loaded' : 'error');
+      return;
+    }
+    if (image.dataset.lazyState === 'loading') return;
+
+    image.dataset.lazyState = 'loading';
+    image.classList.add('lazy-loading');
+    image.classList.remove('lazy-placeholder-active');
+    activePlaceholderObserver?.unobserve(image);
+    activeLoadCount += 1;
+    image.addEventListener('load', () => settleImage(image, 'loaded'), { once: true });
+    image.addEventListener('error', () => settleImage(image, 'error'), { once: true });
+  };
+
+  const prepareImage = image => {
+    if (image.dataset.lazyPrepared === 'true') return;
+    image.dataset.lazyPrepared = 'true';
+
+    if (image.complete) {
+      settleImage(image, image.naturalWidth > 0 ? 'loaded' : 'error');
       return;
     }
 
-    // 释放旧 observer 防止 PJAX 切页时泄漏 (2026-05-04 Q9 / B9)
-    if (observer) {
-      observer.disconnect();
-      observer = null;
+    image.dataset.lazyState = 'pending';
+    if (!image.hasAttribute('loading')) image.loading = 'lazy';
+    image.classList.add('lazy-placeholder');
+  };
+
+  const observePlaceholderActivity = image => {
+    if (!activePlaceholderObserver || image.dataset.lazyState === 'settled') return;
+    activePlaceholderObserver.observe(image);
+  };
+
+  const destroy = () => {
+    loadObserver?.disconnect();
+    activePlaceholderObserver?.disconnect();
+    loadObserver = null;
+    activePlaceholderObserver = null;
+    activeLoadCount = 0;
+  };
+
+  const init = () => {
+    const images = collectImages();
+    destroy();
+    if (!images.length) return;
+
+    images.forEach(prepareImage);
+    if (!('IntersectionObserver' in window)) {
+      images.forEach(trackImage);
+      return;
     }
 
-    observer = new IntersectionObserver((entries) => {
+    loadObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          loadImage(entry.target);
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        loadObserver.unobserve(entry.target);
+        trackImage(entry.target);
       });
-    }, {
-      rootMargin: config.rootMargin,
-      threshold: config.threshold
+    }, { rootMargin: CONFIG.rootMargin, threshold: CONFIG.threshold });
+
+    activePlaceholderObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('lazy-placeholder-active', entry.isIntersecting);
+      });
+    }, { rootMargin: '160px 0px', threshold: CONFIG.threshold });
+
+    images.forEach(image => {
+      if (image.dataset.lazyState === 'settled') return;
+      loadObserver.observe(image);
+      observePlaceholderActivity(image);
     });
-  }
-  
-  function loadImage(img) {
-    const src = img.dataset.src || img.dataset.lazySrc || img.dataset.original;
-    if (!src) return;
-    
-    // 添加加载中状态
-    img.classList.add('lazy-loading');
-    
-    // 创建新图片预加载
-    const tempImg = new Image();
-    
-    tempImg.onload = function() {
-      // 先确保图片完全透明
-      img.style.opacity = '0';
-      img.style.transition = 'none';
-      
-      // 替换图片源
-      img.src = src;
-      img.classList.remove('lazy-loading', 'lazy-placeholder');
-      img.classList.add('lazy-loaded');
-      
-      // 延迟后开始平滑淡入，避免突然变亮
-      setTimeout(() => {
-        img.style.transition = `opacity ${config.fadeInDuration}ms ease-out`;
-        // 再次使用 requestAnimationFrame 确保过渡生效
-        requestAnimationFrame(() => {
-          img.style.opacity = '1';
-        });
-      }, config.fadeInDelay);
-    };
-    
-    tempImg.onerror = function() {
-      img.classList.remove('lazy-loading');
-      img.classList.add('lazy-error');
-      console.warn('图片加载失败:', src);
-    };
-    
-    tempImg.src = src;
-  }
-  
-  function loadAllImages() {
-    const images = document.querySelectorAll('img[data-src], img[data-lazy-src]');
-    images.forEach(loadImage);
-  }
-  
-  function initLazyLoad() {
-    // 只处理文章内容中的图片
-    const selectors = [
-      '#article-container img[data-src]',
-      '#article-container img[data-lazy-src]',
-      '.post-content img[data-src]',
-      '.post-content img[data-lazy-src]'
-    ];
-    
-    const images = document.querySelectorAll(selectors.join(','));
-    
-    if (images.length === 0) {
-      console.log('[LazyLoad] 没有需要懒加载的图片');
-      return;
-    }
-    
-    console.log(`[LazyLoad] 发现 ${images.length} 张图片需要懒加载`);
-    
-    createObserver();
-    
-    if (observer) {
-      images.forEach(img => {
-        // 排除已加载的图片
-        if (img.classList.contains('lazy-loaded')) return;
-        
-        // 排除特定区域
-        if (img.closest('#page-header') || 
-            img.closest('.avatar') || 
-            img.closest('.aside-card')) return;
-        
-        // 添加占位符样式
-        if (!img.classList.contains('lazy-placeholder')) {
-          img.classList.add('lazy-placeholder');
-        }
-        
-        observer.observe(img);
-      });
-    }
-  }
-  
-  // 准备图片数据
-  function prepareImages() {
-    const images = document.querySelectorAll('#article-container img:not([data-src])');
-    
-    images.forEach(img => {
-      // 排除特定区域和已处理的图片
-      if (img.closest('#page-header') || 
-          img.closest('.avatar') || 
-          img.closest('.aside-card') ||
-          img.dataset.src ||
-          img.classList.contains('lazy-loaded')) return;
-      
-      // 保存原始src
-      if (img.src && !img.src.includes('data:image')) {
-        img.dataset.src = img.src;
-        // 使用1x1透明gif作为占位符
-        img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-        img.classList.add('lazy-placeholder');
+  };
+
+  const loadNear = (element, offset = 1200) => {
+    if (!(element instanceof Element)) return;
+    const targetTop = element.getBoundingClientRect().top + window.scrollY;
+    const minimum = targetTop - offset;
+    const maximum = targetTop + window.innerHeight + offset;
+
+    collectImages().forEach(image => {
+      if (image.dataset.lazyState === 'settled') return;
+      const imageTop = image.getBoundingClientRect().top + window.scrollY;
+      if (imageTop >= minimum && imageTop <= maximum) {
+        loadObserver?.unobserve(image);
+        image.loading = 'eager';
+        trackImage(image);
       }
     });
-  }
-  
-  // 初始化
-  function init() {
-    // 检查是否为文章页面
-    if (!document.getElementById('article-container') && !document.querySelector('.post-content')) {
-      return;
-    }
-    
-    prepareImages();
-    initLazyLoad();
-  }
-  
-  // 页面加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-  
-  // PJAX 支持
-  document.addEventListener('pjax:complete', init);
-  
-  // 导出全局函数
+  };
+
+  const getState = () => ({
+    pending: collectImages().filter(image => image.dataset.lazyState === 'pending').length,
+    loading: activeLoadCount,
+    settled: collectImages().filter(image => image.dataset.lazyState === 'settled').length
+  });
+
+  window.articleImageLazyLoad = { init, destroy, loadNear, getState, settleEvent: CONFIG.settleEvent };
   window.lazyLoadRefresh = init;
-})();
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+
+  document.addEventListener('pjax:send', destroy);
+  document.addEventListener('pjax:complete', init);
+}());
