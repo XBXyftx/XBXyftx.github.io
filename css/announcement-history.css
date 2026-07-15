@@ -1,0 +1,207 @@
+/* 侧栏公告时间轴 */
+.card-announcement .announcement-timeline {
+  --announcement-line-color: rgba(255, 255, 255, 0.35);
+  --announcement-accent: #ff4d8d;
+  position: relative;
+  max-height: min(70vh, 620px);
+  margin-top: 8px;
+  padding-right: 8px;
+  padding-left: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: rgba(255, 255, 255, 0.48) transparent;
+  scrollbar-width: thin;
+}
+
+.card-announcement .announcement-timeline::before {
+  position: absolute;
+  top: 9px;
+  bottom: 12px;
+  left: 5px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--announcement-accent), var(--announcement-line-color));
+  content: '';
+}
+
+.card-announcement .announcement-entry {
+  position: relative;
+  padding: 0 0 18px;
+}
+
+.card-announcement .announcement-entry:last-child {
+  padding-bottom: 0;
+}
+
+.card-announcement .announcement-entry::before {
+  position: absolute;
+  top: 7px;
+  left: -20px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  border-radius: 50%;
+  background: var(--announcement-accent);
+  box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.2);
+  content: '';
+}
+
+.card-announcement .announcement-entry.is-current::before {
+  box-shadow: 0 0 0 4px rgba(255, 77, 141, 0.25), 0 0 12px rgba(255, 77, 141, 0.7);
+}
+
+.card-announcement .announcement-entry__current {
+  display: inline-block;
+  margin-bottom: 3px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 77, 141, 0.82);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.78em;
+}
+
+.card-announcement .announcement-entry__time {
+  display: block;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
+.card-announcement .announcement-entry__body {
+  margin-top: 10px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.card-announcement .announcement-entry__body p {
+  margin: 0 0 10px;
+}
+
+.card-announcement .announcement-entry__body p:last-child {
+  margin-bottom: 0;
+}
+
+.card-announcement .announcement-entry__lead,
+.card-announcement .announcement-entry__title {
+  font-weight: 700;
+}
+
+.card-announcement .announcement-entry__list {
+  margin: 0 0 10px;
+  padding-left: 1.45em;
+}
+
+.card-announcement .announcement-entry__list li {
+  margin-bottom: 7px;
+  padding-left: 2px;
+}
+
+.card-announcement .announcement-entry__closing {
+  margin-top: 14px !important;
+}
+
+.card-announcement .announcement-entry__details {
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.card-announcement .announcement-entry__summary {
+  padding: 8px 10px;
+  cursor: pointer;
+  list-style-position: outside;
+}
+
+.card-announcement .announcement-entry__summary-title {
+  display: block;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.card-announcement .announcement-entry__details[open] > .announcement-entry__summary {
+  border-bottom: 1px dashed var(--announcement-line-color);
+}
+
+.card-announcement .announcement-entry__details > .announcement-entry__body {
+  padding: 0 10px 12px;
+}
+
+.card-announcement .announcement-history-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.16);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.card-announcement .announcement-history-toggle:hover,
+.card-announcement .announcement-history-toggle:focus-visible {
+  border-color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.card-announcement .announcement-history-toggle__hide {
+  display: none;
+}
+
+.card-announcement .announcement-history-toggle i {
+  transition: transform 0.2s ease;
+}
+
+.card-announcement.is-history-expanded .announcement-history-toggle__show {
+  display: none;
+}
+
+.card-announcement.is-history-expanded .announcement-history-toggle__hide {
+  display: inline;
+}
+
+.card-announcement.is-history-expanded .announcement-history-toggle i {
+  transform: rotate(180deg);
+}
+
+.card-announcement .announcementImg {
+  display: block;
+  width: 80%;
+  height: auto;
+  margin: 12px auto 16px;
+  border-radius: 2em;
+  box-shadow: 10px 8px 8px #000;
+  object-fit: contain;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-announcement .announcementImg:hover {
+  box-shadow: 4px 4px 4px rgba(0, 0, 12, 0.37);
+}
+
+@media (max-width: 768px) {
+  .card-announcement .announcement-timeline {
+    max-height: min(68vh, 560px);
+    padding-left: 18px;
+  }
+
+  .card-announcement .announcement-entry::before {
+    left: -18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-announcement .fa-shake {
+    animation: none !important;
+  }
+
+  .card-announcement .announcement-history-toggle,
+  .card-announcement .announcement-history-toggle i,
+  .card-announcement .announcementImg {
+    transition: none !important;
+  }
+}

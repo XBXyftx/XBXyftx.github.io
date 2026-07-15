@@ -1093,24 +1093,7 @@ html body #recent-posts.waterfall-masonry .waterfall-item .article-meta .tags {
     pointer-events: none !important;
 }
 
-.announcementImg{
-    width: 80% !important;
-    margin: auto !important;
-    justify-content: center;
-    display: flex;
-    border-radius: 2em;
-    box-shadow: 10px 8px 8px #000000;
-    transition: all 0.3s;
-}
-
-.announcementImg:hover{
-    width: 80% !important;
-    margin: auto !important;
-    justify-content: center;
-    display: flex;
-    border-radius: 2em;
-    box-shadow: 4px 4px 4px #00000c5e;
-}
+/* 公告图片与历史时间轴样式见 announcement-history.css */
 
 /* 自定义目录链接颜色 */
 :root {
