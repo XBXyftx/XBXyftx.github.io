@@ -106,9 +106,38 @@
 }
 
 .card-announcement .announcement-entry__summary {
-  padding: 8px 10px;
+  display: block;
+  position: relative;
+  padding: 8px 34px 8px 10px;
   cursor: pointer;
-  list-style-position: outside;
+  list-style: none !important;
+}
+
+.card-announcement .announcement-entry__summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.card-announcement .announcement-entry__summary::marker {
+  display: none;
+  content: none;
+}
+
+.card-announcement .announcement-entry__summary::after {
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(255, 255, 255, 0.88);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.88);
+  content: '';
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.card-announcement .announcement-entry__details[open] > .announcement-entry__summary::after {
+  top: 20px;
+  transform: rotate(225deg);
 }
 
 .card-announcement .announcement-entry__summary-title {
@@ -189,6 +218,10 @@
     padding-left: 18px;
   }
 
+  .card-announcement .announcement-entry__summary::after {
+    right: 12px;
+  }
+
   .card-announcement .announcement-entry::before {
     left: -18px;
   }
@@ -201,7 +234,8 @@
 
   .card-announcement .announcement-history-toggle,
   .card-announcement .announcement-history-toggle i,
-  .card-announcement .announcementImg {
+  .card-announcement .announcementImg,
+  .card-announcement .announcement-entry__summary::after {
     transition: none !important;
   }
 }
