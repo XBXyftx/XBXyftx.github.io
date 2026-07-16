@@ -17,7 +17,11 @@
     isDragging: false,
     startX: 0,
     startY: 0,
-    lastTouchDistance: 0
+    lastTouchDistance: 0,
+    managed: false,
+    requestImage: null,
+    showToken: 0,
+    previousBodyOverflow: ''
   };
 
   // 配置
@@ -338,6 +342,7 @@
       .thumbnail-item {
         width: 60px;
         height: 45px;
+        padding: 0;
         border-radius: 4px;
         overflow: hidden;
         cursor: pointer;
@@ -345,6 +350,9 @@
         transition: all 0.2s ease;
         flex-shrink: 0;
         border: 2px solid transparent;
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        font: inherit;
       }
 
       .thumbnail-item:hover {
@@ -492,6 +500,7 @@
       if (img.closest('.lightbox-enhanced-overlay')) return;
       if (img.closest('.highlight-tools')) return;
       if (img.closest('.avatar')) return;
+      if (img.matches('[data-gallery-managed]')) return;
 
       images.push({
         src: img.src || img.dataset.src,
@@ -507,15 +516,37 @@
   function open(imageSrc, title) {
     if (!overlay) createLightbox();
 
+    state.managed = false;
+    state.requestImage = null;
     state.images = collectImages();
     state.currentIndex = state.images.findIndex(img => img.src === imageSrc);
-    
+
     if (state.currentIndex === -1) {
       state.images.push({ src: imageSrc, title: title || '图片' });
       state.currentIndex = state.images.length - 1;
     }
 
+    openCurrentCollection();
+  }
+
+  // 由大型图库提供顺序和加载调度，避免一次加载全部缩略图。
+  function openManaged(images, currentIndex = 0, requestImage = null) {
+    if (!overlay) createLightbox();
+    if (!Array.isArray(images) || !images.length) return;
+
+    state.managed = true;
+    state.requestImage = typeof requestImage === 'function' ? requestImage : null;
+    state.images = images.map((image, index) => ({
+      src: image.src,
+      title: image.title || `图片 ${index + 1}`
+    }));
+    state.currentIndex = Math.max(0, Math.min(currentIndex, state.images.length - 1));
+    openCurrentCollection();
+  }
+
+  function openCurrentCollection() {
     state.isOpen = true;
+    state.previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     overlay.classList.add('active');
 
@@ -528,9 +559,13 @@
     if (!state.isOpen) return;
 
     state.isOpen = false;
-    document.body.style.overflow = '';
+    state.showToken += 1;
+    document.body.style.overflow = state.previousBodyOverflow;
     overlay.classList.remove('active');
     resetTransform();
+    imageEl.removeAttribute('src');
+    state.managed = false;
+    state.requestImage = null;
 
     // 退出全屏
     if (document.fullscreenElement) {
@@ -539,13 +574,15 @@
   }
 
   // 显示图片
-  function showImage(index) {
+  async function showImage(index) {
     if (index < 0 || index >= state.images.length) return;
 
     state.currentIndex = index;
     const img = state.images[index];
+    const token = ++state.showToken;
 
     // 显示加载状态
+    loadingEl.innerHTML = '<div class="loading-spinner"></div><span>加载中...</span>';
     loadingEl.classList.remove('hidden');
     imageEl.classList.remove('loaded');
     resetTransform();
@@ -558,22 +595,32 @@
     document.getElementById('lbPrev').disabled = index === 0;
     document.getElementById('lbNext').disabled = index === state.images.length - 1;
 
-    // 更新缩略图高亮
-    document.querySelectorAll('.thumbnail-item').forEach((thumb, i) => {
-      thumb.classList.toggle('active', i === index);
-    });
+    renderThumbnails();
 
-    // 加载图片
-    imageEl.onload = () => {
-      loadingEl.classList.add('hidden');
-      imageEl.classList.add('loaded');
-    };
+    try {
+      if (state.requestImage) await state.requestImage(img, index);
+      if (!state.isOpen || token !== state.showToken) return;
 
-    imageEl.onerror = () => {
-      loadingEl.innerHTML = '<span>图片加载失败</span>';
-    };
+      imageEl.onload = () => {
+        if (token !== state.showToken) return;
+        loadingEl.classList.add('hidden');
+        imageEl.classList.add('loaded');
+      };
 
-    imageEl.src = img.src;
+      imageEl.onerror = () => {
+        if (token !== state.showToken) return;
+        loadingEl.innerHTML = '<span>图片加载失败</span>';
+      };
+
+      if (imageEl.src === new URL(img.src, document.baseURI).href && imageEl.complete && imageEl.naturalWidth > 0) {
+        loadingEl.classList.add('hidden');
+        imageEl.classList.add('loaded');
+      } else {
+        imageEl.src = img.src;
+      }
+    } catch (error) {
+      if (token === state.showToken) loadingEl.innerHTML = '<span>图片加载失败</span>';
+    }
   }
 
   // 导航
@@ -665,25 +712,39 @@
   // 渲染缩略图
   function renderThumbnails() {
     const container = document.getElementById('lbThumbnails');
-    
-    // 图片少于3张不显示缩略图
+
     if (state.images.length < 3) {
       container.innerHTML = '';
       return;
     }
 
-    container.innerHTML = state.images.map((img, index) => `
-      <div class="thumbnail-item ${index === state.currentIndex ? 'active' : ''}" data-index="${index}">
-        <img src="${img.src}" alt="">
-      </div>
-    `).join('');
+    const indexes = state.managed
+      ? Array.from({ length: Math.min(5, state.images.length) }, (_, offset) => {
+        const start = Math.max(0, Math.min(state.currentIndex - 2, state.images.length - 5));
+        return start + offset;
+      })
+      : state.images.map((_, index) => index);
 
-    // 绑定点击事件
-    container.querySelectorAll('.thumbnail-item').forEach(thumb => {
-      thumb.addEventListener('click', () => {
-        showImage(parseInt(thumb.dataset.index));
-      });
-    });
+    container.replaceChildren(...indexes.map(index => {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = `thumbnail-item${index === state.currentIndex ? ' active' : ''}`;
+      item.dataset.index = String(index);
+      item.setAttribute('aria-label', `查看第 ${index + 1} 张图片`);
+
+      if (state.managed) {
+        item.textContent = String(index + 1);
+      } else {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = state.images[index].src;
+        thumbnail.alt = '';
+        thumbnail.loading = 'lazy';
+        item.appendChild(thumbnail);
+      }
+
+      item.addEventListener('click', () => showImage(index));
+      return item;
+    }));
   }
 
   // 键盘事件处理
@@ -822,6 +883,7 @@
       if (img.closest('.avatar')) return;
       if (img.closest('#page-header')) return;
       if (img.closest('.aside-card')) return;
+      if (img.matches('[data-gallery-managed]')) return;
 
       // 检查是否在文章内容区域
       const isInContent = img.closest('#article-container') || 
@@ -849,6 +911,7 @@
   // 导出 API
   window.LightboxEnhanced = {
     open,
+    openManaged,
     close,
     init
   };

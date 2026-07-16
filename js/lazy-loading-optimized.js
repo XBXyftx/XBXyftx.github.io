@@ -20,6 +20,7 @@
   let activeLoadCount = 0;
 
   const isArticleImage = image => image instanceof HTMLImageElement
+    && !image.matches('[data-gallery-managed]')
     && Boolean(image.closest('#article-container, .post-content'));
 
   const collectImages = () => [...document.querySelectorAll('#article-container img, .post-content img')]
