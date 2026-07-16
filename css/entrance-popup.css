@@ -15,7 +15,7 @@
 .entrance-popup.show {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .popup-overlay {
