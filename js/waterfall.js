@@ -6,6 +6,7 @@
   const GAP = 20;
   const MOBILE_QUERY = window.matchMedia('(max-width: 768px)');
   const MEDIUM_QUERY = window.matchMedia('(max-width: 1200px)');
+  const REDUCED_MOTION_QUERY = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   class WaterfallLayout {
     constructor(container) {
@@ -17,18 +18,34 @@
       this.lastObservedWidth = null;
       this.imageListeners = [];
       this.mediaCleanup = [];
+      this.laserFrameId = null;
+      this.laserPointer = null;
+      this.activeLaserItem = null;
+      this.activeLaserInfo = null;
+      this.activeLaserRect = null;
+      this.activeRippleLayer = null;
+      this.pendingRipple = false;
+      this.lastRippleAt = 0;
+      this.lastRipplePointer = null;
+      this.rippleSequence = 0;
+      this.laserTrackingActive = false;
       this.destroyed = false;
 
       this.scheduleLayout = this.scheduleLayout.bind(this);
       this.handleObservedResize = this.handleObservedResize.bind(this);
+      this.syncLaserTracking = this.syncLaserTracking.bind(this);
+      this.handleLaserMove = this.handleLaserMove.bind(this);
+      this.handleLaserLeave = this.handleLaserLeave.bind(this);
     }
 
     mount() {
       this.refreshItems();
+      this.prepareRippleLayers();
       this.observeImages();
       this.observeContainer();
       this.observeItems();
       this.observeBreakpoints();
+      this.observeLaserPreferences();
       this.scheduleLayout();
 
       if (document.fonts && document.fonts.ready) {
@@ -38,6 +55,18 @@
 
     refreshItems() {
       this.items = Array.from(this.container.querySelectorAll(ITEM_SELECTOR));
+    }
+
+    prepareRippleLayers() {
+      this.items.forEach((item) => {
+        const info = item.querySelector('.recent-post-info');
+        if (!info || info.querySelector('.waterfall-ripple-layer')) return;
+
+        const layer = document.createElement('span');
+        layer.className = 'waterfall-ripple-layer';
+        layer.setAttribute('aria-hidden', 'true');
+        info.prepend(layer);
+      });
     }
 
     observeImages() {
@@ -92,6 +121,169 @@
           this.mediaCleanup.push(() => query.removeListener(listener));
         }
       });
+    }
+
+    observeLaserPreferences() {
+      [REDUCED_MOTION_QUERY].forEach((query) => {
+        const listener = this.syncLaserTracking;
+
+        if (typeof query.addEventListener === 'function') {
+          query.addEventListener('change', listener);
+          this.mediaCleanup.push(() => query.removeEventListener('change', listener));
+        } else {
+          query.addListener(listener);
+          this.mediaCleanup.push(() => query.removeListener(listener));
+        }
+      });
+
+      this.syncLaserTracking();
+    }
+
+    syncLaserTracking() {
+      // Embedded browsers can report a coarse/unknown media pointer while still
+      // dispatching real mouse events, so the binding gate must not depend on it.
+      const shouldTrack = typeof window.PointerEvent === 'function' && !REDUCED_MOTION_QUERY.matches;
+      if (shouldTrack === this.laserTrackingActive) return;
+
+      this.laserTrackingActive = shouldTrack;
+      const method = shouldTrack ? 'addEventListener' : 'removeEventListener';
+      this.container[method]('pointermove', this.handleLaserMove);
+      this.container[method]('pointerleave', this.handleLaserLeave);
+      this.container[method]('pointercancel', this.handleLaserLeave);
+
+      if (!shouldTrack) this.resetLaserEffect();
+    }
+
+    handleLaserEnter(event) {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      if (!(event.target instanceof Element)) return;
+
+      const item = event.target.closest(ITEM_SELECTOR);
+      if (!item || !this.container.contains(item)) return;
+      if (item === this.activeLaserItem) return;
+
+      const info = item.querySelector('.recent-post-info');
+      if (!info) return;
+
+      this.resetLaserEffect();
+      this.activeLaserItem = item;
+      this.activeLaserInfo = info;
+      this.activeLaserRect = info.getBoundingClientRect();
+      this.activeRippleLayer = info.querySelector('.waterfall-ripple-layer');
+      this.laserPointer = { x: event.clientX, y: event.clientY };
+      this.pendingRipple = true;
+      this.lastRippleAt = performance.now();
+      this.lastRipplePointer = { x: event.clientX, y: event.clientY };
+      item.classList.add('is-laser-active');
+      this.scheduleLaserPaint();
+    }
+
+    handleLaserMove(event) {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      if (!(event.target instanceof Element)) return;
+
+      const item = event.target.closest(ITEM_SELECTOR);
+      if (!item || !this.container.contains(item)) {
+        if (this.activeLaserItem) this.resetLaserEffect();
+        return;
+      }
+
+      if (item !== this.activeLaserItem) {
+        this.handleLaserEnter(event);
+        return;
+      }
+
+      this.laserPointer = { x: event.clientX, y: event.clientY };
+      this.queueRipple(event);
+      this.scheduleLaserPaint();
+    }
+
+    queueRipple(event) {
+      const now = performance.now();
+      const previous = this.lastRipplePointer;
+      const distance = previous
+        ? Math.hypot(event.clientX - previous.x, event.clientY - previous.y)
+        : Number.POSITIVE_INFINITY;
+
+      if (now - this.lastRippleAt < 64 || distance < 14) return;
+
+      this.pendingRipple = true;
+      this.lastRippleAt = now;
+      this.lastRipplePointer = { x: event.clientX, y: event.clientY };
+    }
+
+    handleLaserLeave(event) {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      if (!this.activeLaserItem) return;
+
+      this.resetLaserEffect();
+    }
+
+    scheduleLaserPaint() {
+      if (this.laserFrameId !== null) return;
+
+      this.laserFrameId = window.requestAnimationFrame(() => {
+        this.laserFrameId = null;
+        this.paintLaserEffect();
+      });
+    }
+
+    paintLaserEffect() {
+      if (!this.activeLaserInfo || !this.activeLaserRect || !this.laserPointer) return;
+
+      const { left, top, width, height } = this.activeLaserRect;
+      const x = Math.max(0, Math.min(width, this.laserPointer.x - left));
+      const y = Math.max(0, Math.min(height, this.laserPointer.y - top));
+      this.activeLaserInfo.style.setProperty('--laser-x', `${x.toFixed(1)}px`);
+      this.activeLaserInfo.style.setProperty('--laser-y', `${y.toFixed(1)}px`);
+
+      if (this.pendingRipple) {
+        this.pendingRipple = false;
+        this.spawnRipple(x, y);
+      }
+    }
+
+    spawnRipple(x, y) {
+      if (!this.activeRippleLayer) return;
+
+      const ripple = document.createElement('span');
+      const tone = this.rippleSequence % 3;
+      const duration = 820 + (this.rippleSequence % 4) * 70;
+      const scale = 7.2 + (this.rippleSequence % 3) * 0.65;
+      const rotation = [-7, 4, -2, 8][this.rippleSequence % 4];
+      const stretch = [1.06, 0.94, 1.12][this.rippleSequence % 3];
+      this.rippleSequence += 1;
+
+      ripple.className = `waterfall-ripple waterfall-ripple--tone-${tone}`;
+      ripple.style.setProperty('--ripple-x', `${x.toFixed(1)}px`);
+      ripple.style.setProperty('--ripple-y', `${y.toFixed(1)}px`);
+      ripple.style.setProperty('--ripple-duration', `${duration}ms`);
+      ripple.style.setProperty('--ripple-scale', scale.toFixed(1));
+      ripple.style.setProperty('--ripple-rotation', `${rotation}deg`);
+      ripple.style.setProperty('--ripple-stretch', stretch.toFixed(2));
+      ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+      this.activeRippleLayer.appendChild(ripple);
+
+      while (this.activeRippleLayer.childElementCount > 9) {
+        this.activeRippleLayer.firstElementChild.remove();
+      }
+    }
+
+    resetLaserEffect() {
+      if (this.laserFrameId !== null) {
+        window.cancelAnimationFrame(this.laserFrameId);
+        this.laserFrameId = null;
+      }
+
+      if (this.activeLaserItem) this.activeLaserItem.classList.remove('is-laser-active');
+      this.activeLaserItem = null;
+      this.activeLaserInfo = null;
+      this.activeLaserRect = null;
+      this.activeRippleLayer = null;
+      this.laserPointer = null;
+      this.pendingRipple = false;
+      this.lastRippleAt = 0;
+      this.lastRipplePointer = null;
     }
 
     scheduleLayout() {
@@ -211,6 +403,14 @@
       this.mediaCleanup.forEach((cleanup) => cleanup());
       this.mediaCleanup = [];
 
+      if (this.laserTrackingActive) {
+        this.laserTrackingActive = false;
+        this.container.removeEventListener('pointermove', this.handleLaserMove);
+        this.container.removeEventListener('pointerleave', this.handleLaserLeave);
+        this.container.removeEventListener('pointercancel', this.handleLaserLeave);
+      }
+      this.resetLaserEffect();
+
       this.imageListeners.forEach(({ image, handleImageSettled }) => {
         image.removeEventListener('load', handleImageSettled);
         image.removeEventListener('error', handleImageSettled);
@@ -228,6 +428,14 @@
         item.style.removeProperty('width');
         item.style.removeProperty('margin');
         item.style.removeProperty('transform');
+        item.classList.remove('is-laser-active');
+        const info = item.querySelector('.recent-post-info');
+        if (info) {
+          info.style.removeProperty('--laser-x');
+          info.style.removeProperty('--laser-y');
+          const rippleLayer = info.querySelector('.waterfall-ripple-layer');
+          if (rippleLayer) rippleLayer.remove();
+        }
       });
     }
   }
