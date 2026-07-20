@@ -249,7 +249,7 @@
       const ripple = document.createElement('span');
       const tone = this.rippleSequence % 3;
       const duration = 820 + (this.rippleSequence % 4) * 70;
-      const scale = 7.2 + (this.rippleSequence % 3) * 0.65;
+      const scale = 3.6 + (this.rippleSequence % 3) * 0.33;
       const rotation = [-7, 4, -2, 8][this.rippleSequence % 4];
       const stretch = [1.06, 0.94, 1.12][this.rippleSequence % 3];
       this.rippleSequence += 1;
