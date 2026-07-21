@@ -454,6 +454,36 @@ body:not(.read-mode) #content-inner > #post .post-copyright-info {
     color: rgba(214, 229, 247, 0.92);
 }
 
+/* Flat note 使用浅色底，内容必须脱离文章夜空主题的浅色文字规则。 */
+body:not(.read-mode) #content-inner > #post #article-container .note.flat,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat p,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat li,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat th,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat td,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat h1,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat h2,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat h3,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat h4,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat h5,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat h6,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat strong,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat b,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat em,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat code,
+body:not(.read-mode) #content-inner > #post #article-container .note.flat a:not(.btn) {
+    color: #111827 !important;
+    text-shadow: none;
+}
+
+body:not(.read-mode) #content-inner > #post #article-container .note.flat a:not(.btn) {
+    text-decoration-color: rgba(17, 24, 39, 0.48);
+}
+
+body:not(.read-mode) #content-inner > #post #article-container .note.flat a:not(.btn):hover {
+    color: #000 !important;
+    text-decoration-color: #000;
+}
+
 /* #content-inner #archive,
 #content-inner #page{
     background: linear-gradient(
