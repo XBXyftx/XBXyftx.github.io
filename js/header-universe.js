@@ -12,8 +12,8 @@ function headerUniverse() {
     var n, e, i, h, t = 0.05,
         s = document.createElement("canvas"),
         o = !0,
-        a = "180,184,240",
-        r = "226,225,142",
+        a = "214,226,255",
+        r = "228,247,255",
         d = "255,255,255",
         c = [],
         animationId = null,
@@ -59,13 +59,13 @@ function headerUniverse() {
             this.comet = !this.giant && !o && m(10);
             this.x = l(0, n - 10);
             this.y = l(0, e);
-            this.r = l(1.1, 2.6);
+            this.r = l(1.4, 3.1);
             this.dx = l(t, 6 * t) + (this.comet + 1 - 1) * t * l(50, 120) + 2 * t;
             this.dy = -l(t, 6 * t) - (this.comet + 1 - 1) * t * l(50, 120);
             this.fadingOut = null;
             this.fadingIn = !0;
             this.opacity = 0;
-            this.opacityTresh = l(0.2, 1 - 0.4 * (this.comet + 1 - 1));
+            this.opacityTresh = this.comet ? l(0.58, 0.92) : l(0.42, 0.92);
             this.do = l(5e-4, 0.002) + 0.001 * (this.comet + 1 - 1);
         };
 
@@ -79,18 +79,18 @@ function headerUniverse() {
 
         this.draw = function() {
             if (h.beginPath(), this.giant) {
-                h.fillStyle = "rgba(" + a + "," + this.opacity + ")";
-                h.arc(this.x, this.y, 2, 0, 2 * Math.PI, !1);
+                h.fillStyle = "rgba(" + a + "," + Math.min(this.opacity * 1.18, 1) + ")";
+                h.arc(this.x, this.y, 2.5, 0, 2 * Math.PI, !1);
             } else if (this.comet) {
-                h.fillStyle = "rgba(" + d + "," + Math.min(this.opacity * 1.5, 1) + ")";
-                h.arc(this.x, this.y, 1.5, 0, 2 * Math.PI, !1);
+                h.fillStyle = "rgba(" + d + "," + Math.min(this.opacity * 1.8, 1) + ")";
+                h.arc(this.x, this.y, 1.9, 0, 2 * Math.PI, !1);
                 for (var t = 0; t < 10; t++) {
-                    h.fillStyle = "rgba(" + d + "," + (this.opacity - this.opacity / 10 * t) + ")";
-                    h.rect(this.x - this.dx / 3 * t, this.y - this.dy / 3 * t - 2, 2, 2);
+                    h.fillStyle = "rgba(" + d + "," + Math.min((this.opacity - this.opacity / 10 * t) * 1.35, 1) + ")";
+                    h.rect(this.x - this.dx / 3 * t, this.y - this.dy / 3 * t - 2, 2.3, 2.3);
                     h.fill();
                 }
             } else {
-                h.fillStyle = "rgba(" + r + "," + this.opacity + ")";
+                h.fillStyle = "rgba(" + r + "," + Math.min(this.opacity * 1.15, 1) + ")";
                 h.rect(this.x, this.y, this.r, this.r);
             }
             h.closePath();

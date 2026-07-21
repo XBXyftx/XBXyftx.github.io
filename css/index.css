@@ -2741,32 +2741,12 @@ figure.highlight pre .javascript .function {
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item {
   --glass-angle: 152deg;
-  --glass-a: rgba(2,8,17,0.94);
-  --glass-b: rgba(4,49,68,0.84);
-  --glass-c: rgba(8,104,111,0.68);
-  --glass-glow-a: rgba(57,215,214,0.28);
-  --glass-glow-b: rgba(95,155,255,0.16);
+  --glass-a: rgba(2,8,17,0.6);
+  --glass-b: rgba(4,49,68,0.52);
+  --glass-c: rgba(8,104,111,0.46);
+  --glass-glow-a: rgba(57,215,214,0.16);
+  --glass-glow-b: rgba(95,155,255,0.1);
   --card-accent: rgba(72,232,226,0.78);
-  --star-1-x: 9%;
-  --star-1-y: 16%;
-  --star-2-x: 27%;
-  --star-2-y: 73%;
-  --star-3-x: 46%;
-  --star-3-y: 29%;
-  --star-4-x: 68%;
-  --star-4-y: 84%;
-  --star-5-x: 82%;
-  --star-5-y: 13%;
-  --star-6-x: 94%;
-  --star-6-y: 57%;
-  --star-7-x: 18%;
-  --star-7-y: 43%;
-  --star-8-x: 38%;
-  --star-8-y: 91%;
-  --star-9-x: 61%;
-  --star-9-y: 55%;
-  --star-10-x: 88%;
-  --star-10-y: 37%;
   position: static;
   display: block !important;
   visibility: visible !important;
@@ -2783,151 +2763,51 @@ figure.highlight pre .javascript .function {
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item:nth-child(6n + 2) {
   --glass-angle: 118deg;
-  --glass-a: rgba(3,10,32,0.95);
-  --glass-b: rgba(13,49,126,0.82);
-  --glass-c: rgba(49,37,135,0.72);
-  --glass-glow-a: rgba(72,151,255,0.32);
-  --glass-glow-b: rgba(128,111,255,0.22);
+  --glass-a: rgba(3,10,32,0.61);
+  --glass-b: rgba(13,49,126,0.5);
+  --glass-c: rgba(49,37,135,0.44);
+  --glass-glow-a: rgba(72,151,255,0.18);
+  --glass-glow-b: rgba(128,111,255,0.12);
   --card-accent: rgba(103,169,255,0.8);
-  --star-1-x: 15%;
-  --star-1-y: 81%;
-  --star-2-x: 32%;
-  --star-2-y: 18%;
-  --star-3-x: 53%;
-  --star-3-y: 61%;
-  --star-4-x: 71%;
-  --star-4-y: 34%;
-  --star-5-x: 87%;
-  --star-5-y: 76%;
-  --star-6-x: 96%;
-  --star-6-y: 11%;
-  --star-7-x: 6%;
-  --star-7-y: 51%;
-  --star-8-x: 42%;
-  --star-8-y: 87%;
-  --star-9-x: 64%;
-  --star-9-y: 7%;
-  --star-10-x: 79%;
-  --star-10-y: 54%;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item:nth-child(6n + 3) {
   --glass-angle: 164deg;
-  --glass-a: rgba(24,3,15,0.95);
-  --glass-b: rgba(105,16,54,0.84);
-  --glass-c: rgba(91,36,91,0.72);
-  --glass-glow-a: rgba(255,80,126,0.3);
-  --glass-glow-b: rgba(218,94,184,0.22);
+  --glass-a: rgba(24,3,15,0.62);
+  --glass-b: rgba(105,16,54,0.52);
+  --glass-c: rgba(91,36,91,0.45);
+  --glass-glow-a: rgba(255,80,126,0.17);
+  --glass-glow-b: rgba(218,94,184,0.12);
   --card-accent: rgba(255,112,157,0.8);
-  --star-1-x: 7%;
-  --star-1-y: 47%;
-  --star-2-x: 24%;
-  --star-2-y: 12%;
-  --star-3-x: 39%;
-  --star-3-y: 88%;
-  --star-4-x: 63%;
-  --star-4-y: 42%;
-  --star-5-x: 78%;
-  --star-5-y: 69%;
-  --star-6-x: 91%;
-  --star-6-y: 21%;
-  --star-7-x: 15%;
-  --star-7-y: 72%;
-  --star-8-x: 47%;
-  --star-8-y: 34%;
-  --star-9-x: 69%;
-  --star-9-y: 94%;
-  --star-10-x: 86%;
-  --star-10-y: 49%;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item:nth-child(6n + 4) {
   --glass-angle: 104deg;
-  --glass-a: rgba(20,7,4,0.96);
-  --glass-b: rgba(111,38,22,0.84);
-  --glass-c: rgba(148,66,34,0.68);
-  --glass-glow-a: rgba(255,130,67,0.28);
-  --glass-glow-b: rgba(239,73,70,0.2);
+  --glass-a: rgba(20,7,4,0.63);
+  --glass-b: rgba(111,38,22,0.52);
+  --glass-c: rgba(148,66,34,0.44);
+  --glass-glow-a: rgba(255,130,67,0.16);
+  --glass-glow-b: rgba(239,73,70,0.11);
   --card-accent: rgba(255,145,82,0.8);
-  --star-1-x: 12%;
-  --star-1-y: 28%;
-  --star-2-x: 29%;
-  --star-2-y: 92%;
-  --star-3-x: 48%;
-  --star-3-y: 53%;
-  --star-4-x: 66%;
-  --star-4-y: 15%;
-  --star-5-x: 84%;
-  --star-5-y: 87%;
-  --star-6-x: 95%;
-  --star-6-y: 39%;
-  --star-7-x: 4%;
-  --star-7-y: 68%;
-  --star-8-x: 36%;
-  --star-8-y: 19%;
-  --star-9-x: 57%;
-  --star-9-y: 79%;
-  --star-10-x: 77%;
-  --star-10-y: 46%;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item:nth-child(6n + 5) {
   --glass-angle: 138deg;
-  --glass-a: rgba(16,4,31,0.96);
-  --glass-b: rgba(64,26,123,0.84);
-  --glass-c: rgba(131,35,119,0.7);
-  --glass-glow-a: rgba(158,102,255,0.3);
-  --glass-glow-b: rgba(255,91,192,0.2);
+  --glass-a: rgba(16,4,31,0.63);
+  --glass-b: rgba(64,26,123,0.52);
+  --glass-c: rgba(131,35,119,0.45);
+  --glass-glow-a: rgba(158,102,255,0.17);
+  --glass-glow-b: rgba(255,91,192,0.11);
   --card-accent: rgba(190,123,255,0.8);
-  --star-1-x: 5%;
-  --star-1-y: 79%;
-  --star-2-x: 21%;
-  --star-2-y: 36%;
-  --star-3-x: 43%;
-  --star-3-y: 9%;
-  --star-4-x: 58%;
-  --star-4-y: 76%;
-  --star-5-x: 76%;
-  --star-5-y: 48%;
-  --star-6-x: 93%;
-  --star-6-y: 18%;
-  --star-7-x: 13%;
-  --star-7-y: 55%;
-  --star-8-x: 34%;
-  --star-8-y: 97%;
-  --star-9-x: 67%;
-  --star-9-y: 23%;
-  --star-10-x: 85%;
-  --star-10-y: 63%;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item:nth-child(6n) {
   --glass-angle: 172deg;
-  --glass-a: rgba(2,18,18,0.96);
-  --glass-b: rgba(7,80,75,0.84);
-  --glass-c: rgba(13,83,124,0.7);
-  --glass-glow-a: rgba(57,225,175,0.28);
-  --glass-glow-b: rgba(61,169,255,0.22);
+  --glass-a: rgba(2,18,18,0.62);
+  --glass-b: rgba(7,80,75,0.52);
+  --glass-c: rgba(13,83,124,0.45);
+  --glass-glow-a: rgba(57,225,175,0.16);
+  --glass-glow-b: rgba(61,169,255,0.12);
   --card-accent: rgba(78,231,187,0.8);
-  --star-1-x: 11%;
-  --star-1-y: 63%;
-  --star-2-x: 35%;
-  --star-2-y: 8%;
-  --star-3-x: 51%;
-  --star-3-y: 86%;
-  --star-4-x: 69%;
-  --star-4-y: 31%;
-  --star-5-x: 81%;
-  --star-5-y: 71%;
-  --star-6-x: 97%;
-  --star-6-y: 46%;
-  --star-7-x: 3%;
-  --star-7-y: 24%;
-  --star-8-x: 27%;
-  --star-8-y: 49%;
-  --star-9-x: 59%;
-  --star-9-y: 17%;
-  --star-10-x: 89%;
-  --star-10-y: 93%;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper {
-  background: rgba(3,5,12,0.36);
+  background: rgba(3,5,12,0.16);
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid rgba(171,194,226,0.34);
@@ -2964,7 +2844,7 @@ figure.highlight pre .javascript .function {
   -webkit-box-shadow: 0 20px 42px rgba(0,0,0,0.42), 0 0 25px var(--card-accent);
   box-shadow: 0 20px 42px rgba(0,0,0,0.42), 0 0 25px var(--card-accent);
   border-color: var(--card-accent);
-  background: rgba(3,5,12,0.48);
+  background: rgba(3,5,12,0.24);
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .post_cover {
   width: 100%;
@@ -3025,13 +2905,13 @@ figure.highlight pre .javascript .function {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: -webkit-radial-gradient(circle at var(--star-1-x) var(--star-1-y), rgba(255,255,255,0.72) 0 0.4px, transparent 1px), -webkit-radial-gradient(circle at var(--star-2-x) var(--star-2-y), rgba(255,255,255,0.46) 0 0.45px, transparent 1.1px), -webkit-radial-gradient(circle at var(--star-3-x) var(--star-3-y), rgba(255,255,255,0.64) 0 0.35px, transparent 0.9px), -webkit-radial-gradient(circle at var(--star-4-x) var(--star-4-y), rgba(255,255,255,0.38) 0 0.5px, transparent 1.15px), -webkit-radial-gradient(circle at var(--star-5-x) var(--star-5-y), rgba(255,255,255,0.58) 0 0.4px, transparent 1px), -webkit-radial-gradient(circle at var(--star-6-x) var(--star-6-y), rgba(255,255,255,0.48) 0 0.35px, transparent 0.9px), -webkit-radial-gradient(circle at var(--star-7-x) var(--star-7-y), rgba(255,255,255,0.54) 0 0.3px, transparent 0.8px), -webkit-radial-gradient(circle at var(--star-8-x) var(--star-8-y), rgba(255,255,255,0.42) 0 0.4px, transparent 1px), -webkit-radial-gradient(circle at var(--star-9-x) var(--star-9-y), rgba(255,255,255,0.66) 0 0.35px, transparent 0.9px), -webkit-radial-gradient(circle at var(--star-10-x) var(--star-10-y), rgba(255,255,255,0.36) 0 0.45px, transparent 1.05px), -webkit-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -webkit-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -webkit-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
-  background: -moz-radial-gradient(circle at var(--star-1-x) var(--star-1-y), rgba(255,255,255,0.72) 0 0.4px, transparent 1px), -moz-radial-gradient(circle at var(--star-2-x) var(--star-2-y), rgba(255,255,255,0.46) 0 0.45px, transparent 1.1px), -moz-radial-gradient(circle at var(--star-3-x) var(--star-3-y), rgba(255,255,255,0.64) 0 0.35px, transparent 0.9px), -moz-radial-gradient(circle at var(--star-4-x) var(--star-4-y), rgba(255,255,255,0.38) 0 0.5px, transparent 1.15px), -moz-radial-gradient(circle at var(--star-5-x) var(--star-5-y), rgba(255,255,255,0.58) 0 0.4px, transparent 1px), -moz-radial-gradient(circle at var(--star-6-x) var(--star-6-y), rgba(255,255,255,0.48) 0 0.35px, transparent 0.9px), -moz-radial-gradient(circle at var(--star-7-x) var(--star-7-y), rgba(255,255,255,0.54) 0 0.3px, transparent 0.8px), -moz-radial-gradient(circle at var(--star-8-x) var(--star-8-y), rgba(255,255,255,0.42) 0 0.4px, transparent 1px), -moz-radial-gradient(circle at var(--star-9-x) var(--star-9-y), rgba(255,255,255,0.66) 0 0.35px, transparent 0.9px), -moz-radial-gradient(circle at var(--star-10-x) var(--star-10-y), rgba(255,255,255,0.36) 0 0.45px, transparent 1.05px), -moz-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -moz-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -moz-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
-  background: -o-radial-gradient(circle at var(--star-1-x) var(--star-1-y), rgba(255,255,255,0.72) 0 0.4px, transparent 1px), -o-radial-gradient(circle at var(--star-2-x) var(--star-2-y), rgba(255,255,255,0.46) 0 0.45px, transparent 1.1px), -o-radial-gradient(circle at var(--star-3-x) var(--star-3-y), rgba(255,255,255,0.64) 0 0.35px, transparent 0.9px), -o-radial-gradient(circle at var(--star-4-x) var(--star-4-y), rgba(255,255,255,0.38) 0 0.5px, transparent 1.15px), -o-radial-gradient(circle at var(--star-5-x) var(--star-5-y), rgba(255,255,255,0.58) 0 0.4px, transparent 1px), -o-radial-gradient(circle at var(--star-6-x) var(--star-6-y), rgba(255,255,255,0.48) 0 0.35px, transparent 0.9px), -o-radial-gradient(circle at var(--star-7-x) var(--star-7-y), rgba(255,255,255,0.54) 0 0.3px, transparent 0.8px), -o-radial-gradient(circle at var(--star-8-x) var(--star-8-y), rgba(255,255,255,0.42) 0 0.4px, transparent 1px), -o-radial-gradient(circle at var(--star-9-x) var(--star-9-y), rgba(255,255,255,0.66) 0 0.35px, transparent 0.9px), -o-radial-gradient(circle at var(--star-10-x) var(--star-10-y), rgba(255,255,255,0.36) 0 0.45px, transparent 1.05px), -o-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -o-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -o-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
-  background: -ms-radial-gradient(circle at var(--star-1-x) var(--star-1-y), rgba(255,255,255,0.72) 0 0.4px, transparent 1px), -ms-radial-gradient(circle at var(--star-2-x) var(--star-2-y), rgba(255,255,255,0.46) 0 0.45px, transparent 1.1px), -ms-radial-gradient(circle at var(--star-3-x) var(--star-3-y), rgba(255,255,255,0.64) 0 0.35px, transparent 0.9px), -ms-radial-gradient(circle at var(--star-4-x) var(--star-4-y), rgba(255,255,255,0.38) 0 0.5px, transparent 1.15px), -ms-radial-gradient(circle at var(--star-5-x) var(--star-5-y), rgba(255,255,255,0.58) 0 0.4px, transparent 1px), -ms-radial-gradient(circle at var(--star-6-x) var(--star-6-y), rgba(255,255,255,0.48) 0 0.35px, transparent 0.9px), -ms-radial-gradient(circle at var(--star-7-x) var(--star-7-y), rgba(255,255,255,0.54) 0 0.3px, transparent 0.8px), -ms-radial-gradient(circle at var(--star-8-x) var(--star-8-y), rgba(255,255,255,0.42) 0 0.4px, transparent 1px), -ms-radial-gradient(circle at var(--star-9-x) var(--star-9-y), rgba(255,255,255,0.66) 0 0.35px, transparent 0.9px), -ms-radial-gradient(circle at var(--star-10-x) var(--star-10-y), rgba(255,255,255,0.36) 0 0.45px, transparent 1.05px), -ms-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -ms-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -ms-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
-  background: radial-gradient(circle at var(--star-1-x) var(--star-1-y), rgba(255,255,255,0.72) 0 0.4px, transparent 1px), radial-gradient(circle at var(--star-2-x) var(--star-2-y), rgba(255,255,255,0.46) 0 0.45px, transparent 1.1px), radial-gradient(circle at var(--star-3-x) var(--star-3-y), rgba(255,255,255,0.64) 0 0.35px, transparent 0.9px), radial-gradient(circle at var(--star-4-x) var(--star-4-y), rgba(255,255,255,0.38) 0 0.5px, transparent 1.15px), radial-gradient(circle at var(--star-5-x) var(--star-5-y), rgba(255,255,255,0.58) 0 0.4px, transparent 1px), radial-gradient(circle at var(--star-6-x) var(--star-6-y), rgba(255,255,255,0.48) 0 0.35px, transparent 0.9px), radial-gradient(circle at var(--star-7-x) var(--star-7-y), rgba(255,255,255,0.54) 0 0.3px, transparent 0.8px), radial-gradient(circle at var(--star-8-x) var(--star-8-y), rgba(255,255,255,0.42) 0 0.4px, transparent 1px), radial-gradient(circle at var(--star-9-x) var(--star-9-y), rgba(255,255,255,0.66) 0 0.35px, transparent 0.9px), radial-gradient(circle at var(--star-10-x) var(--star-10-y), rgba(255,255,255,0.36) 0 0.45px, transparent 1.05px), radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
-  backdrop-filter: blur(18px) saturate(1.28);
-  -webkit-backdrop-filter: blur(18px) saturate(1.28);
+  background: -webkit-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -webkit-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -webkit-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
+  background: -moz-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -moz-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -moz-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
+  background: -o-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -o-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -o-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
+  background: -ms-radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), -ms-radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), -ms-linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
+  background: radial-gradient(circle at 12% 4%, var(--glass-glow-a), transparent 46%), radial-gradient(circle at 92% 96%, var(--glass-glow-b), transparent 52%), linear-gradient(var(--glass-angle), var(--glass-a), var(--glass-b) 54%, var(--glass-c));
+  backdrop-filter: blur(4px) saturate(1.18) brightness(0.78);
+  -webkit-backdrop-filter: blur(4px) saturate(1.18) brightness(0.78);
   border-top: 1px solid rgba(255,255,255,0.07);
   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -20px 34px rgba(1,3,10,0.12);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -20px 34px rgba(1,3,10,0.12);
@@ -3161,10 +3041,11 @@ figure.highlight pre .javascript .function {
   margin-bottom: 12px;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-title a {
-  color: var(--font-color);
+  color: #f4fbff;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.58);
   text-decoration: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -3195,7 +3076,8 @@ figure.highlight pre .javascript .function {
   gap: 8px;
   margin-bottom: 10px;
   font-size: 12px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(236,248,255,0.88);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.52);
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-meta .article-meta__info {
   display: -webkit-box;
@@ -3233,8 +3115,8 @@ figure.highlight pre .javascript .function {
   margin-bottom: 8px !important;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-meta .tags .article-meta__tags {
-  background: rgba(255,255,255,0.2) !important;
-  color: rgba(255,255,255,0.8) !important;
+  background: transparent !important;
+  color: rgba(242,252,255,0.94) !important;
   padding: 6px 12px !important;
   border-radius: 12px !important;
   font-size: 12px !important;
@@ -3244,14 +3126,16 @@ figure.highlight pre .javascript .function {
   -o-transition: all 0.3s ease !important;
   -ms-transition: all 0.3s ease !important;
   transition: all 0.3s ease !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
-  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(188,241,255,0.22) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.52);
   display: inline-block !important;
   margin: 2px !important;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .article-meta .tags .article-meta__tags:hover {
-  background: rgba(255,255,255,0.3) !important;
-  color: rgba(255,255,255,0.9) !important;
+  background: rgba(10,55,74,0.72) !important;
+  color: #fff !important;
   -webkit-transform: translateY(-1px) !important;
   -moz-transform: translateY(-1px) !important;
   -o-transform: translateY(-1px) !important;
@@ -3261,12 +3145,13 @@ figure.highlight pre .javascript .function {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
 }
 #recent-posts.waterfall-masonry .waterfall-container .waterfall-item .post-card-wrapper .recent-post-info .content {
-  color: var(--font-color);
+  color: rgba(238,249,255,0.94);
   font-size: 13px;
   line-height: 1.5;
-  opacity: 0.8;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity=80);
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.58);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -3306,7 +3191,7 @@ figure.highlight pre .javascript .function {
     -o-transform: none;
     -ms-transform: none;
     transform: none;
-    background: rgba(3,5,12,0.36);
+    background: rgba(3,5,12,0.16);
     border-color: rgba(171,194,226,0.34);
     -webkit-box-shadow: 0 14px 34px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08);
     box-shadow: 0 14px 34px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08);

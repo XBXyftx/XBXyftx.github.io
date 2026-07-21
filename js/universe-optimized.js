@@ -25,9 +25,9 @@
     const speed = 0.05;
     
     // 颜色配置
-    const giantColor = "180,184,240";
+    const giantColor = "214,226,255";
     const cometColor = "255,255,255";
-    const starColor = "226,225,142";
+    const starColor = "228,247,255";
     
     // 移动端检测
     const isMobile = window.innerWidth <= 768;
@@ -47,13 +47,13 @@
         this.comet = !this.giant && Math.random() < 0.04; // 减少流星密度（从0.08降到0.04）
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.r = 1.0 + Math.random() * 1.2;
+        this.r = 1.3 + Math.random() * 1.45;
         this.dx = (speed + Math.random() * speed * 5) + (this.comet ? speed * 60 : 0);
         this.dy = -(speed + Math.random() * speed * 5) - (this.comet ? speed * 60 : 0);
         this.fadingOut = false;
         this.fadingIn = true;
         this.opacity = 0;
-        this.opacityTresh = 0.2 + Math.random() * 0.5;
+        this.opacityTresh = (this.comet ? 0.58 : 0.42) + Math.random() * (this.comet ? 0.34 : 0.5);
         this.do = 0.001 + Math.random() * 0.002;
       };
       
@@ -78,18 +78,18 @@
       this.draw = function() {
         ctx.beginPath();
         if (this.giant) {
-          ctx.fillStyle = `rgba(${giantColor},${this.opacity})`;
-          ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${giantColor},${Math.min(this.opacity * 1.18, 1)})`;
+          ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
         } else if (this.comet) {
-          ctx.fillStyle = `rgba(${cometColor},${Math.min(this.opacity * 1.5, 1)})`;
-          ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${cometColor},${Math.min(this.opacity * 1.8, 1)})`;
+          ctx.arc(this.x, this.y, 1.9, 0, Math.PI * 2);
           // 极简流星尾巴，只画10个点（从20降到10），减轻渲染压力
           for (let t = 0; t < 10; t++) {
-            ctx.fillStyle = `rgba(${cometColor},${this.opacity - this.opacity / 10 * t})`;
-            ctx.fillRect(this.x - this.dx / 4 * t, this.y - this.dy / 4 * t - 1, 1.5, 1.5);
+            ctx.fillStyle = `rgba(${cometColor},${Math.min((this.opacity - this.opacity / 10 * t) * 1.35, 1)})`;
+            ctx.fillRect(this.x - this.dx / 4 * t, this.y - this.dy / 4 * t - 1, 1.8, 1.8);
           }
         } else {
-          ctx.fillStyle = `rgba(${starColor},${this.opacity})`;
+          ctx.fillStyle = `rgba(${starColor},${Math.min(this.opacity * 1.15, 1)})`;
           ctx.fillRect(this.x, this.y, this.r, this.r);
         }
         ctx.closePath();
