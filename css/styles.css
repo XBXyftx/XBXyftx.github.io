@@ -413,7 +413,7 @@ body:not(.read-mode) #content-inner > #post {
         radial-gradient(circle at 91% 67%, rgba(171, 251, 255, 0.12) 0 1px, transparent 1.8px),
         radial-gradient(ellipse at 14% 5%, rgba(34, 111, 178, 0.2) 0%, transparent 42%),
         radial-gradient(ellipse at 92% 92%, rgba(18, 102, 165, 0.18) 0%, transparent 46%),
-        linear-gradient(145deg, rgba(4, 46, 199, 0.335) 0%, rgba(99, 126, 164, 0.321) 48%, rgba(66, 2, 119, 0.896) 100%) !important;
+        linear-gradient(145deg, rgba(0, 0, 0, 0.869) 0%, rgba(19, 7, 90, 0.863) 48%, rgba(78, 1, 40, 0.896) 100%) !important;
     border: 1px solid rgba(151, 239, 247, 0.2) !important;
     box-shadow:
         0 20px 52px rgba(0, 0, 0, 0.36),
