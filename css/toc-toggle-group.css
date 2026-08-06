@@ -24,12 +24,13 @@
 }
 
 /* 折叠项标题：视觉对齐同级 .toc-link（styles.css 自定义 padding: 8px 0），
-   左侧预留箭头位置使长标题折行后仍保持悬挂缩进 */
+   padding-left 预留箭头位置，负 text-indent 让首行箭头对齐链接文字起点、
+   折行保持悬挂缩进 */
 #aside-content #card-toc .toc-content .toc .toc-toggle-summary {
     display: block;
-    position: relative;
     margin: 4px 0;
     padding: 8px 0 8px 14px;
+    text-indent: -14px;
     color: #ffffff;
     cursor: pointer;
     list-style: none;
@@ -41,14 +42,15 @@
     display: none;
 }
 
-/* 自定义折叠箭头：右指三角形，锚定首行，展开时旋转 90° */
+/* 自定义折叠箭头：右指三角形，内联块以文字 x 中线对齐（不依赖行高猜测），
+   展开时旋转 90° */
 #aside-content #card-toc .toc-content .toc .toc-toggle-summary::before {
     content: '';
-    position: absolute;
-    left: 0;
-    top: calc(8px + 0.72em - 5px);
+    display: inline-block;
     width: 0;
     height: 0;
+    margin-right: 8px;
+    vertical-align: middle;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
     border-left: 6px solid currentColor;
