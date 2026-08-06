@@ -1,0 +1,78 @@
+/**
+ * [TocToggleGroup] 文章目录 hideToggle 折叠项样式
+ *
+ * 配合 scripts/toc-toggle-group.js 生成的 .toc-toggle-item 结构：
+ * <li class="toc-item toc-level-N toc-toggle-item">
+ *   <details class="toc-toggle">
+ *     <summary class="toc-toggle-summary">…</summary>
+ *     <ol class="toc-child toc-toggle-child">…</ol>
+ *   </details>
+ * </li>
+ *
+ * 颜色取值与 source/css/styles.css 中自定义目录链接规则保持一致
+ * （正文白色、悬停主题蓝 #49b1f5、激活绿 #00ff88）。
+ */
+
+/* 折叠/展开状态由 details 的 open 属性决定，需覆盖主题非展开模式的
+   .toc-child{display:none} 与移动端 display:block !important 规则 */
+#aside-content #card-toc .toc-content .toc .toc-toggle:not([open]) > .toc-child {
+    display: none !important;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-toggle[open] > .toc-child {
+    display: block !important;
+}
+
+/* 折叠项标题：视觉对齐同级 .toc-link（styles.css 自定义 padding: 8px 0），
+   左侧预留箭头位置使长标题折行后仍保持悬挂缩进 */
+#aside-content #card-toc .toc-content .toc .toc-toggle-summary {
+    display: block;
+    position: relative;
+    margin: 4px 0;
+    padding: 8px 0 8px 14px;
+    color: #ffffff;
+    cursor: pointer;
+    list-style: none;
+    border-radius: 5px;
+    transition: color .2s ease-in-out;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-toggle-summary::-webkit-details-marker {
+    display: none;
+}
+
+/* 自定义折叠箭头：右指三角形，锚定首行，展开时旋转 90° */
+#aside-content #card-toc .toc-content .toc .toc-toggle-summary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(8px + 0.72em - 5px);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid currentColor;
+    transition: transform .2s ease-in-out;
+}
+
+#aside-content #card-toc .toc-content .toc .toc-toggle[open] > .toc-toggle-summary::before {
+    transform: rotate(90deg);
+}
+
+#aside-content #card-toc .toc-content .toc .toc-toggle-summary:hover {
+    color: #49b1f5;
+}
+
+/* 组内标题被滚动高亮时的折叠项激活态（对齐 toc-link.active 自定义绿色） */
+#aside-content #card-toc .toc-content .toc .toc-toggle-item.active > .toc-toggle > .toc-toggle-summary,
+#aside-content #card-toc .toc-content .toc .toc-toggle-item.has-active > .toc-toggle > .toc-toggle-summary {
+    color: #00ff88;
+    background-color: rgba(0, 255, 136, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #aside-content #card-toc .toc-content .toc .toc-toggle-summary,
+    #aside-content #card-toc .toc-content .toc .toc-toggle-summary::before {
+        transition: none;
+    }
+}
