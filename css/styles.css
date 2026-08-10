@@ -386,8 +386,7 @@ body{
 }
 #aside-content .card-widget,
 #content-inner #archive,
-#content-inner #page,
-#swiper_container{
+#content-inner #page{
     background: linear-gradient(
         to bottom right,
         rgba(1, 40, 131, 0.6),  
@@ -588,13 +587,11 @@ body:not(.read-mode) #content-inner > #post #article-container .note.flat a:not(
 #recent-posts.waterfall-masonry .blog-slider {
     width: 100% !important;
     margin: 0 0 30px 0 !important;
-    overflow: visible !important;
-    border-radius: 10px;
+    /* overflow 已由 swiper-lib + swiper-xp 接管为 hidden，勿再覆盖为 visible（会露出相邻 slide） */
     position: relative;
     z-index: 0; /* 降低轮播图的层级，确保不会覆盖页面头部 */
     top: 0; /* 确保轮播图不会向上偏移 */
     margin-top: 50px !important; /* 大幅增加顶部间距，避免侵入头部区域 */
-    padding-top: 20px !important; /* 额外增加内边距 */
 }
 
 #recent-posts.waterfall-masonry .waterfall-container {
@@ -772,7 +769,6 @@ body:not(.read-mode) #content-inner > #post #article-container .note.flat a:not(
         position: relative !important;
         margin: 60px 0 20px 0 !important; /* 大幅增加顶部间距，避免侵入头部区域 */
         top: 0 !important; /* 确保轮播图不会向上偏移 */
-        padding-top: 30px !important; /* 移动端额外增加内边距 */
     }
     
     /* 文章封面图自适应宽度 - 仅手机端 */

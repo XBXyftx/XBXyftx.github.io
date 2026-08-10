@@ -1,0 +1,300 @@
+/* ==========================================================================
+   首页轮播 · Windows XP 窗口平面风格（swiper-xp.css）
+   --------------------------------------------------------------------------
+   作为 hexo-butterfly-swiper 的 custom_css 注入，完全替代插件原
+   swiperstyle.css。仅负责视觉；基础布局由 /css/swiper-lib.min.css
+   （Swiper 4.1.6）提供，初始化见 /js/swiper-init.js。
+   设计：平面设计 + XP 复古窗口 = 纯平色标题栏、装饰性窗口按钮、
+   米白内容区、状态栏式分页、直角图片衬底、硬阴影。不随 dark 变量变化。
+   ========================================================================== */
+
+/* ---------- 窗口外框 ---------- */
+#swiper_container.blog-slider {
+  position: relative;
+  width: 100%;
+  min-height: 246px; /* 标题栏30 + 内容190 + 状态栏26 */
+  margin: 0 auto;
+  padding: 30px 0 26px; /* 顶部让位标题栏，底部让位状态栏 */
+  background: #f5f3ea; /* XP 米白内容区 */
+  border: 3px solid #0058e6; /* XP 标题栏蓝描边 */
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4); /* 平面硬阴影 */
+  overflow: hidden; /* 关键：裁剪 slide，修复内容溢出右侧 */
+  box-sizing: border-box;
+  transition: none;
+}
+
+/* ---------- 标题栏（纯平蓝 + 四色徽标 + 标题） ---------- */
+#swiper_container.blog-slider::before {
+  content: '精选文章.exe';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  z-index: 24;
+  padding-left: 38px;
+  background-color: #0058e6;
+  /* 左侧 2x2 四色 Windows 徽标（平面设计小方块） */
+  background-image:
+    linear-gradient(#f65314, #f65314),
+    linear-gradient(#7cbb00, #7cbb00),
+    linear-gradient(#00a1f1, #00a1f1),
+    linear-gradient(#ffbb00, #ffbb00);
+  background-size: 7px 7px, 7px 7px, 7px 7px, 7px 7px;
+  background-position: 13px 8px, 21px 8px, 13px 16px, 21px 16px;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 1px;
+  text-align: left;
+  pointer-events: none; /* 不拦截 slide 点击 */
+}
+
+/* ---------- 标题栏右侧装饰按钮组（最小化/最大化/关闭，纯 CSS 绘制） ---------- */
+#swiper_container.blog-slider::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 64px;
+  height: 22px;
+  z-index: 25;
+  pointer-events: none;
+  background-image:
+    /* 关闭 × 两条斜线 */
+    linear-gradient(45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    /* 最大化 □ 白框（白底 + 按钮蓝内芯） */
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    /* 最小化 — 白横线 */
+    linear-gradient(#fff, #fff),
+    /* 三个按钮面 */
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#d75027, #d75027),
+    /* 三个按钮描边 */
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#8f2f12, #8f2f12);
+  background-repeat: no-repeat;
+  background-size:
+    10px 10px, 10px 10px,
+    10px 10px, 6px 6px,
+    8px 3px,
+    18px 18px, 18px 18px, 18px 18px,
+    20px 20px, 20px 20px, 20px 20px;
+  background-position:
+    49px 6px, 49px 6px,
+    27px 6px, 29px 8px,
+    6px 13px,
+    1px 2px, 23px 2px, 45px 2px,
+    0 1px, 22px 1px, 44px 1px;
+}
+
+/* ---------- slide 布局 ---------- */
+#swiper_container .blog-slider__item {
+  display: flex;
+  align-items: center;
+  padding: 10px 24px 12px;
+  box-sizing: border-box;
+}
+
+/* ---------- 图片：直角 + 白衬底 + XP 控件边框 ---------- */
+#swiper_container .blog-slider__img {
+  flex-shrink: 0;
+  width: 170px;
+  height: 170px;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid #7f9db9; /* XP 经典控件边框色 */
+  border-radius: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  transform: none;
+}
+
+#swiper_container .blog-slider__img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+#swiper_container .blog-slider__item.swiper-slide-active .blog-slider__img img {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+/* ---------- 文本区 ---------- */
+#swiper_container .blog-slider__content {
+  flex: 1;
+  min-width: 0; /* 允许收缩，配合单行截断 */
+  padding: 0 10px 0 24px;
+  box-sizing: border-box;
+}
+
+/* 内容入场（stagger 淡入上移），非激活 slide 保持隐藏 */
+#swiper_container .blog-slider__content > * {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+#swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > * {
+  opacity: 1;
+  transform: none;
+}
+
+#swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > *:nth-child(1) { transition-delay: 0.25s; }
+#swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > *:nth-child(2) { transition-delay: 0.35s; }
+#swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > *:nth-child(3) { transition-delay: 0.45s; }
+#swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > *:nth-child(4) { transition-delay: 0.55s; }
+
+/* 日期：XP 蓝色小标签 */
+#swiper_container .blog-slider__code {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 1px 8px;
+  background: #0058e6;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* 标题：XP 深蓝，单行截断 */
+#swiper_container .blog-slider__title {
+  display: block;
+  margin-bottom: 8px;
+  color: #003399;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+#swiper_container .blog-slider__title:hover {
+  text-decoration: underline;
+}
+
+/* 描述：深灰，最多两行 */
+#swiper_container .blog-slider__text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+  color: #3f3f3f;
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+/* 详情按钮：XP 平面按钮，悬浮变蓝 */
+#swiper_container .blog-slider__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 18px;
+  background: #fbfaf5;
+  border: 1px solid #7f9db9;
+  border-radius: 2px;
+  color: #1a1a1a;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+#swiper_container .blog-slider__button:hover {
+  background: #0058e6;
+  border-color: #0058e6;
+  color: #fff;
+}
+
+/* ---------- 分页器：XP 状态栏 ---------- */
+#swiper_container .blog-slider__pagination {
+  position: absolute;
+  left: 0 !important;
+  right: 0;
+  top: auto !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 26px;
+  transform: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ece9d8; /* XP 任务栏米灰 */
+  border-top: 1px solid #aca899;
+  z-index: 21;
+}
+
+#swiper_container .blog-slider__pagination .swiper-pagination-bullet {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 0 4px;
+  background: #fff;
+  border: 1px solid #7f9db9;
+  border-radius: 2px; /* 小圆角方块 */
+  opacity: 1;
+  transition: width 0.2s, background 0.2s;
+}
+
+#swiper_container .blog-slider__pagination .swiper-pagination-bullet-active {
+  width: 22px; /* 激活态长条，任务栏选中窗口的平面化 */
+  background: #0058e6;
+  border-color: #003399;
+}
+
+/* ---------- 移动端（≤768px）：窗口纵向堆叠 ---------- */
+@media screen and (max-width: 768px) {
+  #swiper_container.blog-slider {
+    min-height: 0;
+  }
+
+  #swiper_container .blog-slider__item {
+    flex-direction: column;
+    padding: 12px 14px 14px;
+  }
+
+  #swiper_container .blog-slider__img {
+    width: 100%;
+    height: 150px;
+    transform: none;
+  }
+
+  #swiper_container .blog-slider__content {
+    width: 100%;
+    padding: 12px 4px 0;
+    text-align: center;
+  }
+
+  #swiper_container .blog-slider__title {
+    font-size: 16px;
+  }
+
+  #swiper_container .blog-slider__text {
+    margin-bottom: 10px;
+  }
+}
+
+/* ---------- 减少动态：关闭入场动画 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #swiper_container .blog-slider__content > *,
+  #swiper_container .blog-slider__img img {
+    transition: none;
+  }
+}
