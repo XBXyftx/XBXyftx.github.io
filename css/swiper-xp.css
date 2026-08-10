@@ -124,6 +124,10 @@
   height: 100%;
   object-fit: cover;
   border-radius: 0;
+}
+
+/* 图片透明度门控仅在初始化后启用（未初始化保持可见，配合降级规则） */
+#swiper_container.swiper-ready .blog-slider__img img {
   opacity: 0;
   transition: opacity 0.4s;
 }
@@ -141,8 +145,20 @@
   box-sizing: border-box;
 }
 
-/* 内容入场（stagger 淡入上移），非激活 slide 保持隐藏 */
-#swiper_container .blog-slider__content > * {
+/* JS 未加载/未初始化降级：静态展示第一张，避免慢网或 JS 失败时窗口空白。
+   Swiper 初始化成功后容器获得 swiper-ready 类，以下规则自动失效。 */
+#swiper_container:not(.swiper-ready) .blog-slider__item {
+  opacity: 0 !important; /* 覆盖模板内联 opacity:1，隐藏裸排 slide */
+}
+
+#swiper_container:not(.swiper-ready) .blog-slider__item:first-child {
+  opacity: 1 !important;
+  width: 100% !important; /* 覆盖模板内联 width:750px，防窄屏溢出 */
+}
+
+/* 内容入场（stagger 淡入上移）：仅在 Swiper 初始化成功后启用隐藏门控，
+   未初始化时内容保持可见（配合上方降级规则） */
+#swiper_container.swiper-ready .blog-slider__content > * {
   opacity: 0;
   transform: translateY(15px);
   transition: opacity 0.4s, transform 0.4s;
