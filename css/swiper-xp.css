@@ -5,7 +5,8 @@
    swiperstyle.css。仅负责视觉；基础布局由 /css/swiper-lib.min.css
    （Swiper 4.1.6）提供，初始化见 /js/swiper-init.js。
    设计：平面设计 + XP 复古窗口 = 纯平色标题栏、装饰性窗口按钮、
-   米白内容区、状态栏式分页、直角图片衬底、硬阴影。不随 dark 变量变化。
+   状态栏式分页、直角图片衬底、硬阴影。
+   2026-08-10 深色版：标题栏蓝色保持不变，窗口内容区改为深色阅读配色。
    ========================================================================== */
 
 /* ---------- 窗口外框 ---------- */
@@ -15,7 +16,7 @@
   min-height: 246px; /* 标题栏30 + 内容190 + 状态栏26 */
   margin: 0 auto;
   padding: 30px 0 26px; /* 顶部让位标题栏，底部让位状态栏 */
-  background: #f5f3ea; /* XP 米白内容区 */
+  background: #1e2431; /* 深色内容区 */
   border: 3px solid #0058e6; /* XP 标题栏蓝描边 */
   border-radius: 10px 10px 4px 4px;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4); /* 平面硬阴影 */
@@ -103,14 +104,14 @@
   box-sizing: border-box;
 }
 
-/* ---------- 图片：直角 + 白衬底 + XP 控件边框 ---------- */
+/* ---------- 图片：直角 + 深色衬底 + 灰蓝控件边框 ---------- */
 #swiper_container .blog-slider__img {
   flex-shrink: 0;
   width: 170px;
   height: 170px;
   padding: 4px;
-  background: #fff;
-  border: 1px solid #7f9db9; /* XP 经典控件边框色 */
+  background: #141922;
+  border: 1px solid #5d7a9e;
   border-radius: 0;
   overflow: hidden;
   box-sizing: border-box;
@@ -157,7 +158,7 @@
 #swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > *:nth-child(3) { transition-delay: 0.45s; }
 #swiper_container .blog-slider__item.swiper-slide-active .blog-slider__content > *:nth-child(4) { transition-delay: 0.55s; }
 
-/* 日期：XP 蓝色小标签 */
+/* 日期：XP 蓝色小标签（深色内容区上保持蓝底白字） */
 #swiper_container .blog-slider__code {
   display: inline-block;
   margin-bottom: 8px;
@@ -169,11 +170,11 @@
   letter-spacing: 1px;
 }
 
-/* 标题：XP 深蓝，单行截断 */
+/* 标题：亮蓝白，单行截断 */
 #swiper_container .blog-slider__title {
   display: block;
   margin-bottom: 8px;
-  color: #003399;
+  color: #9ecbff;
   font-size: 19px;
   font-weight: 700;
   line-height: 1.3;
@@ -184,32 +185,33 @@
 }
 
 #swiper_container .blog-slider__title:hover {
+  color: #cfe4ff;
   text-decoration: underline;
 }
 
-/* 描述：深灰，最多两行 */
+/* 描述：浅灰蓝，最多两行 */
 #swiper_container .blog-slider__text {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 12px;
-  color: #3f3f3f;
+  color: #c3cad7;
   font-size: 13px;
   line-height: 1.6;
   word-break: break-all;
 }
 
-/* 详情按钮：XP 平面按钮，悬浮变蓝 */
+/* 详情按钮：深色平面按钮，悬浮变蓝 */
 #swiper_container .blog-slider__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 4px 18px;
-  background: #fbfaf5;
-  border: 1px solid #7f9db9;
+  background: #262e3d;
+  border: 1px solid #5d7a9e;
   border-radius: 2px;
-  color: #1a1a1a;
+  color: #c3cad7;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 2px;
@@ -223,7 +225,7 @@
   color: #fff;
 }
 
-/* ---------- 分页器：XP 状态栏 ---------- */
+/* ---------- 分页器：深色状态栏 ---------- */
 #swiper_container .blog-slider__pagination {
   position: absolute;
   left: 0 !important;
@@ -236,8 +238,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ece9d8; /* XP 任务栏米灰 */
-  border-top: 1px solid #aca899;
+  background: #171d28;
+  border-top: 1px solid #394152;
   z-index: 21;
 }
 
@@ -246,8 +248,8 @@
   width: 10px;
   height: 10px;
   margin: 0 4px;
-  background: #fff;
-  border: 1px solid #7f9db9;
+  background: #262e3d;
+  border: 1px solid #5d7a9e;
   border-radius: 2px; /* 小圆角方块 */
   opacity: 1;
   transition: width 0.2s, background 0.2s;
@@ -256,7 +258,7 @@
 #swiper_container .blog-slider__pagination .swiper-pagination-bullet-active {
   width: 22px; /* 激活态长条，任务栏选中窗口的平面化 */
   background: #0058e6;
-  border-color: #003399;
+  border-color: #0058e6;
 }
 
 /* ---------- 移动端（≤768px）：窗口纵向堆叠 ---------- */
