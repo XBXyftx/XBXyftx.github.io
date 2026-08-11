@@ -65,11 +65,11 @@
     color: #49b1f5;
 }
 
-/* 组内标题被滚动高亮时的折叠项激活态（对齐 toc-link.active 自定义绿色） */
+/* 组内标题被滚动高亮时的折叠项激活态（对齐 toc-link.active 的 XP 激活蓝） */
 #aside-content #card-toc .toc-content .toc .toc-toggle-item.active > .toc-toggle > .toc-toggle-summary,
 #aside-content #card-toc .toc-content .toc .toc-toggle-item.has-active > .toc-toggle > .toc-toggle-summary {
-    color: #00ff88;
-    background-color: rgba(0, 255, 136, 0.1);
+    color: #ffffff;
+    background-color: rgba(0, 88, 230, 0.45);
 }
 
 @media (prefers-reduced-motion: reduce) {

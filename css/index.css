@@ -2796,7 +2796,7 @@ figure.highlight pre .javascript .function {
   height: 30px;
   z-index: 5;
   padding-left: 36px;
-  background-color: #97a9cb;
+  background-color: #46587a;
   background-image: -webkit-linear-gradient(#f65314, #f65314), -webkit-linear-gradient(#7cbb00, #7cbb00), -webkit-linear-gradient(#00a1f1, #00a1f1), -webkit-linear-gradient(#fb0, #fb0);
   background-image: -moz-linear-gradient(#f65314, #f65314), -moz-linear-gradient(#7cbb00, #7cbb00), -moz-linear-gradient(#00a1f1, #00a1f1), -moz-linear-gradient(#fb0, #fb0);
   background-image: -o-linear-gradient(#f65314, #f65314), -o-linear-gradient(#7cbb00, #7cbb00), -o-linear-gradient(#00a1f1, #00a1f1), -o-linear-gradient(#fb0, #fb0);

@@ -1,0 +1,546 @@
+/* ==========================================================================
+   XP 主题公共层（xp-theme.css）
+   --------------------------------------------------------------------------
+   将首页轮播/瀑布流卡片的 Windows XP 平面窗口语言推广到：
+   侧边栏卡片（作者卡/访问卡除外）、文章页主体、归档/普通页面主体与
+   Butterfly 标签插件（note/hideToggle/btn/label/tabs/timeline）。
+   色板与轮播 swiper-xp.css 一致；全部显式配色，不随 dark 变量变化。
+   加载入口：_config.butterfly.yml inject.head（异步）。
+   ========================================================================== */
+
+:root {
+  --xp-bg: #1e2431;          /* 窗口内容区 */
+  --xp-bg-deep: #141922;     /* 深衬底（图片/代码/输入区） */
+  --xp-bg-raise: #262e3d;    /* 控件面（按钮/标签/提示块） */
+  --xp-border: #7f9db9;      /* 非激活窗口边框 / 控件边框 */
+  --xp-border-dim: #5d7a9e;  /* 弱控件边框 */
+  --xp-blue: #0058e6;        /* 激活蓝（标题栏/强调） */
+  --xp-blue-deep: #003da8;   /* 按压蓝 */
+  --xp-title-off: #46587a;   /* 非激活标题栏 */
+  --xp-text: #dbe4f0;        /* 主文字 */
+  --xp-text-strong: #f2f7ff; /* 强文字（标题） */
+  --xp-text-dim: #8a94a6;    /* 弱文字（日期/辅助） */
+  --xp-link: #9ecbff;        /* 链接 */
+  --xp-link-hover: #cfe4ff;  /* 链接悬浮 */
+  --xp-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4); /* 平面硬阴影 */
+}
+
+/* ==========================================================================
+   一、共享窗口框架：侧边栏卡片（作者卡/访问卡除外）+ 文章/归档/普通页主体
+   ========================================================================== */
+
+#aside-content .card-widget:not(.card-info),
+#content-inner > #post,
+#content-inner > #archive,
+#content-inner > #page {
+  position: relative;
+  background: var(--xp-bg) !important;
+  border: 3px solid var(--xp-blue);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: var(--xp-shadow);
+  box-sizing: border-box;
+}
+
+/* 标题栏（徽标共用，文字按窗口分别定义） */
+#aside-content .card-widget:not(.card-info)::before,
+#content-inner > #post::before,
+#content-inner > #archive::before,
+#content-inner > #page::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  z-index: 5;
+  padding-left: 36px;
+  background-color: var(--xp-blue);
+  /* 四色 Windows 徽标 */
+  background-image:
+    linear-gradient(#f65314, #f65314),
+    linear-gradient(#7cbb00, #7cbb00),
+    linear-gradient(#00a1f1, #00a1f1),
+    linear-gradient(#ffbb00, #ffbb00);
+  background-size: 7px 7px, 7px 7px, 7px 7px, 7px 7px;
+  background-position: 13px 8px, 21px 8px, 13px 16px, 21px 16px;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 1px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 装饰按钮组（最小化/最大化/关闭，纯 CSS 绘制） */
+#aside-content .card-widget:not(.card-info)::after,
+#content-inner > #post::after,
+#content-inner > #archive::after,
+#content-inner > #page::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 64px;
+  height: 22px;
+  z-index: 6;
+  pointer-events: none;
+  background-image:
+    linear-gradient(45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#d75027, #d75027),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#8f2f12, #8f2f12);
+  background-repeat: no-repeat;
+  background-size:
+    10px 10px, 10px 10px,
+    10px 10px, 6px 6px,
+    8px 3px,
+    18px 18px, 18px 18px, 18px 18px,
+    20px 20px, 20px 20px, 20px 20px;
+  background-position:
+    49px 6px, 49px 6px,
+    27px 6px, 29px 8px,
+    6px 13px,
+    1px 2px, 23px 2px, 45px 2px,
+    0 1px, 22px 1px, 44px 1px;
+}
+
+/* 各窗口标题文字 */
+#aside-content .card-announcement::before { content: '公告.exe'; }
+#aside-content .card-recent-post::before { content: '最新文章.exe'; }
+#aside-content .card-tags::before { content: '标签.exe'; }
+#aside-content .card-archives::before { content: '归档.exe'; }
+#aside-content .card-webinfo::before { content: '站点信息.exe'; }
+#aside-content .card-categories::before { content: '分类.exe'; }
+/* 文章页目录卡是裸 .card-widget（无修饰类），排除法兜底 */
+#aside-content .card-widget:not(.card-info):not(.card-announcement):not(.card-recent-post):not(.card-tags):not(.card-archives):not(.card-webinfo):not(.card-categories)::before { content: '目录.exe'; }
+#content-inner > #post::before { content: 'post.exe'; }
+#content-inner > #archive::before { content: 'archive.exe'; }
+#content-inner > #page::before { content: 'page.exe'; }
+
+/* 内容区为标题栏让位；隐藏被取代的原卡片标题行 */
+#aside-content .card-widget:not(.card-info) {
+  padding: 40px 14px 14px;
+}
+
+#aside-content .card-widget:not(.card-info) .item-headline {
+  display: none;
+}
+
+#content-inner > #post,
+#content-inner > #archive,
+#content-inner > #page {
+  padding-top: 46px;
+}
+
+/* ==========================================================================
+   二、侧边栏内容区适配
+   ========================================================================== */
+
+#aside-content .card-widget:not(.card-info) {
+  color: var(--xp-text);
+}
+
+#aside-content .card-widget:not(.card-info) a {
+  color: var(--xp-link);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+#aside-content .card-widget:not(.card-info) a:hover {
+  color: var(--xp-link-hover);
+  text-decoration: underline;
+}
+
+/* 列表与弱文字 */
+#aside-content .card-widget:not(.card-info) .aside-list-item,
+#aside-content .card-widget:not(.card-info) .aside-list {
+  color: var(--xp-text);
+}
+
+#aside-content .card-widget:not(.card-info) time,
+#aside-content .card-widget:not(.card-info) .aside-list-item .comment,
+#aside-content .card-widget:not(.card-info) .webinfo-item-name {
+  color: var(--xp-text-dim);
+}
+
+/* 最新文章封面缩略图：深色衬底 + 控件边框 */
+#aside-content .card-recent-post .aside-list-item .thumbnail {
+  background: var(--xp-bg-deep);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* 标签云：XP 平面小按钮 */
+#aside-content .card-tags .tags-container a {
+  background: var(--xp-bg-raise);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 2px;
+  color: var(--xp-text) !important;
+  padding: 2px 8px;
+}
+
+#aside-content .card-tags .tags-container a:hover {
+  background: var(--xp-blue);
+  border-color: var(--xp-blue);
+  color: #fff !important;
+  text-decoration: none;
+}
+
+/* 归档列表链接 */
+#aside-content .card-archives .card-archive-list-link {
+  color: var(--xp-text);
+  border-radius: 2px;
+}
+
+#aside-content .card-archives .card-archive-list-link:hover {
+  background: var(--xp-bg-raise);
+  color: var(--xp-link-hover);
+}
+
+/* 公告时间轴（announcement-history.css 深色适配覆盖） */
+#aside-content .card-announcement .announcement-history,
+#aside-content .card-announcement .announcement-content,
+#aside-content .card-announcement .announcement_content {
+  color: var(--xp-text);
+}
+
+#aside-content .card-announcement .announcement-history__date,
+#aside-content .card-announcement time {
+  color: var(--xp-text-dim);
+}
+
+#aside-content .card-announcement summary,
+#aside-content .card-announcement .announcement-history__toggle {
+  color: var(--xp-link);
+}
+
+/* 网站信息卡数字 */
+#aside-content .card-webinfo .webinfo-item-count,
+#aside-content .card-webinfo .webinfo-item-name {
+  color: var(--xp-text);
+}
+
+/* 目录卡链接 */
+#aside-content .card-widget:not(.card-info) .toc-link,
+#aside-content .card-widget:not(.card-info) .toc-child a {
+  color: var(--xp-text-dim);
+}
+
+#aside-content .card-widget:not(.card-info) .toc-link.active,
+#aside-content .card-widget:not(.card-info) .toc-link:hover {
+  color: var(--xp-link-hover);
+}
+
+/* 目录卡展开/折叠按钮（toc-toggle-group 的 summary 不属于 .toc-link） */
+#aside-content .card-widget:not(.card-info) .toc-toggle > summary {
+  color: var(--xp-text);
+}
+
+/* ==========================================================================
+   三、文章页主体（#post）与归档/普通页主体文字适配
+   ========================================================================== */
+
+#content-inner > #post,
+#content-inner > #archive,
+#content-inner > #page {
+  color: var(--xp-text);
+}
+
+/* 文章标题层级 */
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+  color: var(--xp-text-strong);
+}
+
+#article-container p,
+#article-container li,
+#article-container td,
+#article-container th {
+  color: var(--xp-text);
+}
+
+#article-container a {
+  color: var(--xp-link);
+}
+
+#article-container a:hover {
+  color: var(--xp-link-hover);
+}
+
+/* 文章顶部信息与弱文字 */
+#post .post-meta,
+#post .post-meta time,
+#post .post-meta .post-meta-date,
+#post .post-meta-separator,
+#post .post-meta-commentcount,
+#post .post-meta-wordcount,
+#post .post-meta__tags {
+  color: var(--xp-text-dim);
+}
+
+#post .post-meta a,
+#post .post-meta__tags {
+  color: var(--xp-link);
+}
+
+/* 引用块：深色平面化 */
+#article-container blockquote {
+  background: var(--xp-bg-raise);
+  border-left: 4px solid var(--xp-blue);
+  color: var(--xp-text);
+  border-radius: 2px;
+}
+
+/* 行内代码 */
+#article-container code {
+  background: var(--xp-bg-deep);
+  color: #ffd479;
+  border-radius: 2px;
+}
+
+/* 表格 */
+#article-container table th {
+  background: var(--xp-bg-raise);
+  color: var(--xp-text-strong);
+}
+
+#article-container table td {
+  border-color: #3a4356;
+}
+
+/* 分割线 */
+#article-container hr {
+  border-color: #3a4356;
+}
+
+/* 版权卡 / 上下篇导航 / 相关推荐 */
+#post .post-copyright,
+#post .post-copyright a,
+#pagination a,
+#pagination .page-number,
+.relatedPosts .relatedPosts-list a {
+  color: var(--xp-text);
+}
+
+#pagination a:hover,
+.relatedPosts .relatedPosts-list a:hover {
+  color: var(--xp-link-hover);
+}
+
+/* ==========================================================================
+   四、Butterfly 标签插件 XP 化
+   ========================================================================== */
+
+/* ---- note 提示块（flat/modern 通用）：深色底 + 类型色左边框 ---- */
+#article-container .note {
+  background: var(--xp-bg-raise);
+  border: 1px solid var(--xp-border-dim);
+  border-left: 4px solid var(--xp-blue);
+  border-radius: 2px;
+  color: var(--xp-text);
+}
+
+#article-container .note.default,
+#article-container .note.primary { border-left-color: #4d94ff; }
+#article-container .note.info { border-left-color: #00a1f1; }
+#article-container .note.success { border-left-color: #7cbb00; }
+#article-container .note.warning { border-left-color: #ffbb00; }
+#article-container .note.danger,
+#article-container .note.error { border-left-color: #d75027; }
+
+/* note 内文字与链接一律深底浅字（替代 #12 时期的浅底深字修复） */
+#article-container .note p,
+#article-container .note li,
+#article-container .note td,
+#article-container .note th,
+#article-container .note h1,
+#article-container .note h2,
+#article-container .note h3,
+#article-container .note h4,
+#article-container .note strong,
+#article-container .note em,
+#article-container .note code {
+  color: var(--xp-text);
+}
+
+#article-container .note a {
+  color: var(--xp-link);
+}
+
+#article-container .note a:hover {
+  color: var(--xp-link-hover);
+}
+
+#article-container .note code {
+  background: var(--xp-bg-deep);
+}
+
+/* note 图标保持类型色 */
+#article-container .note.default::before,
+#article-container .note.primary::before { color: #4d94ff; }
+#article-container .note.info::before { color: #00a1f1; }
+#article-container .note.success::before { color: #7cbb00; }
+#article-container .note.warning::before { color: #ffbb00; }
+#article-container .note.danger::before,
+#article-container .note.error::before { color: #d75027; }
+
+/* ---- hideToggle 折叠块：XP 分组框 ---- */
+#article-container details.toggle {
+  background: var(--xp-bg-raise);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 4px;
+  color: var(--xp-text);
+}
+
+#article-container details.toggle > summary.toggle-button {
+  background: var(--xp-bg-deep);
+  color: var(--xp-link);
+  border-radius: 4px 4px 0 0;
+}
+
+#article-container details.toggle:not([open]) > summary.toggle-button {
+  border-radius: 4px;
+}
+
+#article-container details.toggle > summary.toggle-button:hover {
+  color: var(--xp-link-hover);
+}
+
+/* ---- btn 按钮标签：XP 平面按钮（与轮播「详情」一致） ---- */
+#article-container a.btn-beautify,
+#article-container .btn-center a.btn-beautify {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 18px;
+  background: var(--xp-bg-raise);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 2px;
+  color: var(--xp-text);
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+#article-container a.btn-beautify:hover {
+  background: var(--xp-blue);
+  border-color: var(--xp-blue);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---- label 行内标签：深色小标签 ---- */
+#article-container span.label,
+#article-container .label {
+  background: var(--xp-bg-raise);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 2px;
+  color: var(--xp-text);
+  padding: 1px 6px;
+}
+
+/* ---- tabs 选项卡：XP 平面选项卡 ---- */
+#article-container .tabs {
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 4px;
+  background: var(--xp-bg);
+  box-shadow: none;
+}
+
+#article-container .tabs > .nav-tabs {
+  background: var(--xp-bg-deep);
+  border-bottom: 1px solid var(--xp-border-dim);
+}
+
+#article-container .tabs > .nav-tabs > .tab {
+  border-radius: 0;
+}
+
+#article-container .tabs > .nav-tabs > .tab button,
+#article-container .tabs > .nav-tabs > .tab a {
+  color: var(--xp-text-dim);
+  border-radius: 0;
+}
+
+#article-container .tabs > .nav-tabs > .tab.active button,
+#article-container .tabs > .nav-tabs > .tab.active a,
+#article-container .tabs > .nav-tabs > .tab button:hover {
+  background: var(--xp-bg-raise);
+  color: var(--xp-text-strong);
+  border-top: 2px solid var(--xp-blue);
+}
+
+#article-container .tabs .tab-content {
+  background: var(--xp-bg);
+  color: var(--xp-text);
+}
+
+/* ---- timeline 时间轴：深色适配 ---- */
+#article-container .timeline,
+#article-container .timenode {
+  color: var(--xp-text);
+}
+
+#article-container .timenode .meta,
+#article-container .timeline .meta {
+  color: var(--xp-text-dim);
+  border-color: var(--xp-border-dim);
+}
+
+#article-container .timenode .body,
+#article-container .timeline .body {
+  background: var(--xp-bg-raise);
+  border: 1px solid var(--xp-border-dim);
+  color: var(--xp-text);
+}
+
+/* ==========================================================================
+   五、文章内嵌 HTML 既有内容适配
+   --------------------------------------------------------------------------
+   复习类文章的表格使用内联浅底色单元格（#fff、#fff9c4 等）但未写内联字色，
+   深色主题下继承浅文字会不可读。规则：内联 background 且无内联 color 的
+   单元格强制深字。注意只作用于 td/th——div/span 存在 #0d1117 深底代码容器
+   （dataCollectionFinalReview），强制深字会误伤，故不包含在内。
+   rgba 半透明白胶囊（BlogSetup）alpha 低、不影响可读性，也不作处理。
+   ========================================================================== */
+
+#article-container td[style*="background"]:not([style*=" color:"]),
+#article-container th[style*="background"]:not([style*=" color:"]) {
+  color: #1a1a1a;
+}
+
+#article-container td[style*="background"]:not([style*=" color:"]) code,
+#article-container th[style*="background"]:not([style*=" color:"]) code {
+  color: #8a5a00;
+  background: transparent;
+}
+
+#article-container td[style*="background"]:not([style*=" color:"]) a,
+#article-container th[style*="background"]:not([style*=" color:"]) a {
+  color: #0b3d91;
+}
+
+/* ==========================================================================
+   六、可用性与动效约束
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  #aside-content .card-widget:not(.card-info) a,
+  #article-container a.btn-beautify {
+    transition: none;
+  }
+}
