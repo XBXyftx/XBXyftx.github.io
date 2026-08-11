@@ -544,3 +544,117 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   七、AI 总结（打字机摘要块）XP 窗口化
+   --------------------------------------------------------------------------
+   覆盖 themes/butterfly/source/css/typewriter-effect.css 的渐变卡片：
+   header 改造为 XP 标题栏（机器人图标保留，标题补 .exe 后缀与全站窗口语言统一），
+   内容区深色化；禁用原 shimmer 扫光层（平面风格不需要）；打字光标/动画逻辑不动。
+   选择器带 #post 前缀以胜过 [data-theme="dark"] 前缀的旧规则。
+   ========================================================================== */
+
+#post .post-typewriter-container {
+  padding: 0;
+  background: var(--xp-bg);
+  border: 3px solid var(--xp-blue);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: var(--xp-shadow);
+  overflow: hidden;
+}
+
+/* 禁用 45deg 扫光伪元素 */
+#post .post-typewriter-container::before {
+  display: none;
+}
+
+/* header → XP 标题栏 */
+#post .post-typewriter-header {
+  position: relative;
+  height: 30px;
+  margin: 0;
+  padding: 0 78px 0 10px; /* 右侧留装饰按钮组位置 */
+  gap: 8px;
+  background: var(--xp-blue);
+  border-bottom: none;
+  border-radius: 0;
+  z-index: 1;
+}
+
+#post .post-typewriter-header i {
+  color: #fff;
+  font-size: 13px;
+}
+
+#post .post-typewriter-title {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 30px;
+}
+
+/* 标题补 .exe 后缀，与全站窗口命名一致 */
+#post .post-typewriter-title::after {
+  content: '.exe';
+}
+
+/* 标题栏右侧装饰按钮组（与其他 XP 窗口同一组图层） */
+#post .post-typewriter-header::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 64px;
+  height: 22px;
+  pointer-events: none;
+  background-image:
+    linear-gradient(45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#d75027, #d75027),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#8f2f12, #8f2f12);
+  background-repeat: no-repeat;
+  background-size:
+    10px 10px, 10px 10px,
+    10px 10px, 6px 6px,
+    8px 3px,
+    18px 18px, 18px 18px, 18px 18px,
+    20px 20px, 20px 20px, 20px 20px;
+  background-position:
+    49px 6px, 49px 6px,
+    27px 6px, 29px 8px,
+    6px 13px,
+    1px 2px, 23px 2px, 45px 2px,
+    0 1px, 22px 1px, 44px 1px;
+}
+
+/* 内容区 */
+#post .post-typewriter-content {
+  padding: 14px 16px 16px;
+}
+
+#post .post-typewriter-icon {
+  color: #4d94ff; /* 大引号改 XP 亮蓝 */
+}
+
+#post .post-typewriter-text {
+  color: var(--xp-text);
+}
+
+#post .post-typewriter-cursor {
+  color: #4d94ff;
+}
+
+/* 移动端内容区内边距收敛 */
+@media screen and (max-width: 768px) {
+  #post .post-typewriter-content {
+    padding: 12px 12px 14px;
+  }
+}
