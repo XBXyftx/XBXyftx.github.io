@@ -6,7 +6,9 @@
   max-height: min(70vh, 620px);
   margin-top: 8px;
   padding-right: 8px;
-  padding-left: 20px;
+  /* 2026-08-11：20px→24px，为圆点光晕（外扩 4px）留出左缘空间，
+     修复 overflow-x 计算值 auto 导致的光晕裁切 */
+  padding-left: 24px;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-color: rgba(255, 255, 255, 0.48) transparent;
@@ -17,7 +19,8 @@
   position: absolute;
   top: 9px;
   bottom: 12px;
-  left: 5px;
+  /* 与圆点中心对齐：圆点左缘 x=4 + 半径 8 = 中心 x=12，线宽 2px → left: 11px */
+  left: 11px;
   width: 2px;
   background: linear-gradient(to bottom, var(--announcement-accent), var(--announcement-line-color));
   content: '';
@@ -215,7 +218,8 @@
 @media (max-width: 768px) {
   .card-announcement .announcement-timeline {
     max-height: min(68vh, 560px);
-    padding-left: 18px;
+    /* 2026-08-11：18px→22px，圆点 left:-18px 不变，左缘留 4px 光晕空间 */
+    padding-left: 22px;
   }
 
   .card-announcement .announcement-entry__summary::after {
