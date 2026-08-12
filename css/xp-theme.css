@@ -739,3 +739,87 @@
 #aside-content .card-widget.card-info.visitor-info::after {
   content: 'visitor.exe';
 }
+
+/* ==========================================================================
+   九、友情链接页卡片 XP 重设计
+   --------------------------------------------------------------------------
+   覆盖主题 _page/flink.styl 的默认交互（hover 灰块 scale 展开 + 头像缩没）。
+   设计：XP 平面小卡（#262e3d + 灰蓝边框 + 直角 + 硬阴影）；
+   悬浮 = 窗口激活语义（边框变蓝、阴影加深、名称提亮、头像相框变蓝、卡面微亮），
+   头像不再缩没；触屏 :active 给按压下沉反馈。
+   布局（float/宽度/高度/响应式断点）保持主题原样，仅改视觉。
+   ========================================================================== */
+
+#page .flink-list-item {
+  background: #262e3d;
+  border: 1px solid #5d7a9e;
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+/* 去掉主题 hover 灰块背景层 */
+#page .flink-list-item::before {
+  display: none;
+}
+
+/* hover：窗口激活 */
+#page .flink-list-item:hover {
+  background: #2b3445;
+  border-color: #0058e6;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);
+}
+
+/* 头像：XP 相框（深衬底 + 控件边框 + 直角）；hover 不再缩没 */
+#page .flink-list-item .flink-item-icon,
+#page .flink-list-item:hover .flink-item-icon {
+  margin: 15px 10px;
+  width: 60px;
+  height: 60px;
+  background: #141922;
+  border: 1px solid #5d7a9e;
+  border-radius: 0;
+  padding: 2px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+#page .flink-list-item:hover .flink-item-icon {
+  border-color: #0058e6;
+}
+
+#page .flink-item-icon img {
+  border-radius: 0;
+}
+
+/* 名称与描述 */
+#page .flink-item-name {
+  color: #9ecbff;
+  transition: color 0.15s ease;
+}
+
+#page .flink-list-item:hover .flink-item-name {
+  color: #cfe4ff;
+  text-decoration: underline;
+}
+
+#page .flink-item-desc {
+  color: #8a94a6;
+}
+
+/* 触屏：点按下沉反馈（无常激活，卡片本就常驻展示） */
+@media (hover: none), (pointer: coarse) {
+  #page .flink-list-item:active {
+    background: #2b3445;
+    border-color: #0058e6;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page .flink-list-item,
+  #page .flink-list-item .flink-item-icon,
+  #page .flink-item-name {
+    transition: none;
+  }
+}
