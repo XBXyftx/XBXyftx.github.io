@@ -546,7 +546,286 @@
 }
 
 /* ==========================================================================
-   七、AI 总结（打字机摘要块）XP 窗口化
+   七、文章项目卡片 XP 窗口化
+   --------------------------------------------------------------------------
+   OpenSourceSummer2025.md 的报道与仓库卡复用全站 XP 窗口语言；
+   只覆盖专用 class，避免影响文章中的其他内嵌 HTML。
+   ========================================================================== */
+
+#post .xp-project-card {
+  position: relative;
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 46px 18px 18px !important;
+  background: var(--xp-bg) !important;
+  border: 3px solid var(--xp-border) !important;
+  border-radius: 10px 10px 4px 4px !important;
+  box-shadow: var(--xp-shadow) !important;
+  color: var(--xp-text) !important;
+  overflow: hidden;
+  cursor: default !important;
+  transform: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#post .xp-project-card::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  z-index: 3;
+  box-sizing: border-box;
+  padding: 0 78px 0 36px;
+  background-color: var(--xp-title-off);
+  background-image:
+    linear-gradient(#f65314, #f65314),
+    linear-gradient(#7cbb00, #7cbb00),
+    linear-gradient(#00a1f1, #00a1f1),
+    linear-gradient(#ffbb00, #ffbb00);
+  background-size: 7px 7px, 7px 7px, 7px 7px, 7px 7px;
+  background-position: 13px 8px, 21px 8px, 13px 16px, 21px 16px;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#post .xp-project-card--now::before {
+  content: 'NowInOpenHarmony.exe';
+}
+
+#post .xp-project-card--sig::before {
+  content: 'OpenHarmony SIG.exe';
+}
+
+#post .xp-project-card--wechat::before {
+  content: '公众号报道.exe';
+}
+
+#post .xp-project-card--chaspark::before {
+  content: '获奖专题.exe';
+}
+
+#post .xp-project-card__icon {
+  flex: 0 0 24px;
+  width: 24px;
+  font-size: 24px;
+  text-align: center;
+}
+
+#post .xp-project-card--wechat .xp-project-card__icon {
+  color: #7cbb00;
+}
+
+#post .xp-project-card--chaspark .xp-project-card__icon {
+  color: #ffbb00;
+}
+
+#post .xp-project-card::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 64px;
+  height: 22px;
+  z-index: 4;
+  pointer-events: none;
+  background-image:
+    linear-gradient(45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#d75027, #d75027),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#8f2f12, #8f2f12);
+  background-repeat: no-repeat;
+  background-size:
+    10px 10px, 10px 10px,
+    10px 10px, 6px 6px,
+    8px 3px,
+    18px 18px, 18px 18px, 18px 18px,
+    20px 20px, 20px 20px, 20px 20px;
+  background-position:
+    49px 6px, 49px 6px,
+    27px 6px, 29px 8px,
+    6px 13px,
+    1px 2px, 23px 2px, 45px 2px,
+    0 1px, 22px 1px, 44px 1px;
+}
+
+#post .xp-project-card > div {
+  position: relative !important;
+  z-index: 2;
+}
+
+#post .xp-project-card > div > div:first-child {
+  display: flex !important;
+  align-items: center;
+  min-width: 0;
+  margin: 0 0 14px !important;
+  gap: 10px;
+}
+
+#post .xp-project-card > div > div:first-child > svg {
+  flex: 0 0 24px;
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  fill: var(--xp-link) !important;
+}
+
+#post .xp-project-card > div > div:first-child > div {
+  min-width: 0;
+  margin: 0 !important;
+  color: var(--xp-text-strong) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#post .xp-project-card > div > p {
+  margin: 0 0 14px !important;
+  color: var(--xp-text) !important;
+  font-size: 14px !important;
+  line-height: 1.7;
+  opacity: 1 !important;
+}
+
+#post .xp-project-card > div > div:nth-of-type(2) {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 16px !important;
+}
+
+#post .xp-project-card > div > div:nth-of-type(2) > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  box-sizing: border-box;
+  padding: 3px 9px !important;
+  background: var(--xp-bg-raise) !important;
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 2px !important;
+  color: var(--xp-text) !important;
+  font-size: 12px !important;
+  line-height: 1.2;
+  transform: none !important;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+#post .xp-project-card > div > div:nth-of-type(2) > span:hover {
+  background: var(--xp-blue) !important;
+  border-color: #78adff;
+}
+
+#post .xp-project-card > div > a {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 8px 13px !important;
+  background: var(--xp-bg-raise) !important;
+  border: 1px solid var(--xp-border) !important;
+  border-radius: 2px !important;
+  color: var(--xp-text-strong) !important;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transform: none !important;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#post .xp-project-card > div > a:hover {
+  background: var(--xp-blue) !important;
+  border-color: #78adff !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+#post .xp-project-card > div > a:active {
+  background: var(--xp-blue-deep) !important;
+  box-shadow: none;
+}
+
+#post .xp-project-card > div > a:focus-visible {
+  outline: 2px solid #ffbb00;
+  outline-offset: 3px;
+}
+
+#post .xp-project-card:focus-within {
+  border-color: var(--xp-blue) !important;
+}
+
+#post .xp-project-card:focus-within::before {
+  background-color: var(--xp-blue);
+}
+
+#post .xp-project-card > div > a svg {
+  flex: 0 0 auto;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+  fill: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #post .xp-project-card:hover {
+    border-color: var(--xp-blue) !important;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45) !important;
+  }
+
+  #post .xp-project-card:hover::before {
+    background-color: var(--xp-blue);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  #post .xp-project-card {
+    border-color: var(--xp-blue) !important;
+  }
+
+  #post .xp-project-card::before {
+    background-color: var(--xp-blue);
+  }
+
+  #post .xp-project-card:active {
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4) !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #post .xp-project-card {
+    padding: 44px 12px 14px !important;
+  }
+
+  #post .xp-project-card > div > div:first-child > div {
+    font-size: 16px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #post .xp-project-card,
+  #post .xp-project-card > div > div:nth-of-type(2) > span,
+  #post .xp-project-card > div > a {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   八、AI 总结（打字机摘要块）XP 窗口化
    --------------------------------------------------------------------------
    覆盖 themes/butterfly/source/css/typewriter-effect.css 的渐变卡片：
    header 改造为 XP 标题栏（机器人图标保留，标题补 .exe 后缀与全站窗口语言统一），
@@ -660,7 +939,7 @@
 }
 
 /* ==========================================================================
-   八、作者卡 / 访问信息卡：XP 窗口外框（保留渐变蒙版与背景图，不加背景色）
+   九、作者卡 / 访问信息卡：XP 窗口外框（保留渐变蒙版与背景图，不加背景色）
    --------------------------------------------------------------------------
    两张 .card-info 卡用户指定保留渐变蒙版 + loadImg.webp 背景图（::before 承载），
    因此背景结构完全不动，仅追加：XP 蓝外框 + 硬阴影 + 顶部标题栏。
@@ -741,7 +1020,7 @@
 }
 
 /* ==========================================================================
-   九、友情链接页卡片 XP 重设计
+   十、友情链接页卡片 XP 重设计
    --------------------------------------------------------------------------
    覆盖主题 _page/flink.styl 的默认交互（hover 灰块 scale 展开 + 头像缩没）。
    设计：XP 平面小卡（#262e3d + 灰蓝边框 + 直角 + 硬阴影）；
