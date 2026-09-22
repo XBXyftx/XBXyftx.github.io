@@ -613,6 +613,22 @@
   content: '获奖专题.exe';
 }
 
+#post .xp-project-card--zhheo::before {
+  content: 'zhheo-blog.exe';
+}
+
+#post .xp-project-card--liushen::before {
+  content: 'liushen-blog.exe';
+}
+
+#post .xp-project-card--whlcj::before {
+  content: 'whlcj-blog.exe';
+}
+
+#post .xp-project-card--akilar::before {
+  content: 'akilar-blog.exe';
+}
+
 #post .xp-project-card__icon {
   flex: 0 0 24px;
   width: 24px;
@@ -626,6 +642,337 @@
 
 #post .xp-project-card--chaspark .xp-project-card__icon {
   color: #ffbb00;
+}
+
+#post .xp-project-card--zhheo .xp-project-card__icon {
+  color: #ffbb00;
+}
+
+#post .xp-project-card--liushen .xp-project-card__icon {
+  color: #00d084;
+}
+
+#post .xp-project-card--whlcj .xp-project-card__icon {
+  color: #4d94ff;
+}
+
+#post .xp-project-card--akilar .xp-project-card__icon {
+  color: #ff8fb3;
+}
+
+/* ==========================================================================
+   文章内嵌 HTML 示例：技能树与技巧提示 XP 窗口化
+   -------------------------------------------------------------------------- */
+
+#post .xp-skill-tree {
+  position: relative;
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 48px 20px 20px;
+  background: var(--xp-bg);
+  border: 3px solid var(--xp-border);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: var(--xp-shadow);
+  color: var(--xp-text);
+  overflow: hidden;
+}
+
+#post .xp-skill-tree::before,
+#post .xp-skill-tip::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding-left: 36px;
+  background-color: var(--xp-title-off);
+  background-image:
+    linear-gradient(#f65314, #f65314),
+    linear-gradient(#7cbb00, #7cbb00),
+    linear-gradient(#00a1f1, #00a1f1),
+    linear-gradient(#ffbb00, #ffbb00);
+  background-size: 7px 7px, 7px 7px, 7px 7px, 7px 7px;
+  background-position: 13px 8px, 21px 8px, 13px 16px, 21px 16px;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+#post .xp-skill-tree::before {
+  content: 'skill-tree.exe';
+  height: 30px;
+}
+
+#post .xp-skill-tip::before {
+  content: 'html-tips.exe';
+  height: 30px;
+}
+
+#post .xp-skill-tree::after,
+#post .xp-skill-tip::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 64px;
+  height: 22px;
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, #fff 44%, #fff 56%, transparent 56%),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#fff, #fff),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#3a76f0, #3a76f0),
+    linear-gradient(#d75027, #d75027),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#16418f, #16418f),
+    linear-gradient(#8f2f12, #8f2f12);
+  background-repeat: no-repeat;
+  background-size:
+    10px 10px, 10px 10px,
+    10px 10px, 6px 6px,
+    8px 3px,
+    18px 18px, 18px 18px, 18px 18px,
+    20px 20px, 20px 20px, 20px 20px;
+  background-position:
+    49px 6px, 49px 6px,
+    27px 6px, 29px 8px,
+    6px 13px,
+    1px 2px, 23px 2px, 45px 2px,
+    0 1px, 22px 1px, 44px 1px;
+}
+
+#post .xp-skill-tree__title {
+  margin: 0 0 18px;
+  color: var(--xp-text-strong);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+#post .xp-skill-tree__title i {
+  color: #ffbb00;
+  margin-right: 6px;
+}
+
+#post .xp-skill-tree__item {
+  margin-bottom: 16px;
+}
+
+#post .xp-skill-tree__item--last {
+  margin-bottom: 0;
+}
+
+#post .xp-skill-tree__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  color: var(--xp-text-strong);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+#post .xp-skill-tree__label i {
+  width: 18px;
+  margin-right: 5px;
+  color: var(--xp-link);
+  text-align: center;
+}
+
+#post .xp-skill-tree__percent {
+  color: #ffbb00;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#post .xp-skill-tree__item:nth-of-type(3) .xp-skill-tree__percent {
+  color: #00d084;
+}
+
+#post .xp-skill-tree__item:nth-of-type(4) .xp-skill-tree__percent {
+  color: #ff6b6b;
+}
+
+#post .xp-skill-tree__item:nth-of-type(5) .xp-skill-tree__percent {
+  color: #a8e6cf;
+}
+
+#post .xp-skill-tree__track {
+  height: 8px;
+  overflow: hidden;
+  background: var(--xp-bg-deep);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 2px;
+}
+
+#post .xp-skill-tree__bar {
+  width: var(--skill-level);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+#post .xp-skill-tree__bar--front {
+  background: #ffbb00;
+}
+
+#post .xp-skill-tree__bar--design {
+  background: #00a99d;
+}
+
+#post .xp-skill-tree__bar--back {
+  background: #d75027;
+}
+
+#post .xp-skill-tree__bar--mobile {
+  background: #7cbb00;
+}
+
+#post .xp-skill-tip {
+  position: relative;
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 48px 18px 14px;
+  background: var(--xp-bg);
+  border: 2px solid var(--xp-border);
+  border-left: 4px solid #7cbb00;
+  box-shadow: var(--xp-shadow);
+  color: var(--xp-text);
+}
+
+#post .xp-skill-tip__title {
+  margin-bottom: 10px;
+  color: var(--xp-text-strong);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+#post .xp-skill-tip__title i {
+  margin-right: 6px;
+  color: #ffbb00;
+}
+
+#post .xp-skill-tip ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+#post .xp-skill-tip li {
+  margin: 6px 0;
+  color: var(--xp-text);
+  line-height: 1.6;
+}
+
+#post .xp-skill-tip code {
+  padding: 2px 5px;
+  background: var(--xp-bg-deep);
+  border: 1px solid var(--xp-border-dim);
+  border-radius: 2px;
+  color: var(--xp-link);
+}
+
+/* BlogSetup 中的 HTML 示例代码窗：只匹配技能树示例所在列表项 */
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html {
+  position: relative;
+  margin: 20px 0;
+  padding-top: 0;
+  background: var(--xp-bg-deep);
+  border: 2px solid var(--xp-border-dim);
+  border-radius: 6px 6px 3px 3px;
+  box-shadow: var(--xp-shadow);
+}
+
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html::before,
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html::after {
+  display: none;
+}
+
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html > .highlight-tools {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  min-height: 30px;
+  padding: 0 8px;
+  background-color: var(--xp-title-off);
+  border-bottom: 1px solid var(--xp-border-dim);
+  color: #fff;
+}
+
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html > .highlight-tools > .macStyle {
+  display: none;
+}
+
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html > .highlight-tools > .code-lang {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0 0 0 36px;
+  background-image:
+    linear-gradient(#f65314, #f65314),
+    linear-gradient(#7cbb00, #7cbb00),
+    linear-gradient(#00a1f1, #00a1f1),
+    linear-gradient(#ffbb00, #ffbb00);
+  background-size: 7px 7px, 7px 7px, 7px 7px, 7px 7px;
+  background-position: 13px 8px, 21px 8px, 13px 16px, 21px 16px;
+  background-repeat: no-repeat;
+  color: transparent;
+  font-size: 0;
+  line-height: 30px;
+  text-align: left;
+  text-transform: none;
+}
+
+#post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html > .highlight-tools > .code-lang::before {
+  content: 'html-example.exe';
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 600px) {
+  #post li:has(> figure.highlight.html + p + .xp-skill-tree) > figure.highlight.html {
+    padding-top: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #post .xp-skill-tree {
+    padding: 46px 12px 14px;
+  }
+
+  #post .xp-skill-tree__title {
+    font-size: 16px;
+  }
+
+  #post .xp-skill-tree__label {
+    font-size: 13px;
+  }
+
+  #post .xp-skill-tip {
+    padding: 46px 12px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #post .xp-skill-tree__bar {
+    transition: none;
+  }
 }
 
 #post .xp-project-card::after {
