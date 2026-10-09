@@ -11,7 +11,7 @@
   <rights>All rights reserved 2026, XBXyftx</rights>
   <subtitle>心之所向吾之所往，素履以往者之经，今履新之者之书</subtitle>
   <title>XBXyftx</title>
-  <updated>2026-10-09T06:33:15.612Z</updated>
+  <updated>2026-10-09T08:53:09.242Z</updated>
   <entry>
     <author>
       <name>XBXyftx</name>
@@ -23,7 +23,7 @@
     <published>2026-09-01T01:37:43.000Z</published>
     <summary type="text">致创客</summary>
     <title type="text">ToBistuMaker</title>
-    <updated>2026-10-09T06:33:15.612Z</updated>
+    <updated>2026-10-09T08:53:08.258Z</updated>
   </entry>
   <entry>
     <author>
@@ -36,7 +36,7 @@
     <published>2026-08-05T06:50:35.000Z</published>
     <summary type="text">rs学习笔记</summary>
     <title type="text">rustTips</title>
-    <updated>2026-10-08T08:35:30.126Z</updated>
+    <updated>2026-10-09T08:53:08.485Z</updated>
   </entry>
   <entry>
     <author>
@@ -52,7 +52,7 @@
     <published>2026-07-10T19:20:00.000Z</published>
     <summary type="text">一次针对 Hexo 博客无效请求的 P2 治理：从生成产物定位主题配置、历史 WebP 路径、Markdown 语法和文章资源引用问题，再用静态审计与 Headless Chrome 验证，将可确认的本地缺失资源从 16 个目标、1,850 次引用收敛为 0。</summary>
     <title type="text">博客无效请求优化记录：从生成态审计到浏览器验证</title>
-    <updated>2026-10-08T08:35:30.521Z</updated>
+    <updated>2026-10-09T08:53:08.869Z</updated>
   </entry>
   <entry>
     <author>
@@ -68,7 +68,7 @@
     <published>2026-07-10T17:40:04.000Z</published>
     <summary type="text">首页瀑布流的一次 P0 性能重写：定位移动端高频轮询、样式覆写与调试监听问题，拆解 ResizeObserver、requestAnimationFrame 与响应式 masonry 的实现，并给出三断点 A/B 测量数据。</summary>
     <title type="text">首页瀑布流性能优化记录：从定时轮询到按需重排</title>
-    <updated>2026-10-08T08:35:30.000Z</updated>
+    <updated>2026-10-09T08:53:08.350Z</updated>
   </entry>
   <entry>
     <author>
@@ -88,7 +88,7 @@
     <published>2026-07-10T02:19:47.000Z</published>
     <summary type="text">关于26年6月初的一些模型杂谈</summary>
     <title type="text">Agents杂谈</title>
-    <updated>2026-10-08T08:35:29.714Z</updated>
+    <updated>2026-10-09T08:53:08.064Z</updated>
   </entry>
   <entry>
     <author>
@@ -106,7 +106,7 @@
     <published>2026-06-30T09:30:06.000Z</published>
     <summary type="text">一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解文档职责、证据协议、路由矩阵和多客户端同步方法</summary>
     <title type="text">渐进式披露长期记忆文档模板</title>
-    <updated>2026-10-08T08:35:29.836Z</updated>
+    <updated>2026-10-09T08:53:08.175Z</updated>
   </entry>
   <entry>
     <author>
@@ -127,7 +127,7 @@
     <published>2026-06-10T02:01:44.000Z</published>
     <summary type="text">关于26年6月初的一些模型杂谈</summary>
     <title type="text">模型杂谈</title>
-    <updated>2026-10-08T08:35:29.814Z</updated>
+    <updated>2026-10-09T08:53:08.156Z</updated>
   </entry>
   <entry>
     <author>
@@ -140,7 +140,7 @@
     <published>2026-06-04T12:53:53.000Z</published>
     <summary type="text">软件工程期末复习笔记</summary>
     <title type="text">软件工程期末复习</title>
-    <updated>2026-10-08T08:35:30.480Z</updated>
+    <updated>2026-10-09T08:53:08.832Z</updated>
   </entry>
   <entry>
     <author>
@@ -153,7 +153,7 @@
     <published>2026-05-19T11:09:16.000Z</published>
     <summary type="text">最优化理论期末复习笔记</summary>
     <title type="text">最优化理论期末复习</title>
-    <updated>2026-10-08T08:35:30.186Z</updated>
+    <updated>2026-10-09T08:53:08.556Z</updated>
   </entry>
   <entry>
     <author>
@@ -165,7 +165,7 @@
     <published>2026-05-08T02:26:52.000Z</published>
     <summary type="text">高性能计算期末复习</summary>
     <title type="text">高性能计算复习</title>
-    <updated>2026-10-08T08:35:30.264Z</updated>
+    <updated>2026-10-09T08:53:08.639Z</updated>
   </entry>
   <entry>
     <author>
@@ -185,7 +185,7 @@
     <published>2026-04-27T13:20:55.000Z</published>
     <summary type="text">Vibe Coding经验分享</summary>
     <title type="text">怎样用好 Vibe Coding，大幅减少重复编码？</title>
-    <updated>2026-10-08T08:35:30.070Z</updated>
+    <updated>2026-10-09T08:53:08.411Z</updated>
   </entry>
   <entry>
     <author>
@@ -197,7 +197,7 @@
     <published>2026-03-27T05:37:01.000Z</published>
     <summary type="text">开源之夏2025落下了帷幕，但它真的结束了吗？</summary>
     <title type="text">于开源之夏后</title>
-    <updated>2026-10-08T08:35:29.939Z</updated>
+    <updated>2026-10-09T08:53:08.280Z</updated>
   </entry>
   <entry>
     <author>
@@ -210,7 +210,7 @@
     <published>2026-03-03T06:23:51.000Z</published>
     <summary type="text">最优化理论的笔记</summary>
     <title type="text">最优化理论笔记</title>
-    <updated>2026-10-08T08:35:29.695Z</updated>
+    <updated>2026-10-09T08:53:08.044Z</updated>
   </entry>
   <entry>
     <author>
@@ -224,7 +224,7 @@
     <published>2026-02-13T06:40:21.000Z</published>
     <summary type="text">对于鸿蒙nodejs的使用上的一些问题的记录</summary>
     <title type="text">鸿蒙Nodejs</title>
-    <updated>2026-10-08T08:35:30.022Z</updated>
+    <updated>2026-10-09T08:53:08.369Z</updated>
   </entry>
   <entry>
     <author>
@@ -241,7 +241,7 @@
     <published>2026-02-03T06:52:55.000Z</published>
     <summary type="text">一个大胆的想法，一次勇敢的尝试</summary>
     <title type="text">VScode的鸿蒙化尝试</title>
-    <updated>2026-10-08T08:35:29.736Z</updated>
+    <updated>2026-10-09T08:53:08.086Z</updated>
   </entry>
   <entry>
     <author>
@@ -258,7 +258,7 @@
     <published>2026-02-01T06:20:33.000Z</published>
     <summary type="text">KimiCode初体验</summary>
     <title type="text">KimiCode</title>
-    <updated>2026-10-08T08:35:30.701Z</updated>
+    <updated>2026-10-09T08:53:09.024Z</updated>
   </entry>
   <entry>
     <author>
@@ -271,7 +271,7 @@
     <published>2026-01-09T06:46:13.000Z</published>
     <summary type="text">计算机网络期末复习</summary>
     <title type="text">机器学习与数据挖掘期末复习</title>
-    <updated>2026-10-08T08:35:29.879Z</updated>
+    <updated>2026-10-09T08:53:08.217Z</updated>
   </entry>
   <entry>
     <author>
@@ -284,7 +284,7 @@
     <published>2026-01-06T05:10:37.000Z</published>
     <summary type="text">计算机网络期末复习</summary>
     <title type="text">操作系统期末复习</title>
-    <updated>2026-10-08T08:35:30.917Z</updated>
+    <updated>2026-10-09T08:53:09.242Z</updated>
   </entry>
   <entry>
     <author>
@@ -296,7 +296,7 @@
     <published>2026-01-04T04:51:40.000Z</published>
     <summary type="text">计算机网络期末复习</summary>
     <title type="text">计算机网络期末复习</title>
-    <updated>2026-10-08T08:35:30.463Z</updated>
+    <updated>2026-10-09T08:53:08.814Z</updated>
   </entry>
   <entry>
     <author>
@@ -308,7 +308,7 @@
     <published>2025-12-24T07:22:31.000Z</published>
     <summary type="text">数据采集期末复习</summary>
     <title type="text">数据采集实践期末复习</title>
-    <updated>2026-10-08T08:35:29.677Z</updated>
+    <updated>2026-10-09T08:53:08.022Z</updated>
   </entry>
   <entry>
     <author>
@@ -321,7 +321,7 @@
     <published>2025-11-28T09:09:19.000Z</published>
     <summary type="text">每天都要刷算法！！！</summary>
     <title type="text">每日算法</title>
-    <updated>2026-10-08T08:35:30.570Z</updated>
+    <updated>2026-10-09T08:53:08.909Z</updated>
   </entry>
   <entry>
     <author>
@@ -340,7 +340,7 @@
     <published>2025-11-18T07:19:14.000Z</published>
     <summary type="text">鸿易讯，鸿蒙新闻与鸿蒙开发问答助手应用。</summary>
     <title type="text">鸿易讯</title>
-    <updated>2026-10-08T08:35:30.244Z</updated>
+    <updated>2026-10-09T08:53:08.617Z</updated>
   </entry>
   <entry>
     <author>
@@ -358,7 +358,7 @@
     <published>2025-11-01T08:53:54.000Z</published>
     <summary type="text">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</summary>
     <title type="text">在虚构与现实之间，守住那束灵感之光</title>
-    <updated>2026-10-08T08:35:30.500Z</updated>
+    <updated>2026-10-09T08:53:08.851Z</updated>
   </entry>
   <entry>
     <author>
@@ -374,7 +374,7 @@
     <published>2025-10-20T06:17:05.000Z</published>
     <summary type="text">NowInOpenHarmony上架笔记2，记录在后端初次部署后反复出现</summary>
     <title type="text">NowInOpenHarmony上架笔记之后端部署优化</title>
-    <updated>2026-10-08T08:35:30.746Z</updated>
+    <updated>2026-10-09T08:53:09.069Z</updated>
   </entry>
   <entry>
     <author>
@@ -390,7 +390,7 @@
     <published>2025-10-12T06:17:05.000Z</published>
     <summary type="text">NowInOpenHarmony上架笔记2，记录OpenHarmony官网重构后的新征程</summary>
     <title type="text">NowInOpenHarmony上架笔记之再起新征程</title>
-    <updated>2026-10-08T08:35:30.831Z</updated>
+    <updated>2026-10-09T08:53:09.143Z</updated>
   </entry>
   <entry>
     <author>
@@ -402,7 +402,7 @@
     <published>2025-09-29T06:29:20.000Z</published>
     <summary type="text">各种杂七杂八的程序员下饭菜</summary>
     <title type="text">编程小知识点</title>
-    <updated>2026-10-08T08:35:29.796Z</updated>
+    <updated>2026-10-09T08:53:08.126Z</updated>
   </entry>
   <entry>
     <author>
@@ -418,7 +418,7 @@
     <published>2025-09-27T09:02:05.000Z</published>
     <summary type="text">NowInOpenHarmony上架笔记，记录从后端打包到OpenHarmony官网重构（已被迫断更）</summary>
     <title type="text">NowInOpenHarmony上架笔记之openharmony官网重构</title>
-    <updated>2026-10-08T08:35:30.546Z</updated>
+    <updated>2026-10-09T08:53:08.889Z</updated>
   </entry>
   <entry>
     <author>
@@ -434,7 +434,7 @@
     <published>2025-09-27T07:11:48.000Z</published>
     <summary type="text">熟练使用CC了，该开始大展身手了！</summary>
     <title type="text">AITrainingCamp2</title>
-    <updated>2026-10-08T08:35:29.958Z</updated>
+    <updated>2026-10-09T08:53:08.300Z</updated>
   </entry>
   <entry>
     <author>
@@ -451,7 +451,7 @@
     <published>2025-09-13T06:12:42.000Z</published>
     <summary type="text">iflab的AI训练营！！！魔鬼训练！！！</summary>
     <title type="text">AITrainingCamp</title>
-    <updated>2026-10-08T08:35:29.902Z</updated>
+    <updated>2026-10-09T08:53:08.239Z</updated>
   </entry>
   <entry>
     <author>
@@ -465,6 +465,6 @@
     <published>2025-09-11T07:26:54.000Z</published>
     <summary type="text">从小白到小有成就的一些感悟。（持续更新中）</summary>
     <title type="text">由单向编程走向多向编程</title>
-    <updated>2026-10-08T08:35:30.588Z</updated>
+    <updated>2026-10-09T08:53:08.927Z</updated>
   </entry>
 </feed>
