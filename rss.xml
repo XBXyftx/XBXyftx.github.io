@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XBXyftx</title>
+    <link>https://xbxyftx.top/</link>
+    <description>心之所向吾之所往，素履以往者之经，今履新之者之书</description>
+    <language>zh-CN</language>
+    <copyright>All rights reserved 2026, XBXyftx</copyright>
+    <lastBuildDate>Fri, 09 Oct 2026 01:57:21 GMT</lastBuildDate>
+    <generator>Hexo</generator>
+    <image>
+      <url>https://xbxyftx.top/img/logo.webp</url>
+      <title>XBXyftx</title>
+      <link>https://xbxyftx.top/</link>
+    </image>
+    <atom:link href="https://xbxyftx.top/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ToBistuMaker</title>
+      <link>https://xbxyftx.top/2026/09/01/ToBistuMaker/</link>
+      <description>致创客</description>
+      <category domain="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/">独白</category>
+      <category domain="https://xbxyftx.top/tags/BistuMaker/">BistuMaker</category>
+      <pubDate>Tue, 01 Sep 2026 01:37:43 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/09/01/ToBistuMaker/</guid>
+    </item>
+    <item>
+      <title>rustTips</title>
+      <link>https://xbxyftx.top/2026/08/05/rustTips/</link>
+      <description>rs学习笔记</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/rust/">rust</category>
+      <pubDate>Wed, 05 Aug 2026 06:50:35 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/08/05/rustTips/</guid>
+    </item>
+    <item>
+      <title>博客无效请求优化记录：从生成态审计到浏览器验证</title>
+      <link>https://xbxyftx.top/2026/07/11/%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/</link>
+      <description>一次针对 Hexo 博客无效请求的 P2 治理：从生成产物定位主题配置、历史 WebP 路径、Markdown 语法和文章资源引用问题，再用静态审计与 Headless Chrome 验证，将可确认的本地缺失资源从 16 个目标、1,850 次引用收敛为 0。</description>
+      <category domain="https://xbxyftx.top/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/">主题美化</category>
+      <category domain="https://xbxyftx.top/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/JavaScript/">JavaScript</category>
+      <category domain="https://xbxyftx.top/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">hexo博客搭建</category>
+      <pubDate>Fri, 10 Jul 2026 19:20:00 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/07/11/%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/</guid>
+    </item>
+    <item>
+      <title>首页瀑布流性能优化记录：从定时轮询到按需重排</title>
+      <link>https://xbxyftx.top/2026/07/11/%E9%A6%96%E9%A1%B5%E7%80%91%E5%B8%83%E6%B5%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/</link>
+      <description>首页瀑布流的一次 P0 性能重写：定位移动端高频轮询、样式覆写与调试监听问题，拆解 ResizeObserver、requestAnimationFrame 与响应式 masonry 的实现，并给出三断点 A&amp;#x2F;B 测量数据。</description>
+      <category domain="https://xbxyftx.top/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/">主题美化</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/CSS/">CSS</category>
+      <category domain="https://xbxyftx.top/tags/JS/">JS</category>
+      <category domain="https://xbxyftx.top/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">hexo博客搭建</category>
+      <pubDate>Fri, 10 Jul 2026 17:40:04 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/07/11/%E9%A6%96%E9%A1%B5%E7%80%91%E5%B8%83%E6%B5%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/</guid>
+    </item>
+    <item>
+      <title>Agents杂谈</title>
+      <link>https://xbxyftx.top/2026/07/10/AgentsMusings/</link>
+      <description>关于26年6月初的一些模型杂谈</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/ClaudeCode/">ClaudeCode</category>
+      <category domain="https://xbxyftx.top/tags/KimiCode/">KimiCode</category>
+      <category domain="https://xbxyftx.top/tags/Skills/">Skills</category>
+      <category domain="https://xbxyftx.top/tags/SubAgent/">SubAgent</category>
+      <category domain="https://xbxyftx.top/tags/Vibe-Coding/">Vibe Coding</category>
+      <category domain="https://xbxyftx.top/tags/Zcode/">Zcode</category>
+      <pubDate>Fri, 10 Jul 2026 02:19:47 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/07/10/AgentsMusings/</guid>
+    </item>
+    <item>
+      <title>渐进式披露长期记忆文档模板</title>
+      <link>https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/</link>
+      <description>一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解文档职责、证据协议、路由矩阵和多客户端同步方法</description>
+      <category domain="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/">渐进式披露</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/Skills/">Skills</category>
+      <category domain="https://xbxyftx.top/tags/Zcode/">Zcode</category>
+      <pubDate>Tue, 30 Jun 2026 09:30:06 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/</guid>
+    </item>
+    <item>
+      <title>模型杂谈</title>
+      <link>https://xbxyftx.top/2026/06/10/ModelMusings/</link>
+      <description>关于26年6月初的一些模型杂谈</description>
+      <category domain="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/Claude-Opus-4-8/">Claude Opus 4.8</category>
+      <category domain="https://xbxyftx.top/tags/DeepSeek-V4-Pro/">DeepSeek-V4-Pro</category>
+      <category domain="https://xbxyftx.top/tags/GLM5-2/">GLM5.2</category>
+      <category domain="https://xbxyftx.top/tags/GPT5-5/">GPT5.5</category>
+      <category domain="https://xbxyftx.top/tags/K2-6/">K2.6</category>
+      <category domain="https://xbxyftx.top/tags/Skills/">Skills</category>
+      <pubDate>Wed, 10 Jun 2026 02:01:44 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/06/10/ModelMusings/</guid>
+    </item>
+    <item>
+      <title>软件工程期末复习</title>
+      <link>https://xbxyftx.top/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</link>
+      <description>软件工程期末复习笔记</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <category domain="https://xbxyftx.top/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</category>
+      <pubDate>Thu, 04 Jun 2026 12:53:53 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</guid>
+    </item>
+    <item>
+      <title>最优化理论期末复习</title>
+      <link>https://xbxyftx.top/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</link>
+      <description>最优化理论期末复习笔记</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/">最优化理论</category>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <pubDate>Tue, 19 May 2026 11:09:16 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</guid>
+    </item>
+    <item>
+      <title>高性能计算复习</title>
+      <link>https://xbxyftx.top/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/</link>
+      <description>高性能计算期末复习</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <pubDate>Fri, 08 May 2026 02:26:52 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/</guid>
+    </item>
+    <item>
+      <title>怎样用好 Vibe Coding，大幅减少重复编码？</title>
+      <link>https://xbxyftx.top/2026/04/27/VibeTips/</link>
+      <description>Vibe Coding经验分享</description>
+      <category domain="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/">渐进式披露</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/DeepSeek-V4-Pro/">DeepSeek-V4-Pro</category>
+      <category domain="https://xbxyftx.top/tags/K2-6/">K2.6</category>
+      <category domain="https://xbxyftx.top/tags/KimiCode/">KimiCode</category>
+      <category domain="https://xbxyftx.top/tags/Skills/">Skills</category>
+      <pubDate>Mon, 27 Apr 2026 13:20:55 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/04/27/VibeTips/</guid>
+    </item>
+    <item>
+      <title>于开源之夏后</title>
+      <link>https://xbxyftx.top/2026/03/27/afterOSPP/</link>
+      <description>开源之夏2025落下了帷幕，但它真的结束了吗？</description>
+      <category domain="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/">独白</category>
+      <pubDate>Fri, 27 Mar 2026 05:37:01 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/03/27/afterOSPP/</guid>
+    </item>
+    <item>
+      <title>最优化理论笔记</title>
+      <link>https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/</link>
+      <description>最优化理论的笔记</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/">最优化理论</category>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <pubDate>Tue, 03 Mar 2026 06:23:51 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/</guid>
+    </item>
+    <item>
+      <title>鸿蒙Nodejs</title>
+      <link>https://xbxyftx.top/2026/02/13/HMNodejs/</link>
+      <description>对于鸿蒙nodejs的使用上的一些问题的记录</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/">鸿蒙</category>
+      <category domain="https://xbxyftx.top/tags/Nodejs/">Nodejs</category>
+      <pubDate>Fri, 13 Feb 2026 06:40:21 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/02/13/HMNodejs/</guid>
+    </item>
+    <item>
+      <title>VScode的鸿蒙化尝试</title>
+      <link>https://xbxyftx.top/2026/02/03/HarmonyVScode/</link>
+      <description>一个大胆的想法，一次勇敢的尝试</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/">项目</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/">鸿蒙</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/K2-5/">K2.5</category>
+      <category domain="https://xbxyftx.top/tags/KimiCode/">KimiCode</category>
+      <pubDate>Tue, 03 Feb 2026 06:52:55 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/02/03/HarmonyVScode/</guid>
+    </item>
+    <item>
+      <title>KimiCode</title>
+      <link>https://xbxyftx.top/2026/02/01/KimiCode/</link>
+      <description>KimiCode初体验</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/K2-5/">K2.5</category>
+      <category domain="https://xbxyftx.top/tags/KimiCode/">KimiCode</category>
+      <category domain="https://xbxyftx.top/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">hexo博客搭建</category>
+      <pubDate>Sun, 01 Feb 2026 06:20:33 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/02/01/KimiCode/</guid>
+    </item>
+    <item>
+      <title>机器学习与数据挖掘期末复习</title>
+      <link>https://xbxyftx.top/2026/01/09/MachineCollectionFinalReview/</link>
+      <description>计算机网络期末复习</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">机器学习与数据挖掘</category>
+      <pubDate>Fri, 09 Jan 2026 06:46:13 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/01/09/MachineCollectionFinalReview/</guid>
+    </item>
+    <item>
+      <title>操作系统期末复习</title>
+      <link>https://xbxyftx.top/2026/01/06/osFinalReview/</link>
+      <description>计算机网络期末复习</description>
+      <category domain="https://xbxyftx.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</category>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <pubDate>Tue, 06 Jan 2026 05:10:37 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/01/06/osFinalReview/</guid>
+    </item>
+    <item>
+      <title>计算机网络期末复习</title>
+      <link>https://xbxyftx.top/2026/01/04/computerNetFinalReview/</link>
+      <description>计算机网络期末复习</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <pubDate>Sun, 04 Jan 2026 04:51:40 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/01/04/computerNetFinalReview/</guid>
+    </item>
+    <item>
+      <title>数据采集实践期末复习</title>
+      <link>https://xbxyftx.top/2025/12/24/dataCollectionFinalReview/</link>
+      <description>数据采集期末复习</description>
+      <category domain="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</category>
+      <pubDate>Wed, 24 Dec 2025 07:22:31 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/12/24/dataCollectionFinalReview/</guid>
+    </item>
+    <item>
+      <title>每日算法</title>
+      <link>https://xbxyftx.top/2025/11/28/EverydayAlgorithm/</link>
+      <description>每天都要刷算法！！！</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E7%AE%97%E6%B3%95/">算法</category>
+      <pubDate>Fri, 28 Nov 2025 09:09:19 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/11/28/EverydayAlgorithm/</guid>
+    </item>
+    <item>
+      <title>鸿易讯</title>
+      <link>https://xbxyftx.top/2025/11/18/HongYiXun/</link>
+      <description>鸿易讯，鸿蒙新闻与鸿蒙开发问答助手应用。</description>
+      <category domain="https://xbxyftx.top/tags/%E6%89%A3%E5%AD%90/">扣子</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%99%BA%E8%83%BD%E4%BD%93/">智能体</category>
+      <category domain="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/">项目</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E6%98%93%E8%AE%AF/">鸿易讯</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/">鸿蒙</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/V2/">V2</category>
+      <pubDate>Tue, 18 Nov 2025 07:19:14 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/11/18/HongYiXun/</guid>
+    </item>
+    <item>
+      <title>在虚构与现实之间，守住那束灵感之光</title>
+      <link>https://xbxyftx.top/2025/11/01/ThoughtsOnVibeCoding/</link>
+      <description>对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/">独白</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/ClaudeCode/">ClaudeCode</category>
+      <category domain="https://xbxyftx.top/tags/CodeX/">CodeX</category>
+      <category domain="https://xbxyftx.top/tags/Vibe-Coding/">Vibe Coding</category>
+      <pubDate>Sat, 01 Nov 2025 08:53:54 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/11/01/ThoughtsOnVibeCoding/</guid>
+    </item>
+    <item>
+      <title>NowInOpenHarmony上架笔记之后端部署优化</title>
+      <link>https://xbxyftx.top/2025/10/20/NowInOpenHarmonyPutAway3/</link>
+      <description>NowInOpenHarmony上架笔记2，记录在后端初次部署后反复出现</description>
+      <category domain="https://xbxyftx.top/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/">开源之夏</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/">项目</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/">鸿蒙</category>
+      <category domain="https://xbxyftx.top/tags/NowInOpenHarmony/">NowInOpenHarmony</category>
+      <pubDate>Mon, 20 Oct 2025 06:17:05 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/10/20/NowInOpenHarmonyPutAway3/</guid>
+    </item>
+    <item>
+      <title>NowInOpenHarmony上架笔记之再起新征程</title>
+      <link>https://xbxyftx.top/2025/10/12/NowInOpenHarmonyPutaway2/</link>
+      <description>NowInOpenHarmony上架笔记2，记录OpenHarmony官网重构后的新征程</description>
+      <category domain="https://xbxyftx.top/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/">开源之夏</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/">项目</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/">鸿蒙</category>
+      <category domain="https://xbxyftx.top/tags/NowInOpenHarmony/">NowInOpenHarmony</category>
+      <pubDate>Sun, 12 Oct 2025 06:17:05 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/10/12/NowInOpenHarmonyPutaway2/</guid>
+    </item>
+    <item>
+      <title>编程小知识点</title>
+      <link>https://xbxyftx.top/2025/09/29/ProgrammingTips/</link>
+      <description>各种杂七杂八的程序员下饭菜</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <pubDate>Mon, 29 Sep 2025 06:29:20 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/09/29/ProgrammingTips/</guid>
+    </item>
+    <item>
+      <title>NowInOpenHarmony上架笔记之openharmony官网重构</title>
+      <link>https://xbxyftx.top/2025/09/27/NowInOpenHarmonyPutaway/</link>
+      <description>NowInOpenHarmony上架笔记，记录从后端打包到OpenHarmony官网重构（已被迫断更）</description>
+      <category domain="https://xbxyftx.top/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/">开源之夏</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/">项目</category>
+      <category domain="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/">鸿蒙</category>
+      <category domain="https://xbxyftx.top/tags/NowInOpenHarmony/">NowInOpenHarmony</category>
+      <pubDate>Sat, 27 Sep 2025 09:02:05 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/09/27/NowInOpenHarmonyPutaway/</guid>
+    </item>
+    <item>
+      <title>AITrainingCamp2</title>
+      <link>https://xbxyftx.top/2025/09/27/AITrainingCamp2/</link>
+      <description>熟练使用CC了，该开始大展身手了！</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/ClaudeCode/">ClaudeCode</category>
+      <category domain="https://xbxyftx.top/tags/cursor/">cursor</category>
+      <pubDate>Sat, 27 Sep 2025 07:11:48 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/09/27/AITrainingCamp2/</guid>
+    </item>
+    <item>
+      <title>AITrainingCamp</title>
+      <link>https://xbxyftx.top/2025/09/13/AITrainingCamp/</link>
+      <description>iflab的AI训练营！！！魔鬼训练！！！</description>
+      <category domain="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/ClaudeCode/">ClaudeCode</category>
+      <category domain="https://xbxyftx.top/tags/cursor/">cursor</category>
+      <pubDate>Sat, 13 Sep 2025 06:12:42 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/09/13/AITrainingCamp/</guid>
+    </item>
+    <item>
+      <title>由单向编程走向多向编程</title>
+      <link>https://xbxyftx.top/2025/09/11/CodeInspiration/</link>
+      <description>从小白到小有成就的一些感悟。（持续更新中）</description>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/">独白</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <pubDate>Thu, 11 Sep 2025 07:26:54 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2025/09/11/CodeInspiration/</guid>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
+  <author>
+    <name>XBXyftx</name>
+  </author>
+  <generator uri="https://hexo.io/">Hexo</generator>
+  <icon>https://xbxyftx.top/img/logo.webp</icon>
+  <id>https://xbxyftx.top/</id>
+  <link href="https://xbxyftx.top/" rel="alternate"/>
+  <link href="https://xbxyftx.top/atom.xml" rel="self"/>
+  <rights>All rights reserved 2026, XBXyftx</rights>
+  <subtitle>心之所向吾之所往，素履以往者之经，今履新之者之书</subtitle>
+  <title>XBXyftx</title>
+  <updated>2026-10-09T01:57:21.441Z</updated>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="独白" scheme="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/"/>
+    <category term="BistuMaker" scheme="https://xbxyftx.top/tags/BistuMaker/"/>
+    <id>https://xbxyftx.top/2026/09/01/ToBistuMaker/</id>
+    <link href="https://xbxyftx.top/2026/09/01/ToBistuMaker/"/>
+    <published>2026-09-01T01:37:43.000Z</published>
+    <summary type="text">致创客</summary>
+    <title type="text">ToBistuMaker</title>
+    <updated>2026-10-09T01:57:21.441Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="rust" scheme="https://xbxyftx.top/tags/rust/"/>
+    <id>https://xbxyftx.top/2026/08/05/rustTips/</id>
+    <link href="https://xbxyftx.top/2026/08/05/rustTips/"/>
+    <published>2026-08-05T06:50:35.000Z</published>
+    <summary type="text">rs学习笔记</summary>
+    <title type="text">rustTips</title>
+    <updated>2026-10-08T08:35:30.126Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="主题美化" scheme="https://xbxyftx.top/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/"/>
+    <category term="性能优化" scheme="https://xbxyftx.top/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="JavaScript" scheme="https://xbxyftx.top/tags/JavaScript/"/>
+    <category term="hexo博客搭建" scheme="https://xbxyftx.top/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    <id>https://xbxyftx.top/2026/07/11/%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/</id>
+    <link href="https://xbxyftx.top/2026/07/11/%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/"/>
+    <published>2026-07-10T19:20:00.000Z</published>
+    <summary type="text">一次针对 Hexo 博客无效请求的 P2 治理：从生成产物定位主题配置、历史 WebP 路径、Markdown 语法和文章资源引用问题，再用静态审计与 Headless Chrome 验证，将可确认的本地缺失资源从 16 个目标、1,850 次引用收敛为 0。</summary>
+    <title type="text">博客无效请求优化记录：从生成态审计到浏览器验证</title>
+    <updated>2026-10-08T08:35:30.521Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="主题美化" scheme="https://xbxyftx.top/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="CSS" scheme="https://xbxyftx.top/tags/CSS/"/>
+    <category term="JS" scheme="https://xbxyftx.top/tags/JS/"/>
+    <category term="hexo博客搭建" scheme="https://xbxyftx.top/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    <id>https://xbxyftx.top/2026/07/11/%E9%A6%96%E9%A1%B5%E7%80%91%E5%B8%83%E6%B5%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/</id>
+    <link href="https://xbxyftx.top/2026/07/11/%E9%A6%96%E9%A1%B5%E7%80%91%E5%B8%83%E6%B5%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/"/>
+    <published>2026-07-10T17:40:04.000Z</published>
+    <summary type="text">首页瀑布流的一次 P0 性能重写：定位移动端高频轮询、样式覆写与调试监听问题，拆解 ResizeObserver、requestAnimationFrame 与响应式 masonry 的实现，并给出三断点 A/B 测量数据。</summary>
+    <title type="text">首页瀑布流性能优化记录：从定时轮询到按需重排</title>
+    <updated>2026-10-08T08:35:30.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="ClaudeCode" scheme="https://xbxyftx.top/tags/ClaudeCode/"/>
+    <category term="KimiCode" scheme="https://xbxyftx.top/tags/KimiCode/"/>
+    <category term="Skills" scheme="https://xbxyftx.top/tags/Skills/"/>
+    <category term="SubAgent" scheme="https://xbxyftx.top/tags/SubAgent/"/>
+    <category term="Vibe Coding" scheme="https://xbxyftx.top/tags/Vibe-Coding/"/>
+    <category term="Zcode" scheme="https://xbxyftx.top/tags/Zcode/"/>
+    <id>https://xbxyftx.top/2026/07/10/AgentsMusings/</id>
+    <link href="https://xbxyftx.top/2026/07/10/AgentsMusings/"/>
+    <published>2026-07-10T02:19:47.000Z</published>
+    <summary type="text">关于26年6月初的一些模型杂谈</summary>
+    <title type="text">Agents杂谈</title>
+    <updated>2026-10-08T08:35:29.714Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="上下文工程" scheme="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="渐进式披露" scheme="https://xbxyftx.top/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="Skills" scheme="https://xbxyftx.top/tags/Skills/"/>
+    <category term="Zcode" scheme="https://xbxyftx.top/tags/Zcode/"/>
+    <id>https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/</id>
+    <link href="https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/"/>
+    <published>2026-06-30T09:30:06.000Z</published>
+    <summary type="text">一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解文档职责、证据协议、路由矩阵和多客户端同步方法</summary>
+    <title type="text">渐进式披露长期记忆文档模板</title>
+    <updated>2026-10-08T08:35:29.836Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="上下文工程" scheme="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="Claude Opus 4.8" scheme="https://xbxyftx.top/tags/Claude-Opus-4-8/"/>
+    <category term="DeepSeek-V4-Pro" scheme="https://xbxyftx.top/tags/DeepSeek-V4-Pro/"/>
+    <category term="GLM5.2" scheme="https://xbxyftx.top/tags/GLM5-2/"/>
+    <category term="GPT5.5" scheme="https://xbxyftx.top/tags/GPT5-5/"/>
+    <category term="K2.6" scheme="https://xbxyftx.top/tags/K2-6/"/>
+    <category term="Skills" scheme="https://xbxyftx.top/tags/Skills/"/>
+    <id>https://xbxyftx.top/2026/06/10/ModelMusings/</id>
+    <link href="https://xbxyftx.top/2026/06/10/ModelMusings/"/>
+    <published>2026-06-10T02:01:44.000Z</published>
+    <summary type="text">关于26年6月初的一些模型杂谈</summary>
+    <title type="text">模型杂谈</title>
+    <updated>2026-10-08T08:35:29.814Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <category term="软件工程" scheme="https://xbxyftx.top/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <id>https://xbxyftx.top/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</id>
+    <link href="https://xbxyftx.top/2026/06/04/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <published>2026-06-04T12:53:53.000Z</published>
+    <summary type="text">软件工程期末复习笔记</summary>
+    <title type="text">软件工程期末复习</title>
+    <updated>2026-10-08T08:35:30.480Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="最优化理论" scheme="https://xbxyftx.top/tags/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/"/>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://xbxyftx.top/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</id>
+    <link href="https://xbxyftx.top/2026/05/19/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <published>2026-05-19T11:09:16.000Z</published>
+    <summary type="text">最优化理论期末复习笔记</summary>
+    <title type="text">最优化理论期末复习</title>
+    <updated>2026-10-08T08:35:30.186Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://xbxyftx.top/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/</id>
+    <link href="https://xbxyftx.top/2026/05/08/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0/"/>
+    <published>2026-05-08T02:26:52.000Z</published>
+    <summary type="text">高性能计算期末复习</summary>
+    <title type="text">高性能计算复习</title>
+    <updated>2026-10-08T08:35:30.264Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="上下文工程" scheme="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="渐进式披露" scheme="https://xbxyftx.top/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="DeepSeek-V4-Pro" scheme="https://xbxyftx.top/tags/DeepSeek-V4-Pro/"/>
+    <category term="K2.6" scheme="https://xbxyftx.top/tags/K2-6/"/>
+    <category term="KimiCode" scheme="https://xbxyftx.top/tags/KimiCode/"/>
+    <category term="Skills" scheme="https://xbxyftx.top/tags/Skills/"/>
+    <id>https://xbxyftx.top/2026/04/27/VibeTips/</id>
+    <link href="https://xbxyftx.top/2026/04/27/VibeTips/"/>
+    <published>2026-04-27T13:20:55.000Z</published>
+    <summary type="text">Vibe Coding经验分享</summary>
+    <title type="text">怎样用好 Vibe Coding，大幅减少重复编码？</title>
+    <updated>2026-10-08T08:35:30.070Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="独白" scheme="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/"/>
+    <id>https://xbxyftx.top/2026/03/27/afterOSPP/</id>
+    <link href="https://xbxyftx.top/2026/03/27/afterOSPP/"/>
+    <published>2026-03-27T05:37:01.000Z</published>
+    <summary type="text">开源之夏2025落下了帷幕，但它真的结束了吗？</summary>
+    <title type="text">于开源之夏后</title>
+    <updated>2026-10-08T08:35:29.939Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="最优化理论" scheme="https://xbxyftx.top/tags/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/"/>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/</id>
+    <link href="https://xbxyftx.top/2026/03/03/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/"/>
+    <published>2026-03-03T06:23:51.000Z</published>
+    <summary type="text">最优化理论的笔记</summary>
+    <title type="text">最优化理论笔记</title>
+    <updated>2026-10-08T08:35:29.695Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="鸿蒙" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/"/>
+    <category term="Nodejs" scheme="https://xbxyftx.top/tags/Nodejs/"/>
+    <id>https://xbxyftx.top/2026/02/13/HMNodejs/</id>
+    <link href="https://xbxyftx.top/2026/02/13/HMNodejs/"/>
+    <published>2026-02-13T06:40:21.000Z</published>
+    <summary type="text">对于鸿蒙nodejs的使用上的一些问题的记录</summary>
+    <title type="text">鸿蒙Nodejs</title>
+    <updated>2026-10-08T08:35:30.022Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="项目" scheme="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="鸿蒙" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="K2.5" scheme="https://xbxyftx.top/tags/K2-5/"/>
+    <category term="KimiCode" scheme="https://xbxyftx.top/tags/KimiCode/"/>
+    <id>https://xbxyftx.top/2026/02/03/HarmonyVScode/</id>
+    <link href="https://xbxyftx.top/2026/02/03/HarmonyVScode/"/>
+    <published>2026-02-03T06:52:55.000Z</published>
+    <summary type="text">一个大胆的想法，一次勇敢的尝试</summary>
+    <title type="text">VScode的鸿蒙化尝试</title>
+    <updated>2026-10-08T08:35:29.736Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="K2.5" scheme="https://xbxyftx.top/tags/K2-5/"/>
+    <category term="KimiCode" scheme="https://xbxyftx.top/tags/KimiCode/"/>
+    <category term="hexo博客搭建" scheme="https://xbxyftx.top/tags/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    <id>https://xbxyftx.top/2026/02/01/KimiCode/</id>
+    <link href="https://xbxyftx.top/2026/02/01/KimiCode/"/>
+    <published>2026-02-01T06:20:33.000Z</published>
+    <summary type="text">KimiCode初体验</summary>
+    <title type="text">KimiCode</title>
+    <updated>2026-10-08T08:35:30.701Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <category term="机器学习与数据挖掘" scheme="https://xbxyftx.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
+    <id>https://xbxyftx.top/2026/01/09/MachineCollectionFinalReview/</id>
+    <link href="https://xbxyftx.top/2026/01/09/MachineCollectionFinalReview/"/>
+    <published>2026-01-09T06:46:13.000Z</published>
+    <summary type="text">计算机网络期末复习</summary>
+    <title type="text">机器学习与数据挖掘期末复习</title>
+    <updated>2026-10-08T08:35:29.879Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="操作系统" scheme="https://xbxyftx.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://xbxyftx.top/2026/01/06/osFinalReview/</id>
+    <link href="https://xbxyftx.top/2026/01/06/osFinalReview/"/>
+    <published>2026-01-06T05:10:37.000Z</published>
+    <summary type="text">计算机网络期末复习</summary>
+    <title type="text">操作系统期末复习</title>
+    <updated>2026-10-08T08:35:30.917Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://xbxyftx.top/2026/01/04/computerNetFinalReview/</id>
+    <link href="https://xbxyftx.top/2026/01/04/computerNetFinalReview/"/>
+    <published>2026-01-04T04:51:40.000Z</published>
+    <summary type="text">计算机网络期末复习</summary>
+    <title type="text">计算机网络期末复习</title>
+    <updated>2026-10-08T08:35:30.463Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="期末复习" scheme="https://xbxyftx.top/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://xbxyftx.top/2025/12/24/dataCollectionFinalReview/</id>
+    <link href="https://xbxyftx.top/2025/12/24/dataCollectionFinalReview/"/>
+    <published>2025-12-24T07:22:31.000Z</published>
+    <summary type="text">数据采集期末复习</summary>
+    <title type="text">数据采集实践期末复习</title>
+    <updated>2026-10-08T08:35:29.677Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="算法" scheme="https://xbxyftx.top/tags/%E7%AE%97%E6%B3%95/"/>
+    <id>https://xbxyftx.top/2025/11/28/EverydayAlgorithm/</id>
+    <link href="https://xbxyftx.top/2025/11/28/EverydayAlgorithm/"/>
+    <published>2025-11-28T09:09:19.000Z</published>
+    <summary type="text">每天都要刷算法！！！</summary>
+    <title type="text">每日算法</title>
+    <updated>2026-10-08T08:35:30.570Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="扣子" scheme="https://xbxyftx.top/tags/%E6%89%A3%E5%AD%90/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="智能体" scheme="https://xbxyftx.top/tags/%E6%99%BA%E8%83%BD%E4%BD%93/"/>
+    <category term="项目" scheme="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="鸿易讯" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E6%98%93%E8%AE%AF/"/>
+    <category term="鸿蒙" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="V2" scheme="https://xbxyftx.top/tags/V2/"/>
+    <id>https://xbxyftx.top/2025/11/18/HongYiXun/</id>
+    <link href="https://xbxyftx.top/2025/11/18/HongYiXun/"/>
+    <published>2025-11-18T07:19:14.000Z</published>
+    <summary type="text">鸿易讯，鸿蒙新闻与鸿蒙开发问答助手应用。</summary>
+    <title type="text">鸿易讯</title>
+    <updated>2026-10-08T08:35:30.244Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="独白" scheme="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="ClaudeCode" scheme="https://xbxyftx.top/tags/ClaudeCode/"/>
+    <category term="CodeX" scheme="https://xbxyftx.top/tags/CodeX/"/>
+    <category term="Vibe Coding" scheme="https://xbxyftx.top/tags/Vibe-Coding/"/>
+    <id>https://xbxyftx.top/2025/11/01/ThoughtsOnVibeCoding/</id>
+    <link href="https://xbxyftx.top/2025/11/01/ThoughtsOnVibeCoding/"/>
+    <published>2025-11-01T08:53:54.000Z</published>
+    <summary type="text">对于Vibe Coding以及更泛化的AI使用的一些想法（持续更新中）</summary>
+    <title type="text">在虚构与现实之间，守住那束灵感之光</title>
+    <updated>2026-10-08T08:35:30.500Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="开源之夏" scheme="https://xbxyftx.top/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="项目" scheme="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="鸿蒙" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/"/>
+    <category term="NowInOpenHarmony" scheme="https://xbxyftx.top/tags/NowInOpenHarmony/"/>
+    <id>https://xbxyftx.top/2025/10/20/NowInOpenHarmonyPutAway3/</id>
+    <link href="https://xbxyftx.top/2025/10/20/NowInOpenHarmonyPutAway3/"/>
+    <published>2025-10-20T06:17:05.000Z</published>
+    <summary type="text">NowInOpenHarmony上架笔记2，记录在后端初次部署后反复出现</summary>
+    <title type="text">NowInOpenHarmony上架笔记之后端部署优化</title>
+    <updated>2026-10-08T08:35:30.746Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="开源之夏" scheme="https://xbxyftx.top/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="项目" scheme="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="鸿蒙" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/"/>
+    <category term="NowInOpenHarmony" scheme="https://xbxyftx.top/tags/NowInOpenHarmony/"/>
+    <id>https://xbxyftx.top/2025/10/12/NowInOpenHarmonyPutaway2/</id>
+    <link href="https://xbxyftx.top/2025/10/12/NowInOpenHarmonyPutaway2/"/>
+    <published>2025-10-12T06:17:05.000Z</published>
+    <summary type="text">NowInOpenHarmony上架笔记2，记录OpenHarmony官网重构后的新征程</summary>
+    <title type="text">NowInOpenHarmony上架笔记之再起新征程</title>
+    <updated>2026-10-08T08:35:30.831Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <id>https://xbxyftx.top/2025/09/29/ProgrammingTips/</id>
+    <link href="https://xbxyftx.top/2025/09/29/ProgrammingTips/"/>
+    <published>2025-09-29T06:29:20.000Z</published>
+    <summary type="text">各种杂七杂八的程序员下饭菜</summary>
+    <title type="text">编程小知识点</title>
+    <updated>2026-10-08T08:35:29.796Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="开源之夏" scheme="https://xbxyftx.top/tags/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="项目" scheme="https://xbxyftx.top/tags/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="鸿蒙" scheme="https://xbxyftx.top/tags/%E9%B8%BF%E8%92%99/"/>
+    <category term="NowInOpenHarmony" scheme="https://xbxyftx.top/tags/NowInOpenHarmony/"/>
+    <id>https://xbxyftx.top/2025/09/27/NowInOpenHarmonyPutaway/</id>
+    <link href="https://xbxyftx.top/2025/09/27/NowInOpenHarmonyPutaway/"/>
+    <published>2025-09-27T09:02:05.000Z</published>
+    <summary type="text">NowInOpenHarmony上架笔记，记录从后端打包到OpenHarmony官网重构（已被迫断更）</summary>
+    <title type="text">NowInOpenHarmony上架笔记之openharmony官网重构</title>
+    <updated>2026-10-08T08:35:30.546Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="ClaudeCode" scheme="https://xbxyftx.top/tags/ClaudeCode/"/>
+    <category term="cursor" scheme="https://xbxyftx.top/tags/cursor/"/>
+    <id>https://xbxyftx.top/2025/09/27/AITrainingCamp2/</id>
+    <link href="https://xbxyftx.top/2025/09/27/AITrainingCamp2/"/>
+    <published>2025-09-27T07:11:48.000Z</published>
+    <summary type="text">熟练使用CC了，该开始大展身手了！</summary>
+    <title type="text">AITrainingCamp2</title>
+    <updated>2026-10-08T08:35:29.958Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="上下文工程" scheme="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="ClaudeCode" scheme="https://xbxyftx.top/tags/ClaudeCode/"/>
+    <category term="cursor" scheme="https://xbxyftx.top/tags/cursor/"/>
+    <id>https://xbxyftx.top/2025/09/13/AITrainingCamp/</id>
+    <link href="https://xbxyftx.top/2025/09/13/AITrainingCamp/"/>
+    <published>2025-09-13T06:12:42.000Z</published>
+    <summary type="text">iflab的AI训练营！！！魔鬼训练！！！</summary>
+    <title type="text">AITrainingCamp</title>
+    <updated>2026-10-08T08:35:29.902Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="独白" scheme="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <id>https://xbxyftx.top/2025/09/11/CodeInspiration/</id>
+    <link href="https://xbxyftx.top/2025/09/11/CodeInspiration/"/>
+    <published>2025-09-11T07:26:54.000Z</published>
+    <summary type="text">从小白到小有成就的一些感悟。（持续更新中）</summary>
+    <title type="text">由单向编程走向多向编程</title>
+    <updated>2026-10-08T08:35:30.588Z</updated>
+  </entry>
+</feed>
