@@ -6,7 +6,7 @@
     <description>心之所向吾之所往，素履以往者之经，今履新之者之书</description>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, XBXyftx</copyright>
-    <lastBuildDate>Tue, 13 Oct 2026 08:56:33 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 07:45:20 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://xbxyftx.top/img/logo.webp</url>
@@ -14,6 +14,19 @@
       <link>https://xbxyftx.top/</link>
     </image>
     <atom:link href="https://xbxyftx.top/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作</title>
+      <link>https://xbxyftx.top/2026/10/18/DshSessionMessaging/</link>
+      <description>从多会话并行的信息断层出发，记录 dsh-session-messaging v0.4.0 的设计与实现：为什么复用 user&amp;#x2F;message 而不新增 Session 事件、写范围为何只做建议，以及它第一次被用来修自己的 bug。</description>
+      <category domain="https://xbxyftx.top/categories/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">插件开发</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/DeepSeek-Harness/">DeepSeek Harness</category>
+      <pubDate>Sun, 18 Oct 2026 06:20:00 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/10/18/DshSessionMessaging/</guid>
+    </item>
     <item>
       <title>ToBistuMaker</title>
       <link>https://xbxyftx.top/2026/09/01/ToBistuMaker/</link>
@@ -338,16 +351,6 @@
       <category domain="https://xbxyftx.top/tags/cursor/">cursor</category>
       <pubDate>Sat, 13 Sep 2025 06:12:42 GMT</pubDate>
       <guid isPermaLink="true">https://xbxyftx.top/2025/09/13/AITrainingCamp/</guid>
-    </item>
-    <item>
-      <title>由单向编程走向多向编程</title>
-      <link>https://xbxyftx.top/2025/09/11/CodeInspiration/</link>
-      <description>从小白到小有成就的一些感悟。（持续更新中）</description>
-      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
-      <category domain="https://xbxyftx.top/tags/%E7%8B%AC%E7%99%BD/">独白</category>
-      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
-      <pubDate>Thu, 11 Sep 2025 07:26:54 GMT</pubDate>
-      <guid isPermaLink="true">https://xbxyftx.top/2025/09/11/CodeInspiration/</guid>
     </item>
   </channel>
 </rss>
