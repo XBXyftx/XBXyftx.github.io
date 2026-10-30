@@ -11,7 +11,24 @@
   <rights>All rights reserved 2026, XBXyftx</rights>
   <subtitle>心之所向吾之所往，素履以往者之经，今履新之者之书</subtitle>
   <title>XBXyftx</title>
-  <updated>2026-10-29T08:41:48.138Z</updated>
+  <updated>2026-10-30T04:31:43.734Z</updated>
+  <entry>
+    <author>
+      <name>XBXyftx</name>
+    </author>
+    <category term="技术向" scheme="https://xbxyftx.top/categories/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
+    <category term="插件开发" scheme="https://xbxyftx.top/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/"/>
+    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
+    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
+    <category term="DeepSeek Harness" scheme="https://xbxyftx.top/tags/DeepSeek-Harness/"/>
+    <id>https://xbxyftx.top/2026/10/30/DshSideChat/</id>
+    <link href="https://xbxyftx.top/2026/10/30/DshSideChat/"/>
+    <published>2026-10-30T03:40:00.000Z</published>
+    <summary type="text">第一版把主会话历史 fork 进隐藏子会话，方向错了。这篇记录 dsh-live-side-chat 0.4.1 的推翻与重做：空会话 + 实时摘要投影、只读三层、隐藏与真销毁、模型胶囊、0.4.0 的改名，以及仍然存在的限制。</summary>
+    <title type="text">我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要</title>
+    <updated>2026-10-30T04:31:43.734Z</updated>
+  </entry>
   <entry>
     <author>
       <name>XBXyftx</name>
@@ -451,23 +468,6 @@
     <published>2025-09-27T07:11:48.000Z</published>
     <summary type="text">熟练使用CC了，该开始大展身手了！</summary>
     <title type="text">AITrainingCamp2</title>
-    <updated>2026-05-03T15:30:18.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>XBXyftx</name>
-    </author>
-    <category term="上下文工程" scheme="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/"/>
-    <category term="技术向" scheme="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/"/>
-    <category term="AI" scheme="https://xbxyftx.top/tags/AI/"/>
-    <category term="Agent" scheme="https://xbxyftx.top/tags/Agent/"/>
-    <category term="ClaudeCode" scheme="https://xbxyftx.top/tags/ClaudeCode/"/>
-    <category term="cursor" scheme="https://xbxyftx.top/tags/cursor/"/>
-    <id>https://xbxyftx.top/2025/09/13/AITrainingCamp/</id>
-    <link href="https://xbxyftx.top/2025/09/13/AITrainingCamp/"/>
-    <published>2025-09-13T06:12:42.000Z</published>
-    <summary type="text">iflab的AI训练营！！！魔鬼训练！！！</summary>
-    <title type="text">AITrainingCamp</title>
     <updated>2026-05-03T15:30:18.000Z</updated>
   </entry>
 </feed>

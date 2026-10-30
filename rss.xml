@@ -6,7 +6,7 @@
     <description>心之所向吾之所往，素履以往者之经，今履新之者之书</description>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, XBXyftx</copyright>
-    <lastBuildDate>Thu, 29 Oct 2026 08:41:48 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 04:31:43 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://xbxyftx.top/img/logo.webp</url>
@@ -14,6 +14,19 @@
       <link>https://xbxyftx.top/</link>
     </image>
     <atom:link href="https://xbxyftx.top/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要</title>
+      <link>https://xbxyftx.top/2026/10/30/DshSideChat/</link>
+      <description>第一版把主会话历史 fork 进隐藏子会话，方向错了。这篇记录 dsh-live-side-chat 0.4.1 的推翻与重做：空会话 + 实时摘要投影、只读三层、隐藏与真销毁、模型胶囊、0.4.0 的改名，以及仍然存在的限制。</description>
+      <category domain="https://xbxyftx.top/categories/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
+      <category domain="https://xbxyftx.top/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">插件开发</category>
+      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
+      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
+      <category domain="https://xbxyftx.top/tags/DeepSeek-Harness/">DeepSeek Harness</category>
+      <pubDate>Fri, 30 Oct 2026 03:40:00 GMT</pubDate>
+      <guid isPermaLink="true">https://xbxyftx.top/2026/10/30/DshSideChat/</guid>
+    </item>
     <item>
       <title>给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作</title>
       <link>https://xbxyftx.top/2026/10/18/DshSessionMessaging/</link>
@@ -338,19 +351,6 @@
       <category domain="https://xbxyftx.top/tags/cursor/">cursor</category>
       <pubDate>Sat, 27 Sep 2025 07:11:48 GMT</pubDate>
       <guid isPermaLink="true">https://xbxyftx.top/2025/09/27/AITrainingCamp2/</guid>
-    </item>
-    <item>
-      <title>AITrainingCamp</title>
-      <link>https://xbxyftx.top/2025/09/13/AITrainingCamp/</link>
-      <description>iflab的AI训练营！！！魔鬼训练！！！</description>
-      <category domain="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</category>
-      <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
-      <category domain="https://xbxyftx.top/tags/AI/">AI</category>
-      <category domain="https://xbxyftx.top/tags/Agent/">Agent</category>
-      <category domain="https://xbxyftx.top/tags/ClaudeCode/">ClaudeCode</category>
-      <category domain="https://xbxyftx.top/tags/cursor/">cursor</category>
-      <pubDate>Sat, 13 Sep 2025 06:12:42 GMT</pubDate>
-      <guid isPermaLink="true">https://xbxyftx.top/2025/09/13/AITrainingCamp/</guid>
     </item>
   </channel>
 </rss>

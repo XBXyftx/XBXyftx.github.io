@@ -1,0 +1,652 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要 | XBXyftx</title><meta name="author" content="XBXyftx"><meta name="copyright" content="XBXyftx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第一版把主会话历史 fork 进隐藏子会话，方向错了。这篇记录 dsh-live-side-chat 0.4.1 的推翻与重做：空会话 + 实时摘要投影、只读三层、隐藏与真销毁、模型胶囊、0.4.0 的改名，以及仍然存在的限制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要">
+<meta property="og:url" content="https://xbxyftx.top/2026/10/30/DshSideChat/index.html">
+<meta property="og:site_name" content="XBXyftx">
+<meta property="og:description" content="第一版把主会话历史 fork 进隐藏子会话，方向错了。这篇记录 dsh-live-side-chat 0.4.1 的推翻与重做：空会话 + 实时摘要投影、只读三层、隐藏与真销毁、模型胶囊、0.4.0 的改名，以及仍然存在的限制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/DshSideChatTopImg.webp">
+<meta property="article:published_time" content="2026-10-30T03:40:00.000Z">
+<meta property="article:modified_time" content="2026-10-30T04:37:07.832Z">
+<meta property="article:author" content="XBXyftx">
+<meta property="article:tag" content="技术向">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="DeepSeek Harness">
+<meta property="article:tag" content="插件开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xbxyftx.top/imgs/ArticleTopImgs/DshSideChatTopImg.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要",
+  "url": "https://xbxyftx.top/2026/10/30/DshSideChat/",
+  "image": "https://xbxyftx.top/imgs/ArticleTopImgs/DshSideChatTopImg.webp",
+  "datePublished": "2026-10-30T03:40:00.000Z",
+  "dateModified": "2026-10-30T04:37:07.832Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "XBXyftx",
+      "url": "https://xbxyftx.top/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/logo.webp"><link rel="canonical" href="https://xbxyftx.top/2026/10/30/DshSideChat/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//cn.vercount.one"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/css/typewriter-effect.css"><link rel="stylesheet" href="/css/lazy-loading-optimized.css"><link rel="stylesheet" href="/css/announcement-history.css"><link rel="stylesheet" href="/css/entrance-popup.css"><link rel="stylesheet" href="/css/vscode-breadcrumb-toc.css"><link rel="stylesheet" href="/css/toc-toggle-group.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":2000,"languages":{"author":"作者: XBXyftx","link":"链接: ","source":"来源: XBXyftx","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: '/',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post',
+  typewriter: '第一版我把它做成了 fork，第二版才想明白：侧边对话要的不是历史，而是"现在"。'
+}</script><script>document.documentElement.setAttribute('data-theme','dark');</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/universe.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/transpancy.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/styles.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/rightmenu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/twikoo.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/readmode-enhanced.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/xp-theme.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'"><link rel="alternate" type="application/atom+xml" title="XBXyftx - Atom" href="/atom.xml"><link rel="alternate" type="application/rss+xml" title="XBXyftx - RSS" href="/rss.xml"><!-- 新增缓存管理脚本 - 已禁用Service Worker--><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/swiper-lib.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper-xp.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="xp-mail-scene" aria-hidden="true"><div class="xp-window"><div class="xp-window-titlebar">loading.exe</div><div class="xp-window-body"><div class="xp-stage"><div class="xp-pc xp-pc-left"><div class="xp-pc-monitor"><div class="xp-pc-screen"></div></div><div class="xp-pc-neck"></div><div class="xp-pc-base"></div></div><div class="xp-mail-track"><div class="xp-envelope"></div><div class="xp-envelope xp-envelope-late"></div></div><div class="xp-pc xp-pc-right"><div class="xp-pc-monitor"><div class="xp-pc-screen"></div></div><div class="xp-pc-neck"></div><div class="xp-pc-base"></div></div></div><div class="xp-progress"><div class="xp-progress-bar"></div></div><div class="xp-loading-text">正在加载，请稍候<span class="xp-dot">.</span><span class="xp-dot">.</span><span class="xp-dot">.</span></div></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  let hideTimer = null
+  let isLoading = false
+
+  const preloader = {
+    endLoading: () => {
+      if (!isLoading) return
+
+      isLoading = false
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+      clearTimeout(hideTimer)
+      hideTimer = setTimeout(() => {
+        $loadingBox.style.display = 'none'
+      }, 800)
+    },
+    initLoading: () => {
+      clearTimeout(hideTimer)
+      isLoading = true
+      $loadingBox.style.display = 'flex'
+      $loadingBox.classList.remove('loaded')
+      $body.style.overflow = 'hidden'
+    }
+  }
+
+  const completeInitialLoading = () => {
+    window.requestAnimationFrame(preloader.endLoading)
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', completeInitialLoading, { once: true })
+  } else {
+    completeInitialLoading()
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(https://bu.dusays.com/2025/07/04/6867890f5d403.png);"></div><div class="entrance-popup" id="entrance-popup"><div class="popup-content"><div class="popup-header"><span class="popup-title">温馨提示</span><span class="popup-close">×</span></div><div class="popup-body"><div class="popup-text"></div></div></div><div class="popup-overlay"></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-close-btn"><i class="fas fa-times"></i></div><div class="avatar-img text-center"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.webp'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">66</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/imgs/ArticleTopImgs/DshSideChatTopImg.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/logo.webp" alt="Logo"><span class="site-name">XBXyftx</span></a><a class="nav-page-title" href="/"><span class="site-name">我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 文库</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/coffer/"><i class="fa-fw fa-solid fa-key"></i><span> 秘密基地</span></a></li><li><a class="site-page child" href="/LianlianKan/"><i class="fa-fw fa-solid fa-gamepad"></i><span> 连连看</span></a></li><li><a class="site-page child" href="/MarkdownPreview/"><i class="fa-fw fa-solid fa-file-code"></i><span> MD在线编辑器</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-i"></i><span> Myself</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/swiper/"><i class="fa-fw fa-solid fa-star-of-david"></i><span> 昨日重现</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa-solid fa-comment"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-30T03:40:00.000Z" title="发表于 2026-10-30 11:40:00">2026-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-30T04:37:07.832Z" title="更新于 2026-10-30 12:37:07">2026-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:100,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-10-30 12:37:07&quot;}" hidden></div><h2 id="前言：一句不敢问的话"><a href="#前言：一句不敢问的话" class="headerlink" title="前言：一句不敢问的话"></a>前言：一句不敢问的话</h2><p>主会话跑一个长任务，十分钟、二十分钟，甚至更久。我坐在屏幕前，想确认一句”现在到哪了”，但输入框一发送，主会话就被打断：它得停下来处理我的问题，原本的工作流被切成两段。</p>
+<p>这个形态的灵感来自 Codex 的侧边对话。它不是再开一个对话，而是给当前会话配一条旁路：主会话继续跑，我在旁边问，得到的答案来自主会话正在进行的状态，而不是我记忆里的、或者某个已经过期的快照。</p>
+<p>我第一版做错了。这篇文章主要讲它错在哪、怎么改的，以及改对之后还剩下哪些不体面但真实的限制。</p>
+<h2 id="一、第一版：我把它做成了-fork"><a href="#一、第一版：我把它做成了-fork" class="headerlink" title="一、第一版：我把它做成了 fork"></a>一、第一版：我把它做成了 fork</h2><p>0.1.0 的思路是”给子会话喂上下文”：取主会话最近一个已完成的轮次，用 <code>buildForkSeed</code> 复制成种子，创建一个隐藏的只读子会话。打开侧边对话，立刻能看到主会话的历史，然后基于这些历史提问。</p>
+<p>从”聊天”的角度看，这很自然；从”实时进度”的角度看，它从根上错了。</p>
+<p>用户实测后给的原话是（2026-10-30）：</p>
+<blockquote>
+<p>我想解决的是主会话在处理一个长时间的任务时如果用户想聊些东西，想确认进度就会打断主会话工作，所以侧边会话不能只把上下文停留在上一次会话的结束，应该更进一步，能实时的看到主会话正在进行的任务状态。</p>
+</blockquote>
+<p>三个问题是代码结构决定的，不是配置能救回来的：</p>
+<ol>
+<li><strong>拿不到正在进行的这一轮</strong>。fork 的种子切点必须是已完成轮次，所以”正在跑的第 4 步”永远在切点之后；它只会出现在主会话未来的日志里，不会出现在种子里。</li>
+<li><strong>主会话首轮没完成时，根本创建不了侧边对话</strong>。没有已完成轮次 → 没有切点 → 直接报 <code>no-completed-turn</code>。</li>
+<li><strong>打开就是整段旧历史</strong>，和”空会话”相反。种子事件在客户端按普通消息渲染，用户看到的是一份历史拷贝，不是一条等待提问的新对话。</li>
+</ol>
+<p>我一开始把问题理解成”怎么把上下文带过去”，而用户要的是”怎么看到现在”。方向错了，做得再完整也没用。</p>
+<h2 id="二、重新设计：空会话-实时摘要"><a href="#二、重新设计：空会话-实时摘要" class="headerlink" title="二、重新设计：空会话 + 实时摘要"></a>二、重新设计：空会话 + 实时摘要</h2><p>0.2.0 推翻了 fork，换成一套完全不同的机制。核心只有一句：<strong>侧边对话不继承历史，它读取主会话的实时摘要</strong>。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">主会话（agent-loop 正在跑）</span><br><span class="line">  │ 每条已提交事件 → sideChatDigest 会话投影（纯同步、有界、增量 fold）</span><br><span class="line">  │      ├─ 同步读取 → systemPrompt.context：每步刷新注入</span><br><span class="line">  │      └─ wire 值 → session.control 流 → 浏览器状态条 + 背景摘要面板</span><br><span class="line">  ▼</span><br><span class="line">侧边会话（空会话、只读）</span><br><span class="line">  ├─ side_chat_main_status：最新摘要 + 主会话运行态</span><br><span class="line">  ├─ side_chat_main_history：按 turn / contains 查主会话真实日志行（有界）</span><br><span class="line">  └─ side_chat_report：把结论排队进主会话后续轮次（不打断）</span><br></pre></td></tr></table></figure>
+<p>创建子会话时不再传 <code>seed</code>、不设 <code>isSeeded</code>，只保留 <code>parentSession</code> 血缘和 <code>origin: &#39;subagent&#39;</code>，所以标签页打开就是一条真正的空对话；主会话首轮没跑完也能创建。</p>
+<h3 id="2-1-为什么是”会话投影”"><a href="#2-1-为什么是”会话投影”" class="headerlink" title="2.1 为什么是”会话投影”"></a>2.1 为什么是”会话投影”</h3><p><code>sideChatDigest</code> 是插件注册的会话投影（<code>src/digest.ts</code>）：框架在每条已提交事件上驱动一次纯同步 fold，投影缓存负责持久化，<code>wire</code> 单元经 <code>session.control</code> 自动推给浏览器。</p>
+<p>选它而不是自己订阅事件，图的是”一次折叠，三方消费”：</p>
+<ul>
+<li><strong>模型</strong>：<code>systemPrompt.context(&#123; name: &#39;side-chat:main-digest&#39;, order: 220, text: () =&gt; ... &#125;)</code> 每步同步重读；</li>
+<li><strong>状态条</strong>：浏览器直接读 <code>projectionsBySession</code>，不需要 retain 主会话（不打开历史、不唤醒 Agent）；</li>
+<li><strong>重启恢复</strong>：投影缓存落盘，重启后摘要还在，侧边对话和背景摘要面板能恢复。</li>
+</ul>
+<p>摘要字段都是有界的：<code>goal</code>、<code>turns[]</code>（每轮一行）、<code>openTurn</code>（正在进行的轮次：提示、步数、最新助手文本、最近工具调用、失败数、开始时间）、<code>todos[]</code>、<code>recentTools[]</code>、<code>lastError</code>、<code>counts</code>、<code>lastActivityAt</code>、<code>model</code>。所有字符串截断，所有数组有上限（<code>digestTurns</code> 默认 12，可配 4–60）。</p>
+<h3 id="2-2-为什么必须是同步的"><a href="#2-2-为什么必须是同步的" class="headerlink" title="2.2 为什么必须是同步的"></a>2.2 为什么必须是同步的</h3><p><code>systemPrompt.context</code> 的 provider 会在 pre-step 与每次请求 admission 时求值，<strong>不能 await</strong>。所以 provider 里只能同步读 <code>ctx.sessionProjections.stateOf()</code>；主会话不 live 时，用创建/恢复时读到的投影值兜底，并在注入块里明说”没有实时摘要”。</p>
+<p>也可以像 <code>dsh-session-reference</code> 那样在 <code>agent/pre-step</code> 插一条消息，但那会产生一条<strong>可见</strong>的持久 user 消息，而且只是一时点快照；我们要的正是”每步刷新、且是背景而不是对话”，所以选了运行时上下文 provider。</p>
+<h3 id="2-3-提示词纪律：摘要不是日志"><a href="#2-3-提示词纪律：摘要不是日志" class="headerlink" title="2.3 提示词纪律：摘要不是日志"></a>2.3 提示词纪律：摘要不是日志</h3><p>摘要天然不全：它没有工具结果、文件内容、中间步骤，早期轮次只有一行。如果模型把它当完整日志，就会一本正经地断言”已完成 / 已改文件 / 已修复”。</p>
+<p>所以注入块的第一行就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Main session live digest (partial; verify any detail with the side_chat_main_history or</span><br><span class="line">side_chat_main_status tool before asserting it):</span><br></pre></td></tr></table></figure>
+<p>角色提示词（<code>side-chat:role</code>）再写一遍：这是 DIGEST，不是日志；断言实际改动前必须先调只读工具；拿不到答案就直说，不要猜。</p>
+<h2 id="三、两个平台细节，决定了产品形态"><a href="#三、两个平台细节，决定了产品形态" class="headerlink" title="三、两个平台细节，决定了产品形态"></a>三、两个平台细节，决定了产品形态</h2><h3 id="3-1-运行时上下文只追加，不替换"><a href="#3-1-运行时上下文只追加，不替换" class="headerlink" title="3.1 运行时上下文只追加，不替换"></a>3.1 运行时上下文只追加，不替换</h3><p>dsh 的运行时上下文快照不是”替换上一份”，而是每次变化追加一条新的 <code>user/message</code>，旧的还在模型历史里，”supersedes” 只是文字声明。</p>
+<p>这带来一个直接约束：<strong>摘要里不能放高频变化字段</strong>。否则侧边对话每步都会多一条快照，上下文迅速膨胀。因此摘要用”开始时间”而不是”已运行 N 秒”，数组全部设上限，多数步骤文本不变、不重复追加。即便如此，侧边对话自身每步若摘要变化，仍会多一条快照——这是有意的代价，临时会话影响有限。</p>
+<h3 id="3-2-注入内容在聊天流里不可见"><a href="#3-2-注入内容在聊天流里不可见" class="headerlink" title="3.2 注入内容在聊天流里不可见"></a>3.2 注入内容在聊天流里不可见</h3><p>dsh 有意在 Chat 里过滤普通运行时上下文行（<code>isVisibleChatNode</code> 只放行带工具增删的 context），所以注入块<strong>不会</strong>出现在侧边对话的聊天记录里。</p>
+<p>这不是 bug，是上游的产品设计。但用户需要核对”模型到底看到了什么”，于是状态条里加了「背景摘要」折叠面板：展开后经 <code>POST /side-chat/digest</code> 取回文本，和注入共用同一个渲染函数，逐字一致，不会漂移。</p>
+<p><img src="/2026/10/30/DshSideChat/side-chat-live-digest.webp" alt="展开「背景摘要」的侧边对话" width="1155" height="1412" loading="lazy"></p>
+<p><em>状态条、展开的背景摘要、空会话问候卡与底部输入框（0.3.0）</em></p>
+<h2 id="四、只读、隐藏与”真销毁”"><a href="#四、只读、隐藏与”真销毁”" class="headerlink" title="四、只读、隐藏与”真销毁”"></a>四、只读、隐藏与”真销毁”</h2><h3 id="4-1-只读三层"><a href="#4-1-只读三层" class="headerlink" title="4.1 只读三层"></a>4.1 只读三层</h3><p>侧边对话跑在只读沙箱里：<code>sandbox/mode: read-only</code>、<code>approval/policy: never</code>、<code>tools.guard()</code> 拒绝写类工具（write/edit/bash 等）。它只能查询，不能改文件。</p>
+<p>诚实地说，<code>read-only</code> 只保证写不进去，<code>bash</code> 仍可以执行只读命令；这是沙箱语义的边界，不是插件能补的。</p>
+<h3 id="4-2-隐藏：借用-subagent-语义"><a href="#4-2-隐藏：借用-subagent-语义" class="headerlink" title="4.2 隐藏：借用 subagent 语义"></a>4.2 隐藏：借用 subagent 语义</h3><p>侧边会话必须从左侧列表消失。做法是 <code>origin: &#39;subagent&#39;</code>（左侧列表据此过滤），并自写 <code>subagent/descriptor</code>——Web 端对 <code>origin: &#39;subagent&#39;</code> 的会话默认拒绝普通历史读取，只有带 descriptor 投影的子会话才能通过 subagent 路由读历史。</p>
+<p>这是”借用上游机制”，不是官方扩展点；上游升级 descriptor 版本时需要同步，属于已知维护成本。</p>
+<h3 id="4-3-销毁：没有删除-API-就自己删"><a href="#4-3-销毁：没有删除-API-就自己删" class="headerlink" title="4.3 销毁：没有删除 API 就自己删"></a>4.3 销毁：没有删除 API 就自己删</h3><p>dsh 没有会话删除 API。<code>AgentHandle.dispose()</code> 只释放 Agent，文件还在。所以销毁分三步：释放 Agent → 删除 <code>$DSH_HOME/sessions/&lt;projectKey&gt;/&lt;sessionId&gt;/</code> → 用 <code>sessionPersistence.stat()</code> 校验是否真的删掉。校验失败如实回报，不假装成功。</p>
+<p>关闭确认则有一个体验妥协：右侧栏没有”关闭否决”钩子，所以是<strong>先关闭、后确认</strong>。点取消会用 <code>openResourceIn</code> 把标签页重新打开，会有一瞬的关闭/重开。「不再询问」存在 <code>localStorage[&#39;dsh.side-chat.v1&#39;]</code>。</p>
+<p><img src="/2026/10/30/DshSideChat/close-confirm.webp" alt="关闭侧边聊天的确认弹窗" width="469" height="163" loading="lazy"></p>
+<p><em>关闭确认弹窗：不再询问 / 取消 / 关闭侧边聊天</em></p>
+<h3 id="4-4-通信：自己挂一条受鉴权的路由"><a href="#4-4-通信：自己挂一条受鉴权的路由" class="headerlink" title="4.4 通信：自己挂一条受鉴权的路由"></a>4.4 通信：自己挂一条受鉴权的路由</h3><p>第三方插件无法生成 Typert Remote，而 Connection 的通用通道会把路由归属到服务自身上下文，所以插件直接在 Host Web 服务器上挂一条 <code>POST /side-chat/&lt;endpoint&gt;</code> 路由：<code>create</code> / <code>ask</code> / <code>models</code> / <code>select-model</code> / <code>digest</code> / <code>interrupt</code> / <code>destroy</code>。<code>connection.requestRejection()</code> 负责 Host/Origin 与浏览器凭据校验，请求体限制 64KB，所有入参在 handler 里重新校验。</p>
+<p>顺带一个细节：dsh 自带的输入框不能直接驱动这个子会话（它会把 prompt 路由到 subagent 投递，需要父会话激活），所以侧边对话用插件自己的 <code>conversation.composer</code> 链条目和 <code>ask</code> 端点，把消息直接投进子 Agent 的 inbox。</p>
+<h2 id="五、界面：状态条、空会话与模型胶囊"><a href="#五、界面：状态条、空会话与模型胶囊" class="headerlink" title="五、界面：状态条、空会话与模型胶囊"></a>五、界面：状态条、空会话与模型胶囊</h2><p>入口有两个：右侧栏引导页的「实时侧边对话」条目，以及输入框里的 <code>/btw</code> 命令。</p>
+<p><img src="/2026/10/30/DshSideChat/sidebar-entry.webp" alt="左侧全局面板里的入口" width="277" height="226" loading="lazy"></p>
+<p><em>左侧全局面板里的入口（显示名在 0.3.0 改为「实时侧边对话」）</em></p>
+<p>顶部状态条展示主会话标题、运行/空闲圆点、第 N 轮、todo 进度、最新工具、相对活动时间和当前轮提示。它读的是主会话的投影，不是侧边会话自己的状态——所以主会话在忙什么，一眼能看到。</p>
+<p>空会话显示插件自己的问候卡：”已连接主会话「标题」”+ 三个快捷问题（现在进展到哪了？正在改哪些文件？刚才那个报错怎么回事？）。没用 dsh 共享的空白 hero，因为它带工作区选择装饰，对一条侧边对话没有意义。输入框放在面板底部，样式对齐主对话输入框：浮起圆角卡片、<code>只读</code> 胶囊、34px 圆形发送按钮。</p>
+<p>0.3.0 加了模型胶囊：显示下一步请求将用的模型，点开按 provider 分组列出当前 Host 能路由的全部模型。切换用 <code>installModelSelection(agentCtx, ref)</code> 接管下一步的 provider/model，只作用于这条侧边对话（从下一轮请求开始生效），不动主会话；未 live 时先记 pending，恢复时生效。摘要里的 <code>model</code> 来自 <code>request/header</code>，所以胶囊显示的是实际路由过的模型。</p>
+<p>一个必须说清楚的边界：<strong>目录里的模型不一定都能用</strong>。选择器只负责路由，能不能用取决于 provider。实测中 <code>cd/deepseek-flash</code> 1 秒答出结果；<code>deepseek-official/deepseek-flash</code> 因本机 key 无效直接失败；<code>cd/glm-5.3-flash</code> 上游 500 <code>not implemented</code>。失败不会静默，会以”本轮运行失败 + 原因”出现在会话里。</p>
+<h2 id="六、验证：在真实的”进行中”里提问"><a href="#六、验证：在真实的”进行中”里提问" class="headerlink" title="六、验证：在真实的”进行中”里提问"></a>六、验证：在真实的”进行中”里提问</h2><p>验证环境是隔离的：独立 <code>DSH_HOME</code>、独立端口、独立 web profile，模型只用 <code>deepseek-flash</code>。</p>
+<p>主会话跑到第 4 步（<code>bash(sleep 3 &amp;&amp; echo &quot;已等待 3 秒&quot;)</code>）时，我在侧边对话里问”现在进展到哪了？”。6 秒后它答出：8 步里完成 3 步、正在第 4 步、当前命令是什么，还复述了开头 <code>todo_write</code> 因内容重复被拒后修正的过程；对文件内容它明确写”还没有读取回来确认，不能断言”——提示词纪律生效了。</p>
+<p>更能说明问题的是会话日志：注入块里出现了<strong>创建之后</strong>才发生的工具调用（<code>Current turn: #1 (step N)</code>）。这是 fork 方案永远做不到的，因为那些事件不在种子里。</p>
+<p>第二轮长任务（6 次 <code>sleep 4</code>）进行中再问，7 秒内答出”主会话还在跑第 2 轮、todo 完成 1/12、最近一次调用是 <code>bash(sleep 4 ...)</code>“。接着验证了重启恢复（标签页、摘要面板恢复）、关闭即销毁（会话目录从磁盘移除）、主会话全程未被打断。</p>
+<p>最后一层是用户自己的桌面客户端实测：主会话正在跑第 8 轮任务时，侧边对话是空会话，问”当前在干什么”后正确答出当前这一轮的任务、用户原话和刚发出的第一条命令，并区分了”日志里只有这一个动作，还没有改动任何文件”。用户的评价是：”效果确实是正确的这非常好值得记录一下”。</p>
+<p>CI 层面：<code>typecheck</code>、22 项单测、<code>build</code> 全绿；0.3.0 提交 <code>097289f</code> 与 0.4.1 提交 <code>999d634</code> 的 CI run（<code>40995726586</code> / <code>41002796045</code>）都 success；npm <code>latest</code> 是 0.4.1、26 个文件、MIT。</p>
+<h2 id="七、安装与版本"><a href="#七、安装与版本" class="headerlink" title="七、安装与版本"></a>七、安装与版本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dsh plugin add dsh-live-side-chat</span><br></pre></td></tr></table></figure>
+<p>当前 npm <code>latest</code> 是 0.4.1，MIT；目标宿主基线是 dsh <code>0.2.1-rc.2</code>（兼容范围 <code>&gt;=0.2.1-rc.2 &lt;0.3.0</code>），插件 API 还是 pre-stable；装好后刷新 Web 页面，插件卡片会出现在设置 → 插件列表。</p>
+<p>这里有个容易被问到的命名问题：npm 上的 <code>dsh-side-chat</code> 已经被第三方占用了，同类插件又把搜索结果挤得很满，所以 0.4.0 把包名和 GitHub 仓库一起改成了 <code>dsh-live-side-chat</code>——新名字同时带上 <code>live</code> 与 <code>side chat</code>，既能命中 “dsh live side chat”，也保留了 “side chat” 关键词；GitHub 旧地址会自动重定向到新仓库。旧包已经 <code>npm deprecate</code>，安装时会指向新名。</p>
+<p><img src="/2026/10/30/DshSideChat/npm-page-0.4.1.webp" alt="npm 上的 dsh-live-side-chat@0.4.1" width="1217" height="822" loading="lazy"></p>
+<p><em>npm 上的 <code>dsh-live-side-chat@0.4.1</code>：26 个文件、MIT、CI 与仓库链接</em></p>
+<p>版本历史：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0.1.0</code></td>
+<td>fork 主会话历史（方向错误）</td>
+</tr>
+<tr>
+<td><code>0.2.0</code></td>
+<td>推翻重做：空会话 + 实时摘要 + 两个只读工具 + 状态条 + 背景摘要面板</td>
+</tr>
+<tr>
+<td><code>0.3.0</code></td>
+<td>模型胶囊/模型选择；显示名改为「实时侧边对话 / Live Side Chat」</td>
+</tr>
+<tr>
+<td><code>0.4.0</code></td>
+<td>改名：npm 包与 GitHub 仓库都改为 <code>dsh-live-side-chat</code>，功能与 0.3.0 相同</td>
+</tr>
+<tr>
+<td><code>0.4.1</code></td>
+<td>设置页加入自动版本检查（打开即查 npm registry）与作者博客跳转</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>配置项（插件行 <code>side-chat</code>）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>默认</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>readOnly</code></td>
+<td><code>true</code></td>
+<td>强制只读</td>
+</tr>
+<tr>
+<td><code>allowReportToMain</code></td>
+<td><code>true</code>（volatile）</td>
+<td>是否允许向主会话汇报，设置面板可改</td>
+</tr>
+<tr>
+<td><code>liveContext</code></td>
+<td><code>true</code></td>
+<td>是否把实时摘要注入每一步</td>
+</tr>
+<tr>
+<td><code>digestTurns</code></td>
+<td><code>12</code>（4–60）</td>
+<td>摘要保留的已结束轮次</td>
+</tr>
+<tr>
+<td><code>historyEventLimit</code></td>
+<td><code>40</code>（5–200）</td>
+<td>一次历史读取最多返回行数</td>
+</tr>
+<tr>
+<td><code>preset</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Agent preset，空表示继承主会话</td>
+</tr>
+<tr>
+<td><code>sessionsRoot</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>会话存储根，仅用于销毁删除</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="八、已知限制"><a href="#八、已知限制" class="headerlink" title="八、已知限制"></a>八、已知限制</h2><p>不想写”基本完美”，下面这些是真实存在的：</p>
+<ul>
+<li><strong>关闭是”先关闭、后确认”</strong>：取消会有一瞬重开，因为右侧栏没有关闭否决钩子；</li>
+<li><strong>摘要不是日志</strong>：有界、截断、早期轮次只有一行，细节必须靠工具查；提示词能约束但不能数学保证模型永不越界；</li>
+<li><strong>销毁依赖 JSONL 目录布局</strong>：换持久化后端或自定义根目录时要配 <code>sessionsRoot</code>；</li>
+<li><strong>进程崩溃可能留下未销毁的隐藏会话目录</strong>：启动时没有自动清理；</li>
+<li><strong>借用 <code>subagent/descriptor</code> 语义</strong>：上游升级需同步；</li>
+<li><strong>只在 Web/桌面部署激活</strong>：依赖 <code>connection</code> / <code>webServer</code>，headless profile 不加载 Host 半；</li>
+<li><strong>运行时上下文只追加</strong>：侧边对话自身每步若摘要变化会多一条快照；</li>
+<li><strong>它不是 fork，也不是分支</strong>：不能当普通会话继续用，聊完就关，关闭即销毁。</li>
+</ul>
+<p>接下来想做的三件事：启动时清理崩溃遗留的隐藏会话目录；等右侧栏有可用的关闭否决钩子后，把「先关闭、后确认」改成真正的「先确认、后关闭」；再完善更多 provider 的兼容与模型可用性提示。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>第一版最大的错误，是把”上下文”当成了目标。侧边对话真正要的是<strong>当下的可观测性</strong>：主会话继续工作，我在旁边问，答案来自它正在做的事。</p>
+<p>推倒重来比从零开始难，因为要承认前面那版的设计是错的。但把 fork 换成”空会话 + 实时摘要”之后，之前绕不过去的三个问题——看不见进行中的轮次、首轮没完成创建不了、打开就是旧历史——是同时消失的，不是被绕过去的。</p>
+<p>如果你也在用 dsh，欢迎试试：</p>
+<ul>
+<li>GitHub：<a target="_blank" rel="noopener" href="https://github.com/XBXyftx/dsh-live-side-chat">https://github.com/XBXyftx/dsh-live-side-chat</a></li>
+<li>npm：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/dsh-live-side-chat">https://www.npmjs.com/package/dsh-live-side-chat</a></li>
+<li>上一篇文章（跨会话消息插件）：<a href="https://xbxyftx.top/2026/10/18/DshSessionMessaging/">https://xbxyftx.top/2026/10/18/DshSessionMessaging/</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://xbxyftx.top">XBXyftx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xbxyftx.top/2026/10/30/DshSideChat/">https://xbxyftx.top/2026/10/30/DshSideChat/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://xbxyftx.top" target="_blank">XBXyftx</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</a><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/DeepSeek-Harness/">DeepSeek Harness</a><a class="post-meta__tags" href="/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">插件开发</a></div><div class="post-share"><div class="social-share" data-image="/imgs/ArticleTopImgs/DshSideChatTopImg.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/10/18/DshSessionMessaging/" title="给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作"><img class="cover" src="/imgs/ArticleTopImgs/DshSessionMessagingTopImg.webp" onerror="onerror=null;src='/img/404.webp'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作</div></div><div class="info-2"><div class="info-item-1">从多会话并行的信息断层出发，记录 dsh-session-messaging v0.4.0 的设计与实现：为什么复用 user/message 而不新增 Session 事件、写范围为何只做建议，以及它第一次被用来修自己的 bug。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/10/18/DshSessionMessaging/" title="给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作"><img class="cover" src="/imgs/ArticleTopImgs/DshSessionMessagingTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-18</div><div class="info-item-2">给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作</div></div><div class="info-2"><div class="info-item-1">从多会话并行的信息断层出发，记录 dsh-session-messaging v0.4.0 的设计与实现：为什么复用 user/message 而不新增 Session 事件、写范围为何只做建议，以及它第一次被用来修自己的 bug。</div></div></div></a><a class="pagination-related" href="/2026/06/30/Long-termMemoryTemplate/" title="渐进式披露长期记忆文档模板"><img class="cover" src="/imgs/ArticleTopImgs/LongTermTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-30</div><div class="info-item-2">渐进式披露长期记忆文档模板</div></div><div class="info-2"><div class="info-item-1">一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解文档职责、证据协议、路由矩阵和多客户端同步方法</div></div></div></a><a class="pagination-related" href="/2026/07/10/AgentsMusings/" title="Agents杂谈"><img class="cover" src="/imgs/ArticleTopImgs/AgentsMusingsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-10</div><div class="info-item-2">Agents杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a><a class="pagination-related" href="/2026/06/10/ModelMusings/" title="模型杂谈"><img class="cover" src="/imgs/ArticleTopImgs/ModelMusingsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-10</div><div class="info-item-2">模型杂谈</div></div><div class="info-2"><div class="info-item-1">关于26年6月初的一些模型杂谈</div></div></div></a><a class="pagination-related" href="/2026/04/27/VibeTips/" title="怎样用好 Vibe Coding，大幅减少重复编码？"><img class="cover" src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-27</div><div class="info-item-2">怎样用好 Vibe Coding，大幅减少重复编码？</div></div><div class="info-2"><div class="info-item-1">Vibe Coding经验分享</div></div></div></a><a class="pagination-related" href="/2026/02/01/KimiCode/" title="KimiCode"><img class="cover" src="/imgs/ArticleTopImgs/KimiCodeTopImg.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-01</div><div class="info-item-2">KimiCode</div></div><div class="info-2"><div class="info-item-1">KimiCode初体验</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/logo.webp" onerror="this.onerror=null;this.src='/img/friend_404.webp'" alt="avatar"/></div><div class="author-info-name">XBXyftx</div><div class="author-info-description">博安千古情如此<br/>璇玉如华自醉从</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">66</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/XBXyftx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/XBXyftx" target="_blank" title="Github"><i class="fab fa-github" style="color: #c3ffff;"></i></a><a class="social-icon" href="mailto:shuaixbx02@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="/img/wechat.webp" target="_blank" title="WeChat"><i class="fa-brands fa-weixin" style="color: #7bb342;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS订阅"><i class="fas fa-rss" style="color: #f28c28;"></i></a></div></div><div class="card-widget card-info visitor-info"><div class="card-content"><div class="visitor-welcome"><i class="fas fa-heart"></i><span id="visitor-text">欢迎来访！</span></div><div class="visitor-details"><div class="visitor-location"><i class="fas fa-map-marker-alt"></i><span id="visitor-location-text">正在获取位置信息...</span></div><div class="visitor-ip"><i class="fas fa-globe"></i><span>IP地址: </span><span id="visitor-ip-text">获取中...</span></div><div class="visitor-distance"><i class="fas fa-route"></i><span id="visitor-distance-text">距离博主 加载中...</span></div><div class="visitor-tip"><i class="fas fa-moon"></i><span id="visitor-tip-text">晚上好，夜生活嗨起来！</span></div></div></div><script>// 访问者信息获取
+(function() {
+  // IP地址获取API列表（按优先级排序）
+  // 2026-08-11 排查：ipapi.co 对当前出口被 Cloudflare 要求人机验证（cf-mitigated: challenge），
+  // 移到链尾；freegeoip.app 已 301 迁移，保留在 ipapi.co 前作兜底。
+  const ipApis = [
+    'https://api.ip.sb/geoip',
+    'https://ipinfo.io/json',
+    'https://freegeoip.app/json/',
+    'https://ipapi.co/json/'
+  ];
+  
+  let currentApiIndex = 0;
+  
+  function tryGetLocation() {
+    if (currentApiIndex >= ipApis.length) {
+      // 所有API都失败了，显示错误信息
+      handleError('所有IP服务都无法访问');
+      return;
+    }
+    
+    const currentApi = ipApis[currentApiIndex];
+    
+    // 8 秒超时：防止 API 挂起导致永远停留在“获取中”而无法降级到下一个
+    fetch(currentApi, AbortSignal.timeout ? { signal: AbortSignal.timeout(8000) } : {})
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        processLocationData(data, currentApi);
+      })
+      .catch(error => {
+        console.warn(`API ${currentApi} 失败:`, error);
+        currentApiIndex++;
+        setTimeout(tryGetLocation, 1000); // 1秒后尝试下一个API
+      });
+  }
+  
+  function processLocationData(data, apiUrl) {
+    let country, region, city, ip, latitude, longitude;
+    
+    // 根据不同API格式处理数据
+    if (apiUrl.includes('ip.sb')) {
+      country = data.country || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipapi.co')) {
+      country = data.country_name || '未知';
+      region = data.region || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('freegeoip.app')) {
+      country = data.country_name || '未知';
+      region = data.region_name || '未知';
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      latitude = data.latitude;
+      longitude = data.longitude;
+    } else if (apiUrl.includes('ipinfo.io')) {
+      country = data.country || '未知';
+      const loc = data.region || '未知';
+      region = loc;
+      city = data.city || '未知';
+      ip = data.ip || '未知';
+      if (data.loc) {
+        const coords = data.loc.split(',');
+        latitude = parseFloat(coords[0]);
+        longitude = parseFloat(coords[1]);
+      }
+    }
+    
+    // 更新IP地址
+    document.getElementById('visitor-ip-text').textContent = ip;
+    
+    // 更新位置信息和欢迎文字
+    let locationText = '';
+    if (country === '中国' || country === 'China' || country === 'CN') {
+      locationText = `${region} ${city}`;
+                    document.getElementById('visitor-text').innerHTML = `欢迎来自 ${region} ${city} 的朋友♥️`;
+    } else {
+      locationText = `${country} ${region}`;
+      document.getElementById('visitor-text').innerHTML = `欢迎来自 ${country} 的朋友♥️`;
+    }
+    document.getElementById('visitor-location-text').textContent = locationText;
+    
+    // 计算距离（可配置博主位置）
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      const bloggerLat = 39.9042; // 北京纬度
+      const bloggerLng = 116.4074; // 北京经度
+      const distance = calculateDistance(latitude, longitude, bloggerLat, bloggerLng);
+      
+      if (distance < 1) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${(distance * 1000).toFixed(0)} 米！`;
+      } else if (distance < 100) {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(1)} 公里！`;
+      } else {
+        document.getElementById('visitor-distance-text').textContent = `距离博主 ${distance.toFixed(0)} 公里！`;
+      }
+    } else {
+      document.getElementById('visitor-distance-text').textContent = '距离计算中...';
+    }
+    
+    // 根据时间设置问候语
+    updateGreeting();
+  }
+  
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = '';
+    let icon = 'fas fa-sun';
+    
+    if (hour >= 6 && hour < 12) {
+      greeting = '上午好，新的一天开始了！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 12 && hour < 14) {
+      greeting = '中午好，记得吃午饭哦！';
+      icon = 'fas fa-sun';
+    } else if (hour >= 14 && hour < 18) {
+      greeting = '下午好，午后时光真美好！';
+      icon = 'fas fa-cloud-sun';
+    } else if (hour >= 18 && hour < 22) {
+      greeting = '晚上好，夜生活嗨起来！';
+      icon = 'fas fa-moon';
+    } else {
+      greeting = '深夜了，注意休息哦！';
+      icon = 'fas fa-moon';
+    }
+    
+    const tipElement = document.getElementById('visitor-tip-text');
+    const tipIcon = tipElement.parentElement.querySelector('i');
+    tipElement.textContent = greeting;
+    if (tipIcon) {
+      tipIcon.className = icon;
+    }
+  }
+  
+  function handleError(message) {
+    document.getElementById('visitor-ip-text').textContent = '获取失败';
+    document.getElementById('visitor-location-text').textContent = '获取失败';
+    document.getElementById('visitor-distance-text').textContent = '距离未知';
+    document.getElementById('visitor-text').innerHTML = '欢迎来访！';
+    console.error('获取访问者信息失败:', message);
+  }
+  
+  // 计算两点间距离的函数（使用Haversine公式）
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 地球半径，单位：千米
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+  
+  // 启动获取位置信息
+  tryGetLocation();
+  
+  // 每分钟更新一次问候语
+  setInterval(updateGreeting, 60000);
+})(); </script></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake" aria-hidden="true"></i><span>公告</span></div><div class="announcement-timeline" id="announcement-timeline"><article class="announcement-entry is-current"><div class="announcement-entry__current">当前公告</div><time class="announcement-entry__time" datetime="2026-10-09T14:55:47+08:00">2026年10月09日 14:55</time><div class="announcement-entry__body"><p class="announcement-entry__lead">小站新增 RSS 订阅，更新不再错过！</p><img class="announcementImg" src="/imgs/gifs/rss-subscription.webp" alt="抱膝坐着的可爱角色动图" width="1000" height="1000" loading="lazy" decoding="async"/><p class="announcement-entry__title">把小站放进你的阅读器：</p><ol class="announcement-entry__list"><li>点击电脑端作者卡或手机端首页的橙色 RSS 图标，将订阅地址添加到你常用的阅读器。</li><li>订阅源提供最近 30 篇公开文章的标题、摘要与原文链接，完整内容仍在小站阅读。</li><li>每次发布都会自动更新订阅文件；阅读器按自己的频率获取更新，旧文修改是否再次提醒由阅读器决定。</li></ol><p class="announcement-entry__closing">感谢每一次阅读，也期待在你的订阅列表里再见！</p></div></article><article class="announcement-entry"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">本次更新：</span><time class="announcement-entry__time" datetime="2026-10-09T14:16:40+08:00">2026年10月09日 14:16</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">RSS 订阅已上线！</p><p class="announcement-entry__title">本次更新：</p><ol class="announcement-entry__list"><li>点击作者卡或移动端首页的 RSS 图标，即可订阅最近 30 篇公开文章的摘要。</li><li>新文章和文章修改会随站点发布自动更新订阅源，公告不进入文章订阅列表。</li></ol></div></details></article><article class="announcement-entry"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">今日更新：</span><time class="announcement-entry__time" datetime="2026-08-11T11:09:41+08:00">2026年08月11日 11:09</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">全站换装 Windows XP 复古窗口！</p><img class="announcementImg" src="/imgs/gifs/2.webp" alt="芋圆杰哥" width="426" height="240" loading="lazy" decoding="async"/><p class="announcement-entry__title">今日更新：</p><ol class="announcement-entry__list"><li>首页轮播与瀑布流卡片换上 XP 平面窗口：纯蓝标题栏、四色徽标、装饰按钮与硬阴影；鼠标悬浮卡片时窗口会像被“激活”一样点亮，触屏下则常亮、点按有下沉反馈。</li><li>侧边栏的公告、最新文章、标签、归档、站点信息与文章目录全部改为深色 XP 窗口；作者卡保留原有的渐变蒙版与背景图，一动不动。</li><li>文章正文换为统一的深色窗口配色，note 提示块、折叠块、按钮、选项卡、时间轴等标签插件全部完成适配，长时间阅读更护眼。</li><li>修复轮播偶尔空白的问题：慢网或脚本加载失败时会先静态展示第一篇精选，恢复后自动开始轮播；目录高亮统一为 XP 蓝，部分复习文章浅色表格的文字也补齐了对比度。</li></ol><p class="announcement-entry__closing">愿这扇复古的小窗口，能让你在翻文章时多一点会心一笑。✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">今日更新：</span><time class="announcement-entry__time" datetime="2026-08-06T10:13:56+08:00">2026年08月06日 10:13</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">文章目录学会了折叠！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">今日更新：</p><ol class="announcement-entry__list"><li>文章目录新增折叠分组，hideToggle 折叠块内的标题会收纳进一个以块标题命名的可折叠目录项，长文目录更清爽。</li><li>点击折叠组内的目录链接会自动展开对应的折叠内容块并滚动到位，不再出现“跳转了却看不到内容”的情况。</li><li>阅读滚动到折叠区域时，目录中的折叠组会自动展开并高亮当前小节；折叠箭头也已对齐文字中线。</li></ol><p class="announcement-entry__closing">愿长文的每一段内容，都能在你需要时恰好展开。✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">今日更新：</span><time class="announcement-entry__time" datetime="2026-07-21T16:18:43+08:00">2026年07月21日 16:18</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">首页星空与文章阅读可读性再次升级！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">今日更新：</p><ol class="announcement-entry__list"><li>首页瀑布流卡片的信息区改为直接透出全屏动态星空，保留六组深色玻璃配色差异，让每张卡片更有层次，同时不新增 Canvas、粒子或动画预算。</li><li>背景与顶部封面星空统一调整为更明亮、更大一些的冷蓝白星光，流星和尾迹同步增强可见度，原有 30fps、粒子数量与性能边界保持不变。</li><li>移除文章卡片标题、摘要后方的大范围暗色雾层和标签暗色底，让星光自然透入；标题、日期、标签和摘要继续保留轻量投影以确保清晰。</li><li>修复 Butterfly 自带 `{% note flat %}` 提示区块的文字颜色，浅色提示背景内统一使用近黑色文字，信息、警告和危险提示均更易阅读。</li></ol><p class="announcement-entry__closing">愿星光更明亮，文字更清晰，每一次阅读都能保持舒适。✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">本次更新：</span><time class="announcement-entry__time" datetime="2026-07-20T23:48:52+08:00">2026年07月20日 23:48</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">首页与文章阅读体验再次升级！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">本次更新：</p><ol class="announcement-entry__list"><li>首页瀑布流悬浮光晕改为更柔和的连续水波，半径缩小约一半，并统一为青色、绿色与冷白色相间。</li><li>文章主内容区切换为透亮的黑深蓝夜空磨砂背景，淡青色星点和环境光可以透出背景图。</li><li>正文、标题、链接与弱文本同步调整对比度，阅读模式、代码块、引用块和图片样式保持兼容。</li></ol><p class="announcement-entry__closing">愿每一次浏览，都能在清晰与氛围之间找到刚刚好的平衡。✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">本次更新：</span><time class="announcement-entry__time" datetime="2026-07-20T16:17:07+08:00">2026年07月20日 16:17</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">Markdown 工作台完成深度升级！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">本次更新：</p><ol class="announcement-entry__list"><li>编辑器升级为接近 VS Code 的本地优先工作台，支持 Markdown 高亮、行号、搜索替换、命令面板、自动保存、导入导出与安全预览。</li><li>修复编辑区背景缺失、桌面分栏错位、预览越界和全屏底部黑区；全屏布局现在会完整填充视口。</li><li>桌面进入全屏后默认左右分屏，并在顶部提供更醒目的“源码 / 分屏 / 预览”切换按钮；移动端继续使用单面板模式。</li><li>预览始终经过安全净化，脚本、事件属性和危险链接不会执行；草稿只保存在当前浏览器，不上传服务器。</li></ol><p class="announcement-entry__closing">愿每一次敲下键盘，都能更顺畅地把想法写成作品。✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">本次更新：</span><time class="announcement-entry__time" datetime="2026-07-16T16:54:23+08:00">2026年07月16日 16:54</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">昨日重现，重新浮现！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">本次更新：</p><ol class="announcement-entry__list"><li>“昨日重现”照片墙完成重构，照片会随机播放，向上或向下滚动都能在视野中梦幻浮现；离开视野后隐入，再次经过时重新出现。</li><li>图片改为真正的近视口懒加载，只有接近视野才会开始请求，并通过统一队列限制并发，尽量减少小带宽服务器的压力。</li><li>重建图片清单与布局系统，提前根据图片尺寸保留位置，减少滚动时的跳动；“重新随机排列”按钮也不再把浏览器 HTTP 缓存误称为可清除的图片缓存。</li><li>新增可配置的 WebP 压缩工具，可按质量、最长边和压缩方式优化图库；本次仅完成 dry-run 检查，未直接修改照片原文件。</li></ol><p class="announcement-entry__closing">愿每一段旧时光，都能在下一次滚动时温柔地浮现出来。✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">本次更新：</span><time class="announcement-entry__time" datetime="2026-07-15T16:49:16+08:00">2026年07月15日 16:49</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">公告历史时间轴已上线！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">本次更新：</p><ol class="announcement-entry__list"><li>公告栏已支持纵向时间轴，可继续查看每一版历史公告；</li><li>每一版公告都会标记发布时间，历史内容可以通过 Git 记录追溯恢复；</li><li>新公告统一维护在 source/_data/announcements.yml，后续新增只需在文件顶部添加一条记录。</li></ol><p class="announcement-entry__closing">感谢你的测试与反馈，欢迎继续探索这个会不断成长的小站！✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">近期优化已完成：</span><time class="announcement-entry__time" datetime="2026-07-12T10:33:36+08:00">2026年07月12日 10:33</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">欢迎来到神秘的小破站！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">近期优化已完成：</p><ol class="announcement-entry__list"><li>首页瀑布流升级为按需响应式 3/2/1 列布局，移除高频轮询与冗余调试；</li><li>清理失效资源请求，修正本地图片兜底与历史路径；</li><li>文章图片保留原生懒加载，仅近视口显示轻量占位效果；</li><li>目录跳转会在图片晚到时自动校正标题位置，桌面与移动端均已适配。</li></ol><p class="announcement-entry__closing">愿你在这里阅读顺畅、探索愉快，收获每一份灵感！✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">近期优化已完成：</span><time class="announcement-entry__time" datetime="2026-07-12T08:39:37+08:00">2026年07月12日 08:39</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">欢迎来到这里！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p class="announcement-entry__title">近期优化已完成：</p><ol class="announcement-entry__list"><li>首页瀑布流升级为按需响应式 3/2/1 列布局，移除高频轮询与冗余调试；</li><li>清理失效资源请求，修正本地图片兜底与历史路径；</li><li>文章图片保留原生懒加载，仅近视口显示轻量占位效果；</li><li>目录跳转会在图片晚到时自动校正标题位置，桌面与移动端均已适配。</li></ol><p class="announcement-entry__closing">愿你在这里阅读顺畅、探索愉快，收获每一份灵感！✨</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">欢迎来到这里！</span><time class="announcement-entry__time" datetime="2026-07-11T15:05:16+08:00">2026年07月11日 15:05</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">欢迎来到这里！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p>本站近期完成首页瀑布流性能优化：移除高频轮询和冗余调试逻辑，改为响应式 3/2/1 列布局，并按需重新排版。</p><p>希望能带来更稳定、轻快的浏览体验！</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">welcome！</span><time class="announcement-entry__time" datetime="2026-03-27T12:56:39+08:00">2026年03月27日 12:56</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">welcome！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。</p><p>总之祝大家2026新春快乐！！！</p><p>（也是开始上班了呢]</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">welcome！</span><time class="announcement-entry__time" datetime="2026-02-22T17:32:33+08:00">2026年02月22日 17:32</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">welcome！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/><p>近期进行了不少的优化，也不知道大家感受出来没，加载速度啊、目录跳转稳定性啊巴拉巴拉的。</p><p>总之祝大家2026新春快乐！！！</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">welcome！</span><time class="announcement-entry__time" datetime="2025-12-02T17:32:17+08:00">2025年12月02日 17:32</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">welcome！</p><img class="announcementImg" src="/imgs/gifs/1.webp" alt="挥手奔跑的卡通人物" width="560" height="315" loading="lazy" decoding="async"/></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">welcome！</span><time class="announcement-entry__time" datetime="2025-10-09T14:06:06+08:00">2025年10月09日 14:06</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">welcome！</p><img class="announcementImg" src="/imgs/ClaudeCode.webp" alt="Claude Code 图标" width="142" height="145" loading="lazy" decoding="async"/></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">热烈庆祝鸿蒙五终端数量突破两千万！！！</span><time class="announcement-entry__time" datetime="2025-09-29T15:20:17+08:00">2025年09月29日 15:20</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">热烈庆祝鸿蒙五终端数量突破两千万！！！</p><img class="announcementImg" src="/imgs/HM5.webp" alt="鸿蒙五终端纪念图片" width="1080" height="1920" loading="lazy" decoding="async"/></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">鸿蒙生态，星河璀璨！</span><time class="announcement-entry__time" datetime="2025-09-16T14:34:04+08:00">2025年09月16日 14:34</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">鸿蒙生态，星河璀璨！</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">本站由于服务器带宽有限，设置了文章图片懒加载，滚动停止后才会开始加载图片，遇到加载中的图片请静止等待</span><time class="announcement-entry__time" datetime="2025-09-10T22:25:59+08:00">2025年09月10日 22:25</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">本站由于服务器带宽有限，设置了文章图片懒加载，滚动停止后才会开始加载图片，遇到加载中的图片请静止等待</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">笑死还说假期填坑呢，倒是给自己新开了个无底巨坑</span><time class="announcement-entry__time" datetime="2025-07-30T23:13:36+08:00">2025年07月30日 23:13</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">笑死还说假期填坑呢，倒是给自己新开了个无底巨坑</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。</span><time class="announcement-entry__time" datetime="2025-06-03T18:24:18+08:00">2025年06月03日 18:24</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">最近也是给自己挖了挺多坑还没填上的等暑假慢慢填吧，争取暑假把自己想写的都写上。</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">主页大翻新啦！！！快来看快开看啊！！！</span><time class="announcement-entry__time" datetime="2025-05-29T17:11:36+08:00">2025年05月29日 17:11</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">主页大翻新啦！！！快来看快开看啊！！！</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">ICP备案完成！xbxyftx.top正式恢复运营！！！</span><time class="announcement-entry__time" datetime="2025-05-21T14:08:02+08:00">2025年05月21日 14:08</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">ICP备案完成！xbxyftx.top正式恢复运营！！！</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">25年的计划开始执行了吗？</span><time class="announcement-entry__time" datetime="2025-03-22T00:00:51+08:00">2025年03月22日 00:00</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">25年的计划开始执行了吗？</p></div></details></article><article class="announcement-entry is-collapsed-history"><details class="announcement-entry__details"><summary class="announcement-entry__summary"><span class="announcement-entry__summary-title">This is my Blog</span><time class="announcement-entry__time" datetime="2025-01-25T01:03:15+08:00">2025年01月25日 01:03</time></summary><div class="announcement-entry__body"><p class="announcement-entry__lead">This is my Blog</p></div></details></article></div><button class="announcement-history-toggle" type="button" aria-expanded="false" aria-controls="announcement-timeline"><span class="announcement-history-toggle__show">查看全部 25 期公告</span><span class="announcement-history-toggle__hide">收起历史公告</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A%E4%B8%80%E5%8F%A5%E4%B8%8D%E6%95%A2%E9%97%AE%E7%9A%84%E8%AF%9D"><span class="toc-number">1.</span> <span class="toc-text">前言：一句不敢问的话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AC%AC%E4%B8%80%E7%89%88%EF%BC%9A%E6%88%91%E6%8A%8A%E5%AE%83%E5%81%9A%E6%88%90%E4%BA%86-fork"><span class="toc-number">2.</span> <span class="toc-text">一、第一版：我把它做成了 fork</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%87%8D%E6%96%B0%E8%AE%BE%E8%AE%A1%EF%BC%9A%E7%A9%BA%E4%BC%9A%E8%AF%9D-%E5%AE%9E%E6%97%B6%E6%91%98%E8%A6%81"><span class="toc-number">3.</span> <span class="toc-text">二、重新设计：空会话 + 实时摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9D%E4%BC%9A%E8%AF%9D%E6%8A%95%E5%BD%B1%E2%80%9D"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 为什么是”会话投影”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%85%E9%A1%BB%E6%98%AF%E5%90%8C%E6%AD%A5%E7%9A%84"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 为什么必须是同步的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%BA%AA%E5%BE%8B%EF%BC%9A%E6%91%98%E8%A6%81%E4%B8%8D%E6%98%AF%E6%97%A5%E5%BF%97"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 提示词纪律：摘要不是日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%A4%E4%B8%AA%E5%B9%B3%E5%8F%B0%E7%BB%86%E8%8A%82%EF%BC%8C%E5%86%B3%E5%AE%9A%E4%BA%86%E4%BA%A7%E5%93%81%E5%BD%A2%E6%80%81"><span class="toc-number">4.</span> <span class="toc-text">三、两个平台细节，决定了产品形态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8F%AA%E8%BF%BD%E5%8A%A0%EF%BC%8C%E4%B8%8D%E6%9B%BF%E6%8D%A2"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 运行时上下文只追加，不替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%B3%A8%E5%85%A5%E5%86%85%E5%AE%B9%E5%9C%A8%E8%81%8A%E5%A4%A9%E6%B5%81%E9%87%8C%E4%B8%8D%E5%8F%AF%E8%A7%81"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 注入内容在聊天流里不可见</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%8F%AA%E8%AF%BB%E3%80%81%E9%9A%90%E8%97%8F%E4%B8%8E%E2%80%9D%E7%9C%9F%E9%94%80%E6%AF%81%E2%80%9D"><span class="toc-number">5.</span> <span class="toc-text">四、只读、隐藏与”真销毁”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%8F%AA%E8%AF%BB%E4%B8%89%E5%B1%82"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 只读三层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E9%9A%90%E8%97%8F%EF%BC%9A%E5%80%9F%E7%94%A8-subagent-%E8%AF%AD%E4%B9%89"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 隐藏：借用 subagent 语义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E9%94%80%E6%AF%81%EF%BC%9A%E6%B2%A1%E6%9C%89%E5%88%A0%E9%99%A4-API-%E5%B0%B1%E8%87%AA%E5%B7%B1%E5%88%A0"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 销毁：没有删除 API 就自己删</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E9%80%9A%E4%BF%A1%EF%BC%9A%E8%87%AA%E5%B7%B1%E6%8C%82%E4%B8%80%E6%9D%A1%E5%8F%97%E9%89%B4%E6%9D%83%E7%9A%84%E8%B7%AF%E7%94%B1"><span class="toc-number">5.4.</span> <span class="toc-text">4.4 通信：自己挂一条受鉴权的路由</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%95%8C%E9%9D%A2%EF%BC%9A%E7%8A%B6%E6%80%81%E6%9D%A1%E3%80%81%E7%A9%BA%E4%BC%9A%E8%AF%9D%E4%B8%8E%E6%A8%A1%E5%9E%8B%E8%83%B6%E5%9B%8A"><span class="toc-number">6.</span> <span class="toc-text">五、界面：状态条、空会话与模型胶囊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%AA%8C%E8%AF%81%EF%BC%9A%E5%9C%A8%E7%9C%9F%E5%AE%9E%E7%9A%84%E2%80%9D%E8%BF%9B%E8%A1%8C%E4%B8%AD%E2%80%9D%E9%87%8C%E6%8F%90%E9%97%AE"><span class="toc-number">7.</span> <span class="toc-text">六、验证：在真实的”进行中”里提问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%AE%89%E8%A3%85%E4%B8%8E%E7%89%88%E6%9C%AC"><span class="toc-number">8.</span> <span class="toc-text">七、安装与版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%B7%B2%E7%9F%A5%E9%99%90%E5%88%B6"><span class="toc-number">9.</span> <span class="toc-text">八、已知限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-number">10.</span> <span class="toc-text">写在最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/10/30/DshSideChat/" title="我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要"><img src="/imgs/ArticleTopImgs/DshSideChatTopImg.webp" onerror="this.onerror=null;this.src='/img/404.webp'" alt="我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要"/ width="952" height="505" loading="lazy"></a><div class="content"><a class="title" href="/2026/10/30/DshSideChat/" title="我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要">我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要</a><time datetime="2026-10-30T03:40:00.000Z" title="发表于 2026-10-30 11:40:00">2026-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/18/DshSessionMessaging/" title="给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作"><img src="/imgs/ArticleTopImgs/DshSessionMessagingTopImg.webp" onerror="this.onerror=null;this.src='/img/404.webp'" alt="给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作"/ width="1622" height="1044" loading="lazy"></a><div class="content"><a class="title" href="/2026/10/18/DshSessionMessaging/" title="给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作">给 DeepSeek Harness 写一个跨会话消息插件：让多个对话真正协作</a><time datetime="2026-10-18T06:20:00.000Z" title="发表于 2026-10-18 14:20:00">2026-10-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/01/ToBistuMaker/" title="ToBistuMaker"><img src="/imgs/ArticleTopImgs/ToBistuMakerTopImg.webp" onerror="this.onerror=null;this.src='/img/404.webp'" alt="ToBistuMaker"/ width="2286" height="1307" loading="lazy"></a><div class="content"><a class="title" href="/2026/09/01/ToBistuMaker/" title="ToBistuMaker">ToBistuMaker</a><time datetime="2026-09-01T01:37:43.000Z" title="发表于 2026-09-01 09:37:43">2026-09-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/08/05/rustTips/" title="rustTips"><img src="/imgs/ArticleTopImgs/RustTipsTopImg.webp" onerror="this.onerror=null;this.src='/img/404.webp'" alt="rustTips"/ width="830" height="460" loading="lazy"></a><div class="content"><a class="title" href="/2026/08/05/rustTips/" title="rustTips">rustTips</a><time datetime="2026-08-05T06:50:35.000Z" title="发表于 2026-08-05 14:50:35">2026-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/11/%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/" title="博客无效请求优化记录：从生成态审计到浏览器验证"><img src="/imgs/ArticleTopImgs/WXQQTopImg.webp" onerror="this.onerror=null;this.src='/img/404.webp'" alt="博客无效请求优化记录：从生成态审计到浏览器验证"/ width="2359" height="1327" loading="lazy"></a><div class="content"><a class="title" href="/2026/07/11/%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/" title="博客无效请求优化记录：从生成态审计到浏览器验证">博客无效请求优化记录：从生成态审计到浏览器验证</a><time datetime="2026-07-10T19:20:00.000Z" title="发表于 2026-07-11 03:20:00">2026-07-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/footerBg.webp);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2026 By XBXyftx</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>备案号：京ICP备2025126467号</span></a><div><a target="_blank" rel="noopener" href="https://xbxyftx.netlify.app/"><img src="https://api.netlify.com/api/v1/badges/1d0c27d0-06e5-46e8-b9ce-5069e6b4b414/deploy-status" alt="Netlify Status" loading="lazy"></a> <a target="_blank" rel="noopener" href="https://xbxyftx.github.io/" style="margin-left:8px"><img src="https://github.com/XBXyftx/XBXyftx.github.io/actions/workflows/pages/pages-build-deployment/badge.svg" alt="GitHub Pages Status" loading="lazy"></a> <a href="https://xbxyftx.top/" style="margin-left:8px"><img src="https://img.shields.io/badge/%E5%8D%8E%E4%B8%BA%E4%BA%91-xbxyftx.top-blue" alt="华为云 xbxyftx.top" loading="lazy"></a></div></div><div></div><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now = new Date(); 
+function createtime() { 
+var grt = new Date("4/25/2024 18:30"); // 在此处修改你的建站时间
+now.setTime(now.getTime() + 250); 
+days = (now - grt) / 1000 / 60 / 60 / 24; 
+dnum = Math.floor(days); 
+hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); 
+hnum = Math.floor(hours); 
+if (String(hnum).length == 1) { hnum = "0" + hnum; } 
+minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum); 
+mnum = Math.floor(minutes); 
+if (String(mnum).length == 1) { mnum = "0" + mnum; } 
+seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+snum = Math.round(seconds); 
+if (String(snum).length == 1) { snum = "0" + snum; } 
+document.getElementById("timeDate").innerHTML = "本网站已运行 " + dnum + " 天 "; 
+document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+} 
+setInterval(createtime, 250);</script></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa-solid fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa-solid fa-arrow-rotate-right"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa-solid fa-arrow-right"></i></a><a class="rightMenu-item" id="menu-radompage" href="javascript:window.location.href = window.location.origin;"><i class="fa-solid fa-house"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa-solid fa-copy"></i><span>复制</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:rmf.switchReadMode();"><i class="fa-solid fa-book"></i><span>阅读模式</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><!-- 首页星空与瀑布流 - 仅首页加载--><!-- 文章打字机效果 - 只在文章页面加载--><script src="/js/typewriter-effect.js"></script><!-- 昨日重现图库 - 仅目标页面加载--><!-- 公告历史展开/收起--><script src="/js/announcement-history.js"></script><!-- 入场弹窗功能--><script src="/js/entrance-popup-config.js"></script><script src="/js/entrance-popup.js"></script><!-- 懒加载由 inject.bottom 的 lazy-loading-optimized.js 统一处理--><!-- 已移除: lazy-loading.js, lazy-loading-native.js, lazy-image-refresh.js, lazy-video-refresh.js--><!-- VS Code 风格智能文档导航栏 - 只在文章页面加载--><script src="/js/vscode-breadcrumb-toc.js"></script><!-- 目录 hideToggle 折叠项联动 - 只在文章页面加载--><script src="/js/toc-toggle-group.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikooxbx.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('/js/twikoo.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script defer src="/js/jquery-3.6.0.min.js"></script><script defer src="/js/rightmenu.js"></script><script defer src="/js/happy-title.js"></script><script defer src="/js/lazy-loading-optimized.js"></script><script defer src="/js/lightbox-enhanced.js"></script><script async data-pjax src="//cn.vercount.one/js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementsByClassName('recent-posts')[0];
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/30/ToTheApril2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/AprilTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-30</span><a class="blog-slider__title" href="2025/04/30/ToTheApril2025/" alt="">致2025那个繁忙的4月</a><div class="blog-slider__text">人们总是匆匆向前，殊不知时光易逝啊……（本文图量较大加载较慢持续更新中！！！）</div><a class="blog-slider__button" href="2025/04/30/ToTheApril2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/06/29/OpenSourceSummer2025/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/OpenSourceSummerTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-06-29</span><a class="blog-slider__title" href="2025/06/29/OpenSourceSummer2025/" alt="">开源之夏NowInOpenHarmony</a><div class="blog-slider__text">开源之夏2025项目开发笔记</div><a class="blog-slider__button" href="2025/06/29/OpenSourceSummer2025/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/02/04/V2/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/V2TopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-02-04</span><a class="blog-slider__title" href="2025/02/04/V2/" alt="">浅谈鸿蒙状态管理V1——&gt;V2</a><div class="blog-slider__text">用实际代码测试与我的开发经验，解析鸿蒙状态管理V2中难以理解的内容，帮助开发者们更好的理解和使用状态管理V2版本。</div><a class="blog-slider__button" href="2025/02/04/V2/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/04/27/VibeTips/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/VibeTipsTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2026-04-27</span><a class="blog-slider__title" href="2026/04/27/VibeTips/" alt="">怎样用好 Vibe Coding，大幅减少重复编码？</a><div class="blog-slider__text">Vibe Coding经验分享</div><a class="blog-slider__button" href="2026/04/27/VibeTips/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/06/30/Long-termMemoryTemplate/" alt=""><img width="48" height="48" src="/imgs/ArticleTopImgs/LongTermTopImg.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/ loading="lazy"></a><div class="blog-slider__content"><span class="blog-slider__code">2026-06-30</span><a class="blog-slider__title" href="2026/06/30/Long-termMemoryTemplate/" alt="">渐进式披露长期记忆文档模板</a><div class="blog-slider__text">一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解文档职责、证据协议、路由矩阵和多客户端同步方法</div><a class="blog-slider__button" href="2026/06/30/Long-termMemoryTemplate/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="/js/swiper-lib.min.js"></script><script defer data-pjax src="/js/swiper-init.js"></script><!-- hexo injector body_end end --></body></html>
