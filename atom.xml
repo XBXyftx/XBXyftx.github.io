@@ -11,7 +11,7 @@
   <rights>All rights reserved 2026, XBXyftx</rights>
   <subtitle>心之所向吾之所往，素履以往者之经，今履新之者之书</subtitle>
   <title>XBXyftx</title>
-  <updated>2026-10-30T04:31:43.734Z</updated>
+  <updated>2026-10-30T04:41:20.725Z</updated>
   <entry>
     <author>
       <name>XBXyftx</name>
@@ -25,9 +25,9 @@
     <id>https://xbxyftx.top/2026/10/30/DshSideChat/</id>
     <link href="https://xbxyftx.top/2026/10/30/DshSideChat/"/>
     <published>2026-10-30T03:40:00.000Z</published>
-    <summary type="text">第一版把主会话历史 fork 进隐藏子会话，方向错了。这篇记录 dsh-live-side-chat 0.4.1 的推翻与重做：空会话 + 实时摘要投影、只读三层、隐藏与真销毁、模型胶囊、0.4.0 的改名，以及仍然存在的限制。</summary>
-    <title type="text">我推翻了侧边聊天的第一个版本：dsh 实时侧边对话从 fork 到实时摘要</title>
-    <updated>2026-10-30T04:31:43.734Z</updated>
+    <summary type="text">侧边对话真正的难点不是共享历史，而是共享现在：本文记录 dsh-live-side-chat 用会话投影给侧边对话注入实时上下文的设计，以及第一版 fork 为什么走不通。</summary>
+    <title type="text">实时上下文：给 DeepSeek Harness 做一个不会过时的侧边对话</title>
+    <updated>2026-10-30T04:41:20.725Z</updated>
   </entry>
   <entry>
     <author>
