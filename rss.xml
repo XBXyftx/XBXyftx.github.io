@@ -6,7 +6,7 @@
     <description>心之所向吾之所往，素履以往者之经，今履新之者之书</description>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, XBXyftx</copyright>
-    <lastBuildDate>Fri, 13 Nov 2026 08:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 08:35:00 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://xbxyftx.top/img/logo.webp</url>
@@ -101,7 +101,7 @@
     <item>
       <title>渐进式披露长期记忆文档模板</title>
       <link>https://xbxyftx.top/2026/06/30/Long-termMemoryTemplate/</link>
-      <description>一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解双层记忆结构、证据协议、路由矩阵、Opt-In 真机验证与 SQLite FTS5 本地检索索引</description>
+      <description>一套面向AI编程的长期记忆与 Agent 工作流模板——从上下文压缩、渐进式索引到按需 sub agent 编排，详解双层记忆结构、证据协议、路由矩阵、Opt-In 真机验证、SQLite FTS5 本地检索索引与收尾自动门禁</description>
       <category domain="https://xbxyftx.top/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</category>
       <category domain="https://xbxyftx.top/tags/%E6%8A%80%E6%9C%AF%E5%90%91/">技术向</category>
       <category domain="https://xbxyftx.top/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2/">渐进式披露</category>
